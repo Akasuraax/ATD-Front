@@ -1,16 +1,49 @@
-import abc from '../../files/image/abc.png'
-import admin from '../../files/image/admin.png'
-import course from '../../files/image/course.png'
-import distribution from '../../files/image/distribution.png'
-import donation from '../../files/image/donation.png'
-import emplacement from '../../files/image/emplacement.png'
-import oldCare from '../../files/image/old-care.png'
+import './home.css'
+import imageHome from '../../../files/image/chaine-696x419.png'
+import abc from '../../../files/image/abc.png'
+import admin from '../../../files/image/admin.png'
+import course from '../../../files/image/course.png'
+import distribution from '../../../files/image/distribution.png'
+import donation from '../../../files/image/donation.png'
+import emplacement from '../../../files/image/emplacement.png'
+import oldCare from '../../../files/image/old-care.png'
 
-export default function Activity() {
+function Home() {
+
+    const homeTextImage = "Votre aide peut changer la vie d’autrui";
+    const registration = "Je deviens bénévole";
+    const homeText = "L’association Au Temps Donné est une association humanitaire, créée en 1987 dans le département de l’Aisne, à Saint Quentin en réponse à la crise industrielle qui frappait la région. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    const homeTitle = "Au temps donné";
+    const infos = "En savoir plus";
+
+
+    return (
+        <div>
+            <div className="image">
+                <text className="homeText">{homeTextImage}</text>
+                <a href="#"
+                   className="btn-first homeButton">{registration}</a>
+            </div>
+
+            <div className="homeBody max-w-screen-xl flex flex-nowrap justify-between mx-auto">
+                <img className="imageHome" src={imageHome} alt=""></img>
+                <div className="pl-16">
+                    <title1 className="homeTitle">{homeTitle}</title1>
+                    <p className="pt-16">{homeText}</p>
+                    <a href="#"
+                       className="btn-first mt-8">{infos}</a>
+                </div>
+            </div>
+
+            <Activity></Activity>
+        </div>
+    )
+}
+
+function Activity() {
 
 
     const titleActivity = "Nos activités";
-
     const foodDistribution = "Distribution alimentaire";
     const administrativeDepartment = "Service administratif";
     const shuttles = "Navettes pour rendez-vous éloignés";
@@ -100,3 +133,5 @@ export default function Activity() {
         </div>
     )
 }
+
+export default Home

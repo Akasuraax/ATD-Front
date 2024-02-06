@@ -1,8 +1,8 @@
 import { useEffect} from "react";
 import { initFlowbite} from "flowbite";
-import logo from '../../files/logo.png'
-import burgerBar from '../../files/icones/menu-burger.svg'
-import magnifyingGlass from '../../files/icones/chercher.svg'
+import logo from '../../../files/logo.png'
+import burgerBar from '../../../files/icones/menu-burger.svg'
+import magnifyingGlass from '../../../files/icones/chercher.svg'
 import './header.css'
 
 function Header() {

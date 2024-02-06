@@ -1,10 +1,14 @@
 import { useEffect} from "react";
 import { initFlowbite} from "flowbite";
-import Header from './Header/Header.jsx'
-import Home from './Home/Home.jsx'
-import Footer from './Footer/Footer.jsx'
+import Header from './components/Header/Header.jsx'
+import Home from './page/Home/Home.jsx'
+import Footer from './components/Footer/Footer.jsx'
 
 function App() {
+
+    useEffect(() => {
+        initFlowbite();
+    }, []);
 
   return (
       <html>
