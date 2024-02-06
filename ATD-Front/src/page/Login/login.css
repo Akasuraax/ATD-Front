@@ -1,0 +1,52 @@
+.connect-btn{
+    background-color: #F85866 !important;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    padding: 12.5px 35px 12.5px 35px;
+}
+
+.connect-btn:hover{
+    background-color: #d24753 !important;
+}
+
+input:focus{
+    border-color: #F85866 !important;
+    --tw-ring-color: #F85866 !important;
+    --tw-ring-shadow: rgba(248, 88, 102, 0.54) !important;
+}
+
+.checkbox{
+    color: #F85866 !important;
+}
+
+.checkbox:hover{
+    color: #d24753 !important;
+}
+
+.connect-title{
+    color: #F85866;
+    font-size: 36px;
+    margin: 10% 0 60px 0;
+}
+
+.login-page {
+    display: flex;
+}
+
+.login-img{
+    flex: 1;
+}
+
+.login-img img{
+    width: 100% !important;
+    height: 80vh !important;
+    object-fit: cover;
+}
+
+.login-form{
+    flex: 1.25;
+}
+
+
+

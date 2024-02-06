@@ -4,6 +4,7 @@ import Header from './components/Header/Header.jsx'
 import Home from './page/Home/Home.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import Login from "./page/Login/Login.jsx";
 
 function App() {
 
@@ -14,7 +15,7 @@ function App() {
         },
         {
             path :'Login',
-            element: <div>Login</div>
+            element: <Login></Login>
         },
 
     ])
