@@ -1,7 +1,8 @@
 import { useEffect} from "react";
 import { initFlowbite} from "flowbite";
 import Header from './components/Header/Header.jsx'
-import Home from './page/Home/Home.jsx'
+import Home from './page/Home/Home.jsx';
+import Activity from "./page/Activity.jsx";
 import Footer from './components/Footer/Footer.jsx'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
@@ -16,6 +17,10 @@ function App() {
             path :'Login',
             element: <div>Login</div>
         },
+        {
+            path :'Activities',
+            element: <Activity></Activity>
+        }
 
     ])
 
