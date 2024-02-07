@@ -1,6 +1,3 @@
-import volunteerImg from '../../../files/image/benevole.png'
-import partnerImg from '../../../files/image/partenaire.png'
-import beneficiaryImg from '../../../files/image/beneficiaire.png'
 import './register.css'
 
 function Register(){
@@ -12,13 +9,17 @@ function Register(){
     return(
         <div className="register-images">
             <div className="partner">
-                <img src={partnerImg} alt="Illustration bénévole"/>
+                <p className="text-white">{partnerText}</p>
+                <button type="button" className="text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">Devenir Partenaire</button>
             </div>
             <div className="beneficiary">
-                <img src={beneficiaryImg} alt="Illustration bénévole"/>
+                <p className="text-white">{beneficiaryText}</p>
+                <button type="button" className="text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">Devenir Bénéficiaire</button>
+
             </div>
             <div className="volunteer">
-                <img src={volunteerImg} alt="Illustration bénévole"/>
+                <p className="text-white">{volunteerText}</p>
+                <button type="button" className="text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">Devenir Bénévole</button>
             </div>
         </div>
     )

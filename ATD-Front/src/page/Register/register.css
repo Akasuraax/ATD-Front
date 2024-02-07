@@ -2,50 +2,91 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     margin-inline: auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 
-    div{
+    p, button{
+        visibility: hidden;
+    }
+
+    div {
         height: 100vh;
-        width: calc(100vw/3);
+        overflow: hidden;
+        width: calc(100vw / 3);
+        transition: width 0.3s ease;
+        position: relative;
     }
 
+    .partner {
+        position: relative;
+        background-image: url("../../../files/image/partenaire.jpeg");
+        background-size: cover;
+        background-position: center;
+        height: auto;
+    }
 
-    img {
-        object-fit: cover;
+    .partner::before, .beneficiary::before, .volunteer::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
         height: 100%;
-        aspect-ratio: 1/1;
-        transition: scale 350ms ease;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+        transition: opacity 0.3s ease;
+        opacity: 0;
     }
 
-    .partner{
-        &:hover{
-            filter:brightness(0.7);
-            ~.beneficiary, ~.volunteer{
-                filter:blur(1px);
-            }
-        }
+    .partner:hover::before, .beneficiary:hover::before, .volunteer:hover::before {
+        opacity: 1;
     }
 
-    .beneficiary{
-        &:hover{
-            filter:brightness(0.7);
-            ~.partner, ~.volunteer{
-                filter:blur(1px);
-            }
-        }
+    button{
+        background-color: var(--pink-color);
+        position: relative;
+        display: block;
+        z-index: 2;
+        text-align: center;
+        margin: auto;
     }
 
+    p {
+        position: relative;
+        display: block;
+        z-index: 2;
+        text-align: center;
+        padding-top: 40%;
+        padding-bottom: 10%;
+        width: 500px;
+        margin: auto;
+    }
 
-    .volunteer{
-        &:hover{
-            filter:brightness(0.7);
-            ~.partner, ~.beneficiary{
-                filter:blur(1px);
-            }
+    .beneficiary {
+        background-image: url('../../../files/image/beneficiaire.png');
+    }
+
+    .volunteer {
+        background-image: url('../../../files/image/benevole.png');
+    }
+
+    &:hover div:not(:hover) {
+        filter: blur(2px);
+    }
+
+    div:hover {
+        p, button{
+            visibility: visible;
         }
+        width: 50vw;
+    }
+
+    div:not(:hover) {
+        width: calc(25vw - 2px);
+    }
+
+    &:not(:hover) div {
+        width: calc(100vw / 3);
     }
 }
-
-
-
-
-
