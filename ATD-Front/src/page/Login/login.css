@@ -1,5 +1,5 @@
 .connect-btn{
-    background-color: #F85866 !important;
+    background-color: var(--pink-color) !important;
     margin-left: auto;
     margin-right: auto;
     margin-top: 50px;
@@ -7,25 +7,25 @@
 }
 
 .connect-btn:hover{
-    background-color: #d24753 !important;
+    background-color: var(--hover-pink-color) !important;
 }
 
 input:focus{
-    border-color: #F85866 !important;
-    --tw-ring-color: #F85866 !important;
+    border-color: var(--pink-color) !important;
+    --tw-ring-color: var(--pink-color) !important;
     --tw-ring-shadow: rgba(248, 88, 102, 0.54) !important;
 }
 
 .checkbox{
-    color: #F85866 !important;
+    color: var(--pink-color) !important;
 }
 
 .checkbox:hover{
-    color: #d24753 !important;
+    color: var(--hover-pink-color) !important;
 }
 
 .connect-title{
-    color: #F85866;
+    color: var(--pink-color);
     font-size: 36px;
     margin: 10% 0 60px 0;
 }
@@ -40,7 +40,7 @@ input:focus{
 
 .login-img img{
     width: 100% !important;
-    height: 80vh !important;
+    height: 78vh !important;
     object-fit: cover;
 }
 

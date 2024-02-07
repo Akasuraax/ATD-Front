@@ -47,5 +47,5 @@
 
 .homeTitle {
     font-size: 36px;
-    color: #F85866;
+    color: var(--pink-color);
 }

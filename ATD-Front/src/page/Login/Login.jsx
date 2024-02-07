@@ -1,5 +1,6 @@
 import './login.css'
 import loginPic from '../../../files/image/login-pic.png'
+import {seePwd} from "./seePwd.js";
 
 function Login(){
     const connect = "Connexion";
@@ -30,7 +31,9 @@ function Login(){
                     </div>
                     <div className="flex items-start mb-5">
                         <div className="flex items-center h-5">
-                            <input id="remember" type="checkbox" value="" className="checkbox w-4 h-4 border border-gray-300 rounded bg-gray-50" required/>
+                            <input id="seePwd" type="checkbox" onClick={seePwd} className="checkbox w-4 h-4 border border-gray-300 rounded bg-gray-50"/>
+                            <script src="./seePwd.js"></script>
+
                         </div>
                         <label form="remember"
                                className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{showPwd}</label>
