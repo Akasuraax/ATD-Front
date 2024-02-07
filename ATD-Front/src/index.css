@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root{
+    --pink-color:#F85866;
+    --green-color:#8AE179;
+    --light-gray-color:#F1F1F1;
+}

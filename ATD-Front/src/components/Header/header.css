@@ -9,13 +9,13 @@
 }
 
 .btn-first {
-    background-color:#F85866 ;
+    background-color:var(--pink-color) ;
 }
 
 .btn-sec {
-    background-color: #8AE179;
+    background-color: var(--green-color);
 }
 
 .header {
-    background-color: #F1F1F1;
+    background-color: var(--light-gray-color);
 }
