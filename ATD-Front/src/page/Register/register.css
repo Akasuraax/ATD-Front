@@ -1,0 +1,63 @@
+.register-images {
+    display: flex;
+    height: 80vh;
+    overflow: hidden;
+
+    img {
+        object-fit: cover;
+        width: 100%;
+        height: 100% !important;
+    }
+
+    .partner, .beneficiary, .volunteer {
+        transition: flex 0.5s ease;
+        flex:1;
+    }
+
+    .partner{
+        &:hover{
+            ~ .volunteer{
+                flex:0.2 !important;
+                transition: flex 0.5s ease;
+            }
+
+            ~ .beneficiary{
+                flex:0.25 !important;
+                transition: flex 0.5s ease;
+            }
+
+            .partner{
+                flex:0.5 !important;
+                transition: flex 0.5s ease;
+            }
+        }
+    }
+
+    .beneficiary{
+        &:hover{
+            ~ .volunteer{
+                flex:0.2 !important;
+                transition: flex 0.5s ease;
+            }
+
+            ~ .partner{
+                flex:0 !important;
+                transition: flex 0.5s ease;
+            }
+
+            .beneficiary{
+                flex:0.5 !important;
+                transition: flex 0.5s ease;
+            }
+        }
+    }
+
+
+
+
+}
+
+
+
+
+
