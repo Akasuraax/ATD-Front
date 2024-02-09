@@ -1,12 +1,15 @@
 import { useEffect} from "react";
 import { initFlowbite} from "flowbite";
 import {Navigate, NavLink} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 function Footer() {
 
-    const name = "Au Temps Donné"
-    const signal = "Signaler un problème"
-    const mention = "Mentions légales  - Condition d’utilisation"
+    const { t } = useTranslation();
+
+    const name =  t("footer.name");
+    const signal =  t("footer.signal");
+    const mention =  t("footer.mention");
 
 
 

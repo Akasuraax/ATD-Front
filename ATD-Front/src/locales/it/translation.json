@@ -1,0 +1,64 @@
+{
+  "activityForm": {
+    "demandActivity": "Richiedi un'attività/servizio",
+    "activityType": "Tipo di attività/servizio",
+    "selectActivity": "Seleziona un tipo di attività/servizio",
+    "message": "Fai un'altra richiesta",
+    "placeHolderMsg": "Formula la tua richiesta...",
+    "submitBtn": "Invia il messaggio"
+  },
+  "error": {
+    "textError": "Pagina non trovata",
+    "errorDescription": "Spiacenti, non abbiamo trovato la pagina che stai cercando.",
+    "textButton": "Torna alla homepage",
+    "contact": "Contatta il supporto"
+  },
+  "home": {
+    "homeTextImage": "Il tuo aiuto può cambiare la vita di qualcun altro",
+    "registration": "Divento un volontario",
+    "homeText": "L'associazione Au Temps Donné è un'organizzazione umanitaria, creata nel 1987 nel dipartimento dell'Aisne, a Saint Quentin, in risposta alla crisi industriale che colpiva la regione. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "homeTitle": "Au temps donné",
+    "infos": "Per saperne di più"
+  },
+  "login": {
+    "connect": "Accedi",
+    "email": "Email/Username",
+    "password": "Password",
+    "showPwd": "Mostra la password",
+    "connectBtn": "Accedi",
+    "forgotPwd": "Password dimenticata?"
+  },
+  "register": {
+    "partnerText": "Fai la differenza diventando nostro partner. La tua azienda può avere un impatto positivo immediato. Unisciti a noi ora!",
+    "beneficiaryText": "Esplora nuovi orizzonti accettando la condivisione. Individui compassionevoli sono pronti ad accompagnarti. Apri la porta a una moltitudine di opportunità di mutuo soccorso nel tuo percorso.",
+    "volunteerText": "Fai parte di qualcosa di più grande diventando volontario. La tua contribuzione, anche minima, può cambiare vite. Unisciti a noi, fai la differenza!"
+  },
+  "ticket": {
+    "reportProblem": "Segnala un problema",
+    "problemType": "Tipo di problema",
+    "selectProblem": "Seleziona un tipo di problema",
+    "problemSubject": "Oggetto del problema",
+    "placeHolderSubject": "Descrivi l'oggetto del problema",
+    "message": "Il tuo messaggio",
+    "placeHolderMsg": "Formula il tuo problema...",
+    "submitBtn": "Invia il messaggio"
+  },
+  "footer": {
+    "name": "Au Temps Donné",
+    "signal": "Segnala un problema",
+    "mention": "Note legali - Termini d'uso"
+  },
+  "header": {
+    "activity": "Le nostre attività",
+    "event": "Eventi imminenti",
+    "local": "I nostri locali",
+    "about": "Informazioni",
+    "login": "Accedi"
+  },
+  "languages": {
+    "fr": "Francese",
+    "en": "Inglese",
+    "it": "Italiano",
+    "de": "Tedesco"
+  }
+}

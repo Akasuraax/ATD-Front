@@ -1,0 +1,64 @@
+{
+  "activityForm": {
+    "demandActivity": "Eine Aktivität/Dienstleistung anfragen",
+    "activityType": "Art der Aktivität/Dienstleistung",
+    "selectActivity": "Wählen Sie eine Art von Aktivität/Dienstleistung aus",
+    "message": "Eine weitere Anfrage stellen",
+    "placeHolderMsg": "Formulieren Sie Ihre Anfrage...",
+    "submitBtn": "Nachricht senden"
+  },
+  "error": {
+    "textError": "Seite nicht gefunden",
+    "errorDescription": "Entschuldigung, wir konnten die von Ihnen gesuchte Seite nicht finden.",
+    "textButton": "Zurück zur Startseite",
+    "contact": "Support kontaktieren"
+  },
+  "home": {
+    "homeTextImage": "Ihre Hilfe kann das Leben eines anderen verändern",
+    "registration": "Ich werde Freiwilliger",
+    "homeText": "Der Verein Au Temps Donné ist eine humanitäre Organisation, die 1987 im Departement Aisne in Saint Quentin als Reaktion auf die industrielle Krise gegründet wurde, die die Region betraf. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "homeTitle": "Au temps donné",
+    "infos": "Erfahren Sie mehr"
+  },
+  "login": {
+    "connect": "Einloggen",
+    "email": "E-Mail/Benutzername",
+    "password": "Passwort",
+    "showPwd": "Passwort anzeigen",
+    "connectBtn": "Einloggen",
+    "forgotPwd": "Passwort vergessen?"
+  },
+  "register": {
+    "partnerText": "Machen Sie einen Unterschied, indem Sie unser Partner werden. Ihr Unternehmen kann sofort eine positive Wirkung haben. Treten Sie jetzt bei!",
+    "beneficiaryText": "Erkunden Sie neue Horizonte, indem Sie das Teilen akzeptieren. Mitfühlende Personen sind bereit, Sie zu begleiten. Öffnen Sie die Tür zu zahlreichen Möglichkeiten der gegenseitigen Hilfe auf Ihrem Weg.",
+    "volunteerText": "Seien Sie Teil von etwas Größerem, indem Sie Freiwilliger werden. Ihr Beitrag, auch klein, kann Leben verändern. Treten Sie uns bei, machen Sie einen Unterschied!"
+  },
+  "ticket": {
+    "reportProblem": "Problem melden",
+    "problemType": "Art des Problems",
+    "selectProblem": "Wählen Sie eine Art des Problems aus",
+    "problemSubject": "Problemthema",
+    "placeHolderSubject": "Beschreiben Sie das Problemthema",
+    "message": "Ihre Nachricht",
+    "placeHolderMsg": "Formulieren Sie Ihr Problem...",
+    "submitBtn": "Nachricht senden"
+  },
+  "footer": {
+    "name": "Au Temps Donné",
+    "signal": "Problem melden",
+    "mention": "Rechtliche Hinweise - Nutzungsbedingungen"
+  },
+  "header": {
+    "activity": "Unsere Aktivitäten",
+    "event": "Kommende Veranstaltungen",
+    "local": "Unsere Standorte",
+    "about": "Über uns",
+    "login": "Einloggen"
+  },
+  "languages": {
+    "fr": "Französisch",
+    "en": "Englisch",
+    "it": "Italienisch",
+    "de": "Deutsch"
+  }
+}

@@ -1,13 +1,16 @@
 import {Link} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 export default function Error() {
 
-    const numError = "404";
-    const textError = "Page not found";
-    const errorDescription = "Sorry, we couldn’t find the page you’re looking for.";
+    const { t } = useTranslation();
 
-    const textButton = "Go back home"
-    const contact = "Contact support "
+    const numError = "404";
+    const textError = t("error.textError");
+    const errorDescription = t("error.errorDescription");
+
+    const textButton = t("error.textButton");
+    const contact = t("error.contact");
 
     return (
         <div className="flex items-center justify-center min-h-screen">

@@ -1,12 +1,16 @@
 import "./activityForm.css"
+import {useTranslation} from "react-i18next";
 
 function ActivityForm(){
-    const demandActivity = "Demander une activité/service"
-    const activityType = "Type d'activité/service"
-    const selectActivity = "Sélectionnez un type d'activité/service"
-    const message = "Faire une autre demande"
-    const placeHolderMsg = "Formulez votre demande..."
-    const submitBtn = "Envoyer le message"
+
+    const { t } = useTranslation();
+
+    const demandActivity = t("activityForm.demandActivity");
+    const activityType = t("activityForm.activityType");
+    const selectActivity = t("activityForm.selectActivity");
+    const message = t("activityForm.message");
+    const placeHolderMsg = t("activityForm.placeHolderMsg");
+    const submitBtn = t("activityForm.submitBtn");
     const listActivity = ["1", "2", "3"];
     return (
         <section className="activity-form bg-white dark:bg-gray-900">

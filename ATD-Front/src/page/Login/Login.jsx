@@ -1,14 +1,18 @@
 import './login.css'
 import loginPic from '../../../files/image/login-pic.png'
 import {seePwd} from "./seePwd.js";
+import {useTranslation} from "react-i18next";
 
 function Login(){
-    const connect = "Connexion";
-    const email = "Email/Identifiant";
-    const password = "Mot de passe";
-    const showPwd = "Afficher le mot de passe";
-    const connectBtn = "Se connecter";
-    const forgotPwd = "Mot de passe oublié ?";
+
+    const { t } = useTranslation();
+
+    const connect = t("login.connect");
+    const email = t("login.email");
+    const password = t("login.password");
+    const showPwd = t("login.showPwd");
+    const connectBtn = t("login.connectBtn");
+    const forgotPwd = t("login.forgotPwd");
 
     return(
         <div className="login-page">

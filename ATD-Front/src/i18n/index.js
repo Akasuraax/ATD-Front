@@ -3,10 +3,12 @@ import { initReactI18next } from "react-i18next";
 
 import translationsInFr from '../locales/fr/translation.json';
 import translationsInEng from '../locales/en/translation.json';
+import translationsInIt from '../locales/it/translation.json';
+import translationsInDe from '../locales/de/translation.json';
 import Cookies from "js-cookie";
 
 
-const storedLanguage = Cookies.get('language') || 'en'; // Utilise "fr" si le cookie n'est pas défini.
+const storedLanguage = Cookies.get('language') || 'english';
 
 // the translations
 const resources = {
@@ -16,6 +18,12 @@ const resources = {
     en: {
         translation: translationsInEng
     },
+    it: {
+        translation: translationsInIt
+    },
+    de: {
+        translation: translationsInDe
+    },
 };
 
 i18n
@@ -24,7 +32,7 @@ i18n
         resources, // resources are important to load translations for the languages.
         lng: storedLanguage, // It acts as default language. When the site loads, content is shown in this language.
         debug: true,
-        fallbackLng: "fr", // use de if selected language is not available
+        fallbackLng: "french", // use de if selected language is not available
         interpolation: {
             escapeValue: false
         },

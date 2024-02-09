@@ -1,15 +1,22 @@
 import './ticket.css'
+import i18n from "i18next";
+import {useTranslation} from "react-i18next";
 
 function Ticket(){
-    const reportProblem = "Signaler un problème"
-    const problemType = "Type de problème"
-    const selectProblem = "Sélectionnez un type de problème"
-    const problemSubject = "Sujet du problème";
-    const placeHolderSubject = "Décrivez le sujet du problème"
-    const message = "Votre message"
-    const placeHolderMsg = "Formulez votre problème..."
-    const submitBtn = "Envoyer le message"
+
+    const { t } = useTranslation();
+
+    const reportProblem = t("ticket.reportProblem");
+    const problemType = t("ticket.problemType");
+    const selectProblem = t("ticket.selectProblem");
+    const problemSubject = t("ticket.problemSubject");
+    const placeHolderSubject = t("ticket.placeHolderSubject");
+    const message = t("ticket.message");
+    const placeHolderMsg = t("ticket.placeHolderMsg");
+    const submitBtn = t("ticket.submitBtn");
     const listIssue = ["1", "2", "3"];
+
+
     return (
         <section className="report-form bg-white dark:bg-gray-900">
             <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-lg">

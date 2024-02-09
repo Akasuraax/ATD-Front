@@ -54,5 +54,11 @@
     "local": "Nos locaux",
     "about": "À propos",
     "login": "Connexion"
+  },
+  "languages": {
+    "fr" : "Français",
+    "en" : "Anglais",
+    "it" : "Italien",
+    "de" : "Allemand"
   }
 }
