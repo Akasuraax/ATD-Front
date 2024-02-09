@@ -23,6 +23,11 @@ function App() {
                 },
             ]
         },
+        {
+            path :'Login',
+            element: <Login></Login>
+        },
+
     ])
 
     useEffect(() => {
