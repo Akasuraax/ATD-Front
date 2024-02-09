@@ -1,28 +1,29 @@
 import {useEffect} from "react";
 import { initFlowbite} from "flowbite";
 import './header.css'
-import {Link, NavLink, useLocation} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
+import { useTranslation } from 'react-i18next'
+import LanguageSelector from "../LanguageSelector.jsx";
 
 function Header() {
 
-    const location = useLocation();
-
-    const login = "Connexion";
+    const { t } = useTranslation();
+    const login= t("header.login");
 
     const menu = [{
-        name :  "Nos activités",
+        name :  t("header.activity"),
         link:   ""
     },
     {
-        name :  "Évènements à venir",
+        name :  t("header.event"),
         link:   ""
     },
     {
-        name :  "Nos locaux",
+        name :  t("header.local"),
         link:   ""
     },
     {
-        name :  "À propos",
+        name :  t("header.about"),
         link:   ""
     }]
 
@@ -38,7 +39,7 @@ function Header() {
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <NavLink to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <span
-                        className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Au Temps Donnée</span>
+                        className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Au Temps Donné</span>
                     </NavLink>
                     <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                         {location.pathname !== '/Login' ? (
@@ -47,6 +48,7 @@ function Header() {
                                     {login}
                                 </NavLink>
                         ): null }
+                        <LanguageSelector />
                     <button data-collapse-toggle="navbar-cta" type="button"
                             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                             aria-controls="navbar-cta" aria-expanded="false">

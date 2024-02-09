@@ -9,6 +9,7 @@ import Error from "./page/error/error.jsx";
 import {createBrowserRouter, Outlet, Router, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.jsx";
 import Register from "./page/Register/Register.jsx";
+import LanguageSelector from "./components/LanguageSelector.jsx";
 
 function App() {
 
