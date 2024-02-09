@@ -20,7 +20,7 @@ function App() {
                 {
                     path :"Login",
                     element: <div>Login</div>
-                }
+                },
             ]
         },
     ])
@@ -38,6 +38,7 @@ function Root() {
     return <>
         <Header></Header>
         <Outlet></Outlet>
+        <Footer></Footer>
     </>
 }
 
