@@ -22,7 +22,7 @@ function Home() {
         <div>
             <div className="image">
                 <text className="homeText">{homeTextImage}</text>
-                <Link to="#"
+                <Link to="/register"
                    className="btn-first homeButton">{registration}</Link>
             </div>
 
