@@ -7,6 +7,7 @@ import distribution from '../../../files/image/distribution.png'
 import donation from '../../../files/image/donation.png'
 import emplacement from '../../../files/image/emplacement.png'
 import oldCare from '../../../files/image/old-care.png'
+import {Link} from "react-router-dom";
 
 function Home() {
 
@@ -21,8 +22,8 @@ function Home() {
         <div>
             <div className="image">
                 <text className="homeText">{homeTextImage}</text>
-                <a href="#"
-                   className="btn-first homeButton">{registration}</a>
+                <Link to="/register"
+                   className="btn-first homeButton">{registration}</Link>
             </div>
 
             <div className="homeBody max-w-screen-xl flex flex-nowrap justify-between mx-auto">
