@@ -5,6 +5,7 @@ import Home from './page/Home/Home.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import Error from "./page/error/error.jsx";
 import {createBrowserRouter, Outlet, Router, RouterProvider} from "react-router-dom";
+import Login from "./page/Login/Login.jsx";
 
 function App() {
 
@@ -18,15 +19,12 @@ function App() {
                     element: <Home/>
                 },
                 {
-                    path :"Login",
-                    element: <div>Login</div>
+                    path :'Login',
+                    element: <Login></Login>
                 },
             ]
         },
-        {
-            path :'Login',
-            element: <Login></Login>
-        },
+
 
     ])
 
