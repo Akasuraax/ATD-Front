@@ -16,6 +16,7 @@ function App() {
         {
             path :'/',
             element: <Root/>,
+            errorElement:<Error/>,
             children : [
                 {
                     path :"",
@@ -23,11 +24,15 @@ function App() {
                 },
                 {
                     path :'Login',
-                    element: <Login></Login>
+                    element: <Login/>
                 },
                 {
                     path :'Register',
-                    element: <Register></Register>
+                    element: <Register/>
+                },
+                {
+                    path :'Ticket',
+                    element: <Ticket/>
                 },
             ]
         },
@@ -46,9 +51,11 @@ function App() {
 
 function Root() {
     return <>
-        <Header></Header>
-        <Outlet></Outlet>
-        <Footer></Footer>
+        <body>
+            <Header></Header>
+            <Outlet></Outlet>
+            <Footer></Footer>
+        </body>
     </>
 }
 

@@ -1,5 +1,6 @@
 import { useEffect} from "react";
 import { initFlowbite} from "flowbite";
+import {NavLink} from "react-router-dom";
 
 function Footer() {
 
@@ -21,7 +22,7 @@ function Footer() {
                 </span>
                 <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
                     <li>
-                        <a href="#" className="hover:underline me-4 md:me-6">{signal}</a>
+                        <NavLink className="hover:underline me-4 md:me-6" to="/Ticket">{signal}</NavLink>
                     </li>
                 </ul>
             </div>

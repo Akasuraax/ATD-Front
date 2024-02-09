@@ -8,3 +8,20 @@
     --green-color:#8AE179;
     --light-gray-color:#F1F1F1;
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Au moins 100% de la hauteur de la vue */
+    margin: 0;
+}
+
+/* Le reste de votre style ici */
+
+footer {
+    margin-top: auto; /* Met le footer en bas de la colonne flexible */
+}
+
+main {
+    flex-grow: 1; /* Fait en sorte que le contenu principal occupe l'espace disponible */
+}
