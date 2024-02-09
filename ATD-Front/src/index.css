@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root{
-    --pink-color: #F85866;
-    --hover-pink-color:#d24753;
+    --pink-color:#F85866;
+    --hover-pink-color: #d24753;
     --green-color:#8AE179;
     --light-gray-color:#F1F1F1;
 }

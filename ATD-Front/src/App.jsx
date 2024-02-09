@@ -3,6 +3,7 @@ import { initFlowbite} from "flowbite";
 import Header from './components/Header/Header.jsx'
 import Home from './page/Home/Home.jsx'
 import Footer from './components/Footer/Footer.jsx'
+import Ticket from "./page/Ticket/Ticket.jsx";
 import Error from "./page/error/error.jsx";
 import {createBrowserRouter, Outlet, Router, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.jsx";
