@@ -6,6 +6,7 @@ import Footer from './components/Footer/Footer.jsx'
 import Error from "./page/error/error.jsx";
 import {createBrowserRouter, Outlet, Router, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.jsx";
+import Register from "./page/Register/Register.jsx";
 
 function App() {
 
@@ -21,6 +22,10 @@ function App() {
                 {
                     path :'Login',
                     element: <Login></Login>
+                },
+                {
+                    path :'Register',
+                    element: <Register></Register>
                 },
             ]
         },
