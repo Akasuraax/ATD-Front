@@ -7,6 +7,8 @@ import LanguageSelector from "../LanguageSelector.jsx";
 
 function Header() {
 
+    const location = useLocation();
+
     const { t } = useTranslation();
     const login= t("header.login");
 
