@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useState} from "react";
 import i18n from '../i18n';
 import Cookies from 'js-cookie';
 

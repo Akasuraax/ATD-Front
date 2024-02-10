@@ -6,7 +6,7 @@ import Footer from './components/Footer/Footer.jsx'
 import ActivityForm from "./page/ActivityForm/ActivityForm.jsx";
 import Ticket from "./page/Ticket/Ticket.jsx";
 import Error from "./page/error/error.jsx";
-import {createBrowserRouter, Outlet, Router, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.jsx";
 import Register from "./page/Register/Register.jsx";
 import LanguageSelector from "./components/LanguageSelector.jsx";
@@ -34,6 +34,10 @@ function App() {
                 {
                     path :'Ticket',
                     element: <Ticket/>
+                },
+                {
+                    path :'ActivityForm',
+                    element: <ActivityForm/>
                 },
             ]
         },
