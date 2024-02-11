@@ -11,7 +11,7 @@
     }
 
     div {
-        height: 100vh;
+        height: 81.5vh;
         overflow: hidden;
         width: calc(100vw / 3);
         transition: width 0.3s ease;
@@ -50,6 +50,10 @@
         z-index: 2;
         text-align: center;
         margin: auto;
+
+        &:hover{
+            background-color: var(--hover-pink-color);
+        }
     }
 
     p {
@@ -57,7 +61,7 @@
         display: block;
         z-index: 2;
         text-align: center;
-        padding-top: 40%;
+        padding-top: 35%;
         padding-bottom: 10%;
         width: 500px;
         margin: auto;
