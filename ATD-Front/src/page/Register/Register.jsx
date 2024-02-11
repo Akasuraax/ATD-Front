@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
 import './register.css';
-import partnerImg from "../../../files/image/partenaire.jpeg";
-import beneficiaryImg from "../../../files/image/beneficiaire.png";
-import volunteerImg from "../../../files/image/benevole.png";
-import partnerIcon from "../../../files/image/partenaire-icone.png";
-import beneficiaryIcon from "../../../files/image/beneficiaire-icone.png";
-import volunteerIcon from "../../../files/image/benevole-icone.png";
 import {redirect, useNavigate} from "react-router-dom";
 
 
