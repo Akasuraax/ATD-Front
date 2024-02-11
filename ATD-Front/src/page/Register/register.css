@@ -1,0 +1,148 @@
+.register-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-inline: auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    p, button{
+        visibility: hidden;
+    }
+
+    div {
+        height: 81.5vh;
+        overflow: hidden;
+        width: calc(100vw / 3);
+        transition: width 0.3s ease;
+        position: relative;
+    }
+
+    .partner {
+        position: relative;
+        background-image: url("../../../files/image/partenaire.jpeg");
+        background-size: cover;
+        background-position: center;
+        height: auto;
+        background-repeat: no-repeat;
+    }
+
+    .partner::before, .beneficiary::before, .volunteer::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+        transition: opacity 0.3s ease;
+        opacity: 0;
+    }
+
+    .partner:hover::before, .beneficiary:hover::before, .volunteer:hover::before {
+        opacity: 1;
+    }
+
+    button{
+        background-color: var(--pink-color);
+        position: relative;
+        display: block;
+        z-index: 2;
+        text-align: center;
+        margin: auto;
+
+        &:hover{
+            background-color: var(--hover-pink-color);
+        }
+    }
+
+    p {
+        position: relative;
+        display: block;
+        z-index: 2;
+        text-align: center;
+        padding-top: 35%;
+        padding-bottom: 10%;
+        width: 500px;
+        margin: auto;
+    }
+
+    .beneficiary {
+        background-image: url('../../../files/image/beneficiaire.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .volunteer {
+        background-image: url('../../../files/image/benevole.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    &:hover div:not(:hover) {
+        filter: blur(2px);
+    }
+
+    div:hover {
+        p, button{
+            visibility: visible;
+        }
+        width: 50vw;
+    }
+
+    div:not(:hover) {
+        width: calc(25vw - 2px);
+    }
+
+    &:not(:hover) div {
+        width: calc(100vw / 3);
+    }
+}
+
+
+.custom-form{
+    display: flex;
+    height: 100%;
+
+    .custom-icon{
+        padding-bottom: 10px;
+    }
+    .form-img {
+        width: 500px;
+        img {
+            height: 100% !important;
+            object-fit: cover;
+        }
+    }
+
+    div:nth-child(2){
+        display: block;
+        margin: auto;
+    }
+
+    h1{
+        color: var(--pink-color);
+        font-size: 30px;
+    }
+
+
+   button{
+        background-color: var(--pink-color);
+        display: block;
+        margin:auto;
+
+        &:hover{
+            background-color: var(--hover-pink-color) ;
+        }
+    }
+
+    input{
+        &:focus{
+            border-color: var(--pink-color);
+            --tw-ring-color: var(--pink-color);
+            --tw-ring-offset-shadow: rgba(248, 88, 102, 0.6);
+
+        }
+    }
+}
