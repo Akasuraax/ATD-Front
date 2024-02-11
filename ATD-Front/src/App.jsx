@@ -9,6 +9,7 @@ import Error from "./page/error/error.jsx";
 import {createBrowserRouter, Outlet, Router, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.jsx";
 import Register from "./page/Register/Register.jsx";
+import Visit from "./page/Visit/Visit.jsx";
 
 function App() {
 
@@ -34,6 +35,10 @@ function App() {
                     path :'Ticket',
                     element: <Ticket/>
                 },
+                {
+                    path:'Visite',
+                    element: <Visit/>
+                }
             ]
         },
 
