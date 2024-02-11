@@ -29,8 +29,8 @@ input:focus{
 }
 
 .login-page {
+    flex:1;
     display: flex;
-    height: 81.5vh;
 }
 
 .login-img {
@@ -39,7 +39,6 @@ input:focus{
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    height: 100%;
 }
 
 .login-form {

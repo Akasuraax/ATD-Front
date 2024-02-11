@@ -21,23 +21,25 @@ function Register() {
     }
 
     return (
-        <div className="register-images">
-            <div className="partner">
-                <p className="text-white">{partnerText}</p>
-                <button type="button" onClick={() => toLink("partenaire")}
-                        className="text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">{btnPartner}</button>
+        <main>
+            <div className="register-images">
+                <div className="partner">
+                    <p className="text-white">{partnerText}</p>
+                    <button type="button" onClick={() => toLink("partenaire")}
+                            className="text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">{btnPartner}</button>
+                </div>
+                <div className="beneficiary">
+                    <p className="text-white">{beneficiaryText}</p>
+                    <button type="button" onClick={()=>toLink("beneficiaire")}
+                            className="text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">{btnBeneficiary}</button>
+                </div>
+                <div className="volunteer">
+                    <p className="text-white">{volunteerText}</p>
+                    <button type="button" onClick={() => toLink("benevole")}
+                            className="text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">{btnVolunteer}</button>
+                </div>
             </div>
-            <div className="beneficiary">
-                <p className="text-white">{beneficiaryText}</p>
-                <button type="button" onClick={()=>toLink("beneficiaire")}
-                        className="text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">{btnBeneficiary}</button>
-            </div>
-            <div className="volunteer">
-                <p className="text-white">{volunteerText}</p>
-                <button type="button" onClick={() => toLink("benevole")}
-                        className="text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">{btnVolunteer}</button>
-            </div>
-        </div>
+        </main>
     );
 }
 

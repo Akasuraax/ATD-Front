@@ -24,6 +24,7 @@
         background-size: cover;
         background-position: center;
         height: auto;
+        background-repeat: no-repeat;
     }
 
     .partner::before, .beneficiary::before, .volunteer::before{
@@ -69,10 +70,14 @@
 
     .beneficiary {
         background-image: url('../../../files/image/beneficiaire.png');
+        background-repeat: no-repeat;
+        background-size: cover;
     }
 
     .volunteer {
         background-image: url('../../../files/image/benevole.png');
+        background-repeat: no-repeat;
+        background-size: cover;
     }
 
     &:hover div:not(:hover) {

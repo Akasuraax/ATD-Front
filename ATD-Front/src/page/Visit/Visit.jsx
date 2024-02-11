@@ -25,10 +25,12 @@ function Visit(){
     ];
 
     return(
-        <div className="visit-page">
-            <h2 className="text-center m-12">{visitsDemand}</h2>
-            <List data={list} column={[{lastName}, {name}, {age}, {address}, {zipcode}, {action}]} actions={userActions}/>
-        </div>
+        <main>
+            <div className="visit-page">
+                <h2 className="text-center m-12">{visitsDemand}</h2>
+                <List data={list} column={[{lastName}, {name}, {age}, {address}, {zipcode}, {action}]} actions={userActions}/>
+            </div>
+        </main>
     );
 }
 

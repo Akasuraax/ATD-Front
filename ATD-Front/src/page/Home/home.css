@@ -49,3 +49,7 @@
     font-size: 36px;
     color: var(--pink-color);
 }
+
+.home-page{
+    flex:1;
+}
