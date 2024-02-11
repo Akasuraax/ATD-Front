@@ -10,10 +10,13 @@ import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.jsx";
 import Register from "./page/Register/Register.jsx";
 import LanguageSelector from "./components/LanguageSelector.jsx";
+import BeneficiaryForm from "./page/Register/Forms/beneficiary.jsx";
+import PartnerForm from "./page/Register/Forms/partner.jsx";
+import VolunteerForm from "./page/Register/Forms/volunteer.jsx";
 
 function App() {
 
-   const router = createBrowserRouter([
+    const router = createBrowserRouter([
         {
             path :'/',
             element: <Root/>,
@@ -24,21 +27,36 @@ function App() {
                     element: <Home/>
                 },
                 {
-                    path :'Login',
+                    path :'login',
                     element: <Login/>
                 },
                 {
-                    path :'Register',
-                    element: <Register/>
+                    path :'register',
+                    element: <Outlet/>,
+                    children : [
+                        {
+                            path :'',
+                            element: <Register/>,
+                        },
+                        {
+                            path: 'beneficiaire',
+                            element: <BeneficiaryForm/>
+                        },
+                        {
+                            path: 'partenaire',
+                            element: <PartnerForm/>
+                        },
+                        {
+                            path: 'benevole',
+                            element: <VolunteerForm/>
+                        }
+                    ]
                 },
                 {
-                    path :'Ticket',
+                    path :'ticket',
                     element: <Ticket/>
                 },
-                {
-                    path :'ActivityForm',
-                    element: <ActivityForm/>
-                },
+
             ]
         },
 
