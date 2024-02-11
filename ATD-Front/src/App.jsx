@@ -9,6 +9,7 @@ import Error from "./page/error/error.jsx";
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.jsx";
 import Register from "./page/Register/Register.jsx";
+import Visit from "./page/Visit/Visit.jsx";
 import BeneficiaryForm from "./page/Register/Forms/beneficiary.jsx";
 import PartnerForm from "./page/Register/Forms/partner.jsx";
 import VolunteerForm from "./page/Register/Forms/volunteer.jsx";
@@ -59,7 +60,10 @@ function App() {
                     path :'ticket',
                     element: <Ticket/>
                 },
-
+                {
+                    path:'Visite',
+                    element: <Visit/>
+                }
             ]
         },
         {
