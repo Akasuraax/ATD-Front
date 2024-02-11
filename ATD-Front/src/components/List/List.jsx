@@ -1,5 +1,6 @@
 import './list.css';
 import { useState } from 'react';
+import {useTranslation} from "react-i18next";
 
 function List({ data, column, actions, add, itemsPerPage = 50}) {
     const [currentPage, setCurrentPage] = useState(1);
@@ -20,8 +21,12 @@ function List({ data, column, actions, add, itemsPerPage = 50}) {
         if(index > 0 && index <= numPages)setCurrentPage(index);
     }
 
-    const search = "Rechercher"
-    const searchPlaceHolder = "Rechercher votre élément"
+
+    const { t } = useTranslation();
+
+    const search = t("list.search")
+    const searchPlaceHolder = t("list.searchPlaceHolder")
+
     return (
         <div className="list relative overflow-x-auto sm:rounded-lg max-w-5xl">
             <div className="search-zone pb-4 bg-white dark:bg-gray-900 flex items-center">

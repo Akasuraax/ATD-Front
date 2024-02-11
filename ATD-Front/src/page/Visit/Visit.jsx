@@ -1,16 +1,19 @@
 import './visit.css'
 import List from "../../components/List/List.jsx";
+import {useTranslation} from "react-i18next";
 
 function Visit(){
-    const visitsDemand = "Demande de visite de personnes agées";
-    const lastName = 'Nom'
-    const name = 'Prénom'
-    const age = 'Âge'
-    const address = 'Adresse'
-    const zipcode = 'Code postal'
-    const action = 'Action'
-    const refuse = 'Je ne peux pas'
-    const accept = 'J\'y vais !'
+
+    const { t } = useTranslation();
+
+    const visitsDemand = t("visit.visitsDemand");
+    const lastName =  t("visit.lastName");
+    const name =  t("visit.name");
+    const age =  t("visit.age");
+    const address =  t("visit.address");
+    const zipcode =  t("visit.zipcode");
+    const action =  t("visit.action");
+    const accept =  t("visit.accept");
     const list = [
         {lastName:"Jean", name: "Martine", age: 98, address: "7 rue des pins perdu",zipcode:94190},
         {lastName:"Pabille", name: "Pena", age: 69, address: "5 rue des pommiers",zipcode:94190},

@@ -121,5 +121,19 @@
     "en" : "English",
     "it" : "Italian",
     "de" : "German"
+  },
+  "visit": {
+    "visitsDemand":"Visit demands of elderly people",
+    "lastName":"Last name",
+    "name":"Name",
+    "age":"Age",
+    "address":"Address",
+    "zipcode":"Zipcode",
+    "action":"Action",
+    "accept":"I'm going !"
+  },
+  "list": {
+    "search": "Search",
+    "searchPlaceHolder" : "Search element"
   }
 }

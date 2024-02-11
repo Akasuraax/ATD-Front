@@ -121,5 +121,19 @@
     "en" : "Anglais",
     "it" : "Italien",
     "de" : "Allemand"
+  },
+  "visit": {
+    "visitsDemand":"Demande de visite de personnes agées",
+    "lastName":"Nom",
+    "name":"Prénom",
+    "age":"Âge",
+    "address":"Adresse",
+    "zipcode":"Code postal",
+    "action":"Action",
+    "accept":"J'y vais !"
+  },
+  "list": {
+    "search": "Rechercher",
+    "searchPlaceHolder" : "Rechercher un élément"
   }
 }
