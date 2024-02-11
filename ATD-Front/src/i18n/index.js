@@ -17,13 +17,7 @@ const resources = {
     },
     en: {
         translation: translationsInEng
-    },
-    it: {
-        translation: translationsInIt
-    },
-    de: {
-        translation: translationsInDe
-    },
+    }
 };
 
 i18n
