@@ -1,0 +1,21 @@
+.btn-first, .btn-sec {
+    display: block;
+    width: 168px;
+    height: 48px;
+    border-radius: 32px;
+    text-align: center;
+    padding:10px;
+    color:white;
+}
+
+.btn-first {
+    background-color:var(--pink-color) ;
+}
+
+.btn-sec {
+    background-color: var(--green-color);
+}
+
+.header {
+    background-color: var(--light-gray-color);
+}
