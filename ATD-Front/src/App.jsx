@@ -1,15 +1,15 @@
 import { useEffect} from "react";
 import { initFlowbite} from "flowbite";
 import Header from './components/Header/Header.jsx'
-import Home from './page/Home/Home.jsx'
+import Home from './page/Home/Home.jsx';
+import Activity from "./page/Activity.jsx";
 import Footer from './components/Footer/Footer.jsx'
-import ActivityForm from "./page/ActivityForm/ActivityForm.jsx";
 import Ticket from "./page/Ticket/Ticket.jsx";
 import Error from "./page/error/error.jsx";
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.jsx";
 import Register from "./page/Register/Register.jsx";
-import LanguageSelector from "./components/LanguageSelector.jsx";
+import Visit from "./page/Visit/Visit.jsx";
 import BeneficiaryForm from "./page/Register/Forms/beneficiary.jsx";
 import PartnerForm from "./page/Register/Forms/partner.jsx";
 import VolunteerForm from "./page/Register/Forms/volunteer.jsx";
@@ -29,6 +29,10 @@ function App() {
                 {
                     path :'login',
                     element: <Login/>
+                },
+                {
+                    path :'activity',
+                    element: <Activity/>
                 },
                 {
                     path :'register',
@@ -56,9 +60,16 @@ function App() {
                     path :'ticket',
                     element: <Ticket/>
                 },
-
+                {
+                    path:'Visite',
+                    element: <Visit/>
+                }
             ]
         },
+        {
+            path :'Activities',
+            element: <Activity></Activity>
+        }
 
 
     ])

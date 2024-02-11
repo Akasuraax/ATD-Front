@@ -94,6 +94,16 @@
     "placeHolderMsg": "Formulate your problem...",
     "submitBtn": "Send message"
   },
+  "activity": {
+    "titleActivity": "Our Activities",
+    "foodDistribution": "Food Distribution",
+    "administrativeDepartment": "Administrative Services",
+    "shuttles": "Shuttles for Remote Appointments",
+    "courses": "Adult Literacy Classes",
+    "tutoring": "Tutoring for Children",
+    "event": "Organizing Fundraising Events",
+    "seniors": "Visits and Activities for Seniors"
+  },
   "footer": {
     "name": "Au Temps Donné",
     "signal": "Report a problem",
