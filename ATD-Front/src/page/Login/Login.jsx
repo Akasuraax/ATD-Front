@@ -1,6 +1,7 @@
 import './login.css'
 import loginPic from '../../../files/image/login-pic.png'
 import InputPwd from "../../components/inputPwd/inputPwd.jsx"
+import {useTranslation} from "react-i18next";
 
 function Login(){
 
