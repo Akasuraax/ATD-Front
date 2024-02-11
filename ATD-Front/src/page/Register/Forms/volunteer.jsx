@@ -1,22 +1,28 @@
 import volunteerImg from "../../../../files/image/benevole.png";
 import volunteerIcon from "../../../../files/image/benevole-icone.png";
 import "../register.css";
+import {useTranslation} from "react-i18next";
 function VolunteerForm() {
-    const register = "Bénévole"
-    const name = "Prénom"
-    const lastName = "Nom"
-    const birthDate = "Date de naissance"
-    const gender = "Sexe"
-    const male = "Homme"
-    const female = "Femme"
-    const unspecified = "Ne pas spécifier"
-    const email = "Email"
-    const zipcode = "Code postal"
-    const address = "Adresse"
-    const phone = "Numéro de téléphone"
-    const pwd = "Mot de passe"
-    const confirmPwd = "Valider le mot de passe"
-    const registerBtn = "S'inscrire"
+
+    const { t } = useTranslation();
+
+
+    const register = t("register.volunteer.register")
+    const name = t("register.volunteer.name")
+    const lastName = t("register.volunteer.lastName")
+    const birthDate = t("register.volunteer.birthDate")
+    const gender = t("register.volunteer.gender")
+    const male = t("register.volunteer.male")
+    const female = t("register.volunteer.female")
+    const unspecified = t("register.volunteer.unspecified")
+    const email = t("register.volunteer.email")
+    const zipcode = t("register.volunteer.zipcode")
+    const address = t("register.volunteer.address")
+    const phone = t("register.volunteer.phone")
+    const pwd = t("register.volunteer.pwd")
+    const confirmPwd = t("register.volunteer.confirmPwd")
+    const registerBtn = t("register.volunteer.registerBtn")
+
     return (
         <div className="custom-form">
             <div className="form-img">

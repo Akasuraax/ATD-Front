@@ -31,7 +31,55 @@
   "register": {
     "partnerText": "Make a difference by becoming our partner. Your company can have an immediate positive impact. Join us now!",
     "beneficiaryText": "Explore new horizons by accepting sharing. Compassionate individuals are ready to accompany you. Open the door to a multitude of mutual aid opportunities in your path.",
-    "volunteerText": "Be part of something bigger by becoming a volunteer. Your contribution, even small, can change lives. Join us, make a difference!"
+    "volunteerText": "Be part of something bigger by becoming a volunteer. Your contribution, even small, can change lives. Join us, make a difference!",
+    "beneficiary": {
+      "register": "Beneficiary",
+      "name": "First Name",
+      "lastName": "Last Name",
+      "birthDate": "Date of Birth",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "unspecified": "Unspecified",
+      "email": "Email",
+      "zipcode": "Zip Code",
+      "address": "Address",
+      "phone": "Phone Number",
+      "pwd": "Password",
+      "confirmPwd": "Confirm Password",
+      "registerBtn": "Register"
+    },
+    "partner": {
+      "register": "Partner",
+      "name": "First Name",
+      "lastName": "Last Name",
+      "companyName": "Company Name",
+      "siret": "SIRET Number",
+      "email": "Email",
+      "zipcode": "Zip Code",
+      "address": "Address",
+      "phone": "Phone Number",
+      "pwd": "Password",
+      "confirmPwd": "Confirm Password",
+      "registerBtn": "Register"
+    },
+    "volunteer": {
+      "register": "Volunteer",
+      "name": "First Name",
+      "lastName": "Last Name",
+      "birthDate": "Date of Birth",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "unspecified": "Unspecified",
+      "email": "Email",
+      "zipcode": "Zip Code",
+      "address": "Address",
+      "phone": "Phone Number",
+      "pwd": "Password",
+      "confirmPwd": "Confirm Password",
+      "registerBtn": "Register"
+    }
   },
   "ticket": {
     "reportProblem": "Report a problem",

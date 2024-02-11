@@ -1,22 +1,28 @@
 import beneficiaryImg from "../../../../files/image/beneficiaire.png";
 import beneficiaryIcon from "../../../../files/image/beneficiaire-icone.png";
 import "../register.css";
+import {useTranslation} from "react-i18next";
 function BeneficiaryForm() {
-    const register = "Bénéficiaire"
-    const name = "Prénom"
-    const lastName = "Nom"
-    const birthDate = "Date de naissance"
-    const gender = "Sexe"
-    const male = "Homme"
-    const female = "Femme"
-    const unspecified = "Ne pas spécifier"
-    const email = "Email"
-    const zipcode = "Code postal"
-    const address = "Adresse"
-    const phone = "Numéro de téléphone"
-    const pwd = "Mot de passe"
-    const confirmPwd = "Valider le mot de passe"
-    const registerBtn = "S'inscrire"
+
+    const { t } = useTranslation();
+
+    const register = t("register.beneficiary.register")
+    const name = t("register.beneficiary.name")
+    const lastName = t("register.beneficiary.lastName")
+    const birthDate = t("register.beneficiary.birthDate")
+    const gender = t("register.beneficiary.gender")
+    const male = t("register.beneficiary.male")
+    const female = t("register.beneficiary.female")
+    const unspecified = t("register.beneficiary.unspecified")
+    const email = t("register.beneficiary.email")
+    const zipcode = t("register.beneficiary.zipcode")
+    const address = t("register.beneficiary.address")
+    const phone = t("register.beneficiary.phone")
+    const pwd = t("register.beneficiary.pwd")
+    const confirmPwd = t("register.beneficiary.confirmPwd")
+    const registerBtn = t("register.beneficiary.registerBtn")
+
+
     return (
         <div className="custom-form">
             <div className="form-img">

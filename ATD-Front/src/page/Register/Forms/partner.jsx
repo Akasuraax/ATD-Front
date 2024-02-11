@@ -1,20 +1,24 @@
 import partnerImg from "../../../../files/image/partenaire.jpeg";
 import partnerIcon from "../../../../files/image/partenaire-icone.png";
 import "../register.css";
+import {useTranslation} from "react-i18next";
 function PartnerForm() {
 
-    const register = "Partenaire"
-    const name = "Prénom"
-    const lastName = "Nom"
-    const companyName = "Nom de l'entreprise"
-    const siret = "N°Siret"
-    const email = "Email"
-    const zipcode = "Code postal"
-    const address = "Adresse"
-    const phone = "Numéro de téléphone"
-    const pwd = "Mot de passe"
-    const confirmPwd = "Valider le mot de passe"
-    const registerBtn = "S'inscrire"
+    const { t } = useTranslation();
+
+
+    const register = t("register.partner.register")
+    const name = t("register.partner.name")
+    const lastName = t("register.partner.lastName")
+    const companyName = t("register.partner.companyName")
+    const siret = t("register.partner.siret")
+    const email = t("register.partner.email")
+    const zipcode = t("register.partner.zipcode")
+    const address = t("register.partner.address")
+    const phone = t("register.partner.phone")
+    const pwd = t("register.partner.pwd")
+    const confirmPwd = t("register.partner.confirmPwd")
+    const registerBtn = t("register.partner.registerBtn")
 
     return (
         <div className="custom-form">
