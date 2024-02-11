@@ -135,5 +135,14 @@
   "list": {
     "search": "Search",
     "searchPlaceHolder" : "Search element"
+  },
+  "tracking": {
+    "ticketId": "Ticket ID",
+    "date": "Date",
+    "type": "Type",
+    "title": "Title",
+    "action": "Action",
+    "details": "Details",
+    "ticketTrack": "Tickets"
   }
 }

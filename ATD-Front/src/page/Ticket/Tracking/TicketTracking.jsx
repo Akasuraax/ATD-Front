@@ -19,7 +19,7 @@ function TicketTracking(){
     ]
 
     const userActions = [
-        { label: {action}, onClick: (item) => console.log('J\'accepte', item) },
+        { label: {details}, onClick: (item) => console.log('J\'accepte', item) },
     ];
 
     return(
