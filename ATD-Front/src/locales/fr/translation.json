@@ -144,5 +144,15 @@
     "action": "Action",
     "details": "Détails",
     "ticketTrack": "Tickets"
+  },
+  "user": {
+    "title" : "Liste des utilisateurs",
+    "lastName": "Nom de famille",
+    "name": "Prénom",
+    "role": "Rôle",
+    "isArchived": "Compte archivé",
+    "informations":"Informations",
+    "action": "Action",
+    "downloadData": "Télécharger les données"
   }
 }

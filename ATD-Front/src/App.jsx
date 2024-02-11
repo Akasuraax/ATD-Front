@@ -14,6 +14,7 @@ import BeneficiaryForm from "./page/Register/Forms/beneficiary.jsx";
 import PartnerForm from "./page/Register/Forms/partner.jsx";
 import VolunteerForm from "./page/Register/Forms/volunteer.jsx";
 import TicketTracking from "./page/Ticket/Tracking/TicketTracking.jsx";
+import User from "./page/User/User.jsx";
 
 function App() {
 
@@ -74,13 +75,18 @@ function App() {
                 {
                     path:'Visite',
                     element: <Visit/>
+                },
+                {
+                    path: 'User',
+                    element: <User/>
                 }
+
             ]
         },
         {
             path :'Activities',
             element: <Activity></Activity>
-        }
+        },
 
 
     ])
