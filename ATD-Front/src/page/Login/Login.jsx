@@ -1,5 +1,4 @@
 import './login.css'
-import loginPic from '../../../files/image/login-pic.png'
 import InputPwd from "../../components/inputPwd/inputPwd.jsx"
 import {useTranslation} from "react-i18next";
 
@@ -17,9 +16,7 @@ function Login(){
     return(
         <div className="login-page">
             <div className="login-img">
-                <img src={loginPic}
-                     alt="Login Picture"
-                     />
+
             </div>
             <div className="login-form">
                 <h2 className="connect-title text-center">{connect}</h2>
