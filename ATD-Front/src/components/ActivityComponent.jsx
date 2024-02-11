@@ -5,19 +5,23 @@ import distribution from '../../files/image/distribution.png'
 import donation from '../../files/image/donation.png'
 import emplacement from '../../files/image/emplacement.png'
 import oldCare from '../../files/image/old-care.png'
+import {useTranslation} from "react-i18next";
 
 function ActivityComponent(){
-    const titleActivity = "Nos activités";
-    const foodDistribution = "Distribution alimentaire";
-    const administrativeDepartment = "Service administratif";
-    const shuttles = "Navettes pour rendez-vous éloignés";
-    const courses  = "Cours d’alphabétisation pour adultes";
-    const tutoring  = "Soutien scolaire pour enfant";
-    const event = "Organisation d’évènements de récoltes de fonds";
-    const seniors = "Visites et activités pour personnes âgées.";
+
+    const { t } = useTranslation();
+
+    const titleActivity = t("activity.titleActivity");
+    const foodDistribution = t("activity.foodDistribution");
+    const administrativeDepartment = t("activity.administrativeDepartment");
+    const shuttles = t("activity.shuttles");
+    const courses  = t("activity.courses");
+    const tutoring  = t("activity.tutoring");
+    const event = t("activity.event");
+    const seniors = t("activity.seniors");
 
     return (
-        <div className="bg-[#F1F1F1] py-12 sm:py-12 mt-32">
+        <div className="bg-white py-12 sm:py-12 mt-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <h2 className="text-center homeTitle">{titleActivity}</h2>
                 <div

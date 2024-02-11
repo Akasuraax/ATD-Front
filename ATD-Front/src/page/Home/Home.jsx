@@ -1,14 +1,8 @@
 import './home.css'
 import imageHome from '../../../files/image/chaine-696x419.png'
-import abc from '../../../files/image/abc.png'
-import admin from '../../../files/image/admin.png'
-import course from '../../../files/image/course.png'
-import distribution from '../../../files/image/distribution.png'
-import donation from '../../../files/image/donation.png'
-import emplacement from '../../../files/image/emplacement.png'
-import oldCare from '../../../files/image/old-care.png'
 import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import ActivityComponent from "../../components/ActivityComponent.jsx";
 
 function Home() {
 

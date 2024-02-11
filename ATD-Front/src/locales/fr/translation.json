@@ -91,6 +91,16 @@
     "placeHolderMsg" : "Formulez votre problème...",
     "submitBtn" : "Envoyer le message"
   },
+  "activity" : {
+    "titleActivity" : "Nos activités",
+    "foodDistribution" : "Distribution alimentaire",
+    "administrativeDepartment" : "Service administratif",
+    "shuttles" : "Navettes pour rendez-vous éloignés",
+    "courses"  : "Cours d’alphabétisation pour adultes",
+    "tutoring"  : "Soutien scolaire pour enfant",
+    "event" : "Organisation d’évènements de récoltes de fonds",
+    "seniors" : "Visites et activités pour personnes âgées."
+    },
   "footer" : {
     "name" : "Au Temps Donné",
     "signal" : "Signaler un problème",
