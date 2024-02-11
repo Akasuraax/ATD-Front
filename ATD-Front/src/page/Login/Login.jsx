@@ -1,12 +1,11 @@
 import './login.css'
 import loginPic from '../../../files/image/login-pic.png'
-import {seePwd} from "./seePwd.js";
+import InputPwd from "../../components/inputPwd/inputPwd.jsx"
 
 function Login(){
     const connect = "Connexion";
     const email = "Email/Identifiant";
     const password = "Mot de passe";
-    const showPwd = "Afficher le mot de passe";
     const connectBtn = "Se connecter";
     const forgotPwd = "Mot de passe oublié ?";
 
@@ -29,15 +28,9 @@ function Login(){
                         <label form="password" className="block text-center mb-2 text-sm font-medium text-gray-900 dark:text-white">{password}</label>
                         <input type="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required/>
                     </div>
-                    <div className="flex items-start mb-5">
-                        <div className="flex items-center h-5">
-                            <input id="seePwd" type="checkbox" onClick={seePwd} className="checkbox w-4 h-4 border border-gray-300 rounded bg-gray-50"/>
-                            <script src="./seePwd.js"></script>
 
-                        </div>
-                        <label form="remember"
-                               className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{showPwd}</label>
-                    </div>
+                    <InputPwd/>
+
                     <button type="submit" className="connect-btn text-white focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto text-center block mx-auto">{connectBtn}</button>
                 </form>
             </div>
