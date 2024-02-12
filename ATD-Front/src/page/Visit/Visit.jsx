@@ -24,11 +24,12 @@ function Visit(){
         { label: {accept}, onClick: (item) => console.log('J\'accepte', item) },
     ];
 
+
     return(
         <main>
             <div className="m-auto visit-page">
                 <h2 className="text-center m-12">{visitsDemand}</h2>
-                <List data={list} column={[{lastName}, {name}, {age}, {address}, {zipcode}, {action}]} actions={userActions}/>
+                <List data={list} column={[{lastName}, {name}, {age}, {address}, {zipcode}, {action}]} actions={userActions} filter={[{age}]}/>
             </div>
         </main>
     );

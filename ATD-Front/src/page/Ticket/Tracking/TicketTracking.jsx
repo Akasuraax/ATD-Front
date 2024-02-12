@@ -26,7 +26,7 @@ function TicketTracking(){
         <main>
             <div className="m-auto visit-page">
                 <h2 className="text-center m-12">{ticketTrack}</h2>
-                <List data={list} column={[{ticketId}, {date}, {type}, {title}, {details}]} actions={userActions}/>
+                <List data={list} column={[{ticketId}, {date}, {type}, {title}, {details}]} actions={userActions} filter={[{date}]}/>
             </div>
         </main>
 )

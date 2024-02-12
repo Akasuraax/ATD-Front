@@ -154,7 +154,11 @@
     "isArchived": "Compte archivé",
     "informations":"Informations",
     "action": "Action",
-    "downloadData": "Télécharger les données"
+    "downloadData": "Télécharger les données",
+    "partner": "Partenaire",
+    "beneficiary": "Bénéficiaire",
+    "volunteer": "Bénévole",
+    "waitingValidation": "En attente de validation"
   },
   "vehicle": {
     "title": "Liste des véhicules",
