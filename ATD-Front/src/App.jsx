@@ -16,6 +16,7 @@ import VolunteerForm from "./page/Register/Forms/volunteer.jsx";
 import TicketTracking from "./page/Ticket/Tracking/TicketTracking.jsx";
 import User from "./page/User/User.jsx";
 import Vehicle from "./page/Vehicles/Vehicle.jsx";
+import Warehouse from "./page/Warehouse/Warehouse.jsx";
 
 function App() {
 
@@ -84,6 +85,10 @@ function App() {
                 {
                     path: 'Vehicules',
                     element: <Vehicle/>
+                },
+                {
+                    path : "Entrepots",
+                    element: <Warehouse/>
                 }
 
             ]
