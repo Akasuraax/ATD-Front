@@ -169,5 +169,14 @@
     "annex": "Annex",
     "delete": "Delete",
     "details": "Details"
+  },
+  "warehouse": {
+    "title": "Warehouses list",
+    "name": "Name",
+    "address": "Address",
+    "capacity": "Capacity",
+    "addWarehouse": "Add a warehouse",
+    "delete": "Delete",
+    "details": "Details"
   }
 }

@@ -170,5 +170,14 @@
     "delete": "Supprimer",
     "details": "Détails",
     "consumption": "Consommation"
+  },
+  "warehouse": {
+    "title": "Liste des entrepôts",
+    "name": "Nom",
+    "address": "Adresse",
+    "capacity": "Capacité",
+    "addWarehouse": "Ajouter un entrepôt",
+    "delete": "Supprimer",
+    "details": "Détails"
   }
 }
