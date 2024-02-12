@@ -15,8 +15,9 @@ import PartnerForm from "./page/Register/Forms/partner.jsx";
 import VolunteerForm from "./page/Register/Forms/volunteer.jsx";
 import TicketTracking from "./page/Ticket/Tracking/TicketTracking.jsx";
 import User from "./page/User/User.jsx";
-import Vehicle from "./page/Vehicles/Vehicle.jsx";
+import Vehicle from "./page/Vehicle/Vehicle.jsx";
 import Warehouse from "./page/Warehouse/Warehouse.jsx";
+import Recipe from "./page/Recipe/Recipe.jsx";
 
 function App() {
 
@@ -89,6 +90,10 @@ function App() {
                 {
                     path : "Entrepots",
                     element: <Warehouse/>
+                },
+                {
+                    path: "Recettes",
+                    element: <Recipe/>
                 }
 
             ]

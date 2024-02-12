@@ -178,5 +178,13 @@
     "addWarehouse": "Add a warehouse",
     "delete": "Delete",
     "details": "Details"
+  },
+  "recipe": {
+    "title": "Recipes list",
+    "titled": "Titled",
+    "numIngredients" : "Number of ingredients",
+    "delete": "Delete",
+    "details": "Details",
+    "addRecipe": "Add a recipe"
   }
 }

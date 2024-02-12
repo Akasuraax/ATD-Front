@@ -179,5 +179,13 @@
     "addWarehouse": "Ajouter un entrepôt",
     "delete": "Supprimer",
     "details": "Détails"
+  },
+  "recipe": {
+    "title": "Liste des recettes",
+    "titled": "Intitulé",
+    "numIngredients" : "Nombre d'ingrédients",
+    "delete": "Supprimer",
+    "details": "Détails",
+    "addRecipe": "Ajouter une recette"
   }
 }
