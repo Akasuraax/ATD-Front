@@ -134,7 +134,8 @@
   },
   "list": {
     "search": "Rechercher",
-    "searchPlaceHolder" : "Rechercher un élément"
+    "searchPlaceHolder" : "Rechercher un élément",
+    "filter": "Trier par"
   },
   "tracking": {
     "ticketId": "ID du ticket",
@@ -154,5 +155,16 @@
     "informations":"Informations",
     "action": "Action",
     "downloadData": "Télécharger les données"
+  },
+  "vehicle": {
+    "title": "Liste des véhicules",
+    "addBtn": "Ajouter un véhicule",
+    "name": "Nom",
+    "registration": "Immatriculation",
+    "avgConsumption": "Consommation moyenne (L/100km)",
+    "annex": "Annexe",
+    "delete": "Supprimer",
+    "details": "Détails",
+    "consumption": "Consommation"
   }
 }

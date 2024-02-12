@@ -134,7 +134,8 @@
   },
   "list": {
     "search": "Search",
-    "searchPlaceHolder" : "Search element"
+    "searchPlaceHolder" : "Search element",
+    "filter": "Sort by"
   },
   "tracking": {
     "ticketId": "Ticket ID",
@@ -154,5 +155,15 @@
     "informations":"Informations",
     "action": "Action",
     "downloadData": "Download datas"
+  },
+  "vehicle": {
+    "title": "Vehicles list",
+    "addBtn": "Add a vehicle",
+    "name": "Name",
+    "registration": "Registration",
+    "avgConsumption": "Average consumption (L/100km)",
+    "annex": "Annex",
+    "delete": "Delete",
+    "details": "Details"
   }
 }

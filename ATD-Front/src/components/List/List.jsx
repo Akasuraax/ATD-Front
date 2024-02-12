@@ -2,13 +2,14 @@ import './list.css';
 import { useState } from 'react';
 import {useTranslation} from "react-i18next";
 
-function List({ data, column, actions, add, itemsPerPage = 50}) {
+function List({ data, column, actions, add, filter, itemsPerPage = 50}) {
     const [currentPage, setCurrentPage] = useState(1);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
     const numPages = Math.ceil(data.length / itemsPerPage);
+
     const nextPage = () => {
         if(currentPage + 1 <= numPages) setCurrentPage(currentPage + 1);
     };
@@ -26,10 +27,36 @@ function List({ data, column, actions, add, itemsPerPage = 50}) {
 
     const search = t("list.search")
     const searchPlaceHolder = t("list.searchPlaceHolder")
+    const filterTitle = t("list.filter");
 
     return (
             <div className="list relative overflow-x-auto sm:rounded-lg max-w-5xl">
                 <div className="search-zone pb-4 bg-white dark:bg-gray-900 flex items-center">
+                    <div>
+                        <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction"
+                                className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100  font-medium rounded-lg text-sm px-3 py-2 mr-2 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600"
+                                type="button">
+                            <span className="sr-only">Action button</span>
+                            {filterTitle}
+                            <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                 fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2" d="m1 1 4 4 4-4"/>
+                            </svg>
+                        </button>
+                        <div id="dropdownAction" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                            <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
+                                {filter.map((element, index) => (
+                                    Object.entries(element).map(([_, value]) => (
+                                        <li key={index}>
+                                            <a href="#"
+                                               className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{value}</a>
+                                        </li>
+                                    ))
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
                     <label htmlFor="table-search" className="sr-only">{search}</label>
                     <div className="relative max-w-72 flex-1">
                         <div
@@ -48,8 +75,8 @@ function List({ data, column, actions, add, itemsPerPage = 50}) {
                         add && add.length > 0 &&
                         add.map((action, actionIndex) => (
                             <button key={actionIndex} onClick={action.onClick}
-                                    className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold ml-2 py-2 px-2.5 rounded">
-                                {action.label}
+                                    className="add-btn bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold ml-2 py-2 px-2.5 rounded">
+                                {Object.values(action.label)}
                             </button>
                         ))
                     }
@@ -97,8 +124,7 @@ function List({ data, column, actions, add, itemsPerPage = 50}) {
                                 <span className="sr-only">Previous</span>
                                 <svg className="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true"
                                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                          stroke-width="2" d="M5 1 1 5l4 4"/>
+                                    <path stroke="currentColor" d="M5 1 1 5l4 4"/>
                                 </svg>
                             </a>
                         </li>
@@ -120,8 +146,7 @@ function List({ data, column, actions, add, itemsPerPage = 50}) {
                                 <span className="sr-only">Next</span>
                                 <svg className="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true"
                                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                          stroke-width="2" d="m1 9 4-4-4-4"/>
+                                    <path stroke="currentColor" d="m1 9 4-4-4-4"/>
                                 </svg>
                             </a>
                         </li>

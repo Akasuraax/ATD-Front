@@ -3,7 +3,7 @@
     margin: auto;
 
     .search-zone{
-        button{
+        .add-btn{
             background-color: var(--pink-color);
 
             &:hover{

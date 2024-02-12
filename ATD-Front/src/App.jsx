@@ -15,6 +15,7 @@ import PartnerForm from "./page/Register/Forms/partner.jsx";
 import VolunteerForm from "./page/Register/Forms/volunteer.jsx";
 import TicketTracking from "./page/Ticket/Tracking/TicketTracking.jsx";
 import User from "./page/User/User.jsx";
+import Vehicle from "./page/Vehicles/Vehicle.jsx";
 
 function App() {
 
@@ -77,8 +78,12 @@ function App() {
                     element: <Visit/>
                 },
                 {
-                    path: 'User',
+                    path: 'Utilisateurs',
                     element: <User/>
+                },
+                {
+                    path: 'Vehicules',
+                    element: <Vehicle/>
                 }
 
             ]
