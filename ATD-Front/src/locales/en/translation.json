@@ -195,5 +195,13 @@
     "delete": "Delete",
     "details": "Details",
     "addRecipe": "Add a recipe"
+  },
+  "language": {
+    "title": "Languages list",
+    "addLanguage": "Add a language",
+    "language": "Language",
+    "added": "Added the",
+    "delete": "Delete",
+    "newFile": "New file"
   }
 }

@@ -19,6 +19,7 @@ import Vehicle from "./page/Back/Vehicle/Vehicle.jsx";
 import Warehouse from "./page/Back/Warehouse/Warehouse.jsx";
 import Recipe from "./page/Back/Recipe/Recipe.jsx";
 import ActivityList from "./page/Back/Activity/Activity.jsx";
+import Language from "./page/Back/Language/Language.jsx";
 
 function App() {
 
@@ -37,12 +38,16 @@ function App() {
                     element: <Login/>
                 },
                 {
-                    path :'activity',
+                    path :'activities',
                     element: <Activity/>
                 },
                 {
-                    path:'Back/Activities',
+                    path:'back/activities',
                     element: <ActivityList/>
+                },
+                {
+                  path: 'back/languages',
+                  element:<Language/>
                 },
                 {
                     path :'register',
@@ -81,33 +86,28 @@ function App() {
                     ]
                 },
                 {
-                    path:'Visite',
+                    path:'visit',
                     element: <Visit/>
                 },
                 {
-                    path: 'Back/Utilisateurs',
+                    path: 'back/users',
                     element: <User/>
                 },
                 {
-                    path: 'Back/Vehicules',
+                    path: 'back/vehicles',
                     element: <Vehicle/>
                 },
                 {
-                    path : "Back/Entrepots",
+                    path : "back/warehouses",
                     element: <Warehouse/>
                 },
                 {
-                    path: "Back/Recettes",
+                    path: "back/recipes",
                     element: <Recipe/>
                 }
 
             ]
         },
-        {
-            path :'Activities',
-            element: <Activity></Activity>
-        },
-
     ])
 
     useEffect(() => {

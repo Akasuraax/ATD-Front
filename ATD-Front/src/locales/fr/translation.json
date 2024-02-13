@@ -196,5 +196,13 @@
     "delete": "Supprimer",
     "details": "Détails",
     "addRecipe": "Ajouter une recette"
+  },
+  "language": {
+    "title": "Liste des languages",
+    "addLanguage": "Ajouter une langue",
+    "language": "Langue",
+    "added": "Ajouté le",
+    "delete": "Supprimer",
+    "newFile": "Nouveau fichier"
   }
 }
