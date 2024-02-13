@@ -14,10 +14,10 @@ import BeneficiaryForm from "./page/Register/Forms/beneficiary.jsx";
 import PartnerForm from "./page/Register/Forms/partner.jsx";
 import VolunteerForm from "./page/Register/Forms/volunteer.jsx";
 import TicketTracking from "./page/Ticket/Tracking/TicketTracking.jsx";
-import User from "./page/User/User.jsx";
-import Vehicle from "./page/Vehicle/Vehicle.jsx";
-import Warehouse from "./page/Warehouse/Warehouse.jsx";
-import Recipe from "./page/Recipe/Recipe.jsx";
+import User from "./page/Back/User/User.jsx";
+import Vehicle from "./page/Back/Vehicle/Vehicle.jsx";
+import Warehouse from "./page/Back/Warehouse/Warehouse.jsx";
+import Recipe from "./page/Back/Recipe/Recipe.jsx";
 import ActivityList from "./page/Back/Activity/Activity.jsx";
 
 function App() {
@@ -85,19 +85,19 @@ function App() {
                     element: <Visit/>
                 },
                 {
-                    path: 'Utilisateurs',
+                    path: 'Back/Utilisateurs',
                     element: <User/>
                 },
                 {
-                    path: 'Vehicules',
+                    path: 'Back/Vehicules',
                     element: <Vehicle/>
                 },
                 {
-                    path : "Entrepots",
+                    path : "Back/Entrepots",
                     element: <Warehouse/>
                 },
                 {
-                    path: "Recettes",
+                    path: "Back/Recettes",
                     element: <Recipe/>
                 }
 

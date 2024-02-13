@@ -1,6 +1,6 @@
 import './vehicle.css'
 import {useTranslation} from "react-i18next";
-import List from "../../components/List/List.jsx";
+import List from "../../../components/List/List.jsx";
 
 function Vehicle(){
     const { t } = useTranslation();

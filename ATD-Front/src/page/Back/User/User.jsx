@@ -1,5 +1,5 @@
 import './user.css'
-import List from "../../components/List/List.jsx";
+import List from "../../../components/List/List.jsx";
 import {useTranslation} from "react-i18next";
 
 function User(){

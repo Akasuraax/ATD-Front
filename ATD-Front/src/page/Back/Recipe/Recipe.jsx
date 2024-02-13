@@ -1,6 +1,6 @@
 import './recipe.css'
 import {useTranslation} from "react-i18next";
-import List from "../../components/List/List.jsx";
+import List from "../../../components/List/List.jsx";
 
 function Recipe(){
     const { t } = useTranslation();
