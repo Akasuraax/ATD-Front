@@ -71,18 +71,21 @@ function List({ data, column, actions, add, filter, itemsPerPage = 50}) {
                                className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                placeholder={searchPlaceHolder}/>
                     </div>
+                    <div className="flex-grow"></div>
                     {
                         add && add.length > 0 &&
-                        add.map((action, actionIndex) => (
-                            <button key={actionIndex} onClick={action.onClick}
-                                    className="add-btn bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold ml-2 py-2 px-2.5 rounded">
-                                {Object.values(action.label)}
-                            </button>
-                        ))
+                        <div className="ml-auto mr-2">
+                            {add.map((action, actionIndex) => (
+                                <button key={actionIndex} onClick={action.onClick}
+                                        className="add-btn bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold ml-2 py-2 px-2.5 rounded">
+                                    {Object.values(action.label)}
+                                </button>
+                            ))}
+                        </div>
                     }
                 </div>
 
-                <table className="w-full mt-5 text-sm text-left">
+                <table className="mt-5 text-sm text-left">
                     <thead className="">
                     <tr>
                         {column.map((column, index) => (
@@ -103,7 +106,7 @@ function List({ data, column, actions, add, filter, itemsPerPage = 50}) {
                                     {value}
                                 </td>
                             ))}
-                            <td className="px-6 py-4">
+                            <td className="float-right py-4">
                                 {actions.map((action, actionIndex) => (
                                     <button key={actionIndex} onClick={() => action.onClick(person)}
                                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold mr-2 py-2 px-4 rounded">

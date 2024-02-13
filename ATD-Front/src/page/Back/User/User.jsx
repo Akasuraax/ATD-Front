@@ -32,7 +32,7 @@ function User(){
 
     return(
         <main>
-            <div className="m-auto visit-page">
+            <div className="m-auto">
                 <h2 className="text-center m-12">{title}</h2>
                 <List data={list} column={[{lastName}, {name}, {role}, {isArchived}]} actions={userActions} filter={[{partner}, {beneficiary}, {volunteer}, {waitingValidation}]}/>
             </div>

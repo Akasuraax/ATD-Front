@@ -38,7 +38,7 @@ function App() {
                     element: <Login/>
                 },
                 {
-                    path :'activities',
+                    path :'activity',
                     element: <Activity/>
                 },
                 {

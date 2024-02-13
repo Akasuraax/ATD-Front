@@ -1,0 +1,7 @@
+.min-page{
+    table {
+        max-width: 1000px;
+        width: 100%;
+        table-layout: fixed;
+    }
+}

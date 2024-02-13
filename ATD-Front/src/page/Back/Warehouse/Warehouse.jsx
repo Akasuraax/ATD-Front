@@ -33,7 +33,7 @@ function Warehouse(){
 
     return(
         <main>
-            <div className="m-auto visit-page">
+            <div className="m-auto min-page">
                 <h2 className="text-center m-12">{title}</h2>
                 <List data={list} column={[{name}, {address}, {capacity}]} actions={userActions} add={addAction} filter={[{capacity}]}/>
             </div>

@@ -29,3 +29,8 @@ main {
     display: flex;
     flex: 1 0 auto;
 }
+
+h2{
+    font-size: 30px;
+    color: var(--pink-color);
+}

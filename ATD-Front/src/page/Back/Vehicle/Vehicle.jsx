@@ -34,7 +34,7 @@ function Vehicle(){
 
     return(
         <main>
-            <div className="m-auto visit-page">
+            <div className="m-auto">
                 <h2 className="text-center m-12">{title}</h2>
                 <List data={list} column={[{name}, {registration}, {avgConsumption}, {annex}]} actions={userActions} add={addAction} filter={[{consumptionFilter}]}/>
             </div>
