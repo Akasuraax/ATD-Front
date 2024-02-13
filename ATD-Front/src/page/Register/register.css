@@ -99,26 +99,30 @@
     }
 }
 
+.form-img {
+    width: 500px;
+    img {
+        height: 100% !important;
+        object-fit: cover;
+
+    }
+}
 
 .custom-form{
-    display: flex;
+    display: block;
+    margin:auto;
     height: 100%;
 
     .custom-icon{
         padding-bottom: 10px;
     }
-    .form-img {
-        width: 500px;
-        img {
-            height: 100% !important;
-            object-fit: cover;
-        }
+
+    .form-icon{
+        display: flex;
+        flex:1.5;
+        justify-content: center;
     }
 
-    div:nth-child(2){
-        display: block;
-        margin: auto;
-    }
 
     h1{
         color: var(--pink-color);
