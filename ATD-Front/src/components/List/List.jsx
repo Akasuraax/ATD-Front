@@ -74,7 +74,8 @@ function List({ data, column, actions, add, filter, itemsPerPage = 50}) {
                     <div className="flex-grow"></div>
                     {
                         add && add.length > 0 &&
-                        <div className="ml-auto mr-2">
+                        <div className="ml-auto mr-2 dev
+                        ">
                             {add.map((action, actionIndex) => (
                                 <button key={actionIndex} onClick={action.onClick}
                                         className="add-btn bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold ml-2 py-2 px-2.5 rounded">
