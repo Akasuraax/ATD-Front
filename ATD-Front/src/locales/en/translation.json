@@ -102,7 +102,16 @@
     "courses": "Adult Literacy Classes",
     "tutoring": "Tutoring for Children",
     "event": "Organizing Fundraising Events",
-    "seniors": "Visits and Activities for Seniors"
+    "seniors": "Visits and Activities for Seniors",
+    "back"   : {
+      "title": "Activities list",
+      "name": "Name",
+      "needsVehicle": "Needs a vehicle",
+      "needsWarehouse": "Needs a warehouse",
+      "addActivity": "Add an activity",
+      "delete": "Delete",
+      "details": "Details"
+    }
   },
   "footer": {
     "name": "Au Temps Donné",

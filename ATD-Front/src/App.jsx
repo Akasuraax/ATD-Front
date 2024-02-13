@@ -18,6 +18,7 @@ import User from "./page/User/User.jsx";
 import Vehicle from "./page/Vehicle/Vehicle.jsx";
 import Warehouse from "./page/Warehouse/Warehouse.jsx";
 import Recipe from "./page/Recipe/Recipe.jsx";
+import ActivityList from "./page/Back/Activity/Activity.jsx";
 
 function App() {
 
@@ -38,6 +39,10 @@ function App() {
                 {
                     path :'activity',
                     element: <Activity/>
+                },
+                {
+                    path:'Back/Activities',
+                    element: <ActivityList/>
                 },
                 {
                     path :'register',
@@ -102,7 +107,6 @@ function App() {
             path :'Activities',
             element: <Activity></Activity>
         },
-
 
     ])
 

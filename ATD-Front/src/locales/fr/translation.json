@@ -102,8 +102,17 @@
     "courses"  : "Cours d’alphabétisation pour adultes",
     "tutoring"  : "Soutien scolaire pour enfant",
     "event" : "Organisation d’évènements de récoltes de fonds",
-    "seniors" : "Visites et activités pour personnes âgées."
-    },
+    "seniors" : "Visites et activités pour personnes âgées.",
+    "back"   : {
+      "title": "Liste des activités",
+      "name": "Nom",
+      "needsVehicle": "Nécéssite un véhicule",
+      "needsWarehouse": "Nécéssite l'entrepôt",
+      "addActivity": "Ajouter une activité",
+      "delete": "Supprimer",
+      "details": "Détails"
+    }
+  },
   "footer" : {
     "name" : "Au Temps Donné",
     "signal" : "Signaler un problème",
