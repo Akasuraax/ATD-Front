@@ -2,12 +2,20 @@ import beneficiaryImg from "../../../../files/image/beneficiaire.png";
 import beneficiaryIcon from "../../../../files/image/beneficiaire-icone.png";
 import "../register.css";
 import {useTranslation} from "react-i18next";
-import InputPwd from "../../../components/inputPwd/inputPwd.jsx";
-import { Beneficiary } from "../../../interfaces/user.ts"
+import {Beneficiary} from "../../../interfaces/user.ts"
+import {useState} from "react";
+import InputField from "../../../components/input/inputField.jsx";
+import SelectField from "../../../components/input/SelectField.jsx";
 
 function BeneficiaryForm() {
 
-    const { t } = useTranslation();
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleCheckboxChange = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const {t} = useTranslation();
 
     const register = t("register.beneficiary.register")
     const name = t("register.beneficiary.name")
@@ -24,6 +32,7 @@ function BeneficiaryForm() {
     const pwd = t("register.beneficiary.pwd")
     const confirmPwd = t("register.beneficiary.confirmPwd")
     const registerBtn = t("register.beneficiary.registerBtn")
+    const showPwd = t("login.showPwd");
 
 
     const handleSubmit = (e) => {
@@ -36,7 +45,6 @@ function BeneficiaryForm() {
             form.elements["confirmPwd"].value = '';
             return;
         }
-
 
 
         const lastName = form.elements["lastName"].value;
@@ -68,74 +76,82 @@ function BeneficiaryForm() {
                             <div className="mb-5 pt-3">
                                 <div className="-mx-5 flex flex-wrap">
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="lastName">{lastName}</label>
-                                            <input required type="text" name="lastName" id="lastName"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
+                                        <InputField
+                                            label={lastName}
+                                            type="text"
+                                            name="lastName"
+                                            id="lastName"
+                                        />
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="name">{name}</label>
-                                            <input required type="text" name="name" id="name"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
+                                        <InputField
+                                            label={name}
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                        />
                                     </div>
+                                </div>
+                            </div>
+                            <div className="mb-5 pt-3">
+                                <div className="-mx-5 flex flex-wrap">
+                                    <div className="w-full px-3 sm:w-1/2">
+                                        <InputField
+                                            label={birthDate}
+                                            type="date"
+                                            name="birthDate"
+                                            id="birthDate"
+                                        />
+                                    </div>
+                                    <div className="w-full px-3 sm:w-1/2">
+                                        <SelectField
+                                            label={gender}
+                                            id="gender"
+                                            options={[
+                                                {value: 'male', label: male},
+                                                {value: 'female', label: female},
+                                                {value: 'unspecified', label: unspecified},
+                                            ]}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mb-5 pt-3">
+                                <div className="-mx-5 flex flex-wrap">
+                                    <div className="w-full px-3 sm:w-1/2">
+                                        <InputField
+                                            label={email}
+                                            type="text"
+                                            name="email"
+                                            id="email"
+                                        />
+                                    </div>
+                                    <div className="w-full px-3 sm:w-1/2">
+                                        <InputField
+                                            label={phone}
+                                            type="tel"
+                                            name="phone"
+                                            id="phone"
+                                            pattern="[0-9]{10}"
+                                            placeHorlder="0610101010"
+                                        />
+                                    </div>
+
                                 </div>
                             </div>
 
                             <div className="mb-5 pt-3">
                                 <div className="-mx-5 flex flex-wrap">
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="birthDate">{birthDate}</label>
-                                            <input type="date" name="birthDate" id="birthDate"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
-                                    </div>
-                                    <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label htmlFor="gender">{gender}</label>
-                                            <select required name="gender" id="gender"
-                                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md">
-                                                <option value="male">{male}</option>
-                                                <option value="female">{female}</option>
-                                                <option value="unspecified">{unspecified}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div className="mb-5 pt-3">
-                                <div className="-mx-5 flex flex-wrap">
-                                    <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="email">{email}</label>
-                                            <input required type="email" name="email" id="email"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
-                                    </div>
-                                    <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="phone">{phone}</label>
-                                            <input required type="tel" name="phone" id="phone" pattern="[0-9]{10}"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div className="mb-5 pt-3">
-                                <div className="-mx-5 flex flex-wrap">
-                                    <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="zipcode">{zipcode}</label>
-                                            <input required type="text" name="zipcode" id="zipcode" pattern="[0-9]{5}"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
+                                        <InputField
+                                            label={zipcode}
+                                            type="text"
+                                            name="zipcode"
+                                            id="zipcode"
+                                            pattern="[0-9]{5}"
+                                            placeHorlder="75001 "
+                                        />
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
                                         <div className="mb-5">
@@ -149,22 +165,34 @@ function BeneficiaryForm() {
                             <div className="mb-5 pt-3">
                                 <div className="-mx-5 flex flex-wrap">
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="pwd">{pwd}</label>
-                                            <input required type="password" name="pwd" id="pwd"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
+                                        <InputField
+                                            label={pwd}
+                                            type={showPassword ? 'text' : 'password'}
+                                            name="pwd"
+                                            id="pwd"
+                                            minLength="8"
+                                        />
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="confirmPwd">{confirmPwd}</label>
-                                            <input required type="password" name="confirmPwd" id="confirmPwd"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
+                                        <InputField
+                                            label={confirmPwd}
+                                            type={showPassword ? 'text' : 'password'}
+                                            name="confirmPwd"
+                                            id="confirmPwd"
+                                            minLength="8"
+                                        />
                                     </div>
                                 </div>
                             </div>
                             <div>
+                                <div className="flex items-start mb-5">
+                                    <div className="flex items-center h-5">
+                                        <input id="seePwd" type="checkbox" onChange={handleCheckboxChange}
+                                               className="checkbox w-4 h-4 border border-gray-300 rounded bg-gray-50"/>
+                                    </div>
+                                    <label form="remember"
+                                           className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{showPwd}</label>
+                                </div>
                                 <button
                                     className="rounded-md py-3 px-4 text-center text-base text-white outline-none">
                                     {registerBtn}

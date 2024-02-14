@@ -15,7 +15,6 @@ function InputPwd(){
             <div className="flex items-center h-5">
                 <input id="seePwd" type="checkbox" onClick={seePwd}
                        className="checkbox w-4 h-4 border border-gray-300 rounded bg-gray-50"/>
-
             </div>
             <label form="remember"
                    className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{showPwd}</label>

@@ -125,7 +125,6 @@ function PartnerForm() {
                                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
 
