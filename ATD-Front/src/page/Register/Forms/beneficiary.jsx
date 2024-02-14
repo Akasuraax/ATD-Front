@@ -2,6 +2,9 @@ import beneficiaryImg from "../../../../files/image/beneficiaire.png";
 import beneficiaryIcon from "../../../../files/image/beneficiaire-icone.png";
 import "../register.css";
 import {useTranslation} from "react-i18next";
+import InputPwd from "../../../components/inputPwd/inputPwd.jsx";
+import { Beneficiary } from "../../../interfaces/user.ts"
+
 function BeneficiaryForm() {
 
     const { t } = useTranslation();
@@ -23,6 +26,34 @@ function BeneficiaryForm() {
     const registerBtn = t("register.beneficiary.registerBtn")
 
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const form = e.target;
+
+        if (form.elements["pwd"].value !== form.elements["confirmPwd"].value) {
+            // Passwords do not match, handle accordingly (display an error message, etc.)
+            form.elements["pwd"].value = '';
+            form.elements["confirmPwd"].value = '';
+            return;
+        }
+
+
+
+        const lastName = form.elements["lastName"].value;
+        const name = form.elements["name"].value;
+        const birthDate = form.elements["birthDate"].value;
+        const gender = form.elements["gender"].value;
+        const email = form.elements["email"].value;
+        const phone = form.elements["phone"].value;
+        const zipcode = form.elements["zipcode"].value;
+        const address = form.elements["address"].value;
+        const pwd = form.elements["pwd"].value;
+
+        const beneficiary = new Beneficiary(name, lastName, phone, address, zipcode, pwd, email, new Date(birthDate), gender);
+        console.log(beneficiary);
+    }
+
+
     return (
         <main>
             <div className="form-img">
@@ -33,21 +64,20 @@ function BeneficiaryForm() {
                     <div className="d-block m-auto mx-auto w-full max-w-[650px] bg-white">
                         <img src={beneficiaryIcon} className="custom-icon d-block m-auto" width={64}/>
                         <h1 className="mb-5 block text-center pb-5 text-base sm:text-xl">{register}</h1>
-
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div className="mb-5 pt-3">
                                 <div className="-mx-5 flex flex-wrap">
                                     <div className="w-full px-3 sm:w-1/2">
                                         <div className="mb-5">
                                             <label form="lastName">{lastName}</label>
-                                            <input type="text" name="lastName" id="lastName"
+                                            <input required type="text" name="lastName" id="lastName"
                                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
                                         </div>
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
                                         <div className="mb-5">
                                             <label form="name">{name}</label>
-                                            <input type="text" name="name" id="name"
+                                            <input required type="text" name="name" id="name"
                                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
                                         </div>
                                     </div>
@@ -66,7 +96,7 @@ function BeneficiaryForm() {
                                     <div className="w-full px-3 sm:w-1/2">
                                         <div className="mb-5">
                                             <label htmlFor="gender">{gender}</label>
-                                            <select name="gender" id="gender"
+                                            <select required name="gender" id="gender"
                                                     className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md">
                                                 <option value="male">{male}</option>
                                                 <option value="female">{female}</option>
@@ -83,14 +113,14 @@ function BeneficiaryForm() {
                                     <div className="w-full px-3 sm:w-1/2">
                                         <div className="mb-5">
                                             <label form="email">{email}</label>
-                                            <input type="text" name="email" id="email"
+                                            <input required type="email" name="email" id="email"
                                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
                                         </div>
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
                                         <div className="mb-5">
                                             <label form="phone">{phone}</label>
-                                            <input type="text" name="phone" id="phone"
+                                            <input required type="tel" name="phone" id="phone" pattern="[0-9]{10}"
                                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
                                         </div>
                                     </div>
@@ -103,40 +133,37 @@ function BeneficiaryForm() {
                                     <div className="w-full px-3 sm:w-1/2">
                                         <div className="mb-5">
                                             <label form="zipcode">{zipcode}</label>
-                                            <input type="text" name="zipcode" id="zipcode"
+                                            <input required type="text" name="zipcode" id="zipcode" pattern="[0-9]{5}"
                                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
                                         </div>
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
                                         <div className="mb-5">
                                             <label form="address">{address}</label>
-                                            <input type="text" name="address" id="address"
+                                            <input required type="text" name="address" id="address"
                                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <div className="mb-5 pt-3">
                                 <div className="-mx-5 flex flex-wrap">
                                     <div className="w-full px-3 sm:w-1/2">
                                         <div className="mb-5">
                                             <label form="pwd">{pwd}</label>
-                                            <input type="password" name="pwd" id="pwd"
+                                            <input required type="password" name="pwd" id="pwd"
                                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
                                         </div>
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
                                         <div className="mb-5">
                                             <label form="confirmPwd">{confirmPwd}</label>
-                                            <input type="text" name="confirmPwd" id="confirmPwd"
+                                            <input required type="password" name="confirmPwd" id="confirmPwd"
                                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-
                             <div>
                                 <button
                                     className="rounded-md py-3 px-4 text-center text-base text-white outline-none">
