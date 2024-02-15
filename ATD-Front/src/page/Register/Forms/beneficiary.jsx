@@ -30,14 +30,6 @@ function BeneficiaryForm() {
         e.preventDefault();
         const form = e.target;
 
-        if (form.elements["pwd"].value !== form.elements["confirmPwd"].value) {
-            // Passwords do not match, handle accordingly (display an error message, etc.)
-            form.elements["pwd"].value = '';
-            form.elements["confirmPwd"].value = '';
-            return;
-        }
-
-
         const lastName = form.elements["lastName"].value;
         const name = form.elements["name"].value;
         const birthDate = form.elements["birthDate"].value;
