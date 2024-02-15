@@ -2,6 +2,8 @@ import partnerImg from "../../../../files/image/partenaire.jpeg";
 import partnerIcon from "../../../../files/image/partenaire-icone.png";
 import "../register.css";
 import {useTranslation} from "react-i18next";
+import ValidPwd from "../../../components/input/ValidPwd.jsx";
+import InputField from "../../../components/input/inputField.jsx";
 function PartnerForm() {
 
     const { t } = useTranslation();
@@ -16,9 +18,14 @@ function PartnerForm() {
     const zipcode = t("register.partner.zipcode")
     const address = t("register.partner.address")
     const phone = t("register.partner.phone")
-    const pwd = t("register.partner.pwd")
-    const confirmPwd = t("register.partner.confirmPwd")
     const registerBtn = t("register.partner.registerBtn")
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        console.log(e)
+    }
 
     return (
         <main>
@@ -31,22 +38,24 @@ function PartnerForm() {
                         <img src={partnerIcon} className="custom-icon d-block m-auto" width={64}/>
                         <h1 className="mb-5 block text-center pb-5 text-base sm:text-xl">{register}</h1>
 
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div className="mb-5 pt-3">
                                 <div className="-mx-5 flex flex-wrap">
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="lastName">{lastName}</label>
-                                            <input type="text" name="lastName" id="lastName"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
+                                        <InputField
+                                            label={lastName}
+                                            type="text"
+                                            name="lastName"
+                                            id="lastName"
+                                        />
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="name">{name}</label>
-                                            <input type="text" name="name" id="name"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
+                                        <InputField
+                                            label={name}
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -54,80 +63,65 @@ function PartnerForm() {
                             <div className="mb-5 pt-3">
                                 <div className="-mx-5 flex flex-wrap">
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="companyName">{companyName}</label>
-                                            <input type="text" name="companyName" id="companyName"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
+                                        <InputField
+                                            label={companyName}
+                                            type="text"
+                                            name="companyName"
+                                            id="companyName"
+                                        />
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="siret">{siret}</label>
-                                            <input type="text" name="siret" id="siret"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
+                                        <InputField
+                                            label={siret}
+                                            type="text"
+                                            name="siret"
+                                            id="siret"
+                                        />
                                     </div>
                                 </div>
                             </div>
-
                             <div className="mb-5 pt-3">
                                 <div className="-mx-5 flex flex-wrap">
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="email">{email}</label>
-                                            <input type="text" name="email" id="email"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
+                                        <InputField
+                                            label={email}
+                                            type="email"
+                                            name="email"
+                                            id="email"
+                                        />
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="phone">{phone}</label>
-                                            <input type="text" name="phone" id="phone"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
+                                        <InputField
+                                            label={phone}
+                                            type="text"
+                                            name="phone"
+                                            id="phone"
+                                        />
                                     </div>
 
                                 </div>
                             </div>
-
                             <div className="mb-5 pt-3">
                                 <div className="-mx-5 flex flex-wrap">
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="zipcode">{zipcode}</label>
-                                            <input type="text" name="zipcode" id="zipcode"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
+                                        <InputField
+                                            label={zipcode}
+                                            type="text"
+                                            name="zipcode"
+                                            id="zipcode"
+                                        />
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="address">{address}</label>
-                                            <input type="text" name="address" id="address"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
+                                        <InputField
+                                            label={address}
+                                            type="text"
+                                            name="address"
+                                            id="address"
+                                        />
                                     </div>
                                 </div>
                             </div>
-
-                            <div className="mb-5 pt-3">
-                                <div className="-mx-5 flex flex-wrap">
-                                    <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="pwd">{pwd}</label>
-                                            <input type="password" name="pwd" id="pwd"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
-                                    </div>
-                                    <div className="w-full px-3 sm:w-1/2">
-                                        <div className="mb-5">
-                                            <label form="confirmPwd">{confirmPwd}</label>
-                                            <input type="text" name="confirmPwd" id="confirmPwd"
-                                                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                            <ValidPwd/>
                             <div>
                                 <button
                                     className="rounded-md py-3 px-4 text-center text-base text-white outline-none">

@@ -3,17 +3,11 @@ import beneficiaryIcon from "../../../../files/image/beneficiaire-icone.png";
 import "../register.css";
 import {useTranslation} from "react-i18next";
 import {Beneficiary} from "../../../interfaces/user.ts"
-import {useState} from "react";
 import InputField from "../../../components/input/inputField.jsx";
 import SelectField from "../../../components/input/SelectField.jsx";
+import ValidPwd from "../../../components/input/ValidPwd.jsx";
 
 function BeneficiaryForm() {
-
-    const [showPassword, setShowPassword] = useState(false);
-
-    const handleCheckboxChange = () => {
-        setShowPassword(!showPassword);
-    };
 
     const {t} = useTranslation();
 
@@ -29,10 +23,7 @@ function BeneficiaryForm() {
     const zipcode = t("register.beneficiary.zipcode")
     const address = t("register.beneficiary.address")
     const phone = t("register.beneficiary.phone")
-    const pwd = t("register.beneficiary.pwd")
-    const confirmPwd = t("register.beneficiary.confirmPwd")
     const registerBtn = t("register.beneficiary.registerBtn")
-    const showPwd = t("login.showPwd");
 
 
     const handleSubmit = (e) => {
@@ -137,10 +128,8 @@ function BeneficiaryForm() {
                                             placeHorlder="0610101010"
                                         />
                                     </div>
-
                                 </div>
                             </div>
-
                             <div className="mb-5 pt-3">
                                 <div className="-mx-5 flex flex-wrap">
                                     <div className="w-full px-3 sm:w-1/2">
@@ -162,37 +151,8 @@ function BeneficiaryForm() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="mb-5 pt-3">
-                                <div className="-mx-5 flex flex-wrap">
-                                    <div className="w-full px-3 sm:w-1/2">
-                                        <InputField
-                                            label={pwd}
-                                            type={showPassword ? 'text' : 'password'}
-                                            name="pwd"
-                                            id="pwd"
-                                            minLength="8"
-                                        />
-                                    </div>
-                                    <div className="w-full px-3 sm:w-1/2">
-                                        <InputField
-                                            label={confirmPwd}
-                                            type={showPassword ? 'text' : 'password'}
-                                            name="confirmPwd"
-                                            id="confirmPwd"
-                                            minLength="8"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+                            <ValidPwd/>
                             <div>
-                                <div className="flex items-start mb-5">
-                                    <div className="flex items-center h-5">
-                                        <input id="seePwd" type="checkbox" onChange={handleCheckboxChange}
-                                               className="checkbox w-4 h-4 border border-gray-300 rounded bg-gray-50"/>
-                                    </div>
-                                    <label form="remember"
-                                           className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{showPwd}</label>
-                                </div>
                                 <button
                                     className="rounded-md py-3 px-4 text-center text-base text-white outline-none">
                                     {registerBtn}

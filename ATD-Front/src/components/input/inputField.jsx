@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 
-const InputField = ({ label, type, name, id, pattern, minLength, placeHorlder, onChange }) => (
+const InputField = ({ label, type, name, id, pattern, minLength, placeHorlder, className, value, onChange }) => (
     <div className="mb-5">
         <label htmlFor={id}>{label}</label>
         <input
@@ -14,7 +14,8 @@ const InputField = ({ label, type, name, id, pattern, minLength, placeHorlder, o
             onChange={onChange}
             minLength={minLength}
             placeholder={placeHorlder}
-            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md"
+            value={value}
+            className={`w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md ${className}`}
         />
     </div>
 );
@@ -27,6 +28,8 @@ InputField.propTypes = {
     pattern: PropTypes.string,
     minLength: PropTypes.string,
     placeHorlder: PropTypes.string,
+    className: PropTypes.string,
+    value:PropTypes.string,
     onChange: PropTypes.func,
 };
 export default InputField;
