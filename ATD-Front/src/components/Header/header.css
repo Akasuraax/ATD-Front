@@ -19,3 +19,7 @@
 .header {
     background-color: var(--light-gray-color);
 }
+
+.logo {
+    width: 48px;
+}

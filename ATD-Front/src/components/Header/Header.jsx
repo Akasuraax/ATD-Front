@@ -4,6 +4,7 @@ import './header.css'
 import {NavLink, useLocation} from "react-router-dom";
 import { useTranslation } from 'react-i18next'
 import LanguageSelector from "../LanguageSelector.jsx";
+import Logo from "../../../files/image/logo.png"
 
 function Header() {
 
@@ -40,8 +41,7 @@ function Header() {
         <nav className="bg-white border-gray-200 dark:bg-gray-900">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <NavLink to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-                    <span
-                        className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Au Temps Donné</span>
+                        <img className={"logo"} src={Logo} alt="logo"></img>
                     </NavLink>
                     <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                         {location.pathname !== '/Login' ? (
