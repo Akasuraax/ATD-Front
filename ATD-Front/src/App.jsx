@@ -41,14 +41,7 @@ function App() {
                     path :'activity',
                     element: <Activity/>
                 },
-                {
-                    path:'back/activities',
-                    element: <ActivityList/>
-                },
-                {
-                  path: 'back/languages',
-                  element:<Language/>
-                },
+
                 {
                     path :'register',
                     element: <Outlet/>,
@@ -90,22 +83,39 @@ function App() {
                     element: <Visit/>
                 },
                 {
-                    path: 'back/users',
-                    element: <User/>
-                },
-                {
-                    path: 'back/vehicles',
-                    element: <Vehicle/>
-                },
-                {
-                    path : "back/warehouses",
-                    element: <Warehouse/>
-                },
-                {
-                    path: "back/recipes",
-                    element: <Recipe/>
+                    path: 'back',
+                    element: <Outlet/>,
+                    children : [
+                    {
+                        path: '',
+                        element: <User/>
+                    },
+                    {
+                        path: 'users',
+                        element: <User/>
+                    },
+                    {
+                        path: 'vehicles',
+                        element: <Vehicle/>
+                    },
+                    {
+                        path : "warehouses",
+                        element: <Warehouse/>
+                    },
+                    {
+                        path: "recipes",
+                        element: <Recipe/>
+                    },
+                    {
+                        path:'activities',
+                        element: <ActivityList/>
+                    },
+                    {
+                        path: 'languages',
+                        element:<Language/>
+                    },
+                ]
                 }
-
             ]
         },
     ])
