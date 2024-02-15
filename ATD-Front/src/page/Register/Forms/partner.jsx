@@ -96,6 +96,8 @@ function PartnerForm() {
                                             type="text"
                                             name="phone"
                                             id="phone"
+                                            pattern="[0-9]{10}"
+                                            placeHorlder="0610101010"
                                         />
                                     </div>
 
@@ -109,6 +111,8 @@ function PartnerForm() {
                                             type="text"
                                             name="zipcode"
                                             id="zipcode"
+                                            pattern="[0-9]{5}"
+                                            placeHorlder="75001 "
                                         />
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
