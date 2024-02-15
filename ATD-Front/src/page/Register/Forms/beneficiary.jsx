@@ -120,6 +120,7 @@ function BeneficiaryForm() {
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
                                         <InputField
+                                            required={false}
                                             label={phone}
                                             type="tel"
                                             name="phone"

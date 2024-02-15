@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 
 
-const InputField = ({ label, type, name, id, pattern, minLength, placeHorlder, className, value, onChange }) => (
+const InputField = ({ label, type, name, id, pattern, minLength, placeHorlder, className, required = true, value, onChange }) => (
     <div className="mb-5">
         <label htmlFor={id}>{label}</label>
         <input
-            required
+            required={required}
             type={type}
             name={name}
             id={id}
@@ -29,6 +29,7 @@ InputField.propTypes = {
     minLength: PropTypes.string,
     placeHorlder: PropTypes.string,
     className: PropTypes.string,
+    required: PropTypes.bool,
     value:PropTypes.string,
     onChange: PropTypes.func,
 };
