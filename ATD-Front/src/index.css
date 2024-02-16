@@ -34,3 +34,17 @@ h2{
     font-size: 30px;
     color: var(--pink-color);
 }
+
+input, textarea, select{
+    &:focus{
+        border-color: var(--pink-color);
+        --tw-ring-color: var(--pink-color);
+        --tw-ring-offset-shadow: rgba(248, 88, 102, 0.5);
+    }
+}
+
+button:focus {
+    --tw-ring-offset-shadow: none !important;
+    --tw-ring-shadow: none !important;
+    box-shadow: none !important;
+}

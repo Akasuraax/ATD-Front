@@ -106,13 +106,23 @@
     "event" : "Organisation d’évènements de récoltes de fonds",
     "seniors" : "Visites et activités pour personnes âgées.",
     "back"   : {
-      "title": "Liste des activités",
+      "title": "Liste des types activités",
       "name": "Nom",
       "needsVehicle": "Nécéssite un véhicule",
       "needsWarehouse": "Nécéssite l'entrepôt",
       "addActivity": "Ajouter une activité",
       "delete": "Supprimer",
       "details": "Détails"
+    },
+    "add": {
+      "title": "Ajouter un type d'activité",
+      "name": "Nom",
+      "nameText": "Nom de l'activité...",
+      "description": "Description",
+      "needsVehicle": "Nécéssite un véhicule",
+      "needsWarehouse": "Nécéssite l'entrepôt",
+      "addBtn": "Ajouter",
+      "descriptionText": "Décrivez l'activité..."
     }
   },
   "footer" : {

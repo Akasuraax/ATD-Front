@@ -1,6 +1,7 @@
 import './activity.css'
 import {useTranslation} from "react-i18next";
 import List from "../../../components/List/List.jsx";
+import {useNavigate} from "react-router-dom";
 
 function ActivityList(){
     const { t } = useTranslation();
@@ -23,10 +24,16 @@ function ActivityList(){
         { label: {details}, onClick: (item) => console.log('J\'accepte', item) },
     ];
 
+    const navigate = useNavigate();
+
+    const add = () => {
+        navigate('add');
+    };
+
     const addAction = [
         {
             label: {addActivity},
-            onClick: (item) => console.log('J\'accepte', item)
+            onClick: () => add()
         }
     ];
 

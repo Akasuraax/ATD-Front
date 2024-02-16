@@ -20,6 +20,7 @@ import Warehouse from "./page/Back/Warehouse/Warehouse.jsx";
 import Recipe from "./page/Back/Recipe/Recipe.jsx";
 import ActivityList from "./page/Back/Activity/Activity.jsx";
 import Language from "./page/Back/Language/Language.jsx";
+import AddForm from "./page/Back/Activity/addForm/AddForm.jsx";
 
 function App() {
 
@@ -108,7 +109,17 @@ function App() {
                     },
                     {
                         path:'activities',
-                        element: <ActivityList/>
+                        element: <Outlet/>,
+                        children: [
+                            {
+                                path: '',
+                                element: <ActivityList/>
+                            },
+                            {
+                                path: 'add',
+                                element: <AddForm/>
+                            }
+                        ]
                     },
                     {
                         path: 'languages',

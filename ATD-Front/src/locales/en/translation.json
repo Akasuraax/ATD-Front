@@ -106,13 +106,23 @@
     "event": "Organizing Fundraising Events",
     "seniors": "Visits and Activities for Seniors",
     "back"   : {
-      "title": "Activities list",
+      "title": "Activities types list",
       "name": "Name",
       "needsVehicle": "Needs a vehicle",
       "needsWarehouse": "Needs a warehouse",
       "addActivity": "Add an activity",
       "delete": "Delete",
       "details": "Details"
+    },
+    "add": {
+      "title": "Add a type of activity",
+      "name": "Name",
+      "nameText": "Activity name...",
+      "description": "Description",
+      "needsVehicle": "Needs a vehicle",
+      "needsWarehouse": "Needs a warehouse",
+      "addBtn": "Add",
+      "descriptionText": "Describe the activity..."
     }
   },
   "footer": {
