@@ -92,7 +92,9 @@
     "placeHolderSubject" : "Décrivez le sujet du problème",
     "message" : "Votre message",
     "placeHolderMsg" : "Formulez votre problème...",
-    "submitBtn" : "Envoyer le message"
+    "submitBtn" : "Envoyer le message",
+    "success": "Ticket créé",
+    "successMessage": "Le ticket a été créé avec succès"
   },
   "activity" : {
     "titleActivity" : "Nos activités",
