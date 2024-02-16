@@ -12,3 +12,16 @@ export const postTicket = async (ticketData) => {
     console.log(response)
     return response;
 };
+
+export const postType = async (typeData) => {
+    try {
+        return await axios.post(`${API_BASE_URL}/type`, typeData, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    } catch (error) {
+        console.error('Error during POST request:', error);
+        throw error;
+    }
+}

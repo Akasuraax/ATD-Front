@@ -30,6 +30,10 @@ main {
     flex: 1 0 auto;
 }
 
+.with-msg{
+    flex-direction: column;
+}
+
 h2{
     font-size: 30px;
     color: var(--pink-color);
@@ -47,4 +51,18 @@ button:focus {
     --tw-ring-offset-shadow: none !important;
     --tw-ring-shadow: none !important;
     box-shadow: none !important;
+}
+
+.checkbox{
+    color: var(--pink-color) !important;
+
+    &:hover{
+        color: var(--hover-pink-color) !important;
+    }
+}
+
+.success{
+    width: 40vw;
+    margin-left: auto;
+    margin-right: auto;
 }

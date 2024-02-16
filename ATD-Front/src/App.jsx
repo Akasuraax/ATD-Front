@@ -20,7 +20,7 @@ import Warehouse from "./page/Back/Warehouse/Warehouse.jsx";
 import Recipe from "./page/Back/Recipe/Recipe.jsx";
 import ActivityList from "./page/Back/Activity/Activity.jsx";
 import Language from "./page/Back/Language/Language.jsx";
-import AddForm from "./page/Back/Activity/addForm/AddForm.jsx";
+import AddType from "./page/Back/Activity/addForm/AddType.jsx";
 
 function App() {
 
@@ -117,7 +117,7 @@ function App() {
                             },
                             {
                                 path: 'add',
-                                element: <AddForm/>
+                                element: <AddType/>
                             }
                         ]
                     },

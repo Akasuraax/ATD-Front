@@ -122,7 +122,9 @@
       "needsVehicle": "Nécéssite un véhicule",
       "needsWarehouse": "Nécéssite l'entrepôt",
       "addBtn": "Ajouter",
-      "descriptionText": "Décrivez l'activité..."
+      "descriptionText": "Décrivez l'activité...",
+      "successMessage": "Le type d'activité a bien été ajouté !",
+      "success" : "Succès ! "
     }
   },
   "footer" : {

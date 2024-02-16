@@ -14,14 +14,6 @@ input:focus{
     --tw-ring-color: var(--pink-color) !important;
     --tw-ring-shadow: rgba(248, 88, 102, 0.54) !important;
 }
-
-.checkbox{
-    color: var(--pink-color) !important;
-
-    &:hover{
-        color: var(--hover-pink-color) !important;
-    }
-}
 .connect-title {
     color: var(--pink-color);
     font-size: 36px;

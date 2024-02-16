@@ -122,7 +122,9 @@
       "needsVehicle": "Needs a vehicle",
       "needsWarehouse": "Needs a warehouse",
       "addBtn": "Add",
-      "descriptionText": "Describe the activity..."
+      "descriptionText": "Describe the activity...",
+      "successMessage": "The activity type has been created !",
+      "success" : "Success ! "
     }
   },
   "footer": {

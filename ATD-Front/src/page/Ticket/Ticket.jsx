@@ -71,7 +71,7 @@ function TicketPage(){
                         </div>
                     </div>
                 )}
-                <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-lg">
+                <div className="pt-3 pb-16 px-4 mx-auto">
                     <h2 className="mb-12 text-4xl tracking-tight text-center text-gray-900 dark:text-white">{reportProblem}</h2>
                     <form onSubmit={handleSubmit} className="space-y-8">
                         <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 ">
