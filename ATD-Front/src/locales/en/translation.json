@@ -93,8 +93,8 @@
     "message": "Your message",
     "placeHolderMsg": "Formulate your problem...",
     "submitBtn": "Send message",
-    "success": "Ticket created",
-    "successMessage": "The ticket has been created successfully"
+    "successMessage": "The ticket has been created successfully",
+    "failureMessage": "An error occurred while creating the ticket"
   },
   "activity": {
     "titleActivity": "Our Activities",
@@ -217,5 +217,11 @@
     "added": "Added the",
     "delete": "Delete",
     "newFile": "New file"
+  },
+
+
+  "generic": {
+    "success": "Success !",
+    "failure": "Failure !"
   }
 }

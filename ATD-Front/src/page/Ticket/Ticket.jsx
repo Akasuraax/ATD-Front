@@ -4,12 +4,15 @@ import {Ticket} from "../../interfaces/ticket.ts"
 import {postTicket} from "../../apiService/apiService.js";
 import {useState} from "react";
 import {Alert} from "flowbite-react";
+'use client';
 
 
 
 function TicketPage(){
 
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [showFailureAlert, setShowFailureAlert] = useState(false);
+
 
     const { t } = useTranslation();
 
@@ -21,8 +24,10 @@ function TicketPage(){
     const message = t("ticket.message");
     const placeHolderMsg = t("ticket.placeHolderMsg");
     const submitBtn = t("ticket.submitBtn");
-    const success = t("ticket.success");
+    const success = t("generic.success");
     const successMessage = t("ticket.successMessage");
+    const failure = t("generic.failure");
+    const failureMessage = t("ticket.failureMessage");
     const listIssue = ["1", "2", "3"];
 
 
@@ -48,29 +53,27 @@ function TicketPage(){
                 }, 3000);
             }
         } catch (error) {
-            console.error('Erreur lors de la requête API:', error);
+            setShowFailureAlert(true);
+            setTimeout(() => {
+                setShowFailureAlert(false);
+            }, 3000);
         }
 
     }
 
     return (
-        <main>
+        <main className="with-msg">
+            {showSuccessAlert && (
+                <Alert color="success" onDismiss={() => setShowSuccessAlert(false)}>
+                    <span className="font-medium">{success}</span> {successMessage}
+                </Alert>
+            )}
+            {showFailureAlert && (
+                <Alert color="failure" onDismiss={() => setShowFailureAlert(false)}>
+                    <span className="font-medium">{failure}</span> {failureMessage}
+                </Alert>
+            )}
             <section className="report-form m-auto bg-white dark:bg-gray-900">
-                {showSuccessAlert && (
-                    <div
-                        className="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-                        role="alert">
-                        <svg className="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true"
-                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path
-                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                        </svg>
-                        <span className="sr-only">Info</span>
-                        <div>
-                            <span className="font-medium">{success}</span> {successMessage}
-                        </div>
-                    </div>
-                )}
                 <div className="pt-3 pb-16 px-4 mx-auto">
                     <h2 className="mb-12 text-4xl tracking-tight text-center text-gray-900 dark:text-white">{reportProblem}</h2>
                     <form onSubmit={handleSubmit} className="space-y-8">

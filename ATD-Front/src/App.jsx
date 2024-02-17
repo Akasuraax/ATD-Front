@@ -21,6 +21,8 @@ import Recipe from "./page/Back/Recipe/Recipe.jsx";
 import ActivityList from "./page/Back/Activity/Activity.jsx";
 import Language from "./page/Back/Language/Language.jsx";
 import AddType from "./page/Back/Activity/addForm/AddType.jsx";
+import 'flowbite/dist/flowbite.min.css';
+
 
 function App() {
 
