@@ -4,7 +4,7 @@ import Header from './components/Header/Header.jsx'
 import Home from './page/Home/Home.jsx';
 import Activity from "./page/Activity.jsx";
 import Footer from './components/Footer/Footer.jsx'
-import TicketPage from "./page/Ticket/Ticket.jsx";
+import TicketPage from "./page/Ticket/Ticket.tsx";
 import Error from "./page/error/error.jsx";
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.jsx";

@@ -1,7 +1,7 @@
 import './addForm.css'
 import {useTranslation} from "react-i18next";
 import {useState} from "react";
-import {postType} from "../../../../apiService/apiService.js";
+//import {postType} from "../../../../apiService/apiService.js";
 import {Activity} from "../../../../interfaces/activity.ts";
 
 function AddType(){

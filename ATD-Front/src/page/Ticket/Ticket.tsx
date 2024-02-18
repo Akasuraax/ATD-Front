@@ -1,9 +1,13 @@
+
 import './ticket.css'
 import {useTranslation} from "react-i18next";
-import {Ticket} from "../../interfaces/ticket.ts"
-import {postTicket} from "../../apiService/apiService.js";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import { ITicket } from '../../interfaces/ticket.ts'
+import {postTicket} from "../../apiService/ticketsApi.js";
 import {useState} from "react";
-import {Alert} from "flowbite-react";
+import {useToast} from "../../components/Toast/ToastContex";
+import * as React from "react";
 'use client';
 
 
@@ -12,6 +16,7 @@ function TicketPage(){
 
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [showFailureAlert, setShowFailureAlert] = useState(false);
+    const { pushToast } = useToast();
 
 
     const { t } = useTranslation();
@@ -35,16 +40,17 @@ function TicketPage(){
     const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
-       const title = form.elements['subject'].value;
-       const message = form.elements['message'].value;
-       const type = form.elements['problemType'].value;
 
-       const ticket = new Ticket(title,message,type)
+        const ticket: ITicket = {
+            title:form.elements['subject'].value,
+            description:form.elements['message'].value,
+            type:Number(form.elements['problemType'].value)
+        };
 
         const req = {ticket, userId:1}
-
         try {
-            const response = await postTicket(req);
+            const response = await postTicket(req,pushToast);
+            console.log(response)
             if (response.status === 201) {
                 setShowSuccessAlert(true);
 
@@ -58,21 +64,10 @@ function TicketPage(){
                 setShowFailureAlert(false);
             }, 3000);
         }
-
     }
 
     return (
         <main className="with-msg">
-            {showSuccessAlert && (
-                <Alert color="success" onDismiss={() => setShowSuccessAlert(false)}>
-                    <span className="font-medium">{success}</span> {successMessage}
-                </Alert>
-            )}
-            {showFailureAlert && (
-                <Alert color="failure" onDismiss={() => setShowFailureAlert(false)}>
-                    <span className="font-medium">{failure}</span> {failureMessage}
-                </Alert>
-            )}
             <section className="report-form m-auto bg-white dark:bg-gray-900">
                 <div className="pt-3 pb-16 px-4 mx-auto">
                     <h2 className="mb-12 text-4xl tracking-tight text-center text-gray-900 dark:text-white">{reportProblem}</h2>
@@ -107,7 +102,7 @@ function TicketPage(){
                         <div className="sm:col-span-2">
                             <label htmlFor="message"
                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">{message}</label>
-                            <textarea id="message" rows="6"
+                            <textarea id="message" rows={6}
                                       name="message"
                                       className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                       placeholder={placeHolderMsg}></textarea>

@@ -5,7 +5,7 @@ export interface IUser {
     address: string;
     zipCode: string;
     password: string;
-    email?: string;
+    email: string;
 }
 
 export interface IBeneficiary extends IUser {
@@ -30,7 +30,7 @@ export class User implements IUser {
     address: string;
     zipCode: string;
     password: string;
-    email?: string;
+    email: string;
 
     constructor(name: string, firstName: string, phoneNumber: string, address: string, zipCode: string, password: string, email: string) {
         this.name = name;

@@ -1,27 +1,23 @@
-// ticketsApi.js
+// apiService.js
 import axios from 'axios';
 
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
-
-export const postTicket = async (ticketData) => {
-    const response = await axios.post(`${API_BASE_URL}/ticket`, ticketData, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-    console.log(response)
-    return response;
+const defaultHeaders = {
+    'Content-Type': 'application/json',
 };
 
-export const postType = async (typeData) => {
-    try {
-        return await axios.post(`${API_BASE_URL}/type`, typeData, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
+const handleRequest = async (request, pushToast) => {
+        const response = await request();
+        pushToast({
+            content: "L'élément a bien étais envoyer",
         });
-    } catch (error) {
-        console.error('Error during POST request:', error);
-        throw error;
-    }
-}
+        return response.data;
+};
+
+export const postRequest = async (url, data, pushToast) => {
+    return handleRequest(() => axios.post(`${API_BASE_URL}/${url}`, data, { headers: defaultHeaders }), pushToast);
+};
+
+export const getRequest = async (url, pushToast) => {
+    return handleRequest(() => axios.get(`${API_BASE_URL}/${url}`, { headers: defaultHeaders }), pushToast);
+};
