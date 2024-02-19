@@ -8,6 +8,7 @@ const defaultHeaders = {
 
 const handleRequest = async (request, pushToast) => {
         const response = await request();
+
         pushToast({
             content: "L'élément a bien étais envoyer",
         });
@@ -15,7 +16,21 @@ const handleRequest = async (request, pushToast) => {
 };
 
 export const postRequest = async (url, data, pushToast) => {
-    return handleRequest(() => axios.post(`${API_BASE_URL}/${url}`, data, { headers: defaultHeaders }), pushToast);
+
+    try {
+        const res = await axios.post(`${API_BASE_URL}/${url}`, data, {headers: defaultHeaders});
+        pushToast({
+            content: "L'élément a bien étais envoyer",
+            type: "success"
+        });
+        return res
+    } catch {
+        pushToast({
+            content: "Une erreur est survenue",
+            type: "failure"
+        });
+        return null
+    }
 };
 
 export const getRequest = async (url, pushToast) => {
