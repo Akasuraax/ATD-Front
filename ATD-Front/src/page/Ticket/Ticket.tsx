@@ -7,6 +7,7 @@ import { ITicket } from '../../interfaces/ticket.ts'
 import {postTicket} from "../../apiService/ticketsApi.js";
 import {useState} from "react";
 import {useToast} from "../../components/Toast/ToastContex";
+import { Spinner } from 'flowbite-react';
 import * as React from "react";
 'use client';
 
@@ -14,8 +15,8 @@ import * as React from "react";
 
 function TicketPage(){
 
-    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-    const [showFailureAlert, setShowFailureAlert] = useState(false);
+    const [standBy, setStandBy] = useState(false);
+
     const { pushToast } = useToast();
 
 
@@ -29,15 +30,12 @@ function TicketPage(){
     const message = t("ticket.message");
     const placeHolderMsg = t("ticket.placeHolderMsg");
     const submitBtn = t("ticket.submitBtn");
-    const success = t("generic.success");
-    const successMessage = t("ticket.successMessage");
-    const failure = t("generic.failure");
-    const failureMessage = t("ticket.failureMessage");
     const listIssue = ["1", "2", "3"];
 
 
 
     const handleSubmit = async (e) => {
+        setStandBy(true);
         e.preventDefault();
         const form = e.target;
 
@@ -48,22 +46,8 @@ function TicketPage(){
         };
 
         const req = {ticket, userId:1}
-        try {
-            const response = await postTicket(req,pushToast);
-            console.log(response)
-            if (response.status === 201) {
-                setShowSuccessAlert(true);
-
-                setTimeout(() => {
-                    setShowSuccessAlert(false);
-                }, 3000);
-            }
-        } catch (error) {
-            setShowFailureAlert(true);
-            setTimeout(() => {
-                setShowFailureAlert(false);
-            }, 3000);
-        }
+        const res = await postTicket(req,pushToast);
+        setStandBy(false);
     }
 
     return (
@@ -107,8 +91,11 @@ function TicketPage(){
                                       className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                       placeholder={placeHolderMsg}></textarea>
                         </div>
-                        <button type="submit"
-                                className="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{submitBtn}
+                        <button disabled={standBy} type="submit"
+                                className="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                            {standBy ? (
+                            <Spinner className="mr-4" color="warning" aria-label="Alternate spinner button example" size="sm" />) : "" }
+                            {submitBtn}
                         </button>
                     </form>
                 </div>

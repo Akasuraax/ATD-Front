@@ -6,15 +6,6 @@ const defaultHeaders = {
     'Content-Type': 'application/json',
 };
 
-const handleRequest = async (request, pushToast) => {
-        const response = await request();
-
-        pushToast({
-            content: "L'élément a bien étais envoyer",
-        });
-        return response.data;
-};
-
 export const postRequest = async (url, data, pushToast) => {
 
     try {
@@ -23,7 +14,7 @@ export const postRequest = async (url, data, pushToast) => {
             content: "L'élément a bien étais envoyer",
             type: "success"
         });
-        return res
+        return res.data
     } catch {
         pushToast({
             content: "Une erreur est survenue",
@@ -34,5 +25,14 @@ export const postRequest = async (url, data, pushToast) => {
 };
 
 export const getRequest = async (url, pushToast) => {
-    return handleRequest(() => axios.get(`${API_BASE_URL}/${url}`, { headers: defaultHeaders }), pushToast);
+    try {
+        const res = await axios.get(`${API_BASE_URL}/${url}`, { headers: defaultHeaders });
+        return res.data
+    } catch {
+        pushToast({
+            content: "Une erreur est survenue lors de la récupération des éléments",
+            type: "failure"
+        });
+        return null
+    }
 };
