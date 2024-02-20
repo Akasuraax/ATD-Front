@@ -14,7 +14,7 @@ import BeneficiaryForm from "./page/Register/Forms/beneficiary.jsx";
 import PartnerForm from "./page/Register/Forms/partner.jsx";
 import VolunteerForm from "./page/Register/Forms/volunteer.jsx";
 import TicketTracking from "./page/Ticket/Tracking/TicketTracking.jsx";
-import User from "./page/Back/User/User.jsx";
+import User from "./page/Back/User/User.tsx";
 import Vehicle from "./page/Back/Vehicle/Vehicle.jsx";
 import Warehouse from "./page/Back/Warehouse/Warehouse.jsx";
 import Recipe from "./page/Back/Recipe/Recipe.jsx";

@@ -24,9 +24,9 @@ export const postRequest = async (url, data, pushToast) => {
     }
 };
 
-export const getRequest = async (url, pushToast) => {
+export const getRequest = async (url, params, pushToast) => {
     try {
-        const res = await axios.get(`${API_BASE_URL}/${url}`, { headers: defaultHeaders });
+        const res = await axios.get(`${API_BASE_URL}/${url}`, { params });
         return res.data
     } catch {
         pushToast({

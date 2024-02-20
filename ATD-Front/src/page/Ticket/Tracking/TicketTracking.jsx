@@ -56,7 +56,6 @@ function TicketTracking() {
             const ticketsData = await getTickets(pushToast);
             if(ticketsData !== null) {
                 setTickets(ticketsData);
-                console.log(ticketsData)
                 setStandBy(false)
             }
         };

@@ -5,7 +5,6 @@ import {useTranslation} from "react-i18next";
 import InputField from "../../../components/input/inputField.jsx";
 import SelectField from "../../../components/input/SelectField.jsx";
 import ValidPwd from "../../../components/input/ValidPwd.jsx";
-import {Volunteer} from "../../../interfaces/user.ts";
 function VolunteerForm() {
 
     const { t } = useTranslation();
@@ -38,9 +37,6 @@ function VolunteerForm() {
         const zipcode = form.elements["zipcode"].value;
         const address = form.elements["address"].value;
         const pwd = form.elements["pwd"].value;
-
-        const volunteer = new Volunteer(name, lastName, phone, address, zipcode, pwd, email, new Date(birthDate), gender);
-        console.log(volunteer);
     }
 
     return (
