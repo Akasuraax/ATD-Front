@@ -222,7 +222,7 @@
 
 
 "generic" : {
-  "success": "Succès !",
-  "failure": "Echec !"
+  "success": "L'élement a bien été envoyé !",
+  "failure": "Une erreur est survenue !"
 }
 }

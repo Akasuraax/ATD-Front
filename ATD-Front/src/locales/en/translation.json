@@ -221,7 +221,7 @@
 
 
   "generic": {
-    "success": "Success !",
-    "failure": "Failure !"
+    "success": "The item has been successfully sent!",
+    "failure": "An error occurred!"
   }
 }
