@@ -20,8 +20,8 @@ function User(){
         page: 0,
         pageSize: 10,
         rowCount:0,
-        field:"id",
-        sort:"asc"
+        field:'id',
+        sort:'desc'
     });
 
 
@@ -79,7 +79,7 @@ function User(){
 
     useEffect(() => {
         sendRequest();
-    }, []);
+    }, [dataGrid]);
 
     const handlePageChange = async (params) => {
         setDataGrid((prevModel) => ({
@@ -87,16 +87,23 @@ function User(){
             page: params.page,
             pageSize:params.pageSize
         }))
-        sendRequest()
     };
 
     const onSortModelChange = async (params) => {
-        setDataGrid((prevModel) => ({
-            ...prevModel,
-            field: params.field,
-            sort:params.sort
-        }))
-        sendRequest()
+        if(params.length !== 0) {
+          setDataGrid((prevModel) => ({
+               ...prevModel,
+               field: params[0].field,
+               sort:params[0].sort
+           }))
+           } else {
+            setDataGrid((prevModel) => ({
+                ...prevModel,
+                field:'id',
+                sort: 'asc'
+            }))
+        }
+
     }
 
     async function sendRequest() {
@@ -104,6 +111,7 @@ function User(){
         try {
             const usersResponse = await getUsers(dataGrid, pushToast);
             setUsers(usersResponse.data);
+
             setStandBy(false);
         } catch (error) {
             console.error('Erreur lors de la récupération des utilisateurs.', error);
@@ -126,7 +134,7 @@ function User(){
                                 },
                             },
                         }}
-                        rowCount={dataGrid.rowCount}
+                        rowCount={31}
                         checkboxSelection
                         paginationMode="server"
                         sortingMode="server"
