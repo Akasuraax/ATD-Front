@@ -48,13 +48,13 @@ function User(){
         {
             field: 'name',
             headerName: t("user.name"),
-            width: 250,
+            width: 150,
             editable: true,
         },
         {
             field: 'forname',
             headerName: t("user.lastName"),
-            width: 250,
+            width: 150,
             editable: true,
         },
         {
@@ -111,7 +111,7 @@ function User(){
         try {
             const usersResponse = await getUsers(dataGrid, pushToast);
             setUsers(usersResponse.data);
-
+            console.log(usersResponse)
             setStandBy(false);
         } catch (error) {
             console.error('Erreur lors de la récupération des utilisateurs.', error);
