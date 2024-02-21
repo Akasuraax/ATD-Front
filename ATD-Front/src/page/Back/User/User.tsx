@@ -18,8 +18,10 @@ function User(){
     const [users, setUsers] = useState([]);
     const [dataGrid, setDataGrid] = useState({
         page: 0,
-        pageSize: 5,
+        pageSize: 10,
         rowCount:0,
+        field:"id",
+        sort:"asc"
     });
 
 
@@ -76,38 +78,38 @@ function User(){
 
 
     useEffect(() => {
-        setStandBy(true)
-        const fetchData = async () => {
-            const params = {
-                page: 0,
-                perPage: 10,
-            };
-            const res = await getUsers(params,pushToast);
-            setDataGrid((prevModel) => ({
-                ...prevModel,
-                rowCount: res.total,
-            }));
-            if(users !== null) {
-                setUsers(res.data);
-                setStandBy(false)
-            }
-        };
-
-        fetchData();
+        sendRequest();
     }, []);
 
     const handlePageChange = async (params) => {
-        console.log(params)
+        setDataGrid((prevModel) => ({
+            ...prevModel,
+            page: params.page,
+            pageSize:params.pageSize
+        }))
+        sendRequest()
+    };
+
+    const onSortModelChange = async (params) => {
+        setDataGrid((prevModel) => ({
+            ...prevModel,
+            field: params.field,
+            sort:params.sort
+        }))
+        sendRequest()
+    }
+
+    async function sendRequest() {
+        setStandBy(true);
         try {
-            const usersResponse = await getUsers(params, pushToast);
-            console.log(users)
-                setUsers(usersResponse.data);
-                setStandBy(false);
+            const usersResponse = await getUsers(dataGrid, pushToast);
+            setUsers(usersResponse.data);
+            setStandBy(false);
         } catch (error) {
             console.error('Erreur lors de la récupération des utilisateurs.', error);
             setStandBy(false);
         }
-    };
+    }
 
 
     return(
@@ -127,8 +129,11 @@ function User(){
                         rowCount={dataGrid.rowCount}
                         checkboxSelection
                         paginationMode="server"
+                        sortingMode="server"
                         disableRowSelectionOnClick
+                        pageSizeOptions={[5, 10, 25]}
                         onPaginationModelChange={handlePageChange}
+                        onSortModelChange={onSortModelChange}
                     />
                 </Box>
             </div>
