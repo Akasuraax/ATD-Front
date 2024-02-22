@@ -16,12 +16,13 @@ function User(){
     const [standBy, setStandBy] = useState(false);
     const { pushToast } = useToast();
     const [users, setUsers] = useState([]);
+    const [rowCount, setRowCount] = useState(0);
+
     const [dataGrid, setDataGrid] = useState({
         page: 0,
         pageSize: 10,
-        rowCount:0,
         fieldSort:'id',
-        sort:'desc',
+        sort:'asc',
         fieldFilter:'',
         operator: '',
         value: '*'
@@ -30,18 +31,9 @@ function User(){
 
 
     const { t } = useTranslation();
-    const title = t("user.title");
-    const isArchived = t("user.isArchived");
-    const informations = t("user.informations");
-    const action = t("user.action");
-    const downloadData = t("user.downloadData");
-    const partner = t("user.partner");
-    const beneficiary = t("user.beneficiary");
-    const volunteer = t("user.volunteer");
-    const waitingValidation = t("user.waitingValidation");
 
     const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 50 },
+        { field: 'id', headerName: 'ID', width: 75 },
         {
             field: 'name',
             headerName: t("user.name"),
@@ -170,6 +162,7 @@ function User(){
         try {
             const usersResponse = await getUsers(dataGrid, pushToast);
             setUsers(usersResponse.data);
+            setRowCount(usersResponse.total)
             setStandBy(false);
         } catch (error) {
             console.error('Erreur lors de la récupération des utilisateurs.', error);
@@ -181,7 +174,7 @@ function User(){
     return(
         <main>
             <div className="m-auto content">
-                <Box sx={{height: "auto", width: '100%'}}>
+                <Box sx={{height: "auto", width: 'auto'}}>
                     <DataGrid
                         rows={users}
                         columns={columns}
@@ -192,7 +185,7 @@ function User(){
                                 },
                             },
                         }}
-                        rowCount={31}
+                        rowCount={rowCount}
                         checkboxSelection={false}
                         paginationMode="server"
                         sortingMode="server"
@@ -206,7 +199,7 @@ function User(){
                 </Box>
             </div>
         </main>
-)
+    )
 }
 
 export default User;
