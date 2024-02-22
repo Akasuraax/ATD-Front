@@ -11,3 +11,11 @@ export interface IUser {
     companyName?: string;
     siret?: string;
 }
+
+export interface IRole {
+    id: number,
+    name: string,
+    archive: boolean,
+    created_at: string,
+    updated_at: string,
+}

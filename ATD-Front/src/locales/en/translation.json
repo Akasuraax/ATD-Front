@@ -182,7 +182,7 @@
     "partner": "Partner",
     "beneficiary": "Beneficiary",
     "volunteer": "Volunteer",
-    "waitingValidation": "Waiting for validation"
+    "waitingValidation": "Status"
   },
   "vehicle": {
     "title": "Vehicles list",
