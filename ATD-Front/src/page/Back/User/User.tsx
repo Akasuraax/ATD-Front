@@ -9,6 +9,8 @@ import InfoIcon from '@mui/icons-material/Info';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 import IconButton from '@mui/material/IconButton';
+import {IUser} from "../../../interfaces/user";
+import DeleteModal from "../../../components/modal/deleteModal";
 
 
 
@@ -17,6 +19,8 @@ function User(){
     const { pushToast } = useToast();
     const [users, setUsers] = useState([]);
     const [rowCount, setRowCount] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     const [dataGrid, setDataGrid] = useState({
         page: 0,
@@ -94,7 +98,7 @@ function User(){
                     </IconButton>
                     <IconButton aria-label="delete"
                                 style={{ color: '#F85866' }}
-                                onClick={() => {console.log('deleted ' + params.row.id)}} >
+                                onClick={() => deleteUser(params.row)} >
                         <DeleteIcon />
                     </IconButton>
                     <IconButton aria-label="delete"
@@ -106,6 +110,13 @@ function User(){
             ),
         },
     ];
+
+
+    const deleteUser = (user: IUser) => {
+        console.log(user)
+        console.log(isModalOpen)
+        setIsModalOpen(true)
+    }
 
     const renderStatusCell = (status: number) => {
         switch (status) {
@@ -155,6 +166,7 @@ function User(){
             operator: params.items[0].operator,
             value: params.items[0].value
         }))
+        console.log(params)
     }
 
     async function sendRequest() {
@@ -169,7 +181,6 @@ function User(){
             setStandBy(false);
         }
     }
-
 
     return(
         <main>
@@ -195,9 +206,16 @@ function User(){
                         onSortModelChange={onSortModelChange}
                         filterMode="server"
                         onFilterModelChange={onFilterChange}
+                        loading={standBy}
                     />
                 </Box>
+
             </div>
+            <DeleteModal
+                 openModal={isModalOpen}
+                 onClose={() => setIsModalOpen(false)}
+            />
+
         </main>
     )
 }
