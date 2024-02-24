@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
-import {getUsers} from "../../../apiService/UserService";
+import {deleteUsers, getUsers} from "../../../apiService/UserService";
 import {useToast} from "../../../components/Toast/ToastContex";
 import InfoIcon from '@mui/icons-material/Info';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -20,6 +20,7 @@ function User(){
     const [users, setUsers] = useState([]);
     const [rowCount, setRowCount] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [userToDelete, setUserToDelete] = useState<IUser | null>(null);
 
 
     const [dataGrid, setDataGrid] = useState({
@@ -32,7 +33,9 @@ function User(){
         value: '*'
     });
 
-
+    useEffect(() => {
+        sendRequest();
+    }, [dataGrid]);
 
     const { t } = useTranslation();
 
@@ -96,13 +99,17 @@ function User(){
                                 onClick={() => {console.log('infos ' + params.row.id)}} >
                         <InfoIcon/>
                     </IconButton>
+                    {!params.row.archive? (
                     <IconButton aria-label="delete"
                                 style={{ color: '#F85866' }}
-                                onClick={() => deleteUser(params.row)} >
+                                onClick={() => {
+                                    setUserToDelete(params.row);
+                                    setIsModalOpen(true);
+                                }} >
                         <DeleteIcon />
                     </IconButton>
+                        ):""}
                     <IconButton aria-label="delete"
-
                                 onClick={() => {console.log('download ' + params.row.id)}} >
                         <DownloadForOfflineIcon/>
                     </IconButton>
@@ -110,13 +117,6 @@ function User(){
             ),
         },
     ];
-
-
-    const deleteUser = (user: IUser) => {
-        console.log(user)
-        console.log(isModalOpen)
-        setIsModalOpen(true)
-    }
 
     const renderStatusCell = (status: number) => {
         switch (status) {
@@ -131,10 +131,24 @@ function User(){
 
     };
 
-    useEffect(() => {
-        sendRequest();
-    }, [dataGrid]);
+    const handleModalClose = async ( valid: boolean) => {
+        setIsModalOpen(false)
+        if(!valid) return
+        if (userToDelete) {
+            const res = await deleteUsers(userToDelete.id,pushToast)
+            const userDelete = res.user
+            setUsers((prevUsers) => {
+                return prevUsers.map((user) =>
+                    user.id === userToDelete.id ? userDelete : user
+                );
+            });
+        }
+        setUserToDelete(null);
+        setIsModalOpen(false);
+    };
 
+
+    // page change
     const handlePageChange = async (params) => {
         setDataGrid((prevModel) => ({
             ...prevModel,
@@ -166,7 +180,6 @@ function User(){
             operator: params.items[0].operator,
             value: params.items[0].value
         }))
-        console.log(params)
     }
 
     async function sendRequest() {
@@ -177,7 +190,6 @@ function User(){
             setRowCount(usersResponse.total)
             setStandBy(false);
         } catch (error) {
-            console.error('Erreur lors de la récupération des utilisateurs.', error);
             setStandBy(false);
         }
     }
@@ -213,7 +225,7 @@ function User(){
             </div>
             <DeleteModal
                  openModal={isModalOpen}
-                 onClose={() => setIsModalOpen(false)}
+                 onClose={(valid: boolean) => handleModalClose(valid)}
             />
 
         </main>

@@ -1,4 +1,5 @@
 export interface IUser {
+    id: number,
     name: string;
     firstName: string;
     phone_country?: string;
