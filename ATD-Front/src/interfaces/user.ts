@@ -1,7 +1,7 @@
 export interface IUser {
-    id: number,
+    id: number;
     name: string;
-    firstName: string;
+    forname: string;
     phone_country?: string;
     phone_number?: string;
     address: string;
@@ -9,15 +9,18 @@ export interface IUser {
     password: string;
     email: string;
     birthdayDate: Date;
-    sex: string;
+    gender: string;
     companyName?: string;
     siret?: string;
+    updated_at: string;
+    created_at: string;
+    roles: IRole[];
 }
 
 export interface IRole {
-    id: number,
-    name: string,
-    archive: boolean,
-    created_at: string,
-    updated_at: string,
+    id: number;
+    name: string;
+    archive: boolean;
+    created_at: string;
+    updated_at: string;
 }

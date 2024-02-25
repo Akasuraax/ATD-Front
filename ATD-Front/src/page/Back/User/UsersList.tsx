@@ -14,7 +14,7 @@ import DeleteModal from "../../../components/modal/deleteModal";
 
 
 
-function User(){
+function UsersList(){
     const [standBy, setStandBy] = useState(false);
     const { pushToast } = useToast();
     const [users, setUsers] = useState([]);
@@ -232,4 +232,4 @@ function User(){
     )
 }
 
-export default User;
+export default UsersList;

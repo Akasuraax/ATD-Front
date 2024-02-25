@@ -14,13 +14,14 @@ import BeneficiaryForm from "./page/Register/Forms/beneficiary.jsx";
 import PartnerForm from "./page/Register/Forms/partner.jsx";
 import VolunteerForm from "./page/Register/Forms/volunteer.jsx";
 import TicketTracking from "./page/Ticket/Tracking/TicketTracking.jsx";
-import User from "./page/Back/User/User.tsx";
+import UsersList from "./page/Back/User/UsersList.tsx";
 import Vehicle from "./page/Back/Vehicle/Vehicle.jsx";
 import Warehouse from "./page/Back/Warehouse/Warehouse.jsx";
 import Recipe from "./page/Back/Recipe/Recipe.jsx";
 import ActivityList from "./page/Back/Activity/Activity.jsx";
 import Language from "./page/Back/Language/Language.jsx";
 import AddType from "./page/Back/Activity/addForm/AddType.jsx";
+import UserDetails from "./page/Back/User/UserDetails"
 import 'flowbite/dist/flowbite.min.css';
 
 
@@ -91,11 +92,21 @@ function App() {
                     children : [
                     {
                         path: '',
-                        element: <User/>
+                        element: <UsersList/>
                     },
                     {
                         path: 'users',
-                        element: <User/>
+                        element: <Outlet/>,
+                        children: [
+                            {
+                                path: '',
+                                element: <UsersList/>
+                            },
+                            {
+                            path: ':userId',
+                            element: <UserDetails />,
+                            }
+                        ]
                     },
                     {
                         path: 'vehicles',
