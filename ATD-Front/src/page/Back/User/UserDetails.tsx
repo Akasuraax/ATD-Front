@@ -1,188 +1,365 @@
-import { PaperClipIcon } from '@heroicons/react/20/solid'
+import { PaperClipIcon } from '@heroicons/react/20/solid';
 import { useParams } from 'react-router-dom';
-import * as React from 'react';
-import {getUser} from "../../../apiService/UserService";
-import {useEffect, useState} from "react";
-import {useToast} from "../../../components/Toast/ToastContex";
-import {IUser} from "../../../interfaces/user";
+import { useEffect, useState } from 'react';
+import { getUser } from '../../../apiService/UserService';
+import { useToast } from '../../../components/Toast/ToastContex';
+import { IUser, IRole } from '../../../interfaces/user';
+import { Spinner } from 'flowbite-react';
+import { Datepicker } from 'flowbite-react';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import moment from 'moment';
+import { getRoles } from '../../../apiService/RoleService';
+import isEqual from 'lodash/isEqual';
+
 
 export default function UserDetails() {
-
     const { userId } = useParams();
     const [standBy, setStandBy] = useState(true);
     const { pushToast } = useToast();
-    const [user, setUser] = useState<IUser>(undefined);
+    const [user, setUser] = useState<IUser | null>(null);
+    const [edit, setEdit] = useState(false);
+    const [roles, setRoles] = useState<IRole[]>([]);
+    const [isModified, setIsModified] = useState(false);
+    const [newUser, setNewUser] = useState<IUser | null>(null);
+
+
 
     useEffect(() => {
+        rolesRequest();
         sendRequest();
     }, []);
+
+    useEffect(() => {
+        setIsModified(!isEqual(user, newUser));
+    }, [newUser]);
+
+    const updateUserField = (field: string, value: any) => {
+        setNewUser((prevUser) => ({
+            ...prevUser,
+            [field]: value,
+        }));
+    };
+
+    const handleRoleChange = (event: SelectChangeEvent) => {
+        const selectedRoles = event.target.value as unknown as (string | number)[]; // accepte les chaînes et les nombres
+        const rolesAsNumbers = selectedRoles.map((role) => Number(role)); // convertit chaque élément en nombre
+        updateUserField('roles', rolesAsNumbers);
+    };
+
 
     async function sendRequest() {
         setStandBy(true);
         try {
-            const userRespons = await getUser(userId, pushToast);
-            console.log(userRespons.user)
-            setUser(userRespons.user)
+            const userResponse = await getUser(userId, pushToast);
+            setUser(userResponse.user);
+            setNewUser(userResponse.user);
             setStandBy(false);
         } catch (error) {
             setStandBy(false);
         }
     }
 
+    async function rolesRequest() {
+        setStandBy(true);
+        try {
+            const rolesResponse = await getRoles(null, pushToast);
+            setRoles(rolesResponse);
+        } catch (error) {
+            setStandBy(false);
+        }
+    }
+
+
     return (
         <main>
-            {!standBy ? (
             <div className="flex flex-wrap max-w-full items-center justify-between mx-auto">
-                <div className="border p-4 rounded-xl">
-                    <div className="px-4 sm:px-0">
-                        <h3 className="text-base font-semibold leading-7 text-gray-900">Détails de l'utilisateur</h3>
-                    </div>
-                    <div className="mt-6 border-t border-gray-100">
-                        <dl className="divide-y divide-gray-100">
+                {!standBy ? (
+                    <div className="border p-4 rounded-xl shadow-md">
+                        <div className="px-4 sm:px-0">
+                            <h3 className="text-base font-semibold leading-7 text-gray-900">Détails de
+                                l'utilisateur</h3>
+                        </div>
+                        <div className="mt-6 border-t border-gray-100">
+                            <dl className="divide-y divide-gray-100">
 
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Nom</dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
-                                    <div className="flex items-center justify-between ">
-                                        <span>{user.name + ' ' + user.forname}</span>
-                                        <button
-                                            className="px-2 py-1 text-sm font-medium text-blue-500 hover:text-blue-700 focus:outline-none focus:underline">
-                                            Éditer
-                                        </button>
-                                    </div>
-                                </dd>
-                            </div>
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Prénom</dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <div className="flex items-center justify-between ">
+                                            {edit ? (
+                                                <input
+                                                    type="text"
+                                                    style={{
+                                                        borderBottom: '1px solid black',
+                                                        borderLeft: 'none',
+                                                        borderRight: 'none',
+                                                        borderTop: 'none',
+                                                        margin: '0',
+                                                        padding: '0',
+                                                        fontSize: '0.875rem'
+                                                    }}
+                                                    value={newUser?.name || user.name}
+                                                    onChange={(e) => updateUserField('name', e.target.value)}
+                                                />
+                                            ) : (
+                                                <span>{user.name}</span>
+                                            )}
+                                        </div>
+                                    </dd>
+                                </div>
 
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Email</dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
-                                    <div className="flex items-center justify-between ">
-                                        <span>{user.email}</span>
-                                        <button
-                                            className="px-2 py-1 text-sm font-medium text-blue-500 hover:text-blue-700 focus:outline-none focus:underline">
-                                            Éditer
-                                        </button>
-                                    </div>
-                                </dd>
-                            </div>
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Nom</dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <div className="flex items-center justify-between ">
+                                            {edit ? (
+                                                <input
+                                                    type="text"
+                                                    style={{
+                                                        borderBottom: '1px solid black',
+                                                        borderLeft: 'none',
+                                                        borderRight: 'none',
+                                                        borderTop: 'none',
+                                                        margin: '0',
+                                                        padding: '0',
+                                                        fontSize: '0.875rem'
+                                                    }}
+                                                    value={newUser?.forname || user.forname}
+                                                    onChange={(e) => updateUserField('forname', e.target.value)}
+                                                />
+                                            ) : (
+                                                <span>{user.forname}</span>
+                                            )}
+                                        </div>
+                                    </dd>
+                                </div>
 
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Numéro de
-                                    téléphone
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
-                                    <div className="flex items-center justify-between ">
-                                        <span>{user.phone_number}</span>
-                                        <button
-                                            className="px-2 py-1 text-sm font-medium text-blue-500 hover:text-blue-700 focus:outline-none focus:underline">
-                                            Éditer
-                                        </button>
-                                    </div>
-                                </dd>
-                            </div>
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Email</dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <div className="flex items-center justify-between ">
+                                            {edit ? (
+                                                <input
+                                                    type="text"
+                                                    style={{
+                                                        borderBottom: '1px solid black',
+                                                        borderLeft: 'none',
+                                                        borderRight: 'none',
+                                                        borderTop: 'none',
+                                                        margin: '0',
+                                                        padding: '0',
+                                                        fontSize: '0.875rem'
+                                                    }}
+                                                    value={newUser?.email || user.email}
+                                                    onChange={(e) => updateUserField('email', e.target.value)}
+                                                />
+                                            ) : (
+                                                <span>{user.email}</span>
+                                            )}
+                                        </div>
+                                    </dd>
+                                </div>
 
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Genre</dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
-                                    <div className="flex items-center justify-between ">
-                                        <span>{user.gender}</span>
-                                        <button
-                                            className="px-2 py-1 text-sm font-medium text-blue-500 hover:text-blue-700 focus:outline-none focus:underline">
-                                            Éditer
-                                        </button>
-                                    </div>
-                                </dd>
-                            </div>
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Numéro de
+                                        téléphone
+                                    </dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <div className="flex items-center justify-between ">
+                                            {edit ? (
+                                                <input
+                                                    type="text"
+                                                    style={{
+                                                        borderBottom: '1px solid black',
+                                                        borderLeft: 'none',
+                                                        borderRight: 'none',
+                                                        borderTop: 'none',
+                                                        margin: '0',
+                                                        padding: '0',
+                                                        fontSize: '0.875rem'
+                                                    }}
+                                                    value={newUser?.phone_number || user.phone_number}
+                                                    onChange={(e) => updateUserField('phone_number', e.target.value)}
+                                                />
+                                            ) : (
+                                                <span>{user.phone_number}</span>
+                                            )}
+                                        </div>
+                                    </dd>
+                                </div>
 
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Date
-                                    d'anniversaire
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
-                                    <div className="flex items-center justify-between ">
-                                        <span>{moment(user.birthdayDate).format('DD/MM/yyyy')}</span>
-                                        <button
-                                            className="px-2 py-1 text-sm font-medium text-blue-500 hover:text-blue-700 focus:outline-none focus:underline">
-                                            Éditer
-                                        </button>
-                                    </div>
-                                </dd>
-                            </div>
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Genre</dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <div className="flex items-center justify-between ">
+                                            {edit ? (
+                                                <select
+                                                    id="gender"
+                                                    required
+                                                    value={newUser?.gender || user.gender}
+                                                    onChange={(e) => updateUserField('gender', e.target.value)}
+                                                >
+                                                    <option value={0}>Homme</option>
+                                                    <option value={1}>Femme</option>
+                                                    <option value={2}>Non préciser</option>
+                                                </select>
+                                            ) : (
+                                                <span>
+                                            {user.gender === 0
+                                                ? 'Homme'
+                                                : user.gender === 1
+                                                    ? 'Femme'
+                                                    : user.gender === 2
+                                                        ? 'Non préciser'
+                                                        : ''}
+                                        </span>
+                                            )}
+                                        </div>
+                                    </dd>
+                                </div>
 
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Addresse
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
-                                    <div className="flex items-center justify-between ">
-                                        <span>{user.address}</span>
-                                        <button
-                                            className="px-2 py-1 text-sm font-medium text-blue-500 hover:text-blue-700 focus:outline-none focus:underline">
-                                            Éditer
-                                        </button>
-                                    </div>
-                                </dd>
-                            </div>
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Date
+                                        d'anniversaire
+                                    </dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <div className="flex items-center justify-between ">
+                                            {edit ? (
+                                                <Datepicker
+                                                    style={{ paddingLeft: '2.5rem' }}
+                                                    value={moment(newUser?.birth_date).format('YYYY-MM-DD')}
+                                                    onSelectedDateChanged ={(date) => updateUserField('birth_date', date)}
+                                                />
+                                            ) : (
+                                                <span>{moment(user.birth_date).format('DD/MM/YYYY')}</span>
+                                            )}
+                                        </div>
+                                    </dd>
+                                </div>
 
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Roles
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
-                                    <div className="flex items-center justify-between ">
-                                        {user && user.roles && user.roles.map((role) => (
-                                            <span key={role.id}>{role.name}</span>
-                                        ))}
-                                        <button
-                                            className="px-2 py-1 text-sm font-medium text-blue-500 hover:text-blue-700 focus:outline-none focus:underline">
-                                            Éditer
-                                        </button>
-                                    </div>
-                                </dd>
-                            </div>
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Addresse</dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <div className="flex items-center justify-between ">
+                                            {edit ? (
+                                                <input
+                                                    type="text"
+                                                    style={{
+                                                        borderBottom: '1px solid black',
+                                                        borderLeft: 'none',
+                                                        borderRight: 'none',
+                                                        borderTop: 'none',
+                                                        margin: '0',
+                                                        padding: '0',
+                                                        fontSize: '0.875rem'
+                                                    }}
+                                                    value={newUser?.address || user.address}
+                                                    onChange={(e) => updateUserField('address', e.target.value)}
+                                                />
+                                            ) : (
+                                                <span>{user.address}</span>
+                                            )}
+                                        </div>
+                                    </dd>
+                                </div>
 
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Date de création
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
-                                    <div className="flex items-center justify-between ">
-                                        <span>{moment(user.created_at).format('DD/MM/yyyy HH:mm')}</span>
-                                        <button
-                                            className="px-2 py-1 text-sm font-medium text-blue-500 hover:text-blue-700 focus:outline-none focus:underline">
-                                            Éditer
-                                        </button>
-                                    </div>
-                                </dd>
-                            </div>
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Roles</dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <div className="flex items-center justify-between ">
+                                            {edit ? (
+                                                <Select
+                                                    labelId="demo-multiple-name-label"
+                                                    id="demo-multiple-name"
+                                                    multiple
+                                                    onChange={handleRoleChange}
+                                                    value={newUser?.roles || []}
+                                                    input={<OutlinedInput label="Name" />}
+                                                >
+                                                    {roles.map((r) => (
+                                                        <MenuItem key={r.id} value={r.id}>
+                                                            {r.name}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            ) : (
+                                                <span>
+                                                    {user.roles.map((r) => (
+                                                        <span key={r.id}>{r.name}</span>
+                                                    ))}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </dd>
+                                </div>
 
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900">Attachments</dt>
-                                <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                                    <ul role="list"
-                                        className="divide-y divide-gray-100 rounded-md border border-gray-200">
-                                        <li className="flex items-center justify-between p-4 text-sm leading-6">
-                                            <div className="flex w-0 flex-1 items-center">
-                                                <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400 "
-                                                               aria-hidden="true"/>
-                                                <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
-                                                    <span
-                                                        className="truncate font-medium">resume_back_end_developer.pdf</span>
-                                                    <span className="flex-shrink-0 text-gray-400">2.4mb</span>
+
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900">Date de création</dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <div className="flex items-center justify-between ">
+                                            <span>{moment(user.created_at).format('DD/MM/yyyy HH:mm')}</span>
+                                        </div>
+                                    </dd>
+                                </div>
+
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900">Attachments</dt>
+                                    <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                                        <ul role="list"
+                                            className="divide-y divide-gray-100 rounded-md border border-gray-200">
+                                            <li className="flex items-center justify-between p-4 text-sm leading-6">
+                                                <div className="flex w-0 flex-1 items-center">
+                                                    <PaperClipIcon class="h-5 w-5 flex-shrink-0 text-gray-400 "
+                                                                   aria-hidden="true"/>
+                                                    <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
+                                                <span
+                                                    className="truncate font-medium">resume_back_end_developer.pdf</span>
+                                                        <span className="flex-shrink-0 text-gray-400">2.4mb</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="ml-4 pl-2 flex-shrink-0">
-                                                <button>Télécharger</button>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </dd>
-                            </div>
-                        </dl>
+                                                <div className="ml-4 pl-2 flex-shrink-0">
+                                                    <button>Télécharger</button>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </dd>
+                                </div>
+                            </dl>
+                        </div>
                     </div>
+                ) : (
+                    <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
+                )}
+                <div className="m-4 border p-8 rounded-xl shadow-md">
+                    <button
+                        onClick={() => {
+                            setEdit(!edit);
+                        }}
+                        className="block w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        Editer
+                    </button>
+
+                    <button
+                        className="block w-full focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:focus:ring-yellow-900">
+                        Supprimer
+                    </button>
+
+                    <button
+                        className="block w-full focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                        Bannir
+                    </button>
+
+                    <button
+                        className={`block w-full text-white  ${!isModified ? 'bg-green-200 cursor-not-allowed' : 'bg-green-500 cursor-pointer'}  font-medium rounded-lg text-sm px-5 py-2.5 text-center`}
+                        disabled
+                    >
+                        Sauvegarder
+                    </button>
                 </div>
             </div>
-            ) : (
-                <p>Loading...</p>
-            )}
         </main>
     )
 }

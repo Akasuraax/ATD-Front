@@ -11,6 +11,7 @@ import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 import IconButton from '@mui/material/IconButton';
 import {IUser} from "../../../interfaces/user";
 import DeleteModal from "../../../components/modal/deleteModal";
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -21,6 +22,7 @@ function UsersList(){
     const [rowCount, setRowCount] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [userToDelete, setUserToDelete] = useState<IUser | null>(null);
+    const navigate = useNavigate();
 
 
     const [dataGrid, setDataGrid] = useState({
@@ -95,8 +97,9 @@ function UsersList(){
             sortable: false,
             renderCell: (params) => (
                 <div>
-                    <IconButton aria-label="delete"
-                                onClick={() => {console.log('infos ' + params.row.id)}} >
+                    <IconButton aria-label="info"
+                                onClick={() => {navigate(`/back/users/${params.row.id}`);
+                                }} >
                         <InfoIcon/>
                     </IconButton>
                     {!params.row.archive? (
@@ -109,7 +112,7 @@ function UsersList(){
                         <DeleteIcon />
                     </IconButton>
                         ):""}
-                    <IconButton aria-label="delete"
+                    <IconButton aria-label="download"
                                 onClick={() => {console.log('download ' + params.row.id)}} >
                         <DownloadForOfflineIcon/>
                     </IconButton>

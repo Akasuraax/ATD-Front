@@ -8,8 +8,8 @@ export interface IUser {
     zipCode: string;
     password: string;
     email: string;
-    birthdayDate: Date;
-    gender: string;
+    birth_date: Date;
+    gender: number;
     companyName?: string;
     siret?: string;
     updated_at: string;
