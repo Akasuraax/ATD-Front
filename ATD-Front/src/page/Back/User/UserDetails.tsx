@@ -12,6 +12,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import moment from 'moment';
 import { getRoles } from '../../../apiService/RoleService';
 import isEqual from 'lodash/isEqual';
+import {useTranslation} from "react-i18next";
 
 
 export default function UserDetails() {
@@ -23,6 +24,7 @@ export default function UserDetails() {
     const [roles, setRoles] = useState<IRole[]>([]);
     const [isModified, setIsModified] = useState(false);
     const [newUser, setNewUser] = useState<IUser | null>(null);
+    const { t } = useTranslation();
 
 
 
@@ -43,10 +45,14 @@ export default function UserDetails() {
     };
 
     const handleRoleChange = (event: SelectChangeEvent) => {
-        const selectedRoles = event.target.value as unknown as (string | number)[]; // accepte les chaînes et les nombres
-        const rolesAsNumbers = selectedRoles.map((role) => Number(role)); // convertit chaque élément en nombre
+        const selectedRoles = event.target.value as unknown as (string | number)[];
+        const rolesAsNumbers = selectedRoles.map((role) => Number(role));
         updateUserField('roles', rolesAsNumbers);
     };
+
+    const saveUser = () => {
+        console.log(user)
+    }
 
 
     async function sendRequest() {
@@ -78,14 +84,13 @@ export default function UserDetails() {
                 {!standBy ? (
                     <div className="border p-4 rounded-xl shadow-md">
                         <div className="px-4 sm:px-0">
-                            <h3 className="text-base font-semibold leading-7 text-gray-900">Détails de
-                                l'utilisateur</h3>
+                            <h3 className="text-base font-semibold leading-7 text-gray-900">{t('user.userDetails')}</h3>
                         </div>
                         <div className="mt-6 border-t border-gray-100">
                             <dl className="divide-y divide-gray-100">
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Prénom</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.name')}</dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                         <div className="flex items-center justify-between ">
                                             {edit ? (
@@ -111,7 +116,7 @@ export default function UserDetails() {
                                 </div>
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Nom</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.lastName')}</dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                         <div className="flex items-center justify-between ">
                                             {edit ? (
@@ -137,7 +142,7 @@ export default function UserDetails() {
                                 </div>
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Email</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.email')}</dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                         <div className="flex items-center justify-between ">
                                             {edit ? (
@@ -163,14 +168,13 @@ export default function UserDetails() {
                                 </div>
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Numéro de
-                                        téléphone
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.phone')}
                                     </dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                         <div className="flex items-center justify-between ">
                                             {edit ? (
                                                 <input
-                                                    type="text"
+                                                    type="tel"
                                                     style={{
                                                         borderBottom: '1px solid black',
                                                         borderLeft: 'none',
@@ -180,6 +184,8 @@ export default function UserDetails() {
                                                         padding: '0',
                                                         fontSize: '0.875rem'
                                                     }}
+                                                    pattern="^[\d\s]*$"
+                                                    onInput={(e) => e.target.value = e.target.value.replace(/[^\d]/g, '').slice(0, 10)}
                                                     value={newUser?.phone_number || user.phone_number}
                                                     onChange={(e) => updateUserField('phone_number', e.target.value)}
                                                 />
@@ -191,20 +197,20 @@ export default function UserDetails() {
                                 </div>
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Genre</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.gender')}</dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                         <div className="flex items-center justify-between ">
                                             {edit ? (
-                                                <select
+                                                <Select
                                                     id="gender"
                                                     required
-                                                    value={newUser?.gender || user.gender}
+                                                    value={newUser?.gender}
                                                     onChange={(e) => updateUserField('gender', e.target.value)}
                                                 >
-                                                    <option value={0}>Homme</option>
-                                                    <option value={1}>Femme</option>
-                                                    <option value={2}>Non préciser</option>
-                                                </select>
+                                                    <MenuItem value={0}>Homme</MenuItem>
+                                                    <MenuItem value={1}>Femme</MenuItem>
+                                                    <MenuItem value={2}>Non préciser</MenuItem>
+                                                </Select>
                                             ) : (
                                                 <span>
                                             {user.gender === 0
@@ -221,8 +227,7 @@ export default function UserDetails() {
                                 </div>
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Date
-                                        d'anniversaire
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.birthdayDate')}
                                     </dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                         <div className="flex items-center justify-between ">
@@ -240,7 +245,7 @@ export default function UserDetails() {
                                 </div>
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Addresse</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.address')}</dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                         <div className="flex items-center justify-between ">
                                             {edit ? (
@@ -266,7 +271,7 @@ export default function UserDetails() {
                                 </div>
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">Roles</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.roles')}</dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                         <div className="flex items-center justify-between ">
                                             {edit ? (
@@ -275,7 +280,7 @@ export default function UserDetails() {
                                                     id="demo-multiple-name"
                                                     multiple
                                                     onChange={handleRoleChange}
-                                                    value={newUser?.roles || []}
+                                                    value={newUser?.roles}
                                                     input={<OutlinedInput label="Name" />}
                                                 >
                                                     {roles.map((r) => (
@@ -297,7 +302,7 @@ export default function UserDetails() {
 
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900">Date de création</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900">{t('user.creationDate')}</dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                         <div className="flex items-center justify-between ">
                                             <span>{moment(user.created_at).format('DD/MM/yyyy HH:mm')}</span>
@@ -306,7 +311,7 @@ export default function UserDetails() {
                                 </div>
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900">Attachments</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900">{t('user.file')}</dt>
                                     <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                                         <ul role="list"
                                             className="divide-y divide-gray-100 rounded-md border border-gray-200">
@@ -339,24 +344,27 @@ export default function UserDetails() {
                             setEdit(!edit);
                         }}
                         className="block w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                        Editer
+                        {t('generic.editButton')}
                     </button>
 
                     <button
                         className="block w-full focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:focus:ring-yellow-900">
-                        Supprimer
+                        {t('generic.deleteButton')}
                     </button>
 
                     <button
                         className="block w-full focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
-                        Bannir
+                        {t('generic.banButton')}
                     </button>
 
                     <button
                         className={`block w-full text-white  ${!isModified ? 'bg-green-200 cursor-not-allowed' : 'bg-green-500 cursor-pointer'}  font-medium rounded-lg text-sm px-5 py-2.5 text-center`}
-                        disabled
+                        disabled={!isModified}
+                        onClick={() => {
+                            saveUser();
+                        }}
                     >
-                        Sauvegarder
+                        {t('generic.saveButton')}
                     </button>
                 </div>
             </div>

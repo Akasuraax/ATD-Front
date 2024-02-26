@@ -182,7 +182,15 @@
     "partner": "Partenaire",
     "beneficiary": "Bénéficiaire",
     "volunteer": "Bénévole",
-    "waitingValidation": "Statuts"
+    "waitingValidation": "Statuts",
+    "userDetails" : "Détails de l'utilisateur",
+    "phone" : "Numéro de téléphone",
+    "gender" : "Genre",
+    "birthdayDate" : "Date de naissance",
+    "Address" : "adresse",
+    "Roles" : "Roles",
+    "creationDate" : "Date de création",
+    "file" : "fichiers"
   },
   "vehicle": {
     "title": "Liste des véhicules",
@@ -227,6 +235,10 @@
     "failure": "Echec !",
     "deleteMessage": "Êtes-vous sûr de vouloir supprimer cet élément ?",
     "acceptDelete": "Oui, je suis sûr",
-    "refuseDelete": "Non, annuler"
+    "refuseDelete": "Non, annuler",
+    "deleteButton": "supprimer",
+    "banButton": "bannir",
+    "editButton": "éditer",
+    "saveButton": "sauvegarder"
   }
 }

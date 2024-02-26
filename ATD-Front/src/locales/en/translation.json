@@ -182,7 +182,16 @@
     "partner": "Partner",
     "beneficiary": "Beneficiary",
     "volunteer": "Volunteer",
-    "waitingValidation": "Status"
+    "waitingValidation": "Status",
+    "userDetails": "User Details",
+    "phone": "Phone Number",
+    "gender": "Gender",
+    "birthdayDate": "Date of Birth",
+    "address": "Address",
+    "roles": "Roles",
+    "creationDate": "Creation Date",
+    "file": "Files"
+
   },
   "vehicle": {
     "title": "Vehicles list",
@@ -226,6 +235,10 @@
     "failure": "Failure !",
     "deleteMessage": "Are you sure you want to delete this element ?",
     "acceptDelete": "Yes, I'm sure",
-    "refuseDelete": "No, cancel"
+    "refuseDelete": "No, cancel",
+    "deleteButton": "Delete",
+    "banButton": "Ban",
+    "editButton": "Edit",
+    "saveButton": "Save"
   }
 }
