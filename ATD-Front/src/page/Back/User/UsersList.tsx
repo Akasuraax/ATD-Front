@@ -42,7 +42,7 @@ function UsersList(){
     const { t } = useTranslation();
 
     const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 75 },
+        { field: 'id', headerName: 'ID', width: 90 },
         {
             field: 'name',
             headerName: t("user.name"),
@@ -58,7 +58,7 @@ function UsersList(){
         {
             field: 'email',
             headerName: t("user.email"),
-            width: 280,
+            width: 300,
             editable: false,
         },
         {
@@ -78,7 +78,7 @@ function UsersList(){
         {
             field: 'status',
             headerName: t("user.waitingValidation"),
-            width: 120,
+            width: 150,
             editable: false,
             renderCell: (params) => renderStatusCell(params.value),
 
@@ -86,38 +86,9 @@ function UsersList(){
         {
             field: 'archive',
             headerName: t("user.isArchived"),
-            width: 120,
+            width: 150,
             editable: false,
             renderCell: (params) => renderArchiveCell(params.value),
-        },
-        {
-            field: 'action',
-            headerName: '',
-            width: 150,
-            sortable: false,
-            renderCell: (params) => (
-                <div>
-                    <IconButton aria-label="info"
-                                onClick={() => {navigate(`/back/users/${params.row.id}`);
-                                }} >
-                        <InfoIcon/>
-                    </IconButton>
-                    {!params.row.archive? (
-                    <IconButton aria-label="delete"
-                                style={{ color: '#F85866' }}
-                                onClick={() => {
-                                    setUserToDelete(params.row);
-                                    setIsModalOpen(true);
-                                }} >
-                        <DeleteIcon />
-                    </IconButton>
-                        ):""}
-                    <IconButton aria-label="download"
-                                onClick={() => {console.log('download ' + params.row.id)}} >
-                        <DownloadForOfflineIcon/>
-                    </IconButton>
-                </div>
-            ),
         },
     ];
 
@@ -222,6 +193,7 @@ function UsersList(){
                         filterMode="server"
                         onFilterModelChange={onFilterChange}
                         loading={standBy}
+                        onRowClick={(params) => { navigate(`/back/users/${params.row.id}`)}}
                     />
                 </Box>
 

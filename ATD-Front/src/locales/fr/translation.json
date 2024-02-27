@@ -187,8 +187,8 @@
     "phone" : "Numéro de téléphone",
     "gender" : "Genre",
     "birthdayDate" : "Date de naissance",
-    "Address" : "adresse",
-    "Roles" : "Roles",
+    "address" : "adresse",
+    "roles" : "Roles",
     "creationDate" : "Date de création",
     "file" : "fichiers"
   },
