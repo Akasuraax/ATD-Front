@@ -2,7 +2,6 @@ import beneficiaryImg from "../../../../files/image/beneficiaire.png";
 import beneficiaryIcon from "../../../../files/image/beneficiaire-icone.png";
 import "../register.css";
 import {useTranslation} from "react-i18next";
-import {Beneficiary} from "../../../interfaces/user.ts"
 import InputField from "../../../components/input/inputField.jsx";
 import SelectField from "../../../components/input/SelectField.jsx";
 import ValidPwd from "../../../components/input/ValidPwd.jsx";
@@ -39,9 +38,6 @@ function BeneficiaryForm() {
         const zipcode = form.elements["zipcode"].value;
         const address = form.elements["address"].value;
         const pwd = form.elements["pwd"].value;
-
-        const beneficiary = new Beneficiary(name, lastName, phone, address, zipcode, pwd, email, new Date(birthDate), gender);
-        console.log(beneficiary);
     }
 
 

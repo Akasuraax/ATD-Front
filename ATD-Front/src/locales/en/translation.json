@@ -174,14 +174,29 @@
     "lastName": "Last name",
     "name": "Name",
     "role": "Role",
+    "email": "Email",
     "isArchived": "Archived account",
+    "isBan": "Account banned",
     "informations":"Informations",
     "action": "Action",
     "downloadData": "Download datas",
     "partner": "Partner",
     "beneficiary": "Beneficiary",
     "volunteer": "Volunteer",
-    "waitingValidation": "Waiting for validation"
+    "waitingValidation": "Status",
+    "userDetails": "User Details",
+    "phone": "Phone Number",
+    "gender": "Gender",
+    "birthdayDate": "Date of Birth",
+    "address": "Address",
+    "roles": "Roles",
+    "creationDate": "Creation Date",
+    "file": "Files",
+    "siretNumber": "Siret Number",
+    "companyName": "Company Name",
+    "deleteMessage": "Are you sure you want to delete this user?",
+    "banMessage": "Are you sure you want to ban this user?"
+
   },
   "vehicle": {
     "title": "Vehicles list",
@@ -222,6 +237,15 @@
 
   "generic": {
     "success": "Success !",
-    "failure": "Failure !"
+    "failure": "Failure !",
+    "deleteMessage": "Are you sure you want to delete this element ?",
+    "acceptDelete": "Yes, I'm sure",
+    "refuseDelete": "No, cancel",
+    "deleteButton": "Delete",
+    "banButton": "Ban",
+    "editButton": "Edit",
+    "saveButton": "Save",
+    "yes": "yes",
+    "no": "no"
   }
 }

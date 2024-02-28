@@ -4,7 +4,6 @@ import "../register.css";
 import {useTranslation} from "react-i18next";
 import ValidPwd from "../../../components/input/ValidPwd.jsx";
 import InputField from "../../../components/input/inputField.jsx";
-import {Partner} from "../../../interfaces/user.ts";
 function PartnerForm() {
 
     const { t } = useTranslation();
@@ -36,9 +35,6 @@ function PartnerForm() {
         const zipcode = form.elements["zipcode"].value;
         const address = form.elements["address"].value;
         const pwd = form.elements["pwd"].value;
-
-        const partner = new Partner(name, lastName, phone, address, zipcode, pwd, email, companyName, siret);
-        console.log(partner);
     }
 
     return (
