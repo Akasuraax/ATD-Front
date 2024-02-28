@@ -190,7 +190,9 @@
     "address": "Address",
     "roles": "Roles",
     "creationDate": "Creation Date",
-    "file": "Files"
+    "file": "Files",
+    "siretNumber": "Siret Number",
+    "companyName": "Company Name"
 
   },
   "vehicle": {

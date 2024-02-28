@@ -40,7 +40,7 @@ export const getRequest = async (url, params, pushToast) => {
 
 export const deleteRequest = async (url, params, pushToast) => {
     try {
-        const res = await axios.delete(`${API_BASE_URL}/${url}/${params}`);
+        const res = await axios.delete(`${API_BASE_URL}/${url}`, { params });
         return res.data
     } catch {
         pushToast({

@@ -10,8 +10,8 @@ export interface IUser {
     email: string;
     birth_date: Date;
     gender: number;
-    companyName?: string;
-    siret?: string;
+    compagny?: string;
+    siret_number?: string;
     updated_at: string;
     created_at: string;
     roles: IRole[];

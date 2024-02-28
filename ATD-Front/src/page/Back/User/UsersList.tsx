@@ -3,15 +3,9 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
-import {deleteUsers, getUsers} from "../../../apiService/UserService";
 import {useToast} from "../../../components/Toast/ToastContex";
-import InfoIcon from '@mui/icons-material/Info';
-import DeleteIcon from '@mui/icons-material/Delete';
-import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
-import IconButton from '@mui/material/IconButton';
-import {IUser} from "../../../interfaces/user";
-import DeleteModal from "../../../components/modal/deleteModal";
 import { useNavigate } from 'react-router-dom';
+import {getUsers} from '../../../apiService/UserService';
 
 
 
@@ -20,8 +14,6 @@ function UsersList(){
     const { pushToast } = useToast();
     const [users, setUsers] = useState([]);
     const [rowCount, setRowCount] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [userToDelete, setUserToDelete] = useState<IUser | null>(null);
     const navigate = useNavigate();
 
 
@@ -105,21 +97,7 @@ function UsersList(){
 
     };
 
-    const handleModalClose = async ( valid: boolean) => {
-        setIsModalOpen(false)
-        if(!valid) return
-        if (userToDelete) {
-            const res = await deleteUsers(userToDelete.id,pushToast)
-            const userDelete = res.user
-            setUsers((prevUsers) => {
-                return prevUsers.map((user) =>
-                    user.id === userToDelete.id ? userDelete : user
-                );
-            });
-        }
-        setUserToDelete(null);
-        setIsModalOpen(false);
-    };
+
 
 
     // page change
@@ -198,10 +176,7 @@ function UsersList(){
                 </Box>
 
             </div>
-            <DeleteModal
-                 openModal={isModalOpen}
-                 onClose={(valid: boolean) => handleModalClose(valid)}
-            />
+
 
         </main>
     )

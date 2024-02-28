@@ -187,10 +187,12 @@
     "phone" : "Numéro de téléphone",
     "gender" : "Genre",
     "birthdayDate" : "Date de naissance",
-    "address" : "adresse",
+    "address" : "Adresse",
     "roles" : "Roles",
     "creationDate" : "Date de création",
-    "file" : "fichiers"
+    "file" : "Fichiers",
+    "siretNumber" : "Numéro de Siret",
+    "companyName" : "Nom de l'entreprise"
   },
   "vehicle": {
     "title": "Liste des véhicules",
