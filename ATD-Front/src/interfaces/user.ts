@@ -15,6 +15,8 @@ export interface IUser {
     updated_at: string;
     created_at: string;
     roles: IRole[];
+    ban:boolean;
+    archive:boolean;
 }
 
 export interface IRole {

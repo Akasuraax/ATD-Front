@@ -20,7 +20,7 @@ const customTheme: CustomFlowbiteTheme = {
     },
 };
 
-export default function DeleteModal({openModal, onClose }) {
+export default function DeleteModal({openModal, onClose, text }) {
 
     const { t } = useTranslation();
 
@@ -34,7 +34,7 @@ export default function DeleteModal({openModal, onClose }) {
                         <div className="text-center">
                             <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
                             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                {t("generic.deleteMessage")}
+                                {text}
                             </h3>
                             <div className="flex justify-center gap-4">
                                 <Button className="bg-[#F85866]" onClick={() => onClose(true)}>
@@ -55,4 +55,5 @@ export default function DeleteModal({openModal, onClose }) {
 DeleteModal.propTypes = {
     openModal: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
+    text: PropTypes.string.isRequired,
 };

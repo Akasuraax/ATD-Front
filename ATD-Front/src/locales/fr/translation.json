@@ -176,6 +176,7 @@
     "role": "Rôle",
     "email": "Email",
     "isArchived": "Compte archivé",
+    "isBan": "Compte banni",
     "informations":"Informations",
     "action": "Action",
     "downloadData": "Télécharger les données",
@@ -192,7 +193,10 @@
     "creationDate" : "Date de création",
     "file" : "Fichiers",
     "siretNumber" : "Numéro de Siret",
-    "companyName" : "Nom de l'entreprise"
+    "companyName" : "Nom de l'entreprise",
+    "deleteMessage": "Êtes-vous sûr de vouloir supprimer cet utilisateur ?",
+    "banMessage": "Êtes-vous sûr de vouloir bannir cet utilisateur ?"
+
   },
   "vehicle": {
     "title": "Liste des véhicules",
@@ -241,6 +245,8 @@
     "deleteButton": "supprimer",
     "banButton": "bannir",
     "editButton": "éditer",
-    "saveButton": "sauvegarder"
+    "saveButton": "sauvegarder",
+    "yes": "oui",
+    "no": "non"
   }
 }

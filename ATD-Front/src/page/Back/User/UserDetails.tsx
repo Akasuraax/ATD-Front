@@ -1,14 +1,14 @@
 import {PaperClipIcon} from '@heroicons/react/20/solid';
 import {useParams} from 'react-router-dom';
 import {useEffect, useState} from 'react';
-import {deleteUser, getUser} from '../../../apiService/UserService';
+import {deleteUser, getUser, patchUser} from '../../../apiService/UserService';
 import {useToast} from '../../../components/Toast/ToastContex';
 import {IUser, IRole} from '../../../interfaces/user';
 import {Spinner} from 'flowbite-react';
 import {Datepicker} from 'flowbite-react';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
-import Select, {SelectChangeEvent} from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import moment from 'moment';
 import {getRoles} from '../../../apiService/RoleService';
 import isEqual from 'lodash/isEqual';
@@ -26,6 +26,10 @@ export default function UserDetails() {
     const [isModified, setIsModified] = useState(false);
     const [newUser, setNewUser] = useState<IUser | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [ban, setBan] = useState(false);
+    const [textModal, setTextModal] = useState();
+
+
     const {t} = useTranslation();
 
 
@@ -45,24 +49,42 @@ export default function UserDetails() {
         }));
     };
 
-    const handleRoleChange = (event: SelectChangeEvent) => {
-        const selectedRoles = event.target.value as unknown as (string | number)[];
-        const rolesAsNumbers = selectedRoles.map((role) => Number(role));
-        updateUserField('roles', rolesAsNumbers);
+
+    const handleRoleChange = (event) => {
+        const selectedRoleIds = event.target.value;
+        // Check if any role from the restricted set [1, 2, 3, 4, 5] is selected
+        const isRestrictedSelection = selectedRoleIds.some(id => [1, 2, 3, 4, 5].includes(id));
+
+        // If it's a restricted selection, update the user with only the selected roles from the restricted set
+        const updatedUser = {
+            ...user,
+            roles: isRestrictedSelection
+                ? roles.filter((r) => selectedRoleIds.includes(r.id) && [1, 2, 3, 4, 5].includes(r.id))
+                : roles.filter((r) => selectedRoleIds.includes(r.id))
+        };
+
+        // Update the user in your state using the actual function you use to update the user
+        setNewUser(updatedUser);
     };
 
-    const saveUser = () => {
-        console.log(user)
+    async function saveUser() {
+        try {
+            const patchRespons = await patchUser(newUser, pushToast, userId);
+            setUser(patchRespons.user);
+            setNewUser(patchRespons.user);
+            setEdit(false)
+        }catch (error) {
+            console.log("t'es nul")
+        }
     }
-
-
     async function sendRequest() {
         setStandBy(true);
         try {
             const userResponse = await getUser(userId, pushToast);
-            setUser(userResponse.user);
-            setNewUser(userResponse.user);
+            setUser(userResponse);
+            setNewUser(userResponse);
             setStandBy(false);
+            console.log(userResponse)
         } catch (error) {
             setStandBy(false);
         }
@@ -82,8 +104,10 @@ export default function UserDetails() {
         setIsModalOpen(false)
         if(!valid) return
         try {
-            const res = await deleteUser({'ban':true},pushToast,userId)
+            const res = await deleteUser({"ban":ban},pushToast,userId)
             console.log(res)
+            setNewUser(res.user);
+            setUser(res.user);
         } catch {
             console.log("err")
         }
@@ -98,7 +122,7 @@ export default function UserDetails() {
                     <>
                         <div className="border p-4 rounded-xl shadow-md">
                             <div className="px-4 sm:px-0">
-                                <h3 className="text-base font-semibold leading-7 text-gray-900">{t('user.userDetails')}</h3>
+                                <h3 className="text-base font-semibold leading-7 text-gray-900">{t('user.userDetails') + ' ' + userId}</h3>
                             </div>
                             <div className="mt-6 border-t border-gray-100">
                                 <dl className="divide-y divide-gray-100">
@@ -293,12 +317,16 @@ export default function UserDetails() {
                                                         labelId="demo-multiple-name-label"
                                                         id="demo-multiple-name"
                                                         multiple
+                                                        value={newUser.roles.map((r) => r.id)}
                                                         onChange={handleRoleChange}
-                                                        value={newUser?.roles}
                                                         input={<OutlinedInput label="Name"/>}
                                                     >
                                                         {roles.map((r) => (
-                                                            <MenuItem key={r.id} value={r.id}>
+                                                            <MenuItem
+                                                                key={r.id}
+                                                                value={r.id}
+                                                                disabled={newUser.roles.some((selectedRole) => [1, 2, 3, 4, 5].includes(selectedRole.id)) && !newUser.roles.map((r) => r.id).includes(r.id)}
+                                                            >
                                                                 {r.name}
                                                             </MenuItem>
                                                         ))}
@@ -380,6 +408,24 @@ export default function UserDetails() {
                                     </div>
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.isArchived')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                            <div className="flex items-center justify-between ">
+                                                <span>{user.archive ? t("generic.yes") : t("generic.no")}</span>
+                                            </div>
+                                        </dd>
+                                    </div>
+
+                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.isBan')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                            <div className="flex items-center justify-between ">
+                                                <span>{user.ban ? t("generic.yes") : t("generic.no")}</span>
+                                            </div>
+                                        </dd>
+                                    </div>
+
+                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt className="text-sm font-medium leading-6 text-gray-900">{t('user.file')}</dt>
                                         <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                                             <ul role="list"
@@ -406,24 +452,34 @@ export default function UserDetails() {
                         </div>
                         <div className="m-4 border p-8 rounded-xl shadow-md">
                             <button
+                                disabled={user.archive}
                                 onClick={() => {
                                     setEdit(!edit);
                                 }}
-                                className="block w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                className={`block w-full text-white ${user.archive ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-700 cursor-pointer hover:bg-blue-800'}  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800`}>
                                 {t('generic.editButton')}
                             </button>
 
                             <button
+                                disabled={user.archive}
                                 onClick={() => {
-                                    setIsModalOpen(!edit);
+                                    setTextModal(t('user.deleteMessage'))
+                                    setIsModalOpen(true);
+                                    setBan(false)
                                 }}
-                                className="block w-full focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:focus:ring-yellow-900">
+                                className={`block w-full focus:outline-none text-white ${user.archive ? 'bg-yellow-100 cursor-not-allowed' : 'bg-yellow-400 cursor-pointer hover:bg-yellow-500'}  focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:focus:ring-yellow-900`}>
                                 {t('generic.deleteButton')}
                             </button>
 
                             <button
-                                className="block w-full focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
-                                {t('generic.banButton')}
+                                disabled={user.archive}
+                                onClick={() => {
+                                    setTextModal(t('user.banMessage'))
+                                    setIsModalOpen(true);
+                                    setBan(true)
+                                }}
+                                className={`block w-full focus:outline-none text-white ${user.archive ? 'bg-red-200 cursor-not-allowed' : 'bg-red-700 cursor-pointer hover:bg-red-800'}  focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900`}>
+                            {t('generic.banButton')}
                             </button>
 
                             <button
@@ -435,6 +491,7 @@ export default function UserDetails() {
                             >
                                 {t('generic.saveButton')}
                             </button>
+
                         </div>
                     </>
                 ) : (
@@ -443,6 +500,7 @@ export default function UserDetails() {
             </div>
             <DeleteModal
                 openModal={isModalOpen}
+                text={textModal}
                 onClose={(valid: boolean) => handleModalClose(valid)}
             />
         </main>
