@@ -42,8 +42,6 @@ export interface ISendBeneficiary {
 export interface ISendPartner {
     forname : string,
     name : string,
-    birth_date : Date,
-    gender : number,
     email : string,
     phone_number : number,
     zipcode : number,

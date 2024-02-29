@@ -11,7 +11,7 @@ import Login from "./page/Login/Login.jsx";
 import Register from "./page/Register/Register.jsx";
 import Visit from "./page/Visit/Visit.jsx";
 import BeneficiaryForm from "./page/Register/Forms/beneficiary.tsx";
-import PartnerForm from "./page/Register/Forms/partner.jsx";
+import PartnerForm from "./page/Register/Forms/partner.tsx";
 import VolunteerForm from "./page/Register/Forms/volunteer.tsx";
 import TicketTracking from "./page/Ticket/Tracking/TicketTracking.jsx";
 import UsersList from "./page/Back/User/UsersList.tsx";

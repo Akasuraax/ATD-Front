@@ -21,7 +21,8 @@ export const postRequest = async (url, data, pushToast) => {
             content: "Une erreur est survenue",
             type: "failure"
         });
-        return res.response.data
+        console.log(res)
+        return res
     }
 };
 
