@@ -11,16 +11,17 @@ export const postRequest = async (url, data, pushToast) => {
     try {
         const res = await axios.post(`${API_BASE_URL}/${url}`, data, {headers: defaultHeaders});
         pushToast({
-            content: "L'élément a bien étais envoyer",
+            content: "L'élément a bien été envoyé",
             type: "success"
         });
         return res.data
-    } catch {
+    } catch(res) {
+
         pushToast({
             content: "Une erreur est survenue",
             type: "failure"
         });
-        return null
+        return res.response.data
     }
 };
 
