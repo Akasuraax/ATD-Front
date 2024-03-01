@@ -1,19 +1,44 @@
 // apiService.js
 import axios from 'axios';
-import {useTranslation} from "react-i18next";
 
+let authToken = null;
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 const defaultHeaders = {
     'Content-Type': 'application/json',
 };
 
+const getHeaders = () => {
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+    if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+    }
+    return headers;
+};
+
+export const logIn = async (login, pushToast) => {
+    try {
+        const res = await axios.post(`${API_BASE_URL}/logIn`, login, {headers: getHeaders()});
+        authToken = res.data.token;
+        pushToast({
+            content: "Connecté avec succès",
+            type: "success"
+        });
+        return res.data;
+    } catch (error) {
+        pushToast({
+            content: "Échec de la connexion",
+            type: "failure"
+        });
+        console.log(error);
+        return null;
+    }
+};
 export const postRequest = async (url, data, pushToast) => {
 
-    const { t } = useTranslation();
-    const login= t("header.login");
-
     try {
-        const res = await axios.post(`${API_BASE_URL}/${url}`, data, {headers: defaultHeaders});
+        const res = await axios.post(`${API_BASE_URL}/${url}`, data, {headers: getHeaders()});
         pushToast({
             content: "L'élément a bien été envoyé",
             type: "success"
@@ -33,7 +58,7 @@ export const postRequest = async (url, data, pushToast) => {
 export const patchRequest = async (url, data, pushToast) => {
 
     try {
-        const res = await axios.patch(`${API_BASE_URL}/${url}`, data, {headers: defaultHeaders});
+        const res = await axios.patch(`${API_BASE_URL}/${url}`, data, {headers: getHeaders()});
         pushToast({
             content: "L'élément a bien étais modifier",
             type: "success"
@@ -50,7 +75,7 @@ export const patchRequest = async (url, data, pushToast) => {
 
 export const getRequest = async (url, params, pushToast) => {
     try {
-        const res = await axios.get(`${API_BASE_URL}/${url}`, { params });
+        const res = await axios.get(`${API_BASE_URL}/${url}`, { params }, {headers: getHeaders()});
         return res.data
     } catch {
         pushToast({
@@ -64,7 +89,7 @@ export const getRequest = async (url, params, pushToast) => {
 
 export const deleteRequest = async (url, params, pushToast) => {
     try {
-        const res = await axios.delete(`${API_BASE_URL}/${url}`, { params });
+        const res = await axios.delete(`${API_BASE_URL}/${url}`, { params }, {headers: getHeaders()});
         return res.data
     } catch {
         pushToast({

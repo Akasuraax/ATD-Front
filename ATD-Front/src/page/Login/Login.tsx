@@ -1,10 +1,14 @@
 import './login.css'
 import InputPwd from "../../components/inputPwd/inputPwd.jsx"
 import {useTranslation} from "react-i18next";
+import {logIn, logInUser} from "../../apiService/UserService";
+import {useToast} from "../../components/Toast/ToastContex";
 
 function Login(){
 
     const { t } = useTranslation();
+    const {pushToast} = useToast();
+
 
     const connect = t("login.connect");
     const email = t("login.email");
@@ -19,6 +23,11 @@ function Login(){
 
         console.log(form.elements["password"].value)
 
+        const login = {
+            email: form.elements["email"].value,
+            password: form.elements["password"].value
+        }
+        const res = await logInUser(login,pushToast)
     }
 
     return(

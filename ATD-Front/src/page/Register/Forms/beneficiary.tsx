@@ -45,7 +45,6 @@ function BeneficiaryForm() {
             address : form.elements["address"].value,
             password : form.elements["pwd"].value
         }
-        console.log(beneficiary.gender)
 
         const res = await postUser(beneficiary,pushToast,'beneficiary')
         console.log(res)
