@@ -20,8 +20,14 @@ export function useToast () {
     const {setToasts} = useContext(ToastContext)
     return {
         pushToast: useCallback((toast) => {
-            setToasts(v => [...v,toast])
-        },[setToasts])}
+            setToasts(v => [...v, toast]);
+
+            // Ajouter un délai de 3000 millisecondes (3 secondes) pour supprimer le toast
+            setTimeout(() => {
+                setToasts(v => v.filter(t => t !== toast));
+            }, 4000);
+        }, [setToasts])
+    }
 }
 
 function Toasts() {

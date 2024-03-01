@@ -236,8 +236,8 @@
 
 
   "generic": {
-    "success": "Success !",
-    "failure": "Failure !",
+    "success": "The item has been successfully sent!",
+    "failure": "An error occurred!"
     "deleteMessage": "Are you sure you want to delete this element ?",
     "acceptDelete": "Yes, I'm sure",
     "refuseDelete": "No, cancel",

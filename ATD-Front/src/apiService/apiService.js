@@ -1,5 +1,6 @@
 // apiService.js
 import axios from 'axios';
+import {useTranslation} from "react-i18next";
 
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 const defaultHeaders = {
@@ -7,6 +8,9 @@ const defaultHeaders = {
 };
 
 export const postRequest = async (url, data, pushToast) => {
+
+    const { t } = useTranslation();
+    const login= t("header.login");
 
     try {
         const res = await axios.post(`${API_BASE_URL}/${url}`, data, {headers: defaultHeaders});
