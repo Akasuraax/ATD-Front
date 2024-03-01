@@ -3,9 +3,13 @@ import partnerIcon from "../../../../files/image/partenaire-icone.png";
 import "../register.css";
 import {useTranslation} from "react-i18next";
 import ValidPwd from "../../../components/input/ValidPwd.jsx";
+import {ISendPartner} from "../../../interfaces/user.js";
 import InputField from "../../../components/input/inputField.jsx";
+import {postUser} from "../../../apiService/UserService.js";
+import {useToast} from "../../../components/Toast/ToastContex.js";
 function PartnerForm() {
 
+    const {pushToast} = useToast();
     const { t } = useTranslation();
 
 
@@ -21,20 +25,23 @@ function PartnerForm() {
     const registerBtn = t("register.partner.registerBtn")
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
 
+        const partner:ISendPartner = {
+            forname : form.elements["lastName"].value,
+            name : form.elements["name"].value,
+            email : form.elements["email"].value,
+            phone_number : form.elements["phone"].value,
+            zipcode : form.elements["zipcode"].value,
+            address : form.elements["address"].value,
+            password : form.elements["pwd"].value,
+            siret_number : form.elements["siret"].value,
+            compagny : form.elements["companyName"].value
+        }
 
-        const lastName = form.elements["lastName"].value;
-        const name = form.elements["name"].value;
-        const companyName = form.elements["companyName"].value;
-        const siret = form.elements["siret"].value;
-        const email = form.elements["email"].value;
-        const phone = form.elements["phone"].value;
-        const zipcode = form.elements["zipcode"].value;
-        const address = form.elements["address"].value;
-        const pwd = form.elements["pwd"].value;
+        const res = await postUser(partner,pushToast,'partner')
     }
 
     return (

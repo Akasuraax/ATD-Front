@@ -1,55 +1,62 @@
-import beneficiaryImg from "../../../../files/image/beneficiaire.png";
-import beneficiaryIcon from "../../../../files/image/beneficiaire-icone.png";
+import volunteerImg from "../../../../files/image/benevole.png";
+import volunteerIcon from "../../../../files/image/benevole-icone.png";
 import "../register.css";
 import {useTranslation} from "react-i18next";
 import InputField from "../../../components/input/inputField.jsx";
 import SelectField from "../../../components/input/SelectField.jsx";
 import ValidPwd from "../../../components/input/ValidPwd.jsx";
+import {ISendBeneficiary} from "../../../interfaces/user.js";
+import {useToast} from "../../../components/Toast/ToastContex.js";
+import {postUser} from "../../../apiService/UserService.js";
+function VolunteerForm() {
 
-function BeneficiaryForm() {
-
-    const {t} = useTranslation();
-
-    const register = t("register.beneficiary.register")
-    const name = t("register.beneficiary.name")
-    const lastName = t("register.beneficiary.lastName")
-    const birthDate = t("register.beneficiary.birthDate")
-    const gender = t("register.beneficiary.gender")
-    const male = t("register.beneficiary.male")
-    const female = t("register.beneficiary.female")
-    const unspecified = t("register.beneficiary.unspecified")
-    const email = t("register.beneficiary.email")
-    const zipcode = t("register.beneficiary.zipcode")
-    const address = t("register.beneficiary.address")
-    const phone = t("register.beneficiary.phone")
-    const registerBtn = t("register.beneficiary.registerBtn")
+    const {pushToast} = useToast();
+    const { t } = useTranslation();
 
 
-    const handleSubmit = (e) => {
+    const register = t("register.volunteer.register")
+    const name = t("register.volunteer.name")
+    const lastName = t("register.volunteer.lastName")
+    const birthDate = t("register.volunteer.birthDate")
+    const gender = t("register.volunteer.gender")
+    const male = t("register.volunteer.male")
+    const female = t("register.volunteer.female")
+    const unspecified = t("register.volunteer.unspecified")
+    const email = t("register.volunteer.email")
+    const zipcode = t("register.volunteer.zipcode")
+    const address = t("register.volunteer.address")
+    const phone = t("register.volunteer.phone")
+    const registerBtn = t("register.volunteer.registerBtn")
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
 
-        const lastName = form.elements["lastName"].value;
-        const name = form.elements["name"].value;
-        const birthDate = form.elements["birthDate"].value;
-        const gender = form.elements["gender"].value;
-        const email = form.elements["email"].value;
-        const phone = form.elements["phone"].value;
-        const zipcode = form.elements["zipcode"].value;
-        const address = form.elements["address"].value;
-        const pwd = form.elements["pwd"].value;
-    }
+        const volunteer:ISendBeneficiary = {
+            forname : form.elements["lastName"].value,
+            name : form.elements["name"].value,
+            birth_date : form.elements["birthDate"].value,
+            gender : form.elements["gender"].value,
+            email : form.elements["email"].value,
+            phone_number : form.elements["phone"].value,
+            zipcode : form.elements["zipcode"].value,
+            address : form.elements["address"].value,
+            password : form.elements["pwd"].value
+        }
 
+        const res = await postUser(volunteer,pushToast,'volunteer')
+        console.log(res)
+    }
 
     return (
         <main>
             <div className="form-img">
-                <img src={beneficiaryImg} alt="Image partenaire"/>
+                <img src={volunteerImg} alt="Image partenaire"/>
             </div>
             <div className="custom-form">
                 <div className="form-icon">
                     <div className="d-block m-auto mx-auto w-full max-w-[650px] bg-white">
-                        <img src={beneficiaryIcon} className="custom-icon d-block m-auto" width={64}/>
+                        <img src={volunteerIcon} className="custom-icon d-block m-auto" width={64}/>
                         <h1 className="mb-5 block text-center pb-5 text-base sm:text-xl">{register}</h1>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-5 pt-3">
@@ -87,9 +94,9 @@ function BeneficiaryForm() {
                                             label={gender}
                                             id="gender"
                                             options={[
-                                                {value: 'male', label: male},
-                                                {value: 'female', label: female},
-                                                {value: 'unspecified', label: unspecified},
+                                                {value: 0, label: male},
+                                                {value: 1, label: female},
+                                                {value: 2, label: unspecified},
                                             ]}
                                             required
                                         />
@@ -108,7 +115,6 @@ function BeneficiaryForm() {
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
                                         <InputField
-                                            required={false}
                                             label={phone}
                                             type="tel"
                                             name="phone"
@@ -155,4 +161,4 @@ function BeneficiaryForm() {
     );
 }
 
-export default BeneficiaryForm;
+export default VolunteerForm;
