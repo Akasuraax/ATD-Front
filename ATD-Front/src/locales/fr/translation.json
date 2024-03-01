@@ -238,7 +238,7 @@
 
 "generic" : {
   "success": "L'élement a bien été envoyé !",
-  "failure": "Une erreur est survenue !"
+  "failure": "Une erreur est survenue !",
     "deleteMessage": "Êtes-vous sûr de vouloir supprimer cet élément ?",
     "acceptDelete": "Oui, je suis sûr",
     "refuseDelete": "Non, annuler",
