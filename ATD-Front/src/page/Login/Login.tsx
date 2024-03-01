@@ -12,6 +12,15 @@ function Login(){
     const connectBtn = t("login.connectBtn");
     const forgotPwd = t("login.forgotPwd");
 
+
+    const login = async (e) => {
+        e.preventDefault();
+        const form = e.target;
+
+        console.log(form.elements["password"].value)
+
+    }
+
     return(
         <main>
             <div className="login-page">
@@ -21,7 +30,7 @@ function Login(){
                 <div className="login-form">
                     <h2 className="connect-title text-center">{connect}</h2>
 
-                    <form className="max-w-sm mx-auto">
+                    <form className="max-w-sm mx-auto" onSubmit={login}>
                         <div className="mb-5">
                             <label form="email" className="block text-center mb-2 text-sm font-medium text-gray-900 dark:text-white">{email}</label>
                             <input type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required/>

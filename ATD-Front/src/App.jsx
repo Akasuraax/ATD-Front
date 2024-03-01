@@ -7,7 +7,7 @@ import Footer from './components/Footer/Footer.jsx'
 import TicketPage from "./page/Ticket/Ticket.tsx";
 import Error from "./page/error/error.jsx";
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
-import Login from "./page/Login/Login.jsx";
+import Login from "./page/Login/Login.tsx";
 import Register from "./page/Register/Register.jsx";
 import Visit from "./page/Visit/Visit.jsx";
 import BeneficiaryForm from "./page/Register/Forms/beneficiary.tsx";
