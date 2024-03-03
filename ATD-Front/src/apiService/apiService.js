@@ -17,22 +17,14 @@ const getHeaders = () => {
     return headers;
 };
 
-export const logIn = async (login, pushToast) => {
+export const logIn = async (login) => {
     try {
         const res = await axios.post(`${API_BASE_URL}/logIn`, login, {headers: getHeaders()});
         authToken = res.data.token;
-        pushToast({
-            content: "Connecté avec succès",
-            type: "success"
-        });
-        return res.data;
+        return res;
     } catch (error) {
-        pushToast({
-            content: "Échec de la connexion",
-            type: "failure"
-        });
-        console.log(error);
-        return null;
+console.log(error.response)
+        return error.response;
     }
 };
 export const postRequest = async (url, data, pushToast) => {

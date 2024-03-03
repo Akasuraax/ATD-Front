@@ -9,6 +9,10 @@ export const getRoles = async (params, pushToast) => {
     return getRequest('role',params, pushToast);
 };
 
+export const getAllRoles = async (params, pushToast) => {
+    return getRequest('role/all',params, pushToast);
+};
+
 export const getRole = async (params, pushToast) => {
     return getRequest('role/' + params,'', pushToast);
 };

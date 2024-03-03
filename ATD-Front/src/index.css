@@ -10,7 +10,7 @@
     --light-gray-color:#F1F1F1;
 }
 
-body {
+.App {
     display: flex;
     flex-direction: column;
     min-height: 100vh;

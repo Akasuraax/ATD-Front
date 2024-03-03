@@ -1,12 +1,12 @@
-import { useEffect} from "react";
-import { initFlowbite} from "flowbite";
+import {useEffect} from "react";
+import {initFlowbite} from "flowbite";
 import Header from './components/Header/Header.jsx'
 import Home from './page/Home/Home.jsx';
 import Activity from "./page/Activity.jsx";
 import Footer from './components/Footer/Footer.jsx'
 import TicketPage from "./page/Ticket/Ticket.tsx";
 import Error from "./page/error/error.jsx";
-import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, Navigate, Outlet, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.tsx";
 import Register from "./page/Register/Register.jsx";
 import Visit from "./page/Visit/Visit.jsx";
@@ -23,35 +23,45 @@ import Language from "./page/Back/Language/Language.jsx";
 import AddType from "./page/Back/Activity/addForm/AddType.jsx";
 import UserDetails from "./page/Back/User/UserDetails"
 import 'flowbite/dist/flowbite.min.css';
+import {useAuth} from "./AuthProvider.jsx";
 
 
 function App() {
 
+    const auth = useAuth();
+
+    // eslint-disable-next-line react/prop-types
+    function PrivateRoute({children, roles}) {
+        if(!auth?.token) return <Navigate to="/login"/>
+        if(!auth.user.roles.some(role => role.id === roles)) return <Error/>;
+        return children
+    }
+
     const router = createBrowserRouter([
         {
-            path :'/',
+            path: '/',
             element: <Root/>,
-            errorElement:<Error/>,
-            children : [
+            errorElement: <Error/>,
+            children: [
                 {
-                    path :"",
+                    path: "",
                     element: <Home/>
                 },
                 {
-                    path :'login',
+                    path: 'login',
                     element: <Login/>
                 },
                 {
-                    path :'activity',
+                    path: 'activity',
                     element: <Activity/>
                 },
 
                 {
-                    path :'register',
+                    path: 'register',
                     element: <Outlet/>,
-                    children : [
+                    children: [
                         {
-                            path :'',
+                            path: '',
                             element: <Register/>,
                         },
                         {
@@ -69,76 +79,76 @@ function App() {
                     ]
                 },
                 {
-                    path :'ticket',
+                    path: 'ticket',
                     element: <Outlet/>,
-                    children : [
+                    children: [
                         {
-                            path:'',
+                            path: '',
                             element: <TicketPage/>
                         },
                         {
-                            path:'suivi',
+                            path: 'suivi',
                             element: <TicketTracking/>
                         }
                     ]
                 },
                 {
-                    path:'visit',
+                    path: 'visit',
                     element: <Visit/>
                 },
                 {
                     path: 'back',
-                    element: <Outlet/>,
-                    children : [
-                    {
-                        path: '',
-                        element: <UsersList/>
-                    },
-                    {
-                        path: 'users',
-                        element: <Outlet/>,
-                        children: [
-                            {
-                                path: '',
-                                element: <UsersList/>
-                            },
-                            {
-                            path: ':userId',
-                            element: <UserDetails />,
-                            }
-                        ]
-                    },
-                    {
-                        path: 'vehicles',
-                        element: <Vehicle/>
-                    },
-                    {
-                        path : "warehouses",
-                        element: <Warehouse/>
-                    },
-                    {
-                        path: "recipes",
-                        element: <Recipe/>
-                    },
-                    {
-                        path:'activities',
-                        element: <Outlet/>,
-                        children: [
-                            {
-                                path: '',
-                                element: <ActivityList/>
-                            },
-                            {
-                                path: 'add',
-                                element: <AddType/>
-                            }
-                        ]
-                    },
-                    {
-                        path: 'languages',
-                        element:<Language/>
-                    },
-                ]
+                    element: <PrivateRoute roles={1}><Outlet/></PrivateRoute>,
+                    children: [
+                        {
+                            path: '',
+                            element: <UsersList/>
+                        },
+                        {
+                            path: 'users',
+                            element: <Outlet/>,
+                            children: [
+                                {
+                                    path: '',
+                                    element: <UsersList/>
+                                },
+                                {
+                                    path: ':userId',
+                                    element: <UserDetails/>,
+                                }
+                            ]
+                        },
+                        {
+                            path: 'vehicles',
+                            element: <Vehicle/>
+                        },
+                        {
+                            path: "warehouses",
+                            element: <Warehouse/>
+                        },
+                        {
+                            path: "recipes",
+                            element: <Recipe/>
+                        },
+                        {
+                            path: 'activities',
+                            element: <Outlet/>,
+                            children: [
+                                {
+                                    path: '',
+                                    element: <ActivityList/>
+                                },
+                                {
+                                    path: 'add',
+                                    element: <AddType/>
+                                }
+                            ]
+                        },
+                        {
+                            path: 'languages',
+                            element: <Language/>
+                        },
+                    ]
                 }
             ]
         },
@@ -148,18 +158,18 @@ function App() {
         initFlowbite();
     }, []);
 
-  return (
-    <RouterProvider router={router} />
-  )
+    return (
+        <RouterProvider router={router}/>
+    )
 }
 
 function Root() {
     return <>
-        <body>
+        <div className="App">
             <Header></Header>
             <Outlet></Outlet>
             <Footer></Footer>
-        </body>
+        </div>
     </>
 }
 

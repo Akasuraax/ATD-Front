@@ -10,7 +10,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import moment from 'moment';
-import {getRoles} from '../../../apiService/RoleService';
+import {getAllRoles, getRoles} from '../../../apiService/RoleService';
 import isEqual from 'lodash/isEqual';
 import {useTranslation} from "react-i18next";
 import DeleteModal from "../../../components/modal/deleteModal";
@@ -74,7 +74,7 @@ export default function UserDetails() {
             setNewUser(patchRespons.user);
             setEdit(false)
         }catch (error) {
-            console.log("t'es nul")
+            console.log(error)
         }
     }
     async function sendRequest() {
@@ -84,16 +84,15 @@ export default function UserDetails() {
             setUser(userResponse);
             setNewUser(userResponse);
             setStandBy(false);
-            console.log(userResponse)
         } catch (error) {
-            setStandBy(false);
+            setStandBy(true);
         }
     }
 
     async function rolesRequest() {
         setStandBy(true);
         try {
-            const rolesResponse = await getRoles(null, pushToast);
+            const rolesResponse = await getAllRoles(null, pushToast);
             setRoles(rolesResponse);
         } catch (error) {
             setStandBy(false);
@@ -105,11 +104,10 @@ export default function UserDetails() {
         if(!valid) return
         try {
             const res = await deleteUser({"ban":ban},pushToast,userId)
-            console.log(res)
             setNewUser(res.user);
             setUser(res.user);
-        } catch {
-            console.log("err")
+        } catch (error) {
+            console.log(error)
         }
         setIsModalOpen(false);
     };
@@ -432,7 +430,7 @@ export default function UserDetails() {
                                                 className="divide-y divide-gray-100 rounded-md border border-gray-200">
                                                 <li className="flex items-center justify-between p-4 text-sm leading-6">
                                                     <div className="flex w-0 flex-1 items-center">
-                                                        <PaperClipIcon class="h-5 w-5 flex-shrink-0 text-gray-400 "
+                                                        <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400 "
                                                                        aria-hidden="true"/>
                                                         <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
                                                 <span

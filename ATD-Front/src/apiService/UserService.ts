@@ -6,8 +6,8 @@ export const postUser = async (params, pushToast, url) => {
     return postRequest(`signIn/${url}`,params, pushToast);
 };
 
-export const logInUser = async (params, pushToast) => {
-    return logIn(params, pushToast);
+export const logInUser = async (params) => {
+    return logIn(params);
 };
 export const getUsers = async (params, pushToast) => {
     return getRequest('user',params, pushToast);
@@ -21,8 +21,8 @@ export const deleteUser = async (params, pushToast, url?) => {
     return deleteRequest(`user/${url}`,params, pushToast);
 };
 
-export const patchUser = async (params, pushToast) => {
-    return postRequest(`logIn`,params, pushToast);
+export const patchUser = async (params, pushToast,userId) => {
+    return patchRequest(`user/${userId}`,params, pushToast);
 };
 
 export const loginUser = async (params, pushToast, url?) => {

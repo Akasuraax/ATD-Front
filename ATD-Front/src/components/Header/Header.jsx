@@ -5,11 +5,12 @@ import {NavLink, useLocation} from "react-router-dom";
 import { useTranslation } from 'react-i18next'
 import LanguageSelector from "../LanguageSelector.jsx";
 import Logo from "../../../files/image/logo.png"
+import { useAuth } from "../../AuthProvider.jsx";
 
 function Header() {
 
     const location = useLocation();
-
+    const auth = useAuth();
     const { t } = useTranslation();
     const login= t("header.login");
 
@@ -19,7 +20,7 @@ function Header() {
     },
     {
         name :  t("header.event"),
-        link:   ""
+        link:   "back/users"
     },
     {
         name :  t("header.local"),
@@ -29,7 +30,6 @@ function Header() {
         name :  t("header.about"),
         link:   ""
     }]
-
 
     useEffect(() => {
         initFlowbite();
@@ -44,12 +44,19 @@ function Header() {
                         <img className={"logo"} src={Logo} alt="logo"></img>
                     </NavLink>
                     <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                        {location.pathname !== '/Login' ? (
-                                <NavLink to="/Login" type="button"
+                        {location.pathname !== '/login' && auth.token === null? (
+                                <NavLink to="/login" type="button"
                                         className="mr-8 text-white bg-[#F85866] hover:bg-[#E84856] font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700">
                                     {login}
                                 </NavLink>
                         ): null }
+                        {auth.token !== null? (
+                            <button type="button"
+                                    onClick={auth.logOut}
+                                     className="mr-8 text-white bg-[#F85866] hover:bg-[#E84856] font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700">
+                                Déconnexion
+                            </button>
+                        ): null}
                         <LanguageSelector />
                     <button data-collapse-toggle="navbar-cta" type="button"
                             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"

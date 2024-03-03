@@ -1,33 +1,32 @@
 import './login.css'
 import InputPwd from "../../components/inputPwd/inputPwd.jsx"
 import {useTranslation} from "react-i18next";
-import {logIn, logInUser} from "../../apiService/UserService";
-import {useToast} from "../../components/Toast/ToastContex";
+import {useAuth} from "../../AuthProvider.jsx";
+import {useNavigate} from "react-router-dom";
 
 function Login(){
 
     const { t } = useTranslation();
-    const {pushToast} = useToast();
-
+    const auth = useAuth();
+    const navigate = useNavigate();
 
     const connect = t("login.connect");
     const email = t("login.email");
     const password = t("login.password");
     const connectBtn = t("login.connectBtn");
-    const forgotPwd = t("login.forgotPwd");
-
 
     const login = async (e) => {
         e.preventDefault();
         const form = e.target;
 
-        console.log(form.elements["password"].value)
-
         const login = {
             email: form.elements["email"].value,
             password: form.elements["password"].value
         }
-        const res = await logInUser(login,pushToast)
+       const res = await auth.loginAction(login);
+        if(res) {
+            navigate("/activity");
+        }
     }
 
     return(
