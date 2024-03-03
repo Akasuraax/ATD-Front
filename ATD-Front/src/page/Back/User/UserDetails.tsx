@@ -396,6 +396,39 @@ export default function UserDetails() {
                                             </div>
                                         </>
                                     ) : ''}
+
+                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.waitingValidation')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                            <div className="flex items-center justify-between ">
+                                                {edit ? (
+                                                    <Select
+                                                        labelId="demo-multiple-name-label"
+                                                        id="demo-multiple-name"
+                                                        value={newUser.status}
+                                                        onChange={(e) => updateUserField('status', e.target.value)}
+                                                        input={<OutlinedInput label="Name"/>}>
+                                                            <MenuItem key={0} value={0}>{t("user.onStandby")}</MenuItem>
+                                                            <MenuItem key={1} value={1}>{t("user.validated")}</MenuItem>
+                                                            <MenuItem key={2} value={2}>{t("user.refused")}</MenuItem>
+                                                    </Select>
+                                                    ): (
+                                                <span>
+                                                    {user.status === 0 && (
+                                                        <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{t("user.onStandby")}</span>
+                                                    )}
+                                                    {user.status === 1 && (
+                                                        <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{t("user.validated")}</span>
+                                                    )}
+                                                    {user.status === 2 && (
+                                                        <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">{t("user.refused")}</span>
+                                                    )}
+                                                </span>
+                                                    )}
+                                            </div>
+                                        </dd>
+                                    </div>
+
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt className="text-sm font-medium leading-6 text-gray-900">{t('user.creationDate')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
@@ -477,7 +510,7 @@ export default function UserDetails() {
                                     setBan(true)
                                 }}
                                 className={`block w-full focus:outline-none text-white ${user.archive ? 'bg-red-200 cursor-not-allowed' : 'bg-red-700 cursor-pointer hover:bg-red-800'}  focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900`}>
-                            {t('generic.banButton')}
+                                {t('generic.banButton')}
                             </button>
 
                             <button
@@ -504,3 +537,4 @@ export default function UserDetails() {
         </main>
     )
 }
+

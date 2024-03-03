@@ -197,7 +197,10 @@
     "siretNumber" : "Numéro de Siret",
     "companyName" : "Nom de l'entreprise",
     "deleteMessage": "Êtes-vous sûr de vouloir supprimer cet utilisateur ?",
-    "banMessage": "Êtes-vous sûr de vouloir bannir cet utilisateur ?"
+    "banMessage": "Êtes-vous sûr de vouloir bannir cet utilisateur ?",
+    "onStandby": "en attente",
+    "validated": "validé",
+    "refused": "refusé"
 
   },
   "vehicle": {

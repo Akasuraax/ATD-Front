@@ -9,6 +9,7 @@ export interface IUser {
     password: string;
     email: string;
     birth_date: Date;
+    status: number,
     gender: number;
     compagny?: string;
     siret_number?: string;
