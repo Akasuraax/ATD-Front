@@ -1,4 +1,3 @@
-// ticketsApi.js
 import {getRequest, deleteRequest, patchRequest, postRequest, logIn} from './apiService.js';
 
 
@@ -23,8 +22,4 @@ export const deleteUser = async (params, pushToast, url?) => {
 
 export const patchUser = async (params, pushToast,userId) => {
     return patchRequest(`user/${userId}`,params, pushToast);
-};
-
-export const loginUser = async (params, pushToast, url?) => {
-    return patchRequest(`user/${url}`,params, pushToast);
 };

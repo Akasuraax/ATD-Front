@@ -16,16 +16,7 @@ function UsersList(){
     const [rowCount, setRowCount] = useState(0);
     const navigate = useNavigate();
 
-
-    const [dataGrid, setDataGrid] = useState({
-        page: 0,
-        pageSize: 10,
-        fieldSort:'id',
-        sort:'asc',
-        fieldFilter:'',
-        operator: '',
-        value: '*'
-    });
+    const [dataGrid, setDataGrid] = useState({});
 
     useEffect(() => {
         sendRequest();
@@ -97,9 +88,6 @@ function UsersList(){
 
     };
 
-
-
-
     // page change
     const handlePageChange = async (params) => {
         setDataGrid((prevModel) => ({
@@ -135,6 +123,7 @@ function UsersList(){
     }
 
     async function sendRequest() {
+
         setStandBy(true);
         try {
             const usersResponse = await getUsers(dataGrid, pushToast);
@@ -174,10 +163,7 @@ function UsersList(){
                         onRowClick={(params) => { navigate(`/back/users/${params.row.id}`)}}
                     />
                 </Box>
-
             </div>
-
-
         </main>
     )
 }

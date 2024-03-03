@@ -1,26 +1,21 @@
 // apiService.js
 import axios from 'axios';
+import Cookies from "js-cookie";
 
-let authToken = null;
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
-const defaultHeaders = {
-    'Content-Type': 'application/json',
-};
 
 const getHeaders = () => {
     const headers = {
         'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin" : "*",
     };
-    if (authToken) {
-        headers['Authorization'] = `Bearer ${authToken}`;
-    }
+    axios.defaults.headers.common['Authorization'] = `${ Cookies.get("token")}`;
     return headers;
 };
 
 export const logIn = async (login) => {
     try {
         const res = await axios.post(`${API_BASE_URL}/logIn`, login, {headers: getHeaders()});
-        authToken = res.data.token;
         return res;
     } catch (error) {
         return error.response;
@@ -36,12 +31,10 @@ export const postRequest = async (url, data, pushToast) => {
         });
         return res.data
     } catch(res) {
-
         pushToast({
             content: "Une erreur est survenue",
             type: "failure"
         });
-        console.log(res)
         return res
     }
 };

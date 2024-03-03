@@ -3,12 +3,14 @@ import InputPwd from "../../components/inputPwd/inputPwd.jsx"
 import {useTranslation} from "react-i18next";
 import {useAuth} from "../../AuthProvider.jsx";
 import {useNavigate} from "react-router-dom";
+import {useToast} from "../../components/Toast/ToastContex";
 
 function Login(){
 
     const { t } = useTranslation();
     const auth = useAuth();
     const navigate = useNavigate();
+    const { pushToast } = useToast();
 
     const connect = t("login.connect");
     const email = t("login.email");
@@ -25,7 +27,12 @@ function Login(){
         }
        const res = await auth.loginAction(login);
         if(res) {
-            navigate("/activity");
+            navigate("/");
+        } else {
+            pushToast({
+                content: "identifiant ou mot de passe incorrecte",
+                type: "failure"
+            });
         }
     }
 

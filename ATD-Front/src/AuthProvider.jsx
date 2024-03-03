@@ -7,38 +7,32 @@ const AuthContext = createContext();
 
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
-    const storedToken = Cookies.get("site");
+    const storedToken = Cookies.get("token");
     const storedUser = Cookies.get("user");
 
     const [token, setToken] = useState(storedToken || null);
-    const [user, setUser] = useState(JSON.parse(storedUser) || null);
-
-    const {pushToast} = useToast();
+    const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
 
     const loginAction = async (data) => {
         try {
-            const res = await logInUser(data,null)
+            const res = await logInUser(data)
             if (res.status === 200) {
                 setUser(res.data.user);
                 setToken(res.data.token);
-
-                Cookies.set("site", res.data.token, { expires: 5 });
+                Cookies.set("token", res.data.token, { expires: 5 });
                 Cookies.set("user", JSON.stringify(res.data.user), { expires: 5 });
                 return true;
             }
             throw new Error(res.data.message);
         } catch (err) {
-            pushToast({
-                content: "identifiant ou mot de passe incorrecte",
-                type: "failure"
-            });
+            return false;
         }
     };
 
     const logOut = () => {
         setUser(null);
         setToken(null);
-        Cookies.remove("site");
+        Cookies.remove("token");
         Cookies.remove("user");
     };
 

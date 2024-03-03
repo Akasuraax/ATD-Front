@@ -15,7 +15,7 @@ import PartnerForm from "./page/Register/Forms/partner.tsx";
 import VolunteerForm from "./page/Register/Forms/volunteer.tsx";
 import TicketTracking from "./page/Ticket/Tracking/TicketTracking.jsx";
 import UsersList from "./page/Back/User/UsersList.tsx";
-import Vehicle from "./page/Back/Vehicle/Vehicle.jsx";
+import Vehicle from "./page/Back/Vehicle/Vehicle.tsx";
 import Warehouse from "./page/Back/Warehouse/Warehouse.jsx";
 import Recipe from "./page/Back/Recipe/Recipe.jsx";
 import ActivityList from "./page/Back/Activity/Activity.jsx";
@@ -32,6 +32,7 @@ function App() {
 
     // eslint-disable-next-line react/prop-types
     function PrivateRoute({children, roles}) {
+        console.log(auth.token)
         if(!auth.token) return <Navigate to="/login"/>
         if(!auth.user.roles.some(role => role.id === roles)) return <Error numError="403"/>;
         return children
