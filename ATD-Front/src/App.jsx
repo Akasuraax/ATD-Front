@@ -5,7 +5,7 @@ import Home from './page/Home/Home.jsx';
 import Activity from "./page/Activity.jsx";
 import Footer from './components/Footer/Footer.jsx'
 import TicketPage from "./page/Ticket/Ticket.tsx";
-import Error from "./page/error/error.jsx";
+import Error from "./page/error/error.tsx";
 import {createBrowserRouter, Navigate, Outlet, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.tsx";
 import Register from "./page/Register/Register.jsx";
@@ -32,8 +32,8 @@ function App() {
 
     // eslint-disable-next-line react/prop-types
     function PrivateRoute({children, roles}) {
-        if(!auth?.token) return <Navigate to="/login"/>
-        if(!auth.user.roles.some(role => role.id === roles)) return <Error/>;
+        if(!auth.token) return <Navigate to="/login"/>
+        if(!auth.user.roles.some(role => role.id === roles)) return <Error numError="403"/>;
         return children
     }
 
@@ -41,11 +41,11 @@ function App() {
         {
             path: '/',
             element: <Root/>,
-            errorElement: <Error/>,
+            errorElement: <Error numError="404"/>,
             children: [
                 {
                     path: "",
-                    element: <Home/>
+                    element: <Home/>,
                 },
                 {
                     path: 'login',

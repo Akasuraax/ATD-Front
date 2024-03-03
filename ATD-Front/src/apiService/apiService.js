@@ -23,7 +23,6 @@ export const logIn = async (login) => {
         authToken = res.data.token;
         return res;
     } catch (error) {
-console.log(error.response)
         return error.response;
     }
 };

@@ -8,17 +8,13 @@ const AuthContext = createContext();
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
     const storedToken = Cookies.get("site");
+    const storedUser = Cookies.get("user");
+
     const [token, setToken] = useState(storedToken || null);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(JSON.parse(storedUser) || null);
 
     const {pushToast} = useToast();
 
-    useEffect(() => {
-        const storedUser = Cookies.get("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
     const loginAction = async (data) => {
         try {
             const res = await logInUser(data,null)

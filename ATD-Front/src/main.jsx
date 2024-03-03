@@ -8,10 +8,11 @@ import AuthProvider from "./AuthProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <AuthProvider>
-            <ToastContextProvider>
+        <ToastContextProvider>
+            <AuthProvider>
                 <App/>
-            </ToastContextProvider>
-        </AuthProvider>
+            </AuthProvider>
+        </ToastContextProvider>
+
     </React.StrictMode>,
 )

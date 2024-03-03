@@ -8,10 +8,12 @@
     "submitBtn" : "Envoyer le message"
   },
   "error" : {
-    "textError" : "Page not found",
-    "errorDescription" : "Sorry, we couldn’t find the page you’re looking for.",
-    "textButton" : "Go back home",
-    "contact" : "Contact support "
+    "Error404" : "Page non trouvée",
+    "Description404" : "Désolé, nous n'avons pas pu trouver la page que vous recherchez.",
+    "Error403" : "Accès interdit",
+    "Description403" : "Désolé, vous n'avez pas l'autorisation d'accéder à cette page. Veuillez contacter le support si vous pensez qu'il s'agit d'une erreur.",
+    "textButton" : "Retourner à l'accueil",
+    "contact" : "Contacter le support"
   },
   "home" : {
     "homeTextImage" : "Votre aide peut changer la vie d’autrui",
