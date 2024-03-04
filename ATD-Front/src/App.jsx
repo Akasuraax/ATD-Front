@@ -24,6 +24,7 @@ import AddType from "./page/Back/Activity/addForm/AddType.jsx";
 import UserDetails from "./page/Back/User/UserDetails"
 import 'flowbite/dist/flowbite.min.css';
 import {useAuth} from "./AuthProvider.jsx";
+import VehicleDetails from "./page/Back/Vehicle/vehicleDetails"
 
 
 function App() {
@@ -121,7 +122,17 @@ function App() {
                         },
                         {
                             path: 'vehicles',
-                            element: <Vehicle/>
+                            element: <Outlet/>,
+                            children: [
+                                {
+                                    path: '',
+                                    element: <Vehicle/>
+                                },
+                                {
+                                    path: ':vehiclesId',
+                                    element: <VehicleDetails/>,
+                                }
+                            ]
                         },
                         {
                             path: "warehouses",

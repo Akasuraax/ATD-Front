@@ -43,31 +43,31 @@ function Vehicle() {
         {field: 'id', headerName: 'ID', width: 90},
         {
             field: 'name',
-            headerName: t("user.name"),
+            headerName: t("vehicle.name"),
             width: 150,
             editable: false,
         },
         {
             field: 'license_plate',
-            headerName: t("user.lastName"),
+            headerName: t("vehicle.registration"),
             width: 150,
             editable: false,
         },
         {
             field: 'average_consumption',
-            headerName: t("user.email"),
+            headerName: t("vehicle.avgConsumption"),
             width: 300,
             editable: false,
         },
         {
             field: 'fuel_type',
-            headerName: t("user.email"),
+            headerName: t("vehicle.consumption"),
             width: 300,
             editable: false,
         },
         {
             field: 'annexe_name',
-            headerName: t("user.email"),
+            headerName: t("vehicle.annex"),
             width: 300,
             editable: false,
         },
@@ -150,7 +150,7 @@ function Vehicle() {
                             onFilterModelChange={onFilterChange}
                             loading={standBy}
                             onRowClick={(params) => {
-                                navigate(`/back/users/${params.row.id}`)
+                                navigate(`/back/vehicles/${params.row.id}`)
                             }}
                         />
                     </Box>

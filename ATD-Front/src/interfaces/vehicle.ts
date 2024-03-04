@@ -6,5 +6,6 @@ export interface IVehicles {
     average_consumption:number;
     fule_type:string;
     annexe_name:string;
-    archive:string;
+    archive:boolean;
+    created_at:Date;
 }
