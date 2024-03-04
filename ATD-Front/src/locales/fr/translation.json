@@ -221,6 +221,7 @@
     "capacity": "Capacité",
     "addWarehouse": "Ajouter un entrepôt",
     "delete": "Supprimer",
+    "isArchived": "Entrepôt archivé",
     "details": "Détails"
   },
   "recipe": {

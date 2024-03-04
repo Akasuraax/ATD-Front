@@ -9,7 +9,6 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const storedToken = Cookies.get("token");
     const storedUser = Cookies.get("user");
-
     const [token, setToken] = useState(storedToken || null);
     const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
 
