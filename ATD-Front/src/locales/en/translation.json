@@ -204,14 +204,18 @@
 
   },
   "vehicle": {
-    "title": "Vehicles list",
-    "addBtn": "Add a vehicle",
+    "title": "List of Vehicles",
+    "addBtn": "Add a Vehicle",
     "name": "Name",
     "registration": "Registration",
-    "avgConsumption": "Average consumption (L/100km)",
+    "avgConsumption": "Average Consumption (L/100km)",
     "annex": "Annex",
     "delete": "Delete",
-    "details": "Details"
+    "details": "Details",
+    "consumption": "Consumption",
+    "vehicleDetails": "Vehicle Details",
+    "isArchived": "Archived Vehicle",
+    "annexe": "Annex"
   },
   "warehouse": {
     "title": "Warehouses list",

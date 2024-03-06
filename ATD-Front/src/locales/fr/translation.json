@@ -214,6 +214,7 @@
     "details": "Détails",
     "consumption": "Consommation",
     "vehicleDetails" : "Détails du véhicule",
+    "isArchived" : "vehicule archiver",
     "annexe" : "annexe"
   },
   "warehouse": {

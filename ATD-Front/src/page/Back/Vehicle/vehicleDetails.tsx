@@ -41,10 +41,18 @@ export default function VehicleDetails() {
     }, [newVehicle]);
 
     const updateField = (field: string, value: any) => {
-        setNewVehicle((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
+        if (field === "annexe") {
+            const selectedAnnexe = annexe.find((a) => a.id === value);
+            setNewVehicle((prev) => ({
+                ...prev,
+                [field]: selectedAnnexe || null,
+            }));
+        } else {
+            setNewVehicle((prev) => ({
+                ...prev,
+                [field]: value,
+            }));
+        }
     };
 
     async function save() {
@@ -218,8 +226,8 @@ export default function VehicleDetails() {
                                                     <Select
                                                         id="gender"
                                                         required
-                                                        value={newVehicle?.annexe.name}
-                                                        onChange={(e) => updateField('gender', e.target.value)}
+                                                        value={newVehicle?.annexe.id}
+                                                        onChange={(e) => updateField('annexe', e.target.value)}
                                                     >
                                                         {annexe.map((a) => (
                                                             <MenuItem key={a.id} value={a.id}>{a.name}</MenuItem>
@@ -234,7 +242,7 @@ export default function VehicleDetails() {
                                     </div>
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.isArchived')}</dt>
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.isArchived')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                             <div className="flex items-center justify-end ">
                                                 <span>{vehicle.archive ? t("generic.yes") : t("generic.no")}</span>
