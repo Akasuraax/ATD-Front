@@ -10,6 +10,9 @@ import isEqual from 'lodash/isEqual';
 import {useTranslation} from "react-i18next";
 import DeleteModal from "../../../components/modal/deleteModal";
 import {deleteVehicle, getVehicle, patchVehicle} from "../../../apiService/vehiclesService";
+import {getAnnexesAll} from "../../../apiService/annexe";
+import {IAnnexe} from "../../../interfaces/annexe";
+
 
 
 export default function VehicleDetails() {
@@ -20,6 +23,7 @@ export default function VehicleDetails() {
     const [edit, setEdit] = useState(false);
     const [isModified, setIsModified] = useState(false);
     const [newVehicle, setNewVehicle] = useState<IVehicles | null>(null);
+    const [annexe, setAnnexe] = useState<IAnnexe[] | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [textModal, setTextModal] = useState();
 
@@ -29,6 +33,7 @@ export default function VehicleDetails() {
 
     useEffect(() => {
         sendRequest();
+        getAnnexesF();
     }, []);
 
     useEffect(() => {
@@ -56,9 +61,19 @@ export default function VehicleDetails() {
         setStandBy(true);
         try {
             const vehicleRespons = await getVehicle(vehiclesId, pushToast);
-            console.log(vehicleRespons)
             setVehicle(vehicleRespons);
             setNewVehicle(vehicleRespons);
+            setStandBy(false);
+        } catch (error) {
+            setStandBy(true);
+        }
+    }
+
+    async function getAnnexesF() {
+        setStandBy(true);
+        try {
+            const annexeRespons = await getAnnexesAll( pushToast);
+            setAnnexe(annexeRespons);
             setStandBy(false);
         } catch (error) {
             setStandBy(true);
@@ -86,13 +101,13 @@ export default function VehicleDetails() {
                     <>
                         <div className="border p-4 rounded-xl shadow-md">
                             <div className="px-4 sm:px-0">
-                                <h3 className="text-base font-semibold leading-7 text-gray-900">{t('user.userDetails') + ' ' + vehiclesId}</h3>
+                                <h3 className="text-base font-semibold leading-7 text-gray-900">{t('vehicle.vehicleDetails') + ' ' + vehiclesId}</h3>
                             </div>
                             <div className="mt-6 border-t border-gray-100">
                                 <dl className="divide-y divide-gray-100">
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm  font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.name')}</dt>
+                                        <dt className="text-sm  font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.name')}</dt>
                                         <dd className="mt-1 ml-12 text-sm leading-6 text-gray-700 sm:col-span-2">
                                             <div className="flex items-center justify-end">
                                                 {edit ? (
@@ -118,7 +133,7 @@ export default function VehicleDetails() {
                                     </div>
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.lastName')}</dt>
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.registration')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                             <div className="flex items-center justify-end">
                                                 {edit ? (
@@ -144,7 +159,7 @@ export default function VehicleDetails() {
                                     </div>
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.email')}</dt>
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.avgConsumption')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                             <div className="flex items-center justify-end ">
                                                 {edit ? (
@@ -170,7 +185,7 @@ export default function VehicleDetails() {
                                     </div>
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.email')}</dt>
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.consumption')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                             <div className="flex items-center justify-end ">
                                                 {edit ? (
@@ -185,33 +200,34 @@ export default function VehicleDetails() {
                                                             padding: '0',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={newVehicle?.fule_type}
-                                                        onChange={(e) => updateField('fule_type', e.target.value)}
+                                                        value={newVehicle?.fuel_type}
+                                                        onChange={(e) => updateField('fuel_type', e.target.value)}
                                                     />
                                                 ) : (
-                                                    <span>{newVehicle.fule_type}</span>
+                                                    <span>{newVehicle.fuel_type}</span>
                                                 )}
                                             </div>
                                         </dd>
                                     </div>
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.gender')}</dt>
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.annexe')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                             <div className="flex items-center justify-end ">
                                                 {edit ? (
                                                     <Select
                                                         id="gender"
                                                         required
-                                                        value={newVehicle?.annexe_name}
+                                                        value={newVehicle?.annexe.name}
                                                         onChange={(e) => updateField('gender', e.target.value)}
                                                     >
-                                                        <MenuItem value={0}>Homme</MenuItem>
-                                                        <MenuItem value={1}>Femme</MenuItem>
-                                                        <MenuItem value={2}>Non préciser</MenuItem>
+                                                        {annexe.map((a) => (
+                                                            <MenuItem key={a.id} value={a.id}>{a.name}</MenuItem>
+                                                        ))}
+
                                                     </Select>
                                                 ) : (
-                                                    <div/>
+                                                    <span>{newVehicle?.annexe.name}</span>
                                                 )}
                                             </div>
                                         </dd>

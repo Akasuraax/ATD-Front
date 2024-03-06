@@ -212,7 +212,9 @@
     "annex": "Annexe",
     "delete": "Supprimer",
     "details": "Détails",
-    "consumption": "Consommation"
+    "consumption": "Consommation",
+    "vehicleDetails" : "Détails du véhicule",
+    "annexe" : "annexe"
   },
   "warehouse": {
     "title": "Liste des entrepôts",
