@@ -9,3 +9,10 @@ export interface IWarehouse {
     updated_at: Date;
     archive: boolean;
 }
+
+export interface IAddWarehouse {
+    name: string;
+    address: string;
+    zipcode: number;
+    capacity: number;
+}

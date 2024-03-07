@@ -10,7 +10,7 @@ import {IWarehouse} from "../../../interfaces/warehouse";
 import {deleteWarehouse, getWarehouse, patchWarehouse} from "../../../apiService/WarehouseService";
 
 
-export default function UserDetails() {
+export default function WarehouseDetails() {
     const {warehouseId} = useParams();
     const [standBy, setStandBy] = useState(true);
     const {pushToast} = useToast();

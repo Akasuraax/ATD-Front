@@ -27,19 +27,19 @@ function WarehousesList(){
         {
             field: 'name',
             headerName: t("warehouse.name"),
-            width: 150,
+            width: 250,
             editable: false,
         },
         {
             field: 'address',
             headerName: t("warehouse.address"),
-            width: 150,
+            width: 250,
             editable: false,
         },
         {
             field: 'capacity',
             headerName: t("warehouse.capacity"),
-            width: 300,
+            width: 150,
             editable: false,
         },
         {
@@ -104,7 +104,17 @@ function WarehousesList(){
 
     return(
         <main>
-            <div className="m-auto content">
+            <div className="m-auto content max-w-screen-xl">
+                <h2 className="text-center mb-8">{t('warehouse.title')}</h2>
+                <button
+                    type="button"
+                    onClick={() => {
+                        navigate(`/back/warehouses/add`)
+                    }}
+                    style={{ backgroundColor: "#6AAF5C" }}
+                    className={`block mb-2 text-white cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 text-center`}>
+                    ajouter un entrepot
+                </button>
                 <Box sx={{height: "500px", width: 'auto'}}>
                     <DataGrid
                         rows={warehouse}
@@ -127,7 +137,9 @@ function WarehousesList(){
                         filterMode="server"
                         onFilterModelChange={onFilterChange}
                         loading={standBy}
-                        onRowClick={(params) => { navigate(`/back/warehouses/${params.row.id}`)}}
+                        onRowClick={(params) => {
+                            navigate(`/back/warehouses/${params.row.id}`)
+                        }}
                     />
                 </Box>
             </div>
