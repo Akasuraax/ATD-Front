@@ -1,17 +1,16 @@
 import './user.css'
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
 import {useToast} from "../../../components/Toast/ToastContex";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {getUsers} from '../../../apiService/UserService';
 
 
-
-function UsersList(){
+function UsersList() {
     const [standBy, setStandBy] = useState(false);
-    const { pushToast } = useToast();
+    const {pushToast} = useToast();
     const [users, setUsers] = useState([]);
     const [rowCount, setRowCount] = useState(0);
     const navigate = useNavigate();
@@ -22,10 +21,10 @@ function UsersList(){
         sendRequest();
     }, [dataGrid]);
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 90 },
+        {field: 'id', headerName: 'ID', width: 90},
         {
             field: 'name',
             headerName: t("user.name"),
@@ -46,13 +45,14 @@ function UsersList(){
         },
         {
             field: 'roles',
-            headerName:"roles",
+            headerName: "roles",
             width: 150,
             editable: false,
             sortable: false,
             renderCell: (params) => {
-            return (
-                    <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                return (
+                    <span
+                        className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
                         {params.row.roles[0].name}
                     </span>
                 );
@@ -77,14 +77,22 @@ function UsersList(){
 
     const renderStatusCell = (status: number) => {
         switch (status) {
-            case 0: return <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">en attente</span>;
-            case 1: return <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">validé</span>;
-            case 2: return <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">refusé</span>
+            case 0:
+                return <span
+                    className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">en attente</span>;
+            case 1:
+                return <span
+                    className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">validé</span>;
+            case 2:
+                return <span
+                    className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">refusé</span>
         }
     };
     const renderArchiveCell = (archived: boolean) => {
-        if (archived) return <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">archivé</span>
-        else return <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">active</span>
+        if (archived) return <span
+            className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">archivé</span>
+        else return <span
+            className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">active</span>
 
     };
 
@@ -93,21 +101,21 @@ function UsersList(){
         setDataGrid((prevModel) => ({
             ...prevModel,
             page: params.page,
-            pageSize:params.pageSize
+            pageSize: params.pageSize
         }))
     };
 
     const onSortModelChange = async (params) => {
-        if(params.length !== 0) {
-          setDataGrid((prevModel) => ({
-               ...prevModel,
-                fieldSort: params[0].field,
-                sort:params[0].sort
-           }))
-           } else {
+        if (params.length !== 0) {
             setDataGrid((prevModel) => ({
                 ...prevModel,
-                fieldSort:'id',
+                fieldSort: params[0].field,
+                sort: params[0].sort
+            }))
+        } else {
+            setDataGrid((prevModel) => ({
+                ...prevModel,
+                fieldSort: 'id',
                 sort: 'asc'
             }))
         }
@@ -116,7 +124,7 @@ function UsersList(){
     const onFilterChange = async (params) => {
         setDataGrid((prevModel) => ({
             ...prevModel,
-            fieldFilter:params.items[0].field,
+            fieldFilter: params.items[0].field,
             operator: params.items[0].operator,
             value: params.items[0].value
         }))
@@ -135,34 +143,37 @@ function UsersList(){
         }
     }
 
-    return(
+    return (
         <main>
-            <div className="m-auto content">
-                <Box sx={{height: "auto", width: 'auto'}}>
-                    <DataGrid
-                        rows={users}
-                        columns={columns}
-                        initialState={{
-                            pagination: {
-                                paginationModel: {
-                                    pageSize: 10,
+            <div className="m-auto">
+                <h2 className="text-center mb-8">{t('user.title')}</h2>
+                    <Box sx={{height: '60vh', width: 'auto'}}>
+                        <DataGrid
+                            rows={users}
+                            columns={columns}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: {
+                                        pageSize: 10,
+                                    },
                                 },
-                            },
-                        }}
-                        rowCount={rowCount}
-                        checkboxSelection={false}
-                        paginationMode="server"
-                        sortingMode="server"
-                        disableRowSelectionOnClick
-                        pageSizeOptions={[5, 10, 25]}
-                        onPaginationModelChange={handlePageChange}
-                        onSortModelChange={onSortModelChange}
-                        filterMode="server"
-                        onFilterModelChange={onFilterChange}
-                        loading={standBy}
-                        onRowClick={(params) => { navigate(`/back/users/${params.row.id}`)}}
-                    />
-                </Box>
+                            }}
+                            rowCount={rowCount}
+                            checkboxSelection={false}
+                            paginationMode="server"
+                            sortingMode="server"
+                            disableRowSelectionOnClick
+                            pageSizeOptions={[5, 10, 25]}
+                            onPaginationModelChange={handlePageChange}
+                            onSortModelChange={onSortModelChange}
+                            filterMode="server"
+                            onFilterModelChange={onFilterChange}
+                            loading={standBy}
+                            onRowClick={(params) => {
+                                navigate(`/back/users/${params.row.id}`)
+                            }}
+                        />
+                    </Box>
             </div>
         </main>
     )

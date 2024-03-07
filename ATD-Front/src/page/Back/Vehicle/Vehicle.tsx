@@ -68,7 +68,7 @@ function Vehicle() {
         {
             field: 'annexe_name',
             headerName: t("vehicle.annex"),
-            width: 300,
+            width: 150,
             editable: false,
         },
     ];
@@ -125,9 +125,8 @@ function Vehicle() {
     return (
         <main>
             <div className="m-auto">
-                <h2 className="text-center m-12">{title}</h2>
-                <div className="m-auto content">
-                    <Box sx={{height: "auto", width: 'auto'}}>
+                <h2 className="text-center mb-8">{title}</h2>
+                    <Box sx={{height: '60vh', width: 'auto'}}>
                         <DataGrid
                             rows={vehicles}
                             columns={columns}
@@ -154,7 +153,6 @@ function Vehicle() {
                             }}
                         />
                     </Box>
-                </div>
             </div>
         </main>
     )
