@@ -11,8 +11,8 @@ export const getWarehouse = async (params, pushToast) => {
     return getRequest('warehouse/' + params,'', pushToast);
 };
 
-export const deleteWarehouse = async (params, pushToast, url?) => {
-    return deleteRequest(`warehouse/${url}`,params, pushToast);
+export const deleteWarehouse = async ( pushToast, url?) => {
+    return deleteRequest(`warehouse/${url}`,"", pushToast);
 };
 
 export const patchWarehouse = async (params, pushToast,userId) => {

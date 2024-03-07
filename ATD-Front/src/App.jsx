@@ -24,6 +24,7 @@ import AddType from "./page/Back/Activity/addForm/AddType.jsx";
 import UserDetails from "./page/Back/User/UserDetails"
 import 'flowbite/dist/flowbite.min.css';
 import {useAuth} from "./AuthProvider.jsx";
+import WarehouseDetails from "./page/Back/Warehouse/WarehouseDetails";
 
 
 function App() {
@@ -125,7 +126,17 @@ function App() {
                         },
                         {
                             path: "warehouses",
-                            element: <Warehouse/>
+                            element: <Outlet/>,
+                            children: [
+                                {
+                                    path: '',
+                                    element: <Warehouse/>
+                                },
+                                {
+                                    path: ':warehouseId',
+                                    element: <WarehouseDetails/>,
+                                }
+                            ]
                         },
                         {
                             path: "recipes",

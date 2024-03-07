@@ -222,7 +222,9 @@
     "addWarehouse": "Ajouter un entrepôt",
     "delete": "Supprimer",
     "isArchived": "Entrepôt archivé",
-    "details": "Détails"
+    "details": "Détails",
+    "warehouseDetails" : "Détails de l'entrepot",
+    "zipcode" : "code postal"
   },
   "recipe": {
     "title": "Liste des recettes",

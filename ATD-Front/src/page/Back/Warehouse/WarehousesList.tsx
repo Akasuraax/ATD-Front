@@ -105,7 +105,7 @@ function WarehousesList(){
     return(
         <main>
             <div className="m-auto content">
-                <Box sx={{height: "auto", width: 'auto'}}>
+                <Box sx={{height: "500px", width: 'auto'}}>
                     <DataGrid
                         rows={warehouse}
                         columns={columns}

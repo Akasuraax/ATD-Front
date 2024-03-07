@@ -10,7 +10,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import moment from 'moment';
-import {getAllRoles, getRoles} from '../../../apiService/RoleService';
+import {getAllRoles} from '../../../apiService/RoleService';
 import isEqual from 'lodash/isEqual';
 import {useTranslation} from "react-i18next";
 import DeleteModal from "../../../components/modal/deleteModal";
