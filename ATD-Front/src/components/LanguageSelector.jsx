@@ -1,6 +1,7 @@
 import {useState} from "react";
 import i18n from '../i18n';
 import Cookies from 'js-cookie';
+import { fetchLanguageIcon } from "../apiService/translationService.js";
 
 const LanguageSelector = () => {
     const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
@@ -11,8 +12,9 @@ const LanguageSelector = () => {
         Cookies.set('language', e,  { expires: 30 })
     }
 
-    const getImageForLanguage = (lang) => {
-            return `/src/locales/${lang}/${lang}.png`;
+    const getImageForLanguage = async (lang) => {
+
+            return await fetchLanguageIcon(lang)
     }
 
     return (

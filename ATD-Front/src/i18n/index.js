@@ -1,11 +1,8 @@
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import {initReactI18next} from "react-i18next";
 
-import translationsInFr from '../locales/fr/translation.json';
-import translationsInEng from '../locales/en/translation.json';
-import translationsInIt from '../locales/it/translation.json';
-import translationsInDe from '../locales/de/translation.json';
 import Cookies from "js-cookie";
+import {fetchTranslation} from "../apiService/translationService.js";
 
 
 const storedLanguage = Cookies.get('language') || 'english';
@@ -13,10 +10,10 @@ const storedLanguage = Cookies.get('language') || 'english';
 // the translations
 const resources = {
     fr: {
-        translation: translationsInFr
+        translation: await fetchTranslation("fr")
     },
     en: {
-        translation: translationsInEng
+        translation: await fetchTranslation("en")
     }
 };
 
