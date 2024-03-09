@@ -13,7 +13,6 @@ const LanguageSelector = () => {
     }
 
     const getImageForLanguage = async (lang) => {
-
             return await fetchLanguageIcon(lang)
     }
 

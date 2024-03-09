@@ -1,33 +1,39 @@
 import i18n from "i18next";
-import {initReactI18next} from "react-i18next";
-
+import { initReactI18next } from "react-i18next";
 import Cookies from "js-cookie";
-import {fetchTranslation} from "../apiService/translationService.js";
+import { fetchTranslation, fetchLanguages } from "../apiService/translationService.js";
 
+const storedLanguage = Cookies.get('language') || 'en';
 
-const storedLanguage = Cookies.get('language') || 'english';
+const attrLanguages = async () => {
+    return await fetchLanguages();
+}
 
-// the translations
-const resources = {
-    fr: {
-        translation: await fetchTranslation("fr")
-    },
-    en: {
-        translation: await fetchTranslation("en")
-    }
-};
+const initializeI18n = async () => {
+    const languages = await attrLanguages();
+    const translations = await Promise.all(languages.map(language => fetchTranslation(language)));
+
+    const resources = languages.reduce((acc, language, index) => {
+        acc[language] = { translation: translations[index] };
+        return acc;
+    }, {});
+
+    return resources;
+}
+
+const resources = await initializeI18n();
 
 i18n
-    .use(initReactI18next) // passes i18n down to react-i18next
+    .use(initReactI18next)
     .init({
-        resources, // resources are important to load translations for the languages.
-        lng: storedLanguage, // It acts as default language. When the site loads, content is shown in this language.
+        resources,
+        lng: storedLanguage,
         debug: true,
-        fallbackLng: "french", // use de if selected language is not available
+        fallbackLng: "en",
         interpolation: {
             escapeValue: false
         },
-        ns: "translation", // namespaces help to divide huge translations into multiple small files.
+        ns: "translation",
         defaultNS: "translation"
     });
 

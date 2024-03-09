@@ -15,19 +15,17 @@ export const fetchTranslation = async (abbreviation) => {
 export const fetchLanguageIcon = async (abbreviation) => {
     try {
         const response = await axios.get(`${API_BASE_URL}/language/icon/${abbreviation}`, {
-            responseType: 'blob', // Set the response type to blob
+            responseType: 'blob',
         });
 
-        // Read the blob data using FileReader
         const reader = new FileReader();
         reader.readAsDataURL(response.data);
 
         return new Promise((resolve, reject) => {
             reader.onloadend = () => {
-                // Resolve with the base64 data URL
                 resolve(reader.result);
             };
-            reader.onerror = reject; // Reject on error
+            reader.onerror = reject;
         });
     } catch (error) {
         console.error('Error fetching language icon:', error);
@@ -35,5 +33,12 @@ export const fetchLanguageIcon = async (abbreviation) => {
     }
 };
 
-
-
+export const fetchLanguages = async () => {
+    try{
+        const response = await axios.get(`${API_BASE_URL}/language`)
+        return response.data
+    }catch(error){
+        console.error('Error fetching languages:', error);
+        return {};
+    }
+}
