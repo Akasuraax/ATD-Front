@@ -1,7 +1,8 @@
+@import "@flaticon/flaticon-uicons/css/all/all";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 :root{
     --pink-color:#F85866;
     --hover-pink-color: #d24753;

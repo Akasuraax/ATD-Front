@@ -27,6 +27,7 @@ import {useAuth} from "./AuthProvider.jsx";
 import WarehouseDetails from "./page/Back/Warehouse/WarehouseDetails";
 import AddWarehouse from "./page/Back/Warehouse/addWarehouse";
 import VehicleDetails from "./page/Back/Vehicle/vehicleDetails"
+import SidebarComponent from "./components/sideBar/SidebarComponent";
 
 
 function App() {

@@ -1,0 +1,195 @@
+import {NavLink} from "react-router-dom";
+import {useAuth} from "../../AuthProvider.jsx";
+import {useTranslation} from 'react-i18next'
+
+'use client';
+
+export default function SidebarComponent() {
+
+    const auth = useAuth();
+    const {t} = useTranslation();
+
+    function Acces(roles: number) {
+        if (!auth.token) return false
+        return auth.user.roles.some(role => role.id === roles);
+    }
+
+    return (
+        <div id="drawer-navigation"
+             className="fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800"
+             tabIndex={-1} aria-labelledby="drawer-navigation-label">
+            <h5 id="drawer-navigation-label"
+                className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">{t("sidebar.menu")}</h5>
+            <button type="button" data-drawer-hide="drawer-navigation" aria-controls="drawer-navigation"
+                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fillRule="evenodd"
+                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                          clipRule="evenodd"></path>
+                </svg>
+                <span className="sr-only">Close menu</span>
+            </button>
+            <div className="py-4 overflow-y-auto">
+                <aside id="separator-sidebar"
+                       className="fixed top-20 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+                       aria-label="Sidebar">
+                    <div
+                        className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 flex flex-col justify-between">
+                        <div>
+                            {/* Common */}
+                            <ul className="space-y-2 font-medium">
+                                <li>
+                                    <NavLink to={'/'}
+                                             className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        <i className="fi fi-sr-home"></i>
+                                        <span className="ms-3">{t("sidebar.home")}</span>
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        <i className="fi fi-br-calendar-clock"></i>
+                                        <span className="ms-3">{t("sidebar.planner")}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        <i className="fi fi-br-picture"></i>
+                                        <span className="ms-3">{t("sidebar.activities")}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        <i className="fi fi-bs-home-location-alt"></i>
+                                        <span className="ms-3">{t("sidebar.local")}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        <i className="fi fi-br-square-info"></i>
+                                        <span className="ms-3">{t("sidebar.about")}</span>
+                                    </a>
+                                </li>
+                                {auth.token ? (
+                                    <>
+                                        <li>
+                                            <a href="#"
+                                               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                                <i className="fi fi-ss-user"></i>
+                                                <span className="ms-3">{t("sidebar.profile")}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#"
+                                               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                                <i className="fi fi-br-edit"></i>
+                                                <span className="ms-3">{t("sidebar.activityRequest")}</span>
+                                            </a>
+                                        </li>
+                                    </>
+                                ) : null}
+                            </ul>
+                            {/* Admin */}
+                            {Acces(1) ? (
+                                <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+                                    <h5 id="drawer-navigation-label"
+                                        className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">{t("sidebar.admin")}</h5>
+                                    <li>
+                                        <NavLink to={"/back/users"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-br-users"></i>
+                                            <span className="ms-3">{t("sidebar.users")}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to={"/back/vehicles"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-bs-cars"></i>
+                                            <span className="ms-3">{t("sidebar.vehicles")}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to={"/back/warehouse"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-sr-warehouse-alt"></i>
+                                            <span className="ms-3">{t("sidebar.warehouses")}</span>
+                                        </NavLink>
+                                    </li>
+                                </ul>
+                            ) : null}
+                        </div>
+                        {/* Setting */}
+                        <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+                            <li>
+                                <button type="button"
+                                        className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                        aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                                    <i className="fi fi-br-language"></i>
+                                    <span
+                                        className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">{t("sidebar.language")}</span>
+                                    <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                         fill="none"
+                                         viewBox="0 0 10 6">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                                              strokeWidth="2" d="m1 1 4 4 4-4"/>
+                                    </svg>
+                                </button>
+                                <ul id="dropdown-example" className="hidden py-2 space-y-2">
+                                    <li>
+                                        <a href="#"
+                                           className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Products</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"
+                                           className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Billing</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"
+                                           className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Invoice</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {auth.token ? (
+                                <li>
+                                    <NavLink to={"/ticket"}
+                                             className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        <i className="fi fi-sr-headset"></i>
+                                        <span className="ms-3">{t("sidebar.ticket")}</span>
+                                    </NavLink>
+                                </li>
+                            ) : null}
+                            <li>
+                                <NavLink to={"/login"}
+                                         className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <i className="fi fi-br-sign-in-alt"></i>
+                                    <span
+                                        className="flex-1 ms-3 whitespace-nowrap">{t("sidebar.signIn")}</span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to={"/register"}
+                                         className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <i className="fi fi-br-edit"></i>
+                                    <span className="flex-1 ms-3 whitespace-nowrap">{t("sidebar.signUp")}</span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <a href="#"
+                                   className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <i className="fi fi-br-sign-in-alt"></i>
+                                    <span
+                                        className="flex-1 ms-3 whitespace-nowrap">{t("sidebar.logOut")}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    )
+        ;
+}
