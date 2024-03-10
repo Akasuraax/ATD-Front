@@ -232,6 +232,7 @@
     "numIngredients" : "Number of ingredients",
     "delete": "Delete",
     "details": "Details",
+    "isArchived": "Warehouse archiveds",
     "addRecipe": "Add a recipe"
   },
   "language": {

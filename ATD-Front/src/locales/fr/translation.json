@@ -224,7 +224,10 @@
     "capacity": "Capacité",
     "addWarehouse": "Ajouter un entrepôt",
     "delete": "Supprimer",
-    "details": "Détails"
+    "isArchived": "Entrepôt archivé",
+    "details": "Détails",
+    "warehouseDetails" : "Détails de l'entrepot",
+    "zipcode" : "code postal"
   },
   "recipe": {
     "title": "Liste des recettes",
