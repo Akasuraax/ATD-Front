@@ -32,7 +32,8 @@ export default function SidebarComponent() {
             </button>
             <div className="py-4 overflow-y-auto">
                 <aside id="separator-sidebar"
-                       className="fixed top-20 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+                       className="fixed top-20 left-0 z-40 w-64 transition-transform -translate-x-full sm:translate-x-0"
+                       style={{ height: 'calc(100vh - 40px)' }}
                        aria-label="Sidebar">
                     <div
                         className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 flex flex-col justify-between">
@@ -162,29 +163,36 @@ export default function SidebarComponent() {
                                     </NavLink>
                                 </li>
                             ) : null}
-                            <li>
-                                <NavLink to={"/login"}
-                                         className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                    <i className="fi fi-br-sign-in-alt"></i>
-                                    <span
-                                        className="flex-1 ms-3 whitespace-nowrap">{t("sidebar.signIn")}</span>
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to={"/register"}
-                                         className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                    <i className="fi fi-br-edit"></i>
-                                    <span className="flex-1 ms-3 whitespace-nowrap">{t("sidebar.signUp")}</span>
-                                </NavLink>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                    <i className="fi fi-br-sign-in-alt"></i>
-                                    <span
-                                        className="flex-1 ms-3 whitespace-nowrap">{t("sidebar.logOut")}</span>
-                                </a>
-                            </li>
+                            {!auth.token ? (
+                                <>
+                                    <li>
+                                        <NavLink to={"/login"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-br-sign-in-alt"></i>
+                                            <span
+                                                className="flex-1 ms-3 whitespace-nowrap">{t("sidebar.signIn")}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to={"/register"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-br-edit"></i>
+                                            <span className="flex-1 ms-3 whitespace-nowrap">{t("sidebar.signUp")}</span>
+                                        </NavLink>
+                                    </li>
+                                </>
+                            ) : (
+                                <li>
+                                    <a
+                                        href=""
+                                        onClick={auth.logOut}
+                                       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        <i className="fi fi-br-sign-in-alt"></i>
+                                        <span
+                                            className="flex-1 ms-3 whitespace-nowrap">{t("sidebar.logOut")}</span>
+                                    </a>
+                                </li>
+                            )}
                         </ul>
                     </div>
                 </aside>
