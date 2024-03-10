@@ -34,9 +34,9 @@
     "partnerText": "Make a difference by becoming our partner. Your company can have an immediate positive impact. Join us now!",
     "beneficiaryText": "Explore new horizons by accepting sharing. Compassionate individuals are ready to accompany you. Open the door to a multitude of mutual aid opportunities in your path.",
     "volunteerText": "Be part of something bigger by becoming a volunteer. Your contribution, even small, can change lives. Join us, make a difference!",
-    "btnPartner" : "Become a partner",
-    "btnVolunteer" : "Become a volunteer",
-    "btnBeneficiary" : "Become a beneficiary",
+    "btnPartner": "Become a partner",
+    "btnVolunteer": "Become a volunteer",
+    "btnBeneficiary": "Become a beneficiary",
     "beneficiary": {
       "register": "Beneficiary",
       "name": "First Name",
@@ -107,7 +107,7 @@
     "tutoring": "Tutoring for Children",
     "event": "Organizing Fundraising Events",
     "seniors": "Visits and Activities for Seniors",
-    "back"   : {
+    "back": {
       "title": "Activities types list",
       "name": "Name",
       "needsVehicle": "Needs a vehicle",
@@ -126,7 +126,7 @@
       "addBtn": "Add",
       "descriptionText": "Describe the activity...",
       "successMessage": "The activity type has been created !",
-      "success" : "Success ! "
+      "success": "Success ! "
     }
   },
   "footer": {
@@ -142,24 +142,24 @@
     "login": "Log in"
   },
   "languages": {
-    "fr" : "French",
-    "en" : "English",
-    "it" : "Italian",
-    "de" : "German"
+    "fr": "French",
+    "en": "English",
+    "it": "Italian",
+    "de": "German"
   },
   "visit": {
-    "visitsDemand":"Visit demands of elderly people",
-    "lastName":"Last name",
-    "name":"Name",
-    "age":"Age",
-    "address":"Address",
-    "zipcode":"Zipcode",
-    "action":"Action",
-    "accept":"I'm going !"
+    "visitsDemand": "Visit demands of elderly people",
+    "lastName": "Last name",
+    "name": "Name",
+    "age": "Age",
+    "address": "Address",
+    "zipcode": "Zipcode",
+    "action": "Action",
+    "accept": "I'm going !"
   },
   "list": {
     "search": "Search",
-    "searchPlaceHolder" : "Search element",
+    "searchPlaceHolder": "Search element",
     "filter": "Sort by"
   },
   "tracking": {
@@ -172,14 +172,14 @@
     "ticketTrack": "Tickets"
   },
   "user": {
-    "title" : "Users list",
+    "title": "Users list",
     "lastName": "Last name",
     "name": "Name",
     "role": "Role",
     "email": "Email",
     "isArchived": "Archived account",
     "isBan": "Account banned",
-    "informations":"Informations",
+    "informations": "Informations",
     "action": "Action",
     "downloadData": "Download datas",
     "partner": "Partner",
@@ -201,7 +201,6 @@
     "onStandby": "on standby",
     "validated": "validated",
     "refused": "refused"
-
   },
   "vehicle": {
     "title": "List of Vehicles",
@@ -229,7 +228,7 @@
   "recipe": {
     "title": "Recipes list",
     "titled": "Titled",
-    "numIngredients" : "Number of ingredients",
+    "numIngredients": "Number of ingredients",
     "delete": "Delete",
     "details": "Details",
     "addRecipe": "Add a recipe"
@@ -242,8 +241,25 @@
     "delete": "Delete",
     "newFile": "New file"
   },
-
-
+  "sidebar": {
+    "menu": "Menu",
+    "home": "Home",
+    "planner": "Planner",
+    "activities": "Activities",
+    "local": "Locations",
+    "about": "About",
+    "profile": "Profile",
+    "activityRequest": "Activity Request",
+    "admin": "Administration",
+    "users": "Users",
+    "vehicles": "Vehicles",
+    "warehouses": "Warehouses",
+    "language": "Languages",
+    "ticket": "Support",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "logOut": "Log Out"
+  },
   "generic": {
     "success": "The item has been successfully sent!",
     "failure": "An error occurred!",

@@ -25,6 +25,7 @@ import UserDetails from "./page/Back/User/UserDetails"
 import 'flowbite/dist/flowbite.min.css';
 import {useAuth} from "./AuthProvider.jsx";
 import VehicleDetails from "./page/Back/Vehicle/vehicleDetails"
+import SidebarComponent from "./components/sideBar/SidebarComponent";
 
 
 function App() {
