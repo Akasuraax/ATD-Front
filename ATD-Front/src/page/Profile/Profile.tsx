@@ -11,6 +11,7 @@ import {useToast} from "../../components/Toast/ToastContex";
 import {IUser} from "../../interfaces/user";
 import Calendar from "../../components/Calendar/Calendar";
 import "./profile.css"
+import TimelineCompnent from "../../components/Timeline/Timeline";
 
 export default function Profile() {
 
@@ -148,13 +149,22 @@ export default function Profile() {
                     </div>
                     <div className="py-8 px-4 mx-auto lg:py-16 ">
                         <div
-                            style={{width:"70vw"}}
+                            style={{width: "70vw"}}
                             className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
-                            <Calendar/>
+                            <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-8">évenement
+                                a venir</h1>
+                            <TimelineCompnent/>
+                        </div>
+                        <div
+                            style={{width: "70vw"}}
+                            className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
+                            <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-8">évenement
+                                a venir</h1>
+                            <TimelineCompnent/>
                         </div>
                     </div>
                 </div>
             </section>
         </main>
-)
+    )
 }
