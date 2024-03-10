@@ -55,11 +55,11 @@ export default function SidebarComponent() {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#"
+                                    <NavLink to={'/activity'}
                                        className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                         <i className="fi fi-br-picture"></i>
                                         <span className="ms-3">{t("sidebar.activities")}</span>
-                                    </a>
+                                    </NavLink>
                                 </li>
                                 <li>
                                     <a href="#"
