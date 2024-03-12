@@ -5,10 +5,12 @@ import {useTranslation} from "react-i18next";
 // @ts-expect-error
 import { ITicket } from '../../interfaces/ticket.ts'
 import {postTicket} from "../../apiService/ticketsApi.js";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useToast} from "../../components/Toast/ToastContex";
 import { Spinner } from 'flowbite-react';
 import * as React from "react";
+import {IType} from "../../interfaces/type";
+import {getTypes} from "../../apiService/TypeService";
 'use client';
 
 
@@ -16,6 +18,7 @@ import * as React from "react";
 function TicketPage(){
 
     const [standBy, setStandBy] = useState(false);
+    const [types, setTypes] = useState<IType[]>();
 
     const { pushToast } = useToast();
 
@@ -32,8 +35,20 @@ function TicketPage(){
     const submitBtn = t("ticket.submitBtn");
     const listIssue = ["1", "2", "3"];
 
+    useEffect(() => {
+        request();
+    }, []);
+    async function request() {
+        setStandBy(true);
+        try {
+            const typeResponse = await getTypes(pushToast);
+            setTypes(typeResponse);
 
-
+            setStandBy(false);
+        } catch (error) {
+            setStandBy(true);
+        }
+    }
     const handleSubmit = async (e) => {
         setStandBy(true);
         e.preventDefault();
@@ -66,8 +81,8 @@ function TicketPage(){
                                     className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                                     required>
                                     <option value="" disabled selected hidden>{selectProblem}</option>
-                                    {listIssue.map((issue, index) => (
-                                        <option key={index} value={issue}>{issue}</option>
+                                    {types.map((t) => (
+                                        <option value={t.id} key={t.id} disabled selected hidden>{t.name}</option>
                                     ))}
                                 </select>
 
