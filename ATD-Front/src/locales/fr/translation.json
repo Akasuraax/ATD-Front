@@ -175,7 +175,7 @@
     "title": "Liste des utilisateurs",
     "lastName": "Nom de famille",
     "name": "Prénom",
-    "role": "Rôle",
+    "role": "Rôles",
     "email": "Email",
     "isArchived": "Compte archivé",
     "isBan": "Compte banni",

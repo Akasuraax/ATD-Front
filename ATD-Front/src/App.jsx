@@ -42,6 +42,11 @@ function App() {
         return children
     }
 
+    function Token({children}) {
+        if(!auth.token) return <Navigate to="/login"/>
+        return children
+    }
+
     const router = createBrowserRouter([
         {
             path: '/',
@@ -61,8 +66,8 @@ function App() {
                     element: <Activity/>
                 },
                 {
-                    path: 'profile',
-                    element: <Profile/>
+                    path: 'profile/:userId',
+                    element: <Token><Profile/></Token>,
                 },
                 {
                     path: 'register',
