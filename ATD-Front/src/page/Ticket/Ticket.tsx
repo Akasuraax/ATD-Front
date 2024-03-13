@@ -11,6 +11,7 @@ import { Spinner } from 'flowbite-react';
 import * as React from "react";
 import {IType} from "../../interfaces/type";
 import {getTypes} from "../../apiService/TypeService";
+import {useAuth} from "../../AuthProvider"
 'use client';
 
 
@@ -19,6 +20,7 @@ function TicketPage(){
 
     const [standBy, setStandBy] = useState(true);
     const [types, setTypes] = useState<IType[]>();
+    const auth = useAuth()
 
     const { pushToast } = useToast();
 
@@ -42,8 +44,7 @@ function TicketPage(){
         setStandBy(true);
         try {
             const typeResponse = await getTypes(pushToast);
-            setTypes(typeResponse);
-            console.log(typeResponse)
+            setTypes(typeResponse.types);
             setStandBy(false);
         } catch (error) {
             setStandBy(true);
@@ -60,7 +61,7 @@ function TicketPage(){
             type:Number(form.elements['problemType'].value)
         };
 
-        const req = {ticket, userId:1}
+        const req = {ticket, userId:auth.user.id}
         const res = await postTicket(req,pushToast);
         setStandBy(false);
     }
@@ -83,7 +84,7 @@ function TicketPage(){
                                     required>
                                     <option value="" disabled selected hidden>{selectProblem}</option>
                                     {types.map((t) => (
-                                        <option value={t.id} key={t.id} disabled selected hidden>{t.name}</option>
+                                        <option value={t.id} key={t.id}>{t.name}</option>
                                     ))}
                                 </select>
 
@@ -95,6 +96,7 @@ function TicketPage(){
                                     type="text"
                                     id="subject"
                                     name="subject"
+                                    maxLength={255}
                                     className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                                     placeholder={placeHolderSubject} required/>
                             </div>
