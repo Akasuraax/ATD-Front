@@ -13,7 +13,7 @@ import Visit from "./page/Visit/Visit.jsx";
 import BeneficiaryForm from "./page/Register/Forms/beneficiary.tsx";
 import PartnerForm from "./page/Register/Forms/partner.tsx";
 import VolunteerForm from "./page/Register/Forms/volunteer.tsx";
-import TicketTracking from "./page/Ticket/Tracking/TicketTracking.jsx";
+import TicketTracking from "./page/Ticket/Tracking/TicketTracking.tsx";
 import UsersList from "./page/Back/User/UsersList.tsx";
 import Vehicle from "./page/Back/Vehicle/Vehicle.tsx";
 import Warehouse from "./page/Back/Warehouse/WarehousesList.tsx";

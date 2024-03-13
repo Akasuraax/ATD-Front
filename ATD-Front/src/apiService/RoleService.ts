@@ -1,4 +1,3 @@
-// ticketsApi.js
 import { postRequest, getRequest, deleteRequest } from './apiService.js';
 
 export const postRole = async (userData,pushToast) => {

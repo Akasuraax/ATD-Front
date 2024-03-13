@@ -2,19 +2,16 @@
 import './ticket.css'
 import {useTranslation} from "react-i18next";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import { ITicket } from '../../interfaces/ticket.ts'
-import {postTicket} from "../../apiService/ticketsApi.js";
+import {postTicket} from "../../apiService/TicketService";
+import {IType} from "../../interfaces/type";
 import {useEffect, useState} from "react";
 import {useToast} from "../../components/Toast/ToastContex";
 import { Spinner } from 'flowbite-react';
 import * as React from "react";
-import {IType} from "../../interfaces/type";
 import {getTypes} from "../../apiService/TypeService";
 import {useAuth} from "../../AuthProvider"
+import { ITicket } from "../../interfaces/ticket"
 'use client';
-
-
 
 function TicketPage(){
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getTickets } from "../../../apiService/ticketsApi.js";
+import { getTickets } from "../../../apiService/TicketService";
 import {useToast} from "../../../components/Toast/ToastContex";
 import ListPlaceholder from "../../../components/skeleton/ListPlaceholder";
 
@@ -14,6 +14,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import {useAuth} from "../../../AuthProvider.jsx";
+import { ITicket } from "../../../interfaces/ticket";
+import {Spinner} from "flowbite-react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -44,6 +47,7 @@ function TicketTracking() {
     const details = t("tracking.details");
     const action = t("tracking.action");
     const ticketTrack = t("tracking.ticketTrack");
+    const auth = useAuth()
 
     const [tickets, setTickets] = useState([]);
     const { pushToast } = useToast();
@@ -53,13 +57,19 @@ function TicketTracking() {
     useEffect(() => {
         setStandBy(true)
         const fetchData = async () => {
-            const ticketsData = await getTickets(pushToast);
-            if(ticketsData !== null) {
-                setTickets(ticketsData);
-                setStandBy(false)
-            }
-        };
+            try {
+                const ticketsData = await getTickets(auth.user.id, pushToast);
+                if(ticketsData !== null) {
+                    setTickets(ticketsData.ticket);
+                    setStandBy(false)
+                }
 
+                console.log()
+            }catch(error){
+                setStandBy(true);
+            }
+
+        };
         fetchData();
     }, []);
 
