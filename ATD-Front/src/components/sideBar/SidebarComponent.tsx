@@ -78,11 +78,11 @@ export default function SidebarComponent() {
                                 {auth.token ? (
                                     <>
                                         <li>
-                                            <a href="#"
+                                            <NavLink to={`/profile/${auth.user.id}`}
                                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                                 <i className="fi fi-ss-user"></i>
                                                 <span className="ms-3">{t("sidebar.profile")}</span>
-                                            </a>
+                                            </NavLink>
                                         </li>
                                         <li>
                                             <a href="#"
