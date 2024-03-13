@@ -17,7 +17,7 @@ import {getTypes} from "../../apiService/TypeService";
 
 function TicketPage(){
 
-    const [standBy, setStandBy] = useState(false);
+    const [standBy, setStandBy] = useState(true);
     const [types, setTypes] = useState<IType[]>();
 
     const { pushToast } = useToast();
@@ -43,7 +43,7 @@ function TicketPage(){
         try {
             const typeResponse = await getTypes(pushToast);
             setTypes(typeResponse);
-
+            console.log(typeResponse)
             setStandBy(false);
         } catch (error) {
             setStandBy(true);
@@ -68,6 +68,7 @@ function TicketPage(){
     return (
         <main className="with-msg">
             <section className="report-form m-auto bg-white dark:bg-gray-900">
+                {!standBy?(
                 <div className="pt-3 pb-16 px-4 mx-auto">
                     <h2 className="mb-12 text-4xl tracking-tight text-center text-gray-900 dark:text-white">{reportProblem}</h2>
                     <form onSubmit={handleSubmit} className="space-y-8">
@@ -114,6 +115,9 @@ function TicketPage(){
                         </button>
                     </form>
                 </div>
+                ) : (
+                <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
+                )}
             </section>
         </main>
 
