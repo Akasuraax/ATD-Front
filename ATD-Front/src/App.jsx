@@ -41,7 +41,7 @@ function App() {
         if(!auth.user.roles.some(role => role.id === roles)) return <Error numError="403"/>;
         return children
     }
-
+    console.log(auth.user)
     function Token({children}) {
         if(!auth.token) return <Navigate to="/login"/>
         return children

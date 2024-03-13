@@ -51,3 +51,14 @@ export interface ISendPartner {
     siret_number : string,
     compagny : string
 }
+
+export interface IPatchUser {
+    forname : string
+    name : string
+    birth_date : boolean
+    gender : number
+    email : string
+    phone_number : string
+    zipcode : number
+    address : string
+}

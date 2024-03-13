@@ -23,3 +23,7 @@ export const deleteUser = async (params, pushToast, url?) => {
 export const patchUser = async (params, pushToast,userId) => {
     return patchRequest(`user/${userId}`,params, pushToast);
 };
+
+export const patchUserAdmin = async (params, pushToast,userId) => {
+    return patchRequest(`user/admin/${userId}`,params, pushToast);
+};

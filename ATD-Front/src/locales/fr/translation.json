@@ -200,7 +200,8 @@
     "banMessage": "Êtes-vous sûr de vouloir bannir cet utilisateur ?",
     "onStandby": "en attente",
     "validated": "validé",
-    "refused": "refusé"
+    "refused": "refusé",
+    "zipcode": "code postal"
   },
   "vehicle": {
     "title": "Liste des véhicules",

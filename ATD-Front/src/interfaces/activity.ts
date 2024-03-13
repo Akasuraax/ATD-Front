@@ -1,11 +1,22 @@
-export interface IActivity{
+export interface IActivity2{
     name:string,
     description:string,
     access_to_warehouse:boolean,
     access_to_journey:boolean
 }
 
-export class Activity implements IActivity{
+export interface IActivity {
+    id: number,
+    title: string,
+    description: string,
+    address: string,
+    zipcode: number,
+    start_date: Date,
+    end_date: Date,
+    donation: boolean,
+    type_name: string
+}
+export class Activity implements IActivity2{
     name:string
     description:string
     access_to_warehouse:boolean

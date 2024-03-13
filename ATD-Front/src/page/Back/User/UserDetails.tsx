@@ -1,7 +1,7 @@
 import {PaperClipIcon} from '@heroicons/react/20/solid';
 import {useParams} from 'react-router-dom';
 import {useEffect, useState} from 'react';
-import {deleteUser, getUser, patchUser} from '../../../apiService/UserService';
+import {deleteUser, getUser, patchUser, patchUserAdmin} from '../../../apiService/UserService';
 import {useToast} from '../../../components/Toast/ToastContex';
 import {IUser, IRole} from '../../../interfaces/user';
 import {Spinner} from 'flowbite-react';
@@ -69,7 +69,7 @@ export default function UserDetails() {
 
     async function saveUser() {
         try {
-            const patchRespons = await patchUser(newUser, pushToast, userId);
+            const patchRespons = await patchUserAdmin(newUser, pushToast, userId);
             setUser(patchRespons.user);
             setNewUser(patchRespons.user);
             setEdit(false)

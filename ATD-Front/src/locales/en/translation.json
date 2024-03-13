@@ -259,7 +259,9 @@
     "ticket": "Support",
     "signIn": "Sign In",
     "signUp": "Sign Up",
-    "logOut": "Log Out"
+    "logOut": "Log Out",
+    "zipcode": "zipcode"
+
   },
   "generic": {
     "success": "The item has been successfully sent!",
