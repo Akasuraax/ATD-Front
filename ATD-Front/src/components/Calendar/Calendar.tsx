@@ -39,22 +39,27 @@ export default function Calendar() {
         setCurrentEvents(events)
     }
 
+    function handleDatesSet(e) {
+        console.log(e)
+    }
+
     return (
-        <div className='demo-app'>
-            <div className='demo-app-main'>
+        <div className='w-full'>
                 <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                     headerToolbar={{
                         left: 'prev,next today',
                         center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        right: 'dayGridMonth,timeGridWeek'
                     }}
-                    initialView='dayGridMonth'
+                    initialView='timeGridWeek'
+                    height={"70vh"}
                     editable={true}
                     selectable={true}
                     selectMirror={true}
                     dayMaxEvents={true}
                     weekends={weekendsVisible}
+                    datesSet={handleDatesSet}
                     select={handleDateSelect}
                     eventContent={renderEventContent} // custom render function
                     eventClick={handleEventClick}
@@ -65,7 +70,6 @@ export default function Calendar() {
                     eventRemove={function(){}}
                     */
                 />
-            </div>
         </div>
     )
 }
