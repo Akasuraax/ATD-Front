@@ -3,12 +3,12 @@ import './ticket.css'
 import {useTranslation} from "react-i18next";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 import {postTicket} from "../../apiService/TicketService";
-import {IType} from "../../interfaces/type";
+import {IProblem} from "../../interfaces/problem";
 import {useEffect, useState} from "react";
 import {useToast} from "../../components/Toast/ToastContex";
 import { Spinner } from 'flowbite-react';
 import * as React from "react";
-import {getTypes} from "../../apiService/TypeService";
+import {getProblems} from "../../apiService/problemService";
 import {useAuth} from "../../AuthProvider"
 import { ITicket } from "../../interfaces/ticket"
 'use client';
@@ -16,7 +16,7 @@ import { ITicket } from "../../interfaces/ticket"
 function TicketPage(){
 
     const [standBy, setStandBy] = useState(true);
-    const [types, setTypes] = useState<IType[]>();
+    const [problem, setProblems] = useState<IProblem[]>();
     const auth = useAuth()
 
     const { pushToast } = useToast();
@@ -40,8 +40,8 @@ function TicketPage(){
     async function request() {
         setStandBy(true);
         try {
-            const typeResponse = await getTypes(pushToast);
-            setTypes(typeResponse.types);
+            const problemResponse = await getProblems(pushToast);
+            setProblems(problemResponse.problem);
             setStandBy(false);
         } catch (error) {
             setStandBy(true);
@@ -80,7 +80,7 @@ function TicketPage(){
                                     className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                                     required>
                                     <option value="" disabled selected hidden>{selectProblem}</option>
-                                    {types.map((t) => (
+                                    {problem.map((t) => (
                                         <option value={t.id} key={t.id}>{t.name}</option>
                                     ))}
                                 </select>
