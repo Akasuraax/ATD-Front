@@ -51,3 +51,8 @@ export interface ISendPartner {
     siret_number : string,
     compagny : string
 }
+
+export interface IUsername {
+    name: string,
+    forname: string
+}

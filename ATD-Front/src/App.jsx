@@ -97,7 +97,7 @@ function App() {
                             element: <TicketTracking/>
                         },
                         {
-                            path: ':ticket_id',
+                            path: ':ticketId',
                             element: <MessageTicket/>
                         }
                     ]

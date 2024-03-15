@@ -9,5 +9,5 @@ export const getMyTickets = async (params, pushToast) => {
 };
 
 export const getTicket = async (params, pushToast) => {
-    return getRequest('ticket' + params, '', pushToast);
+    return getRequest('ticket/' + params, '', pushToast);
 }

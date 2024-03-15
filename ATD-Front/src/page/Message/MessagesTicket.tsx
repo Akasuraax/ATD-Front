@@ -1,11 +1,10 @@
 import {useTranslation} from "react-i18next";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-import {getTicket} from "../../apiService/TicketService";
+import {getMyTickets, getTicket} from "../../apiService/TicketService";
 import {useEffect, useState} from "react";
 import {useToast} from "../../components/Toast/ToastContex";
 import { Spinner } from 'flowbite-react';
 import * as React from "react";
-import {getProblems} from "../../apiService/problemService";
 import {useAuth} from "../../AuthProvider"
 import { ITicket } from "../../interfaces/ticket"
 import {useParams} from "react-router-dom";
@@ -13,27 +12,15 @@ import {useParams} from "react-router-dom";
 
 function MessageTicket(){
 
-    const ticketId = useParams()
-    console.log()
+    const {ticketId} = useParams()
 
     const [standBy, setStandBy] = useState(true);
-    const [problem, setProblems] = useState<IProblem[]>();
-    const auth = useAuth()
+    const [ticket, setProblems] = useState<ITicket[]>();
 
     const { pushToast } = useToast();
 
 
     const { t } = useTranslation();
-
-    const reportProblem = t("ticket.reportProblem");
-    const problemType = t("ticket.problemType");
-    const selectProblem = t("ticket.selectProblem");
-    const problemSubject = t("ticket.problemSubject");
-    const placeHolderSubject = t("ticket.placeHolderSubject");
-    const message = t("ticket.message");
-    const placeHolderMsg = t("ticket.placeHolderMsg");
-    const submitBtn = t("ticket.submitBtn");
-    const listIssue = ["1", "2", "3"];
 
     useEffect(() => {
         request();
@@ -41,82 +28,74 @@ function MessageTicket(){
     async function request() {
         setStandBy(true);
         try {
-            const problemResponse = await getProblems(pushToast);
-            setProblems(problemResponse.problem);
+            const TicketResponse = await getTicket(ticketId, pushToast);
+            console.log(TicketResponse)
+            setProblems(TicketResponse.ticket);
             setStandBy(false);
         } catch (error) {
             setStandBy(true);
         }
-    }
-    const handleSubmit = async (e) => {
-        setStandBy(true);
-        e.preventDefault();
-        const form = e.target;
-
-        const ticket: ITicket = {
-            title:form.elements['subject'].value,
-            description:form.elements['message'].value,
-            type:Number(form.elements['problemType'].value)
-        };
-
-        const req = {ticket, userId:auth.user.id}
-        const res = await postTicket(req,pushToast);
-        setStandBy(false);
     }
 
     return (
         <main className="with-msg">
             <section className="report-form m-auto bg-white dark:bg-gray-900">
                 {!standBy?(
-                <div className="pt-3 pb-16 px-4 mx-auto">
-                    <h2 className="mb-12 text-4xl tracking-tight text-center text-gray-900 dark:text-white">{reportProblem}</h2>
-                    <form onSubmit={handleSubmit} className="space-y-8">
-                        <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 ">
-                            <div className="mr-4">
-                                <label htmlFor="problemType"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{problemType}</label>
-                                <select
-                                    id="problemType"
-                                    name="problemType"
-                                    className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
-                                    required>
-                                    <option value="" disabled selected hidden>{selectProblem}</option>
-                                    {problem.map((t) => (
-                                        <option value={t.id} key={t.id}>{t.name}</option>
-                                    ))}
-                                </select>
+                    <div className="pt-3 pb-16 px-4 mx-auto">
 
+                        <div className="flex items-start gap-2.5">
+                            <div
+                                className="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                                <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                                    <span
+                                        className="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
+                                    <span className="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
+                                </div>
+                                <p className="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome.
+                                    I think our users will really appreciate the improvements.</p>
+                                <span className="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
                             </div>
-                            <div className="ml-4">
-                                <label htmlFor="subject"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{problemSubject}</label>
-                                <input
-                                    type="text"
-                                    id="subject"
-                                    name="subject"
-                                    maxLength={255}
-                                    className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
-                                    placeholder={placeHolderSubject} required/>
+                            <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots"
+                                    data-dropdown-placement="bottom-start"
+                                    className="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600"
+                                    type="button">
+                                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
+                                    <path
+                                        d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                                </svg>
+                            </button>
+                            <div id="dropdownDots"
+                                 className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600">
+                                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                    aria-labelledby="dropdownMenuIconButton">
+                                    <li>
+                                        <a href="#"
+                                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reply</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"
+                                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Forward</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"
+                                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Copy</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"
+                                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"
+                                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        <div className="sm:col-span-2">
-                            <label htmlFor="message"
-                                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">{message}</label>
-                            <textarea id="message" rows={6}
-                                      name="message"
-                                      className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                      placeholder={placeHolderMsg}></textarea>
-                        </div>
-                        <button disabled={standBy} type="submit"
-                                className="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                            {standBy ? (
-                            <Spinner className="mr-4" color="warning" aria-label="Alternate spinner button example" size="sm" />) : "" }
-                            {submitBtn}
-                        </button>
-                    </form>
-                </div>
+
+                    </div>
                 ) : (
-                <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
+                    <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
                 )}
             </section>
         </main>
@@ -124,4 +103,4 @@ function MessageTicket(){
     )
 }
 
-export default TicketPage;
+export default MessageTicket;

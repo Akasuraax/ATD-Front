@@ -1,3 +1,5 @@
+import {IMessage} from "./message";
+
 export interface ITicket {
     id: number;
     title: string;
@@ -8,6 +10,7 @@ export interface ITicket {
     archive: boolean;
     updated_at: string;
     created_at: string;
+    messages : IMessage[]
 }
 
 export interface ITicketMine{
