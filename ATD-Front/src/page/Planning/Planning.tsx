@@ -35,6 +35,7 @@ export default function Planning() {
             const activityResponse = await getActivitiesBetween(date, pushToast);
             setActivities(activityResponse)
         } catch (error) {
+            console.log(error)
         }
     }
 
@@ -62,6 +63,7 @@ export default function Planning() {
                         selectable={false}
                         datesSet={handleDatesSet}
                         weekends={true}
+                        locale='fr'
                         events={activities}
                         eventContent={renderEventContent} // custom render function
                         eventClick={handleEventClick}
@@ -81,7 +83,7 @@ export default function Planning() {
         return (
             <>
                 <b>{eventInfo.timeText}</b>
-                <h1 className="md:text-lg">{eventInfo.event.title}</h1>
+                <h1 className="md:text-lg ml-1"> {eventInfo.event.title}</h1>
             </>
         )
     }

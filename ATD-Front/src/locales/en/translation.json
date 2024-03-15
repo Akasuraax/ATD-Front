@@ -274,6 +274,7 @@
     "editButton": "Edit",
     "saveButton": "Save",
     "yes": "yes",
-    "no": "no"
+    "no": "no",
+    "register": "register"
   }
 }
