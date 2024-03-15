@@ -4,7 +4,7 @@ import Calendar from "../../components/Calendar/Calendar";
 import {useEffect, useState} from "react";
 import {getUser} from "../../apiService/UserService";
 import {IActivity} from "../../interfaces/activity";
-import {getActivities} from "../../apiService/ActivityService";
+import {getActivitiesBetween} from "../../apiService/ActivityService";
 import {useToast} from "../../components/Toast/ToastContex";
 
 export default function Planning() {
@@ -22,10 +22,31 @@ export default function Planning() {
 
 
     async function request() {
+        const date = {
+            startDate: "2024-03-10",
+            endDate: "2024-03-20"
+        }
         setStandBy(true);
         try {
-            const activityResponse = await getActivities({page: 0, pageSize: 3}, pushToast);
+            const activityResponse = await getActivitiesBetween(date, pushToast);
+            console.log(activityResponse)
             setActivities(activityResponse.data)
+        } catch (error) {
+            setStandBy(true);
+        }
+    }
+
+    async function handleDatesSet(e) {
+        const date = {
+            startDate: e.startStr,
+            endDate: e.endStr
+        }
+        setStandBy(true);
+        try {
+            const activityResponse = await getActivitiesBetween(date, pushToast);
+            setActivities(activityResponse.data)
+            console.log(activities)
+            setStandBy(false)
         } catch (error) {
             setStandBy(true);
         }
@@ -36,7 +57,9 @@ export default function Planning() {
             <div
                 style={{width: '80vw'}}
                 className="flex flex-wrap min-w-full items-center mx-auto">
-                <Calendar/>
+                <Calendar
+                handleDatesSet={handleDatesSet}
+                />
             </div>
         </main>
     )

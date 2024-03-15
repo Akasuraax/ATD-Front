@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { formatDate } from '@fullcalendar/core'
+import {EventSourceInput, formatDate} from '@fullcalendar/core'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import {IActivity} from "../../interfaces/activity";;
 
-export default function Calendar() {
+export default function Calendar({handleDatesSet}: {handleDatesSet:(e: any) => void}) {
     const [weekendsVisible, setWeekendsVisible] = useState(true)
     const [currentEvents, setCurrentEvents] = useState([])
 
@@ -39,10 +40,6 @@ export default function Calendar() {
         setCurrentEvents(events)
     }
 
-    function handleDatesSet(e) {
-        console.log(e)
-    }
-
     return (
         <div className='w-full'>
                 <FullCalendar
@@ -61,6 +58,10 @@ export default function Calendar() {
                     weekends={weekendsVisible}
                     datesSet={handleDatesSet}
                     select={handleDateSelect}
+                    events={[
+                        { title: 'event 1', date: '2019-04-01' },
+                        { title: 'event 2', date: '2019-04-02' }
+                    ]}
                     eventContent={renderEventContent} // custom render function
                     eventClick={handleEventClick}
                     eventsSet={handleEvents} // called after events are initialized/added/changed/removed
