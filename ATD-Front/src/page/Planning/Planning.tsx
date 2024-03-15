@@ -12,6 +12,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import {formatDate} from "@fullcalendar/core";
 import {Spinner} from "flowbite-react";
+import ActivivityModal from "../../components/modal/activityModal";
 
 export default function Planning() {
 
@@ -19,6 +20,9 @@ export default function Planning() {
     const {userId} = useParams();
     const [activities, setActivities] = useState<IActivity[] | null>([]);
     const [standBy, setStandBy] = useState(false);
+    const [selectActivity, setSelectActivity] = useState<IActivity | null>(null);
+    const [modal, setModal] = useState(false);
+
     const {pushToast} = useToast();
 
 
@@ -35,6 +39,9 @@ export default function Planning() {
     }
 
     function handleEventClick(clickInfo) {
+        const activity = activities.find(a => clickInfo.event.id == a.id);
+        setSelectActivity(activity)
+        setModal(true)
     }
 
     return (
@@ -61,6 +68,12 @@ export default function Planning() {
                     />
                 </div>
             </div>
+            {modal ? (
+                <ActivivityModal
+                    setOpenModal={(v) => (setModal(v))}
+                    activity={selectActivity}
+                />
+            ) : null}
         </main>
     )
 
@@ -69,7 +82,6 @@ export default function Planning() {
             <>
                 <b>{eventInfo.timeText}</b>
                 <h1 className="md:text-lg">{eventInfo.event.title}</h1>
-                <p>{eventInfo.event.extendedProps.description}</p>
             </>
         )
     }
