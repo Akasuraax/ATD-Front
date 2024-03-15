@@ -5,6 +5,7 @@ import Home from './page/Home/Home.jsx';
 import Activity from "./page/Activity.jsx";
 import Footer from './components/Footer/Footer.jsx'
 import TicketPage from "./page/Ticket/Ticket.tsx";
+import MessageTicket from "./page/Message/MessagesTicket.tsx"
 import Error from "./page/error/error.tsx";
 import {createBrowserRouter, Navigate, Outlet, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.tsx";
@@ -94,6 +95,10 @@ function App() {
                         {
                             path: 'suivi',
                             element: <TicketTracking/>
+                        },
+                        {
+                            path: ':ticket_id',
+                            element: <MessageTicket/>
                         }
                     ]
                 },

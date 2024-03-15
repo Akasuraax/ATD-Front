@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getTickets } from "../../../apiService/TicketService";
+import { getMyTickets } from "../../../apiService/TicketService";
 import {useToast} from "../../../components/Toast/ToastContex";
 import ListPlaceholder from "../../../components/skeleton/ListPlaceholder";
 
@@ -15,7 +15,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useAuth} from "../../../AuthProvider.jsx";
-import { ITicket } from "../../../interfaces/ticket";
+import { ITicketMine } from "../../../interfaces/ticket";
 import {Spinner} from "flowbite-react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -49,28 +49,24 @@ function TicketTracking() {
     const ticketTrack = t("tracking.ticketTrack");
     const auth = useAuth()
 
-    const [tickets, setTickets] = useState([]);
+    const [tickets, setTickets] = useState<ITicketMine[]>();
     const { pushToast } = useToast();
-    const [standBy, setStandBy] = useState(false);
-
+    const [standBy, setStandBy] = useState(true);
 
     useEffect(() => {
-        setStandBy(true)
         const fetchData = async () => {
             try {
-                const ticketsData = await getTickets(auth.user.id, pushToast);
+                const ticketsData = await getMyTickets(auth.user.id, pushToast);
                 if(ticketsData !== null) {
-                    setTickets(ticketsData.ticket);
+                    setTickets(ticketsData.tickets);
                     setStandBy(false)
                 }
 
-                console.log()
             }catch(error){
                 setStandBy(true);
             }
-
         };
-        fetchData();
+        fetchData()
     }, []);
 
     return (
@@ -107,7 +103,7 @@ function TicketTracking() {
                                             </StyledTableCell>
                                             <StyledTableCell  align="center">
                                                 {moment(ticket.created_at).format('DD/MM/yyyy HH:mm')}</StyledTableCell >
-                                            <StyledTableCell  align="center">{ticket.type}</StyledTableCell >
+                                            <StyledTableCell  align="center">{ticket.problem}</StyledTableCell >
                                         </StyledTableRow >
                                     ))}
                                 </TableBody>
