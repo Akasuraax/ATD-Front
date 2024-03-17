@@ -19,13 +19,15 @@ import Vehicle from "./page/Back/Vehicle/Vehicle.tsx";
 import Warehouse from "./page/Back/Warehouse/WarehousesList.tsx";
 import Recipe from "./page/Back/Recipe/Recipe.jsx";
 import ActivityList from "./page/Back/Activity/Activity.jsx";
-import Language from "./page/Back/Language/Language.jsx";
+import Language from "./page/Back/Language/LanguagesList.tsx";
 import AddType from "./page/Back/Activity/addForm/AddType.jsx";
 import UserDetails from "./page/Back/User/UserDetails"
 import 'flowbite/dist/flowbite.min.css';
 import {useAuth} from "./AuthProvider.jsx";
 import WarehouseDetails from "./page/Back/Warehouse/WarehouseDetails";
 import AddWarehouse from "./page/Back/Warehouse/addWarehouse";
+import AddLanguage from "./page/Back/Language/AddLanguage.tsx";
+import LanguageDetails from "./page/Back/Language/LanguageDetails.tsx";
 
 
 function App() {
@@ -163,7 +165,21 @@ function App() {
                         },
                         {
                             path: 'languages',
-                            element: <Language/>
+                            element: <Outlet/>,
+                            children: [
+                                {
+                                    path: '',
+                                    element: <Language/>
+                                },
+                                {
+                                    path: 'add',
+                                    element: <AddLanguage/>
+                                },
+                                {
+                                    path: ':abbreviation',
+                                    element: <LanguageDetails/>
+                                }
+                            ]
                         },
                     ]
                 }
