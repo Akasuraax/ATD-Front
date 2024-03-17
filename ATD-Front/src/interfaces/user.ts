@@ -53,6 +53,7 @@ export interface ISendPartner {
 }
 
 export interface IUsername {
+    id: number,
     name: string,
     forname: string
 }

@@ -1,36 +1,38 @@
 import {useTranslation} from "react-i18next";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 import {getMyTickets, getTicket} from "../../apiService/TicketService";
+import moment from 'moment';
 import {useEffect, useState} from "react";
 import {useToast} from "../../components/Toast/ToastContex";
-import { Spinner } from 'flowbite-react';
+import {Spinner} from 'flowbite-react';
 import * as React from "react";
+import {ITicket} from "../../interfaces/ticket"
 import {useAuth} from "../../AuthProvider"
-import { ITicket } from "../../interfaces/ticket"
 import {useParams} from "react-router-dom";
+
 'use client';
 
-function MessageTicket(){
+function MessageTicket() {
 
     const {ticketId} = useParams()
 
     const [standBy, setStandBy] = useState(true);
-    const [ticket, setProblems] = useState<ITicket[]>();
+    const [ticket, setTicket] = useState<ITicket>();
+    const auth = useAuth()
+    const {pushToast} = useToast();
 
-    const { pushToast } = useToast();
 
-
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     useEffect(() => {
         request();
     }, []);
+
     async function request() {
         setStandBy(true);
         try {
             const TicketResponse = await getTicket(ticketId, pushToast);
-            console.log(TicketResponse)
-            setProblems(TicketResponse.ticket);
+            setTicket(TicketResponse.ticket);
             setStandBy(false);
         } catch (error) {
             setStandBy(true);
@@ -39,59 +41,26 @@ function MessageTicket(){
 
     return (
         <main className="with-msg">
-            <section className="report-form m-auto bg-white dark:bg-gray-900">
-                {!standBy?(
+            <section>
+                {!standBy ? (
                     <div className="pt-3 pb-16 px-4 mx-auto">
-
-                        <div className="flex items-start gap-2.5">
-                            <div
-                                className="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-                                <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                        {ticket.messages.map((m) => (
+                            <>
+                                <div className={`flex ${auth.user.id == m.user.id ? "justify-end" : "justify-start"} dark:bg-gray-700\`} gap-2.5`}>
+                                    <div
+                                        className={`flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 ${auth.user.id == m.user.id ? "bg-blue-100 rounded-l-lg rounded-b-lg" : "bg-gray-100 rounded-r-lg rounded-b-lg"} dark:bg-gray-700`}>
+                                        <div className="flex items-center space-x-2 rtl:space-x-reverse justify-between">
                                     <span
-                                        className="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-                                    <span className="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
+                                        className="text-sm font-semibold text-gray-900 dark:text-white">{m.user.forname} {m.user.name}</span>
+                                            <span
+                                                className="text-sm font-normal text-gray-500 dark:text-gray-400">{moment(m.created_at).format('HH:mm')}</span>
+                                        </div>
+                                        <p className="text-sm font-normal py-2.5 text-gray-900 dark:text-white">{m.description}</p>
+                                    </div>
                                 </div>
-                                <p className="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome.
-                                    I think our users will really appreciate the improvements.</p>
-                                <span className="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
-                            </div>
-                            <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots"
-                                    data-dropdown-placement="bottom-start"
-                                    className="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600"
-                                    type="button">
-                                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-                                    <path
-                                        d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
-                                </svg>
-                            </button>
-                            <div id="dropdownDots"
-                                 className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600">
-                                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                    aria-labelledby="dropdownMenuIconButton">
-                                    <li>
-                                        <a href="#"
-                                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reply</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Forward</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Copy</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                           className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+
+                            </>
+                        ))}
 
                     </div>
                 ) : (
