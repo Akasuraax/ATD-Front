@@ -30,6 +30,9 @@ import VehicleDetails from "./page/Back/Vehicle/vehicleDetails"
 import Profile from "./page/Profile/Profile";
 import AddLanguage from "./page/Back/Language/AddLanguage.tsx";
 import LanguageDetails from "./page/Back/Language/LanguageDetails.tsx";
+import RolesList from "./page/Back/Roles/RolesList.tsx";
+import AddRole from "./page/Back/Roles/AddRole.tsx";
+import RoleDetails from "./page/Back/Roles/RoleDetails.tsx";
 
 
 function App() {
@@ -201,6 +204,24 @@ function App() {
                                 }
                             ]
                         },
+                        {
+                            path: 'roles',
+                            element: <Outlet/>,
+                            children: [
+                                {
+                                    path: '',
+                                    element: <RolesList/>
+                                },
+                                {
+                                    path: 'add',
+                                    element: <AddRole/>
+                                },
+                                {
+                                    path: ':roleId',
+                                    element: <RoleDetails/>
+                                }
+                            ]
+                        }
                     ]
                 }
             ]

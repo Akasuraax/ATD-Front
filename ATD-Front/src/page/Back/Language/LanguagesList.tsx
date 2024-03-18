@@ -9,7 +9,7 @@ import {getLanguages} from '../../../apiService/LanguageService';
 function LanguagesList(){
     const [standBy, setStandBy] = useState(false);
     const { pushToast } = useToast();
-    const [warehouse, setWarehouse] = useState([]);
+    const [language, setLanguage] = useState([]);
     const [rowCount, setRowCount] = useState(0);
     const navigate = useNavigate();
 
@@ -32,9 +32,9 @@ function LanguagesList(){
     async function sendRequest() {
         setStandBy(true);
         try {
-            const warehousesResponse = await getLanguages(pushToast);
-            setWarehouse(warehousesResponse.data);
-            setRowCount(warehousesResponse.total)
+            const languagesResponse = await getLanguages(pushToast);
+            setLanguage(languagesResponse.data);
+            setRowCount(languagesResponse.total)
             setStandBy(false);
         } catch (error) {
             setStandBy(false);
@@ -56,7 +56,7 @@ function LanguagesList(){
                 </button>
                 <Box sx={{height: "500px", width: 'auto'}}>
                     <DataGrid
-                        rows={warehouse}
+                        rows={language}
                         columns={columns}
                         initialState={{
                             pagination: {
