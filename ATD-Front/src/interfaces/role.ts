@@ -9,4 +9,5 @@ export interface IRoles{
     name:string;
     archive:boolean;
     created_at:Date;
+    update_at:Date,
 }

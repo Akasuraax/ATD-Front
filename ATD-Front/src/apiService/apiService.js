@@ -29,13 +29,14 @@ export const postRequest = async (url, data, pushToast) => {
             content: "L'élément a bien été envoyé",
             type: "success"
         });
-        return res.data
+        return res
     } catch(res) {
+        if(res.response.status !== 409)
         pushToast({
             content: "Une erreur est survenue",
             type: "failure"
         });
-        return res
+        return res.response
     }
 };
 

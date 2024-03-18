@@ -7,6 +7,11 @@ export const getActivities = async (params, pushToast) => {
     return getRequest('activity',params, pushToast);
 };
 
+export const getActivitiesBetween = async (params, pushToast) => {
+    return getRequest('activity/between',params, pushToast);
+};
+
+
 export const getActivity = async (params, pushToast) => {
     return getRequest('warehouse/' + params,'', pushToast);
 };
