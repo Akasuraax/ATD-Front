@@ -1,4 +1,3 @@
-import './warehouse.css'
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import {useTranslation} from "react-i18next";
@@ -6,11 +5,12 @@ import {useEffect, useState} from "react";
 import {useToast} from "../../../components/Toast/ToastContex";
 import { useNavigate } from 'react-router-dom';
 import {getWarehouses} from '../../../apiService/WarehouseService';
+import {getRecipes} from "../../../apiService/RecipeService";
 
-function WarehousesList(){
+function RecipesList(){
     const [standBy, setStandBy] = useState(false);
     const { pushToast } = useToast();
-    const [warehouse, setWarehouse] = useState([]);
+    const [recipes, setRecipes] = useState([]);
     const [rowCount, setRowCount] = useState(0);
     const navigate = useNavigate();
 
@@ -26,20 +26,14 @@ function WarehousesList(){
         { field: 'id', headerName: 'ID', width: 90 },
         {
             field: 'name',
-            headerName: t("warehouse.name"),
+            headerName: t("recipe.titled"),
             width: 250,
             editable: false,
         },
         {
-            field: 'address',
-            headerName: t("warehouse.address"),
-            width: 250,
-            editable: false,
-        },
-        {
-            field: 'capacity',
-            headerName: t("warehouse.capacity"),
-            width: 150,
+            field: 'description',
+            headerName: t("recipe.description"),
+            width: 350,
             editable: false,
         },
         {
@@ -93,9 +87,10 @@ function WarehousesList(){
     async function sendRequest() {
         setStandBy(true);
         try {
-            const warehousesResponse = await getWarehouses(dataGrid, pushToast);
-            setWarehouse(warehousesResponse.data);
-            setRowCount(warehousesResponse.total)
+            const recipesResponse = await getRecipes(dataGrid, pushToast);
+            console.log(recipesResponse)
+            setRecipes(recipesResponse.data);
+            setRowCount(recipesResponse.total)
             setStandBy(false);
         } catch (error) {
             setStandBy(false);
@@ -105,19 +100,19 @@ function WarehousesList(){
     return(
         <main>
             <div className="m-auto content max-w-screen-xl">
-                <h2 className="text-center mb-8">{t('warehouse.title')}</h2>
+                <h2 className="text-center mb-8">{t('recipe.title')}</h2>
                 <button
                     type="button"
                     onClick={() => {
-                        navigate(`/back/warehouses/add`)
+                        navigate(`/back/recipes/add`)
                     }}
                     style={{ backgroundColor: "#6AAF5C" }}
                     className={`block mb-2 text-white cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 text-center`}>
-                    {t("warehouse.addWarehouse")}
+                    {t("recipe.addRecipe")}
                 </button>
                 <Box sx={{height: "500px", width: 'auto'}}>
                     <DataGrid
-                        rows={warehouse}
+                        rows={recipes}
                         columns={columns}
                         initialState={{
                             pagination: {
@@ -138,7 +133,7 @@ function WarehousesList(){
                         onFilterModelChange={onFilterChange}
                         loading={standBy}
                         onRowClick={(params) => {
-                            navigate(`/back/warehouses/${params.row.id}`)
+                            navigate(`/back/recipes/${params.row.id}`)
                         }}
                     />
                 </Box>
@@ -147,4 +142,4 @@ function WarehousesList(){
     )
 }
 
-export default WarehousesList
+export default RecipesList

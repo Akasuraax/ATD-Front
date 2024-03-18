@@ -16,8 +16,7 @@ import VolunteerForm from "./page/Register/Forms/volunteer.tsx";
 import TicketTracking from "./page/Ticket/Tracking/TicketTracking.jsx";
 import UsersList from "./page/Back/User/UsersList.tsx";
 import Vehicle from "./page/Back/Vehicle/Vehicle.tsx";
-import Warehouse from "./page/Back/Warehouse/WarehousesList.tsx";
-import Recipe from "./page/Back/Recipe/Recipe.jsx";
+import Warehouse from "./page/Back/Warehouse/WarehousesList";
 import ActivityList from "./page/Back/Activity/Activity.jsx";
 import Language from "./page/Back/Language/Language.jsx";
 import AddType from "./page/Back/Activity/addForm/AddType.jsx";
@@ -25,10 +24,12 @@ import UserDetails from "./page/Back/User/UserDetails"
 import 'flowbite/dist/flowbite.min.css';
 import {useAuth} from "./AuthProvider.jsx";
 import WarehouseDetails from "./page/Back/Warehouse/WarehouseDetails";
+import RecipesList from "./page/Back/recipe/recipesList";
 import AddWarehouse from "./page/Back/Warehouse/addWarehouse";
 import VehicleDetails from "./page/Back/Vehicle/vehicleDetails"
 import Profile from "./page/Profile/Profile";
 import Planning from "./page/Planning/Planning"
+import AddRecipe from "./page/Back/recipe/AddRecipe";
 
 
 function App() {
@@ -170,7 +171,17 @@ function App() {
                         },
                         {
                             path: "recipes",
-                            element: <Recipe/>
+                            element: <Outlet/>,
+                            children: [
+                                {
+                                    path: '',
+                                    element: <RecipesList/>
+                                },
+                                {
+                                    path: 'add',
+                                    element: <AddRecipe/>,
+                                }
+                            ]
                         },
                         {
                             path: 'activities',

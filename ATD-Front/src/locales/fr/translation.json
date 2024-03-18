@@ -231,11 +231,14 @@
   },
   "recipe": {
     "title": "Liste des recettes",
+    "description": "Description",
     "titled": "Intitulé",
+    "name": "nom",
     "numIngredients": "Nombre d'ingrédients",
     "delete": "Supprimer",
     "details": "Détails",
-    "addRecipe": "Ajouter une recette"
+    "addRecipe": "Ajouter une recette",
+    "recipeDetails": "Détails de la recette"
   },
   "language": {
     "title": "Liste des languages",

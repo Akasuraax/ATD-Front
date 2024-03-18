@@ -9,7 +9,6 @@ import {useNavigate} from 'react-router-dom';
 
 
 export default function AddWarehouse() {
-    const {warehouseId} = useParams();
     const {pushToast} = useToast();
     const [warehouse, setWarehouse] = useState<IAddWarehouse | null>({
             name: '',
