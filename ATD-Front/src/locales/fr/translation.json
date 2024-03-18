@@ -96,7 +96,8 @@
     "placeHolderMsg": "Formulez votre problème...",
     "submitBtn": "Envoyer le message",
     "successMessage": "Le ticket a été créé avec succès",
-    "failureMessage": "Une erreur s'est produite lors de la création du ticket"
+    "failureMessage": "Une erreur s'est produite lors de la création du ticket",
+    "ticket.publishedOn": "Emis le"
   },
   "activity": {
     "titleActivity": "Nos activités",

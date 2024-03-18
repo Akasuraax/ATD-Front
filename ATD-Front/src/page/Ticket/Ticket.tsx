@@ -32,7 +32,6 @@ function TicketPage(){
     const message = t("ticket.message");
     const placeHolderMsg = t("ticket.placeHolderMsg");
     const submitBtn = t("ticket.submitBtn");
-    const listIssue = ["1", "2", "3"];
 
     useEffect(() => {
         request();
