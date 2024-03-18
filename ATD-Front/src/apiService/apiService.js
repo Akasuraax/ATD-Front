@@ -44,7 +44,7 @@ export const patchRequest = async (url, data, pushToast) => {
     try {
         const res = await axios.patch(`${API_BASE_URL}/${url}`, data, {headers: getHeaders()});
         pushToast({
-            content: "L'élément a bien étais modifier",
+            content: "L'élément a bien été modifié",
             type: "success"
         });
         return res.data

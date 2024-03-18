@@ -1,5 +1,5 @@
 // ticketsApi.js
-import { postRequest, getRequest, deleteRequest } from './apiService.js';
+import {postRequest, getRequest, deleteRequest, patchRequest} from './apiService.js';
 
 export const postRole = async (userData,pushToast) => {
     return postRequest('role', userData,pushToast);
@@ -17,6 +17,10 @@ export const getRole = async (params, pushToast) => {
     return getRequest('role/' + params,'', pushToast);
 };
 
-export const deleteRole = async (params, pushToast) => {
-    return deleteRequest('role',params, pushToast);
+export const patchRole = async (params, pushToast,userId) => {
+    return patchRequest(`role/${userId}`,params, pushToast);
+};
+
+export const deleteRole = async (id, pushToast) => {
+    return deleteRequest(`role/${id}`, "", pushToast);
 };
