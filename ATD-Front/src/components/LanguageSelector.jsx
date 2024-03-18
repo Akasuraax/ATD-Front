@@ -2,7 +2,6 @@ import { useState } from "react";
 import i18n from '../i18n';
 import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
-import { fetchLanguageIcon } from "../apiService/translationService.js";
 
 const LanguageSelector = () => {
     const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
@@ -31,6 +30,7 @@ const LanguageSelector = () => {
             </button>
             <ul id="dropdown-example" className="hidden py-2 space-y-2">
                 {availableLanguages.map((lang) => (
+
                     <li key={lang}>
                         <button
                             className={`block px-4 py-4 text-sm flex items-center ${selectedLanguage === lang ? 'font-semibold' : 'font-medium'} text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white`}

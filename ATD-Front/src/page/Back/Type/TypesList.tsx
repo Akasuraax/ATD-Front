@@ -4,12 +4,12 @@ import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
 import {useToast} from "../../../components/Toast/ToastContex";
 import { useNavigate } from 'react-router-dom';
-import {getRoles} from '../../../apiService/RoleService';
+import {getTypes} from '../../../apiService/TypeService';
 
-function RolesList(){
+function TypesList(){
     const [standBy, setStandBy] = useState(false);
     const { pushToast } = useToast();
-    const [roles, setRoles] = useState([]);
+    const [type, setType] = useState([]);
     const [rowCount, setRowCount] = useState(0);
     const navigate = useNavigate();
 
@@ -25,13 +25,37 @@ function RolesList(){
         { field: 'id', headerName: 'ID', width: 90 },
         {
             field: 'name',
-            headerName: t("roles.name"),
+            headerName: t("types.name"),
             width: 250,
             editable: false,
         },
         {
+            field: 'description',
+            headerName: t("types.description"),
+            width: 250,
+            editable: false,
+        },
+        {
+            field: 'access_to_warehouse',
+            headerName: t("types.access_to_warehouse"),
+            width: 175,
+            editable: false,
+        },
+        {
+            field: 'access_to_journey',
+            headerName: t("types.access_to_journey"),
+            width: 175,
+            editable: false,
+        },
+        {
+            field: 'display',
+            headerName: t("types.display"),
+            width: 175,
+            editable: false,
+        },
+        {
             field: 'archive',
-            headerName: t("roles.isArchived"),
+            headerName: t("types.isArchived"),
             width: 150,
             editable: false,
             renderCell: (params) => renderArchiveCell(params.value),
@@ -80,10 +104,9 @@ function RolesList(){
     async function sendRequest() {
         setStandBy(true);
         try {
-            const rolesResponse = await getRoles(dataGrid, pushToast);
-            console.log(rolesResponse)
-            setRoles(rolesResponse.data);
-            setRowCount(rolesResponse.total)
+            const typesResponse = await getTypes(dataGrid, pushToast);
+            setType(typesResponse.data);
+            setRowCount(typesResponse.total)
             setStandBy(false);
         } catch (error) {
             setStandBy(false);
@@ -93,46 +116,46 @@ function RolesList(){
     return(
         <main>
             <div className="m-auto content max-w-screen-xl">
-                <h2 className="text-center mb-8">{t('roles.title')}</h2>
-                <button
-                    type="button"
-                    onClick={() => {
-                        navigate(`/back/roles/add`)
-                    }}
-                    style={{ backgroundColor: "#6AAF5C" }}
-                    className={`block mb-2 text-white cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 text-center`}>
-                    {t('roles.addBtn')}
-                </button>
-                <Box sx={{height: "500px", width: 'auto'}}>
-                    <DataGrid
-                        rows={roles}
-                        columns={columns}
-                        initialState={{
-                            pagination: {
-                                paginationModel: {
-                                    pageSize: 10,
-                                },
-                            },
-                        }}
-                        rowCount={rowCount}
-                        checkboxSelection={false}
-                        paginationMode="server"
-                        sortingMode="server"
-                        disableRowSelectionOnClick
-                        pageSizeOptions={[5, 10, 25]}
-                        onPaginationModelChange={handlePageChange}
-                        onSortModelChange={onSortModelChange}
-                        filterMode="server"
-                        onFilterModelChange={onFilterChange}
-                        loading={standBy}
-                        onRowClick={(params) => {
-                            navigate(`/back/roles/${params.row.id}`)
-                        }}
-                    />
-                </Box>
-            </div>
-        </main>
-    )
+        <h2 className="text-center mb-8">{t('types.title')}</h2>
+    <button
+    type="button"
+    onClick={() => {
+        navigate(`/back/types/add`)
+    }}
+    style={{ backgroundColor: "#6AAF5C" }}
+    className={`block mb-2 text-white cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 text-center`}>
+    {t('types.addBtn')}
+    </button>
+    <Box sx={{height: "500px", width: 'auto'}}>
+    <DataGrid
+        rows={type}
+    columns={columns}
+    initialState={{
+        pagination: {
+            paginationModel: {
+                pageSize: 10,
+            },
+        },
+    }}
+    rowCount={rowCount}
+    checkboxSelection={false}
+    paginationMode="server"
+    sortingMode="server"
+    disableRowSelectionOnClick
+    pageSizeOptions={[5, 10, 25]}
+    onPaginationModelChange={handlePageChange}
+    onSortModelChange={onSortModelChange}
+    filterMode="server"
+    onFilterModelChange={onFilterChange}
+    loading={standBy}
+    onRowClick={(params) => {
+        navigate(`/back/types/${params.row.id}`)
+    }}
+    />
+    </Box>
+    </div>
+    </main>
+)
 }
 
-export default RolesList
+export default TypesList

@@ -1,5 +1,3 @@
-import {IAnnexe} from "./annexe";
-
 export interface IAddRole {
     name: string;
 }

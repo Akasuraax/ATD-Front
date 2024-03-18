@@ -16,8 +16,8 @@ export const getRole = async (params, pushToast) => {
     return getRequest('role/' + params,'', pushToast);
 };
 
-export const patchRole = async (params, pushToast,userId) => {
-    return patchRequest(`role/${userId}`,params, pushToast);
+export const patchRole = async (params, pushToast,id) => {
+    return patchRequest(`role/${id}`,params, pushToast);
 };
 
 export const deleteRole = async (id, pushToast) => {

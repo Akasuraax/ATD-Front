@@ -20,7 +20,6 @@ import Vehicle from "./page/Back/Vehicle/Vehicle.tsx";
 import Warehouse from "./page/Back/Warehouse/WarehousesList";
 import ActivityList from "./page/Back/Activity/Activity.jsx";
 import Language from "./page/Back/Language/LanguagesList.tsx";
-import AddType from "./page/Back/Activity/addForm/AddType.jsx";
 import UserDetails from "./page/Back/User/UserDetails"
 import 'flowbite/dist/flowbite.min.css';
 import {useAuth} from "./AuthProvider.jsx";
@@ -31,6 +30,12 @@ import VehicleDetails from "./page/Back/Vehicle/vehicleDetails"
 import Profile from "./page/Profile/Profile";
 import AddLanguage from "./page/Back/Language/AddLanguage.tsx";
 import LanguageDetails from "./page/Back/Language/LanguageDetails.tsx";
+import RolesList from "./page/Back/Role/RolesList.tsx";
+import AddRole from "./page/Back/Role/AddRole.tsx";
+import RoleDetails from "./page/Back/Role/RoleDetails.tsx";
+import TypesList from "./page/Back/Type/TypesList.tsx";
+import AddType from "./page/Back/Type/AddType.tsx";
+import TypeDetails from "./page/Back/Type/TypeDetails.tsx";
 import RolesList from "./page/Back/Roles/RolesList.tsx";
 import AddRole from "./page/Back/Roles/AddRole.tsx";
 import RoleDetails from "./page/Back/Roles/RoleDetails.tsx";
@@ -251,6 +256,24 @@ function App() {
                                 {
                                     path: ':roleId',
                                     element: <RoleDetails/>
+                                }
+                            ]
+                        },
+                        {
+                            path: 'types',
+                            element: <Outlet/>,
+                            children: [
+                                {
+                                    path:'',
+                                    element: <TypesList/>
+                                },
+                                {
+                                    path: 'add',
+                                    element: <AddType/>
+                                },
+                                {
+                                    path: ':typeId',
+                                    element: <TypeDetails/>
                                 }
                             ]
                         }

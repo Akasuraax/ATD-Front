@@ -1,12 +1,20 @@
-export interface IType{
-    id: number,
-    name: string,
-    description?: string,
-    image?: string,
-    display: boolean,
-    access_to_warehouse: boolean,
-    access_to_journey: boolean,
-    archive: boolean,
-    created_at: string;
-    updated_at: string;
+export interface IAddType {
+    name: string;
+    description: string;
+    display:boolean;
+    type_image:File;
+    access_to_warehouse:boolean;
+    access_to_journey:boolean;
+}
+
+export interface ITypes{
+    id:number;
+    name:string;
+    display:boolean;
+    type_image:File;
+    description: string;
+    access_to_warehouse:boolean;
+    access_to_journey:boolean;
+    archive:boolean;
+    created_at:Date;
 }

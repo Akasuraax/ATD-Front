@@ -65,7 +65,6 @@ export default function RoleDetails(){
         if(!valid) return
         try {
             const res = await deleteRole(roleId, pushToast)
-            console.log(res)
             setNewRoles(res.role);
             setRole(res.role);
         } catch (error) {
