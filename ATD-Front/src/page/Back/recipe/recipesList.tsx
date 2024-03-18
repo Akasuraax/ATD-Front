@@ -88,7 +88,6 @@ function RecipesList(){
         setStandBy(true);
         try {
             const recipesResponse = await getRecipes(dataGrid, pushToast);
-            console.log(recipesResponse)
             setRecipes(recipesResponse.data);
             setRowCount(recipesResponse.total)
             setStandBy(false);
