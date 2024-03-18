@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getTickets } from "../../../apiService/ticketsApi.js";
+import {getMyTickets, getTicket} from "../../../apiService/TicketService";
 import {useToast} from "../../../components/Toast/ToastContex";
 import ListPlaceholder from "../../../components/skeleton/ListPlaceholder";
+import {useNavigate} from 'react-router-dom';
 
 import moment from 'moment';
 
@@ -14,6 +15,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import {useAuth} from "../../../AuthProvider.jsx";
+import { ITicketMine } from "../../../interfaces/ticket";
+import {Spinner} from "flowbite-react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -44,24 +48,30 @@ function TicketTracking() {
     const details = t("tracking.details");
     const action = t("tracking.action");
     const ticketTrack = t("tracking.ticketTrack");
+    const auth = useAuth()
+    const navigate = useNavigate();
 
-    const [tickets, setTickets] = useState([]);
+
+    const [tickets, setTickets] = useState<ITicketMine[]>();
     const { pushToast } = useToast();
-    const [standBy, setStandBy] = useState(false);
-
+    const [standBy, setStandBy] = useState(true);
 
     useEffect(() => {
-        setStandBy(true)
         const fetchData = async () => {
-            const ticketsData = await getTickets(pushToast);
-            if(ticketsData !== null) {
-                setTickets(ticketsData);
-                setStandBy(false)
+            try {
+                const ticketsData = await getMyTickets(auth.user.id, pushToast);
+                if(ticketsData !== null) {
+                    setTickets(ticketsData.tickets);
+                    setStandBy(false)
+                }
+
+            }catch(error){
+                setStandBy(true);
             }
         };
-
-        fetchData();
+        fetchData()
     }, []);
+
 
     return (
         <main>
@@ -85,6 +95,10 @@ function TicketTracking() {
                                         <StyledTableRow
                                             key={ticket.id}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            onClick={() => {
+                                                navigate(`/ticket/${ticket.id}`)
+                                            }}
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             <StyledTableCell  component="th" scope="row">
                                                 {ticket.title}
@@ -97,7 +111,7 @@ function TicketTracking() {
                                             </StyledTableCell>
                                             <StyledTableCell  align="center">
                                                 {moment(ticket.created_at).format('DD/MM/yyyy HH:mm')}</StyledTableCell >
-                                            <StyledTableCell  align="center">{ticket.type}</StyledTableCell >
+                                            <StyledTableCell  align="center">{ticket.problem}</StyledTableCell >
                                         </StyledTableRow >
                                     ))}
                                 </TableBody>

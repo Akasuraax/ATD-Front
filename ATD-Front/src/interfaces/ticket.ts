@@ -1,10 +1,7 @@
-export interface ITicket {
-    title: string;
-    description: string;
-    type: number;
-}
+import {IMessage} from "./message";
 
-export interface ITicketApi {
+export interface ITicket {
+    id: number;
     title: string;
     description: string;
     type: number;
@@ -13,5 +10,15 @@ export interface ITicketApi {
     archive: boolean;
     updated_at: string;
     created_at: string;
+    messages : IMessage[]
+}
+
+export interface ITicketMine{
     id: number;
+    title: string;
+    description: string;
+    status: number;
+    problem: string,
+    archive: boolean
+    created_at: string;
 }

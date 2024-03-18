@@ -62,3 +62,9 @@ export interface IPatchUser {
     zipcode : number
     address : string
 }
+
+export interface IUsername {
+    id: number,
+    name: string,
+    forname: string
+}

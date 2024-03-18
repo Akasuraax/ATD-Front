@@ -2,20 +2,22 @@
 import './ticket.css'
 import {useTranslation} from "react-i18next";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import { ITicket } from '../../interfaces/ticket.ts'
-import {postTicket} from "../../apiService/ticketsApi.js";
-import {useState} from "react";
+import {postTicket} from "../../apiService/TicketService";
+import {IProblem} from "../../interfaces/problem";
+import {useEffect, useState} from "react";
 import {useToast} from "../../components/Toast/ToastContex";
 import { Spinner } from 'flowbite-react';
 import * as React from "react";
+import {getProblems} from "../../apiService/problemService";
+import {useAuth} from "../../AuthProvider"
+import { ITicket } from "../../interfaces/ticket"
 'use client';
-
-
 
 function TicketPage(){
 
-    const [standBy, setStandBy] = useState(false);
+    const [standBy, setStandBy] = useState(true);
+    const [problem, setProblems] = useState<IProblem[]>();
+    const auth = useAuth()
 
     const { pushToast } = useToast();
 
@@ -30,10 +32,20 @@ function TicketPage(){
     const message = t("ticket.message");
     const placeHolderMsg = t("ticket.placeHolderMsg");
     const submitBtn = t("ticket.submitBtn");
-    const listIssue = ["1", "2", "3"];
 
-
-
+    useEffect(() => {
+        request();
+    }, []);
+    async function request() {
+        setStandBy(true);
+        try {
+            const problemResponse = await getProblems(pushToast);
+            setProblems(problemResponse.problem);
+            setStandBy(false);
+        } catch (error) {
+            setStandBy(true);
+        }
+    }
     const handleSubmit = async (e) => {
         setStandBy(true);
         e.preventDefault();
@@ -45,7 +57,7 @@ function TicketPage(){
             type:Number(form.elements['problemType'].value)
         };
 
-        const req = {ticket, userId:1}
+        const req = {ticket, userId:auth.user.id}
         const res = await postTicket(req,pushToast);
         setStandBy(false);
     }
@@ -53,6 +65,7 @@ function TicketPage(){
     return (
         <main className="with-msg">
             <section className="report-form m-auto bg-white dark:bg-gray-900">
+                {!standBy?(
                 <div className="pt-3 pb-16 px-4 mx-auto">
                     <h2 className="mb-12 text-4xl tracking-tight text-center text-gray-900 dark:text-white">{reportProblem}</h2>
                     <form onSubmit={handleSubmit} className="space-y-8">
@@ -66,8 +79,8 @@ function TicketPage(){
                                     className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                                     required>
                                     <option value="" disabled selected hidden>{selectProblem}</option>
-                                    {listIssue.map((issue, index) => (
-                                        <option key={index} value={issue}>{issue}</option>
+                                    {problem.map((t) => (
+                                        <option value={t.id} key={t.id}>{t.name}</option>
                                     ))}
                                 </select>
 
@@ -79,6 +92,7 @@ function TicketPage(){
                                     type="text"
                                     id="subject"
                                     name="subject"
+                                    maxLength={255}
                                     className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                                     placeholder={placeHolderSubject} required/>
                             </div>
@@ -99,6 +113,9 @@ function TicketPage(){
                         </button>
                     </form>
                 </div>
+                ) : (
+                <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
+                )}
             </section>
         </main>
 

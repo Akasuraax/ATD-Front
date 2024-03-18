@@ -5,6 +5,7 @@ import Home from './page/Home/Home.jsx';
 import Activity from "./page/Activity.jsx";
 import Footer from './components/Footer/Footer.jsx'
 import TicketPage from "./page/Ticket/Ticket.tsx";
+import MessageTicket from "./page/Message/MessagesTicket.tsx"
 import Error from "./page/error/error.tsx";
 import {createBrowserRouter, Navigate, Outlet, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.tsx";
@@ -13,7 +14,7 @@ import Visit from "./page/Visit/Visit.jsx";
 import BeneficiaryForm from "./page/Register/Forms/beneficiary.tsx";
 import PartnerForm from "./page/Register/Forms/partner.tsx";
 import VolunteerForm from "./page/Register/Forms/volunteer.tsx";
-import TicketTracking from "./page/Ticket/Tracking/TicketTracking.jsx";
+import TicketTracking from "./page/Ticket/Tracking/TicketTracking.tsx";
 import UsersList from "./page/Back/User/UsersList.tsx";
 import Vehicle from "./page/Back/Vehicle/Vehicle.tsx";
 import Warehouse from "./page/Back/Warehouse/WarehousesList";
@@ -113,6 +114,10 @@ function App() {
                         {
                             path: 'suivi',
                             element: <TicketTracking/>
+                        },
+                        {
+                            path: ':ticketId',
+                            element: <MessageTicket/>
                         }
                     ]
                 },

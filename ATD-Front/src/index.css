@@ -31,10 +31,6 @@ main {
     flex: 1 0 auto;
 }
 
-.with-msg{
-    flex-direction: column;
-}
-
 h2{
     font-size: 30px;
     color: var(--pink-color);
