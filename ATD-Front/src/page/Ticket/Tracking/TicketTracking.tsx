@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getMyTickets } from "../../../apiService/TicketService";
+import {getMyTickets, getTicket} from "../../../apiService/TicketService";
 import {useToast} from "../../../components/Toast/ToastContex";
 import ListPlaceholder from "../../../components/skeleton/ListPlaceholder";
+import {useNavigate} from 'react-router-dom';
 
 import moment from 'moment';
 
@@ -48,6 +49,8 @@ function TicketTracking() {
     const action = t("tracking.action");
     const ticketTrack = t("tracking.ticketTrack");
     const auth = useAuth()
+    const navigate = useNavigate();
+
 
     const [tickets, setTickets] = useState<ITicketMine[]>();
     const { pushToast } = useToast();
@@ -68,6 +71,7 @@ function TicketTracking() {
         };
         fetchData()
     }, []);
+
 
     return (
         <main>
@@ -91,6 +95,10 @@ function TicketTracking() {
                                         <StyledTableRow
                                             key={ticket.id}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            onClick={() => {
+                                                navigate(`/ticket/${ticket.id}`)
+                                            }}
+                                            style={{ cursor: 'pointer' }}
                                         >
                                             <StyledTableCell  component="th" scope="row">
                                                 {ticket.title}
