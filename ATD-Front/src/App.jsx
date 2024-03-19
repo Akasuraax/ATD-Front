@@ -35,6 +35,8 @@ import AddRole from "./page/Back/Roles/AddRole.tsx";
 import RoleDetails from "./page/Back/Roles/RoleDetails.tsx";
 import Planning from "./page/Planning/Planning"
 import AddRecipe from "./page/Back/recipe/AddRecipe";
+import RecipeDetails from "./page/Back/recipe/RecipeDetails";
+
 
 
 function App() {
@@ -185,6 +187,10 @@ function App() {
                                 {
                                     path: 'add',
                                     element: <AddRecipe/>,
+                                },
+                                {
+                                    path: ':recipeId',
+                                    element: <RecipeDetails/>,
                                 }
                             ]
                         },

@@ -71,3 +71,7 @@ button:focus {
 .bg-green {
     background-color: #6AAF5C;
 }
+
+.bg-green-disabled {
+    background-color: #a6df9b;
+}

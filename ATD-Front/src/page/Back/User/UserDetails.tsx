@@ -1,7 +1,7 @@
 import {PaperClipIcon} from '@heroicons/react/20/solid';
 import {useParams} from 'react-router-dom';
 import {useEffect, useState} from 'react';
-import {deleteUser, getUser, patchUser, patchUserAdmin} from '../../../apiService/UserService';
+import {deleteUser, getUser, patchUserAdmin} from '../../../apiService/UserService';
 import {useToast} from '../../../components/Toast/ToastContex';
 import {IUser, IRole} from '../../../interfaces/user';
 import {Spinner} from 'flowbite-react';
