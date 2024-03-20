@@ -67,7 +67,7 @@ function Vehicle() {
         },
         {
             field: 'annexe_name',
-            headerName: t("vehicle.annex"),
+            headerName: t("vehicle.annexe"),
             width: 150,
             editable: false,
         },
@@ -126,33 +126,42 @@ function Vehicle() {
         <main>
             <div className="m-auto">
                 <h2 className="text-center mb-8">{title}</h2>
-                    <Box sx={{height: '60vh', width: 'auto'}}>
-                        <DataGrid
-                            rows={vehicles}
-                            columns={columns}
-                            initialState={{
-                                pagination: {
-                                    paginationModel: {
-                                        pageSize: 10,
-                                    },
+                <button
+                    type="button"
+                    onClick={() => {
+                        navigate(`/back/vehicles/add`)
+                    }}
+                    style={{backgroundColor: "#6AAF5C"}}
+                    className={`block mb-2 text-white cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 text-center`}>
+                    {t("vehicle.addBtn")}
+                </button>
+                <Box sx={{height: '60vh', width: 'auto'}}>
+                    <DataGrid
+                        rows={vehicles}
+                        columns={columns}
+                        initialState={{
+                            pagination: {
+                                paginationModel: {
+                                    pageSize: 10,
                                 },
-                            }}
-                            rowCount={rowCount}
-                            checkboxSelection={false}
-                            paginationMode="server"
-                            sortingMode="server"
-                            disableRowSelectionOnClick
-                            pageSizeOptions={[5, 10, 25]}
-                            onPaginationModelChange={handlePageChange}
-                            onSortModelChange={onSortModelChange}
-                            filterMode="server"
-                            onFilterModelChange={onFilterChange}
-                            loading={standBy}
-                            onRowClick={(params) => {
-                                navigate(`/back/vehicles/${params.row.id}`)
-                            }}
-                        />
-                    </Box>
+                            },
+                        }}
+                        rowCount={rowCount}
+                        checkboxSelection={false}
+                        paginationMode="server"
+                        sortingMode="server"
+                        disableRowSelectionOnClick
+                        pageSizeOptions={[5, 10, 25]}
+                        onPaginationModelChange={handlePageChange}
+                        onSortModelChange={onSortModelChange}
+                        filterMode="server"
+                        onFilterModelChange={onFilterChange}
+                        loading={standBy}
+                        onRowClick={(params) => {
+                            navigate(`/back/vehicles/${params.row.id}`)
+                        }}
+                    />
+                </Box>
             </div>
         </main>
     )

@@ -1,29 +1,35 @@
-import {useParams} from 'react-router-dom';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useToast} from '../../../components/Toast/ToastContex';
 import {Spinner} from 'flowbite-react';
 import {useTranslation} from "react-i18next";
-import {IAddWarehouse} from "../../../interfaces/warehouse";
-import {getWarehouse, patchWarehouse, postWarehouse} from "../../../apiService/WarehouseService";
 import {useNavigate} from 'react-router-dom';
+import {postVehicle} from "../../../apiService/vehiclesService";
+import {IAddVehicle} from "../../../interfaces/vehicle";
+import {getAnnexesAll} from "../../../apiService/annexe";
+import {IAnnexe} from "../../../interfaces/annexe";
+import * as React from "react";
+import Select from "@mui/material/Select";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import MenuItem from "@mui/material/MenuItem";
 
 
-export default function AddWarehouse() {
+export default function AddVehicle() {
     const {pushToast} = useToast();
-    const [warehouse, setWarehouse] = useState<IAddWarehouse | null>({
+    const navigate = useNavigate();
+    const [standBy, setStandBy] = useState(true);
+    const [vehicle, setVehicle] = useState<IAddVehicle | null>({
             name: '',
-            address: '',
-            zipcode: 0,
-            capacity: 0,
+            license_plate: '',
+            average_consumption: 0,
+            fuel_type: '',
+            id_annexe: 1
         }
     );
-    const navigate = useNavigate();
-
-
+    const [annexe, setAnnexes] = useState<IAnnexe[]>(null);
     const {t} = useTranslation();
 
-    const updateWarehouseField = (field: string, value: any) => {
-        setWarehouse((prevUser) => ({
+    const updateVehicleField = (field: string, value: any) => {
+        setVehicle((prevUser) => ({
             ...prevUser,
             [field]: value,
         }));
@@ -32,36 +38,56 @@ export default function AddWarehouse() {
     async function save(e) {
         e.preventDefault();
         const form = e.target;
-            const warehouse:IAddWarehouse = {
-                name: form.elements["name"].value,
-                address: form.elements["address"].value,
-                zipcode: form.elements["zipcode"].value,
-                capacity: form.elements["capacity"].value,
-            }
+        const vehicle: IAddVehicle = {
+            name: form.elements["name"].value,
+            license_plate: form.elements["license_plate"].value,
+            average_consumption: form.elements["average_consumption"].value,
+            fuel_type: form.elements["fuel_type"].value,
+            id_annexe: form.elements["id_annexe"].value,
+        }
         try {
-            const respons = await postWarehouse(warehouse, pushToast);
-            navigate(`/back/warehouses/${respons.warehouse.id}`)
+            const respons = await postVehicle(vehicle, pushToast);
+            navigate(`/back/vehicle/${respons.vehicle.id}`)
 
         } catch (error) {
-            console.log(error)
+            return
         }
     }
+
+    useEffect(() => {
+        getAnnexesF();
+    }, []);
+
+    async function getAnnexesF() {
+        setStandBy(true);
+        try {
+            const annexeResponse = await getAnnexesAll(pushToast);
+            setAnnexes(annexeResponse);
+            setStandBy(false);
+        } catch (error) {
+            setStandBy(true);
+        }
+    }
+
+    const handleAnnexeSelect = (event) => {
+        setSelectedAnnexeId(event.target.value);
+    };
 
     return (
         <main>
             <div className="flex flex-wrap max-w-full items-center justify-between mx-auto">
                 <div
-                    style={{ minWidth: "30vw" }}
+                    style={{minWidth: "30vw"}}
                     className="border p-4 rounded-xl shadow-md">
                     <div className="px-4 sm:px-0">
-                        <h3 className="text-base font-semibold leading-7 text-gray-900">{t('warehouse.warehouseDetails')}</h3>
+                        <h3 className="text-base font-semibold leading-7 text-gray-900">{t('vehicle.addBtn')}</h3>
                     </div>
                     <form onSubmit={save}>
                         <div className="mt-6 border-t border-gray-100">
                             <dl className="divide-y divide-gray-100">
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('warehouse.name')}</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.name')}</dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                         <div className="flex items-center justify-end">
                                             <input
@@ -77,21 +103,21 @@ export default function AddWarehouse() {
                                                     padding: '0',
                                                     fontSize: '0.875rem'
                                                 }}
-                                                value={warehouse.name}
-                                                onChange={(e) => updateWarehouseField('name', e.target.value)}
+                                                value={vehicle.name}
+                                                onChange={(e) => updateVehicleField('name', e.target.value)}
                                             />
                                         </div>
                                     </dd>
                                 </div>
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('warehouse.address')}</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.license_plate')}</dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                         <div className="flex items-center justify-end ">
                                             <input
                                                 type="text"
                                                 required={true}
-                                                name="address"
+                                                name="license_plate"
                                                 style={{
                                                     borderBottom: '1px solid black',
                                                     borderLeft: 'none',
@@ -101,46 +127,21 @@ export default function AddWarehouse() {
                                                     padding: '0',
                                                     fontSize: '0.875rem'
                                                 }}
-                                                value={warehouse.address}
-                                                onChange={(e) => updateWarehouseField('address', e.target.value)}
+                                                value={vehicle.license_plate}
+                                                onChange={(e) => updateVehicleField('license_plate', e.target.value)}
                                             />
                                         </div>
                                     </dd>
                                 </div>
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('warehouse.zipcode')}</dt>
-                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
-                                        <div className="flex items-center justify-end ">
-                                            <input
-                                                type="text"
-                                                name="zipcode"
-                                                required={true}
-                                                style={{
-                                                    borderBottom: '1px solid black',
-                                                    borderLeft: 'none',
-                                                    borderRight: 'none',
-                                                    borderTop: 'none',
-                                                    margin: '0',
-                                                    padding: '0',
-                                                    fontSize: '0.875rem'
-                                                }}
-                                                value={warehouse.zipcode}
-                                                pattern="[0-9]{5}"
-                                                onChange={(e) => updateWarehouseField('zipcode', e.target.value.slice(0, 5).replace(/\D/g, ''))}
-                                            />
-                                        </div>
-                                    </dd>
-                                </div>
-
-                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('warehouse.capacity')}</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.avgConsumption')}</dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                         <div className="flex items-center justify-end ">
                                             <input
                                                 type="number"
+                                                name="average_consumption"
                                                 required={true}
-                                                name="capacity"
                                                 style={{
                                                     borderBottom: '1px solid black',
                                                     borderLeft: 'none',
@@ -150,16 +151,69 @@ export default function AddWarehouse() {
                                                     padding: '0',
                                                     fontSize: '0.875rem'
                                                 }}
-                                                value={warehouse.capacity}
-                                                onChange={(e) => updateWarehouseField('capacity', e.target.value)}
+                                                value={vehicle.average_consumption}
+                                                pattern="[0-9]{5}"
+                                                onChange={(e) => updateVehicleField('average_consumption', e.target.value.slice(0, 5).replace(/\D/g, ''))}
                                             />
                                         </div>
                                     </dd>
                                 </div>
+
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.fuel_type')}</dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <div className="flex items-center justify-end ">
+                                            <input
+                                                type="text"
+                                                required={true}
+                                                name="fuel_type"
+                                                style={{
+                                                    borderBottom: '1px solid black',
+                                                    borderLeft: 'none',
+                                                    borderRight: 'none',
+                                                    borderTop: 'none',
+                                                    margin: '0',
+                                                    padding: '0',
+                                                    fontSize: '0.875rem'
+                                                }}
+                                                value={vehicle.fuel_type}
+                                                onChange={(e) => updateVehicleField('fuel_type', e.target.value)}
+                                            />
+                                        </div>
+                                    </dd>
+                                </div>
+                                {!standBy ? (
+                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.annexe')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                            <div className="flex items-center justify-end ">
+                                                <Select
+                                                    labelId="demo-multiple-name-label"
+                                                    id="demo-multiple-name"
+                                                    multiple
+                                                    value={annexe.map((a) => a.id)}
+                                                    onChange={handleAnnexeSelect}
+                                                    input={<OutlinedInput label="Name"/>}
+                                                >
+                                                    {annexe.map((a) => (
+                                                        <MenuItem
+                                                            key={a.id}
+                                                            value={a.id}
+                                                        >
+                                                            {a.name}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </div>
+                                        </dd>
+                                    </div>
+                                ) : (
+                                    <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
+                                )}
                             </dl>
                         </div>
                         <button
-                            style={{ backgroundColor: "#6AAF5C" }}
+                            style={{backgroundColor: "#6AAF5C"}}
                             className={`block m-4 text-white cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 text-center`}
                             type="submit"
                         >

@@ -36,6 +36,7 @@ import AddRole from "./page/Back/Roles/AddRole.tsx";
 import RoleDetails from "./page/Back/Roles/RoleDetails.tsx";
 import Planning from "./page/Planning/Planning"
 import AddRecipe from "./page/Back/recipe/AddRecipe";
+import AddVehicle from "./page/Back/Vehicle/addVehicle.tsx";
 
 
 function App() {
@@ -158,6 +159,10 @@ function App() {
                                 {
                                     path: ':vehiclesId',
                                     element: <VehicleDetails/>,
+                                },
+                                {
+                                    path: 'add',
+                                    element: <AddVehicle/>,
                                 }
                             ]
                         },
