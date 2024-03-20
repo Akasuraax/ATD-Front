@@ -8,6 +8,7 @@ const LanguageSelector = () => {
     const availableLanguages = Object.keys(i18n.options.resources);
     const { t } = useTranslation();
 
+
     const chooseLanguage = (lang) => {
         i18n.changeLanguage(lang);
         setSelectedLanguage(lang);

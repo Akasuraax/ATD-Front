@@ -40,15 +40,19 @@ export default function TypeDetails(){
 
     async function save() {
         try {
-            console.log(newTypes)
-            const patchRespons = await patchType(newTypes, pushToast, typeId);
-            setType(patchRespons.type);
-            setNewTypes(patchRespons.type);
-            setEdit(false)
-        }catch (error) {
-            console.log(error)
+            console.log(newTypes);
+            const patchResponse = await patchType(newTypes, pushToast, typeId);
+            setType(patchResponse.type);
+            setNewTypes(prevTypes => ({
+                ...prevTypes,
+                display: prevTypes.display && patchResponse.type.display // Update only if both are true
+            }));
+            setEdit(false);
+        } catch (error) {
+            console.log(error);
         }
     }
+
     async function sendRequest() {
         setStandBy(true);
         try {
@@ -66,7 +70,6 @@ export default function TypeDetails(){
         if(!valid) return
         try {
             const res = await deleteType(typeId, pushToast)
-            console.log(res)
             setNewTypes(res.type);
             setType(res.type);
         } catch (error) {
@@ -107,7 +110,7 @@ export default function TypeDetails(){
                                                         onChange={(e) => updateUserField('name', e.target.value)}
                                                     />
                                                 ) : (
-                                                    <span>{newTypes && newTypes.name}</span>
+                                                    <span>{newTypes.name}</span>
                                                 )}
                                             </div>
                                         </dd>

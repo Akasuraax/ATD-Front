@@ -45,8 +45,16 @@ export const getType = async (params, pushToast) => {
 };
 
 export const patchType = async (typeData, pushToast, id) => {
+
     try{
-        const res = await axios.patch(`${API_BASE_URL}/type/${id}`, typeData, { headers: getHeaders() });
+        const formData = new FormData();
+        formData.append('name', typeData.name);
+        formData.append('description', typeData.description);
+        formData.append('display', typeData.display ? '1' : '0');
+        if (typeData.type_image)formData.append('type_image', typeData.type_image);
+        formData.append('access_to_warehouse', typeData.access_to_warehouse ? '1' : '0');
+        formData.append('access_to_journey', typeData.access_to_journey ? '1' : '0');
+        const res = await axios.post(`${API_BASE_URL}/type/${id}`, formData, { headers: getHeaders() });
         pushToast({
             content: "L'élément a bien été envoyé",
             type: "success"
