@@ -6,7 +6,7 @@ import {IAddRecipe} from "../../../interfaces/recipe";
 import {getProductsFilter} from "../../../apiService/productService";
 import {IProduct} from "../../../interfaces/product";
 import "./recipe.css"
-import {getRecipe, postRecipe} from "../../../apiService/RecipeService";
+import {getRecipe, patchRecipe, postRecipe} from "../../../apiService/RecipeService";
 import {Spinner, Textarea} from 'flowbite-react';
 import isEqual from 'lodash/isEqual';
 
@@ -70,7 +70,7 @@ export default function AddRecipe() {
             return
         }
         try {
-            const respons = await postRecipe(recipe, pushToast);
+            const respons = await patchRecipe(recipe, pushToast,recipeId);
             if (respons.status === 409) {
                 pushToast({
                     content: "Le nom de la recette existe déjà",
@@ -216,14 +216,14 @@ export default function AddRecipe() {
                             style={{width: "50vw", maxWidth: "1024px"}}
                             className="border max-w-full p-4 rounded-xl shadow-md">
                             <div className="px-4 sm:px-0">
-                                <h3 className="text-base font-semibold leading-7 text-gray-900">{t('recipe.recipeDetails')}</h3>
+                                <h3 className="text-base font-semibold leading-7 text-gray-900">{t('recipe.details')}</h3>
                             </div>
                             <form onSubmit={save}>
                                 <div className="mt-6 border-t border-gray-100">
                                     <dl className="divide-y divide-gray-100">
 
                                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('recipe.name')}</dt>
+                                            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('recipe.titled')}</dt>
                                             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                                 <div className="flex items-center justify-end">
                                                     <input
@@ -270,7 +270,7 @@ export default function AddRecipe() {
                                             </dd>
                                         </div>
                                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('recipe.name')}</dt>
+                                            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('recipe.products')}</dt>
                                             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3">
                                                 <ul role="list"
                                                     className="divide-y divide-gray-200 dark:divide-gray-700">

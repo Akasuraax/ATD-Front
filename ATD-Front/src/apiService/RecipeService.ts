@@ -15,6 +15,6 @@ export const deleteRecipe = async ( pushToast, url?) => {
     return deleteRequest(`recipe/${url}`,"", pushToast);
 };
 
-export const patchRecipe = async (params, pushToast,userId) => {
-    return patchRequest(`recipe/${userId}`,params, pushToast);
+export const patchRecipe = async (params, pushToast,id) => {
+    return patchRequest(`recipe/${id}`,params, pushToast);
 };
