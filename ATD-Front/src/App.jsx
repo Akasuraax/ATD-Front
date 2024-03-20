@@ -36,6 +36,11 @@ import RoleDetails from "./page/Back/Roles/RoleDetails.tsx";
 import Planning from "./page/Planning/Planning"
 import AddRecipe from "./page/Back/recipe/AddRecipe";
 import RecipeDetails from "./page/Back/recipe/RecipeDetails";
+import ProductsList from "./page/Back/product/ProductsList";
+import AddProduct from "./page/Back/product/AddProduct";
+import ProductDetails from "./page/Back/product/productDetails";
+
+
 
 
 
@@ -191,6 +196,24 @@ function App() {
                                 {
                                     path: ':recipeId',
                                     element: <RecipeDetails/>,
+                                }
+                            ]
+                        },
+                        {
+                            path: "products",
+                            element: <Outlet/>,
+                            children: [
+                                {
+                                    path: '',
+                                    element: <ProductsList/>
+                                },
+                                {
+                                    path: 'add',
+                                    element: <AddProduct/>,
+                                },
+                                {
+                                    path: ':productId',
+                                    element: <ProductDetails/>,
                                 }
                             ]
                         },
