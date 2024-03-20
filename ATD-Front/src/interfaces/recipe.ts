@@ -7,6 +7,8 @@ export interface IRecipe {
     archive:boolean,
     create_at:Date,
     update_at:Date
+    products:IProduct[]
+
 }
 
 export interface IAddRecipe {

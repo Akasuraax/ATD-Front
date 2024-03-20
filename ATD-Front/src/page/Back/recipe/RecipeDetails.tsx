@@ -2,11 +2,11 @@ import {useEffect, useState} from 'react';
 import {useToast} from '../../../components/Toast/ToastContex';
 import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from 'react-router-dom';
-import {IAddRecipe} from "../../../interfaces/recipe";
+import {IAddRecipe, IRecipe} from "../../../interfaces/recipe";
 import {getProductsFilter} from "../../../apiService/productService";
 import {IProduct} from "../../../interfaces/product";
 import "./recipe.css"
-import {getRecipe, patchRecipe, postRecipe} from "../../../apiService/RecipeService";
+import {deleteRecipe, getRecipe, patchRecipe, postRecipe} from "../../../apiService/RecipeService";
 import {Spinner, Textarea} from 'flowbite-react';
 import isEqual from 'lodash/isEqual';
 
@@ -15,8 +15,8 @@ export default function AddRecipe() {
 
     const {pushToast} = useToast();
     const {recipeId} = useParams()
-    const [recipe, setRecipe] = useState<IAddRecipe | null>();
-    const [oldRecipe, setOldRecipe] = useState<IAddRecipe | null>();
+    const [recipe, setRecipe] = useState<IRecipe | null>();
+    const [oldRecipe, setOldRecipe] = useState<IRecipe | null>();
     const [products, setProducts] = useState<IProduct[]>([]);
     const [filter, setFilter] = useState<string>('');
     const [standBy, setStandBy] = useState<boolean>(true)
@@ -48,7 +48,6 @@ export default function AddRecipe() {
             setRecipe(recipeRespons)
             const copiedRecipe = JSON.parse(JSON.stringify(recipeRespons));
             setOldRecipe(copiedRecipe);
-            console.log(recipeRespons)
             setStandBy(false)
         } catch (error) {
             console.log(error)
@@ -70,7 +69,7 @@ export default function AddRecipe() {
             return
         }
         try {
-            const respons = await patchRecipe(recipe, pushToast,recipeId);
+            const respons = await patchRecipe(recipe, pushToast, recipeId);
             if (respons.status === 409) {
                 pushToast({
                     content: "Le nom de la recette existe déjà",
@@ -79,6 +78,15 @@ export default function AddRecipe() {
             } else {
                 navigate('/back/recipes')
             }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function deleteR() {
+        try {
+            const respons = await deleteRecipe(pushToast, recipeId);
+                navigate('/back/recipes')
         } catch (error) {
             console.log(error);
         }
@@ -362,13 +370,24 @@ export default function AddRecipe() {
                                         </div>
                                     </dl>
                                 </div>
-                                <button
-                                    disabled={!isModified}
-                                    className={`block m-4 text-white ${ isModified ? 'bg-green': 'bg-green-disabled'} font-medium cursor-pointer rounded-lg text-sm px-5 py-2.5 text-center`}
-                                    type="submit"
-                                >
-                                    {t('generic.saveButton')}
-                                </button>
+                                <div
+                                className={"flex justify-between"}>
+                                    <button
+                                        disabled={!isModified}
+                                        className={`block m-4 text-white ${isModified ? 'bg-green' : 'bg-green-disabled'} font-medium cursor-pointer rounded-lg text-sm px-5 py-2.5 text-center`}
+                                        type="submit"
+                                    >
+                                        {t('generic.saveButton')}
+                                    </button>
+                                    <button
+                                        disabled={recipe.archive}
+                                        className={`block m-4 text-white ${recipe.archive ? 'bg-red-disabled' : 'bg-red'} font-medium cursor-pointer rounded-lg text-sm px-5 py-2.5 text-center`}
+                                        type="button"
+                                        onClick={deleteR}
+                                    >
+                                        {t('generic.deleteButton')}
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
