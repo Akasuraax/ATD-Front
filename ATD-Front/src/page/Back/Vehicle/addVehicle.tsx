@@ -29,8 +29,8 @@ export default function AddVehicle() {
     const {t} = useTranslation();
 
     const updateVehicleField = (field: string, value: any) => {
-        setVehicle((prevUser) => ({
-            ...prevUser,
+        setVehicle((prevVehicle) => ({
+            ...prevVehicle,
             [field]: value,
         }));
     };
@@ -41,13 +41,13 @@ export default function AddVehicle() {
         const vehicle: IAddVehicle = {
             name: form.elements["name"].value,
             license_plate: form.elements["license_plate"].value,
-            average_consumption: form.elements["average_consumption"].value,
+            average_consumption: Number(form.elements["average_consumption"].value),
             fuel_type: form.elements["fuel_type"].value,
-            id_annexe: form.elements["id_annexe"].value,
+            id_annexe: Number(form.elements["id_annexe"].value),
         }
         try {
             const respons = await postVehicle(vehicle, pushToast);
-            navigate(`/back/vehicle/${respons.vehicle.id}`)
+            navigate(`/back/vehicles`)
 
         } catch (error) {
             return
@@ -69,10 +69,6 @@ export default function AddVehicle() {
         }
     }
 
-    const handleAnnexeSelect = (event) => {
-        setSelectedAnnexeId(event.target.value);
-    };
-
     return (
         <main>
             <div className="flex flex-wrap max-w-full items-center justify-between mx-auto">
@@ -93,6 +89,7 @@ export default function AddVehicle() {
                                             <input
                                                 type="text"
                                                 name="name"
+                                                maxLength={255}
                                                 required={true}
                                                 style={{
                                                     borderBottom: '1px solid black',
@@ -117,6 +114,7 @@ export default function AddVehicle() {
                                             <input
                                                 type="text"
                                                 required={true}
+                                                maxLength={9}
                                                 name="license_plate"
                                                 style={{
                                                     borderBottom: '1px solid black',
@@ -187,23 +185,19 @@ export default function AddVehicle() {
                                         <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.annexe')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                             <div className="flex items-center justify-end ">
-                                                <Select
-                                                    labelId="demo-multiple-name-label"
-                                                    id="demo-multiple-name"
-                                                    multiple
-                                                    value={annexe.map((a) => a.id)}
-                                                    onChange={handleAnnexeSelect}
-                                                    input={<OutlinedInput label="Name"/>}
+                                                <select
+                                                    id="id_annexe"
+                                                    name="id_annexe"
+                                                    className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                                                    value={vehicle.id_annexe}
+                                                    onChange={(e) => updateVehicleField('id_annexe', e.target.value)}
+                                                    required
                                                 >
-                                                    {annexe.map((a) => (
-                                                        <MenuItem
-                                                            key={a.id}
-                                                            value={a.id}
-                                                        >
-                                                            {a.name}
-                                                        </MenuItem>
+                                                    <option value=""></option>
+                                                    {annexe.map((t) => (
+                                                        <option value={t.id} key={t.id}>{t.name}</option>
                                                     ))}
-                                                </Select>
+                                                </select>
                                             </div>
                                         </dd>
                                     </div>
