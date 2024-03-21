@@ -36,9 +36,6 @@ import RoleDetails from "./page/Back/Role/RoleDetails.tsx";
 import TypesList from "./page/Back/Type/TypesList.tsx";
 import AddType from "./page/Back/Type/AddType.tsx";
 import TypeDetails from "./page/Back/Type/TypeDetails.tsx";
-import RolesList from "./page/Back/Roles/RolesList.tsx";
-import AddRole from "./page/Back/Roles/AddRole.tsx";
-import RoleDetails from "./page/Back/Roles/RoleDetails.tsx";
 import Planning from "./page/Planning/Planning"
 import AddRecipe from "./page/Back/recipe/AddRecipe";
 import EventsList from "./page/Back/event/eventsList";
