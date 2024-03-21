@@ -19,6 +19,18 @@ export interface IActivity {
     type_name: string,
     roles:IRole[],
 }
+
+export interface IAddActivity {
+    title: string,
+    description: string,
+    address: string,
+    zipcode: number,
+    start_date: Date,
+    end_date: Date,
+    donation: boolean,
+    type: string,
+    roles:IRole[],
+}
 export class Activity implements IActivity2{
     name:string
     description:string
