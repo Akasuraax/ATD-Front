@@ -39,6 +39,9 @@ import TypeDetails from "./page/Back/Type/TypeDetails.tsx";
 import Planning from "./page/Planning/Planning"
 import AddRecipe from "./page/Back/recipe/AddRecipe";
 import EventsList from "./page/Back/event/eventsList";
+import AddAnnexe from "./page/Back/Annexe/AddAnnexe.tsx";
+import AnnexeDetails from "./page/Back/Annexe/AnnexeDetails.tsx";
+import AnnexeList from "./page/Back/Annexe/AnnexeList.tsx";
 
 
 function App() {
@@ -273,7 +276,25 @@ function App() {
                                     element: <TypeDetails/>
                                 }
                             ]
-                        }
+                        },
+                        {
+                            path: 'annexes',
+                            element: <Outlet/>,
+                            children: [
+                                {
+                                    path:'',
+                                    element: <AnnexeList/>
+                                },
+                                {
+                                    path: 'add',
+                                    element: <AddAnnexe/>
+                                },
+                                {
+                                    path: ':annexeId',
+                                    element: <AnnexeDetails/>
+                                }
+                            ]
+                        },
                     ]
                 }
             ]
