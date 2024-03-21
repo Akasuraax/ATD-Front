@@ -5,17 +5,72 @@ import {IActivity, IAddActivity} from "../../interfaces/activity";
 import {useTranslation} from "react-i18next";
 import {useAuth} from "../../AuthProvider.jsx";
 import {useEffect, useState} from "react";
-import {IRole} from "../../interfaces/role";
+import {ICreatActivityRole, IRole} from "../../interfaces/role";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import {getType, getTypes, getTypesAll} from "../../apiService/TypeService";
 import {getProductsFilter} from "../../apiService/productService";
 import {useToast} from "../Toast/ToastContex";
 import {IType} from "../../interfaces/type";
+import {getAllRoles} from "../../apiService/RoleService";
 
 export default function CreateActivivityModal({setOpenModal}: {
     setOpenModal: (value: boolean) => void,
 }) {
+
+
+    function Stepper() {
+        return (
+            <ol className="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+                <li className={`flex md:w-full items-center ${step >= 0 ? 'text-blue-600 dark:text-blue-500' : ''} sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
+        <span
+            className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+            {step >= 1 ? (
+                <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                     fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                </svg>
+            ) : (
+                <span className="me-2">1</span>
+            )}
+            Personal <span className="hidden sm:inline-flex sm:ms-2">Info</span>
+        </span>
+                </li>
+                <li className={`flex md:w-full items-center ${step >= 1 ? 'text-blue-600 dark:text-blue-500' : ''} after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
+        <span
+            className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                        {step >= 2 ? (
+                            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                            </svg>
+                        ) : (
+                            <span className="me-2">2</span>
+                        )}
+            Account
+            <span className="hidden sm:inline-flex sm:ms-2">Info</span>
+        </span>
+                </li>
+                <li className={`flex items-center ${step >= 2 ? 'text-blue-600 dark:text-blue-500' : ''}`}>
+                    {step >= 3 ? (
+                        <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg"
+                             fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                        </svg>
+                    ) : (
+                        <span className="me-2">3</span>
+                    )}
+                    Confirmation
+                </li>
+            </ol>
+
+        )
+    }
 
     const {t} = useTranslation();
     const [activity, setActivity] = useState<IAddActivity>({
@@ -31,6 +86,9 @@ export default function CreateActivivityModal({setOpenModal}: {
     })
     const [standBy, setStandBy] = useState<boolean>(true)
     const [types, setTypes] = useState<IType[]>([])
+    const [roles, setRoles] = useState<IRole[]>([])
+    const [step, setStep] = useState<number>(0)
+
     const {pushToast} = useToast();
     const customTheme: CustomFlowbiteTheme['modal'] = {
         "root": {
@@ -44,6 +102,7 @@ export default function CreateActivivityModal({setOpenModal}: {
 
     useEffect(() => {
         getTypeF()
+        getRoleF()
     }, []);
 
     async function getTypeF() {
@@ -64,10 +123,41 @@ export default function CreateActivivityModal({setOpenModal}: {
         }
     }
 
+    async function getRoleF() {
+        setStandBy(true)
+        try {
+            const rolesList = await getAllRoles(null, pushToast);
+            if (rolesList.length !== 0) {
+                setRoles(rolesList)
+            } else {
+                console.log("pas de role")
+            }
+            setStandBy(false)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const updateField = (field: string, value: any) => {
         setActivity((prev) => ({
             ...prev,
             [field]: value,
+        }));
+    };
+
+    const addRole = (r: IRole) => {
+        setActivity((prev) => ({
+            ...prev,
+            roles: [...prev.roles, r],
+        }));
+    };
+
+    const removeRole = (id: number) => {
+        console.log(activity.roles)
+        setActivity((prevActivity) => ({
+            ...prevActivity,
+            roles: prevActivity.roles.filter(role => role.id !== id),
         }));
     };
 
@@ -80,111 +170,214 @@ export default function CreateActivivityModal({setOpenModal}: {
             <Modal.Body>
                 <Stepper/>
                 {!standBy ? (
-                    <>
-                        <div className="flex justify-between mt-8 p-4">
+                    step === 0 ? (
+                        <>
+                            <div className="flex justify-between mt-8 p-4">
+                                <div>
+                                    <label htmlFor="title"
+                                           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('activity.createTitle')}</label>
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        required={true}
+                                        style={{
+                                            borderBottom: '1px solid black',
+                                            borderLeft: 'none',
+                                            borderRight: 'none',
+                                            borderTop: 'none',
+                                            margin: '0',
+                                            padding: '0',
+                                            fontSize: '0.875rem',
+                                            width: '100%'
+                                        }}
+                                        value={activity.title}
+                                        onChange={(e) => updateField('title', e.target.value)}
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="title"
+                                           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('activity.createTitle')}</label>
+                                    <Select
+                                        id="gender"
+                                        required
+                                        value={activity?.type}
+                                        onChange={(e) => updateField('type', e.target.value)}
+                                    >
+                                        {types.map((t) => (
+                                            <MenuItem key={t.id} value={t.id}>{t.name}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </div>
+                            </div>
                             <div>
-                                <label htmlFor="title"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('activity.createTitle')}</label>
-                                <input
-                                    type="text"
-                                    name="title"
-                                    required={true}
+                                <label htmlFor="description"
+                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('activity.createDescription')}</label>
+                                <Textarea
                                     style={{
-                                        borderBottom: '1px solid black',
-                                        borderLeft: 'none',
-                                        borderRight: 'none',
-                                        borderTop: 'none',
-                                        margin: '0',
-                                        padding: '0',
-                                        fontSize: '0.875rem',
-                                        width: '100%'
+                                        minHeight: "250px",
+                                        maxHeight: "500px"
                                     }}
-                                    value={activity.title}
-                                    onChange={(e) => updateField('title', e.target.value)}
-                                />
+                                    value={activity.description}
+                                    onChange={(e) => updateField('description', e.target.value)}
+                                    name="description"
+                                    required={true}
+                                    id="description"
+                                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder={t("recipe.details") + "..."}>
+                                </Textarea>
                             </div>
-                            <div>
-                                <label htmlFor="title"
-                                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('activity.createTitle')}</label>
-                                <Select
-                                    id="gender"
-                                    required
-                                    value={activity?.type}
-                                    onChange={(e) => updateField('type', e.target.value)}
-                                >
-                                    {types.map((t) => (
-                                        <MenuItem key={t.id} value={t.id}>{t.name}</MenuItem>
-                                    ))}
-                                </Select>
+                        </>
+                    ) : step === 1 ? (
+                        <>
+                            <div className="m-4">
+                                <h3>Roles</h3>
+                                <div style={{maxHeight: '250px', overflowY: 'auto'}}>
+                                    <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+                                        {roles.map((r) => (
+                                            <li key={r.id} className="py-3 sm:py-4">
+                                                <div className="flex items-center justify-between">
+                                                    <div className="min-w-0 ms-4">
+                                                        <p className="justify-between font-medium text-gray-900 truncate dark:text-white">
+                                                            {r.name}
+                                                        </p>
+                                                    </div>
+                                                    <button
+                                                    onClick={() => addRole(r)}>
+                                                        <i className="fi fi-rr-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <label htmlFor="description"
-                                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('activity.createDescription')}</label>
-                            <Textarea
-                                style={{
-                                    minHeight: "250px",
-                                    maxHeight: "500px"
-                                }}
-                                value={activity.description}
-                                onChange={(e) => updateField('description', e.target.value)}
-                                name="description"
-                                required={true}
-                                id="description"
-                                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder={t("recipe.details") + "..."}>
-                            </Textarea>
-                        </div>
-                    </>
-                ) : (
+
+                            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead
+                                        className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-3">
+                                            role
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Minimum
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Maximum
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Action
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {activity.roles.map((r) => (
+                                    <tr key={r.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                            {r.name}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center">
+                                                <button
+                                                    className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                                    type="button">
+                                                    <span className="sr-only">Quantity button</span>
+                                                    <svg className="w-3 h-3" aria-hidden="true"
+                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 18 2">
+                                                        <path stroke="currentColor" strokeLinecap="round"
+                                                              strokeLinejoin="round" strokeWidth="2" d="M1 1h16"/>
+                                                    </svg>
+                                                </button>
+                                                <div>
+                                                    <input type="number" id="first_product"
+                                                           className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                           placeholder="1" required/>
+                                                </div>
+                                                <button
+                                                    className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                                    type="button">
+                                                    <span className="sr-only">Quantity button</span>
+                                                    <svg className="w-3 h-3" aria-hidden="true"
+                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 18 18">
+                                                        <path stroke="currentColor" strokeLinecap="round"
+                                                              strokeLinejoin="round" strokeWidth="2"
+                                                              d="M9 1v16M1 9h16"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                            <div className="flex items-center">
+                                                <button
+                                                    className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                                    type="button">
+                                                    <span className="sr-only">Quantity button</span>
+                                                    <svg className="w-3 h-3" aria-hidden="true"
+                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 18 2">
+                                                        <path stroke="currentColor" strokeLinecap="round"
+                                                              strokeLinejoin="round" strokeWidth="2" d="M1 1h16"/>
+                                                    </svg>
+                                                </button>
+                                                <div>
+                                                    <input type="number" id="first_product"
+                                                           className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                           placeholder="1" required/>
+                                                </div>
+                                                <button
+                                                    className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                                    type="button">
+                                                    <span className="sr-only">Quantity button</span>
+                                                    <svg className="w-3 h-3" aria-hidden="true"
+                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 18 18">
+                                                        <path stroke="currentColor" strokeLinecap="round"
+                                                              strokeLinejoin="round" strokeWidth="2"
+                                                              d="M9 1v16M1 9h16"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <button
+                                                onClick={() => removeRole(r.id)}
+                                               className="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</button>
+                                        </td>
+                                    </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </>
+                    ) : null
+                    ) : (
                     <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
-                )}
+                    )}
             </Modal.Body>
             <Modal.Footer>
                 <div className="flex justify-between w-full">
                     <button
+                        onClick={() => setStep(step - 1)}
                         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                        Previous
+                        {t("generic.previous")}
                     </button>
                     <button
+                        onClick={() => setStep(step + 1)}
                         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">
-                        Next
+                        {t("generic.next")}
                     </button>
                 </div>
             </Modal.Footer>
 
         </Modal>
-    )
-        ;
+)
+;
 }
 
 
-function Stepper() {
-    return (
-        <ol className="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
-            <li className="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
-        <span
-            class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
-            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                 fill="currentColor" viewBox="0 0 20 20">
-                <path
-                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-            </svg>
-            Personal <span class="hidden sm:inline-flex sm:ms-2">Info</span>
-        </span>
-            </li>
-            <li className="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
-        <span
-            class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
-            <span class="me-2">2</span>
-            Account <span class="hidden sm:inline-flex sm:ms-2">Info</span>
-        </span>
-            </li>
-            <li className="flex items-center">
-                <span class="me-2">3</span>
-                Confirmation
-            </li>
-        </ol>
 
-    )
-}
+
+
