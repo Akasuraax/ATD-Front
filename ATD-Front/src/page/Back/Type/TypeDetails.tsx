@@ -40,7 +40,6 @@ export default function TypeDetails(){
 
     async function save() {
         try {
-            console.log(newTypes);
             const patchResponse = await patchType(newTypes, pushToast, typeId);
             setType(patchResponse.type);
             setNewTypes(prevTypes => ({

@@ -60,6 +60,10 @@ export const downloadFile = async (params, pushToast) => {
     }
 };
 
+export const deleteFile = async (id, idFile, pushToast) => {
+    return deleteRequest(`user/${id}/file/${idFile}`, "", pushToast);
+};
+
 export const postFile = async (params, data, pushToast) => {
     try {
         const formData = new FormData();

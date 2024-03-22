@@ -1,7 +1,7 @@
 import {IUser} from "../../interfaces/user";
 import {useTranslation} from "react-i18next";
 import {PaperClipIcon} from "@heroicons/react/20/solid";
-import {getUserFiles, downloadFile} from "../../apiService/UserService";
+import {getUserFiles, downloadFile, deleteFile} from "../../apiService/UserService";
 import {useToast} from "../Toast/ToastContex";
 import {useEffect, useState} from "react";
 import {IFile} from "../../interfaces/user";
@@ -42,6 +42,16 @@ export default function Files({user}: { user: IUser }) {
             console.error('Error downloading file:', error);
         }
     }
+
+    async function deleteUserFile(id, idFile){
+        try {
+            await deleteFile(id, idFile, pushToast);
+            setFiles(prevFiles => prevFiles.filter(file => file.id !== idFile));
+        } catch (error) {
+            console.error('Error deleting file:', error);
+        }
+    }
+
     async function save(e) {
         e.preventDefault();
         const form = e.target;
@@ -56,12 +66,12 @@ export default function Files({user}: { user: IUser }) {
 
         try {
             const response = await postFile(user.id, file, pushToast);
-            console.log(file);
+            const newFile = response.data.file;
+            setFiles(prevFiles => [...prevFiles, newFile]);
         } catch (error) {
             console.error(error);
         }
     }
-
 
     function mapValueToName(value) {
         switch (value) {
@@ -100,16 +110,33 @@ export default function Files({user}: { user: IUser }) {
                                 </div>
                                 <div className="ml-4 pl-2 flex-shrink-0">
                                     <button
-                                        onClick={() => downloadUserFile(data["id"], data["link"].replace(/.*\//, ''))}>Télécharger
+                                        onClick={() => downloadUserFile(data["id"], data["link"].replace(/.*\//, ''))}>
+                                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                             viewBox="0 0 24 24">
+                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                                                  strokeWidth="2"
+                                                  d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4"/>
+                                        </svg>
+                                    </button>
+                                    <button
+                                        onClick={() => deleteUserFile(user.id, data["id"])}>
+                                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                             viewBox="0 0 24 24">
+                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                                                  strokeWidth="2"
+                                                  d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                                        </svg>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </>
-                )
+            )
             })}
 
-            <form onSubmit={save}>
+                <form onSubmit={save}>
                 <div className="flex items-center">
                     <input
                         className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
