@@ -1,8 +1,16 @@
 import {deleteRequest, getRequest, logIn, patchRequest, postRequest} from './apiService.js';
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
-
+const getHeaders = () => {
+    const headers = {
+        'Content-Type': 'multipart/form-data',
+        "Access-Control-Allow-Origin" : "*",
+    };
+    axios.defaults.headers.common['Authorization'] = `${ Cookies.get("token")}`;
+    return headers;
+};
 
 export const postUser = async (params, pushToast, url) => {
     return postRequest(`signIn/${url}`,params, pushToast);
@@ -51,4 +59,36 @@ export const downloadFile = async (params, pushToast) => {
         return null;
     }
 };
+
+export const postFile = async (params, data, pushToast) => {
+    try {
+        const formData = new FormData();
+        formData.append('name', data.name);
+        formData.append('link', data.link);
+        const res = await axios.post(`${API_BASE_URL}/user/${params}/file`, formData, {headers: getHeaders()});
+
+        if (res.status === 201) {
+            pushToast({
+                content: "L'élément a bien été envoyé",
+                type: "success"
+            });
+            return res;
+        } else {
+            console.error('Unexpected response:', res);
+            pushToast({
+                content: "An unexpected error occurred while uploading the file",
+                type: "failure"
+            });
+            return null;
+        }
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        pushToast({
+            content: "An error occurred while uploading the file",
+            type: "failure"
+        });
+        return null;
+    }
+}
+
 

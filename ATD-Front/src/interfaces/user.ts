@@ -68,3 +68,8 @@ export interface IUsername {
     name: string,
     forname: string
 }
+
+export interface IFile{
+    name: string,
+    link:File
+}

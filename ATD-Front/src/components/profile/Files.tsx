@@ -4,7 +4,8 @@ import {PaperClipIcon} from "@heroicons/react/20/solid";
 import {getUserFiles, downloadFile} from "../../apiService/UserService";
 import {useToast} from "../Toast/ToastContex";
 import {useEffect, useState} from "react";
-import axios from 'axios'
+import {IFile} from "../../interfaces/user";
+import {postFile} from "../../apiService/UserService";
 
 export default function Files({user}: { user: IUser }) {
     const { pushToast } = useToast();
@@ -25,7 +26,7 @@ export default function Files({user}: { user: IUser }) {
 
     async function downloadUserFile(id, filename) {
         try {
-            const response = await downloadFile(id);
+            const response = await downloadFile(id, pushToast);
             const fileUrl = window.URL.createObjectURL(new Blob([response.data]));
 
             const link = document.createElement('a');
@@ -41,6 +42,41 @@ export default function Files({user}: { user: IUser }) {
             console.error('Error downloading file:', error);
         }
     }
+    async function save(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+
+        const fileInput = formData.get("link") as File;
+
+        const file: IFile = {
+            name: mapValueToName(formData.get("name")) as string,
+            link: fileInput
+        };
+
+        try {
+            const response = await postFile(user.id, file, pushToast);
+            console.log(file);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+    function mapValueToName(value) {
+        switch (value) {
+            case "1":
+                return "Permis de conduire";
+            case "2":
+                return "Casier judiciaire";
+            case "3":
+                return "Revenu Fiscal";
+            case "4":
+                return "Autre";
+            default:
+                return "";
+        }
+    }
 
     const {t} = useTranslation();
 
@@ -48,7 +84,7 @@ export default function Files({user}: { user: IUser }) {
         <div
             className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8  md:p-12 mb-8">
             <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-4">{t("user.file")}</h1>
-            {files.map(function(data){
+            {files.map(function (data) {
                 return (
                     <>
                         <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{data["name"]}</p>
@@ -63,13 +99,35 @@ export default function Files({user}: { user: IUser }) {
                                     </div>
                                 </div>
                                 <div className="ml-4 pl-2 flex-shrink-0">
-                                    <button onClick={() => downloadUserFile(data["id"], data["link"].replace(/.*\//, ''))}>Télécharger</button>
+                                    <button
+                                        onClick={() => downloadUserFile(data["id"], data["link"].replace(/.*\//, ''))}>Télécharger
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </>
                 )
             })}
+
+            <form onSubmit={save}>
+                <div className="flex items-center">
+                    <input
+                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        name="link" type="file"/>
+                    <select id="selectOption" name="name"
+                            className="ml-2 bg-gray-100 text-gray-800 border border-gray-300 rounded px-5 py-2.4">
+                        <option value="1">Permis de conduire</option>
+                        <option value="2">Casier judiciaire</option>
+                        <option value="3">Revenu Fiscal</option>
+                        <option value="4">Autre</option>
+                    </select>
+                </div>
+                <button type="submit"
+                        className="text-white text-sm px-5 py-2.5 mt-4 outline-none rounded w-max cursor-pointer block m-auto"
+                        style={{backgroundColor: '#F85866'}}>
+                    Submit
+                </button>
+            </form>
         </div>
     )
 }
