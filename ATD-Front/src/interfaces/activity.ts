@@ -30,6 +30,7 @@ export interface IAddActivity {
     donation: boolean,
     type: string,
     roles:ICreatActivityRole[],
+    files:File[]
 }
 export class Activity implements IActivity2{
     name:string

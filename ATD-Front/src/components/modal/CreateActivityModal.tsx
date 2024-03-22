@@ -13,6 +13,8 @@ import {getProductsFilter} from "../../apiService/productService";
 import {useToast} from "../Toast/ToastContex";
 import {IType} from "../../interfaces/type";
 import {getAllRoles} from "../../apiService/RoleService";
+import { FileInput, Label } from 'flowbite-react';
+import {PaperClipIcon} from "@heroicons/react/20/solid";
 
 export default function CreateActivivityModal({setOpenModal}: {
     setOpenModal: (value: boolean) => void,
@@ -21,7 +23,7 @@ export default function CreateActivivityModal({setOpenModal}: {
 
     function Stepper() {
         return (
-            <ol className="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+            <ol className="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base mb-8">
                 <li className={`flex md:w-full items-center ${step >= 0 ? 'text-blue-600 dark:text-blue-500' : ''} sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
         <span
             className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
@@ -54,8 +56,25 @@ export default function CreateActivivityModal({setOpenModal}: {
             <span className="hidden sm:inline-flex sm:ms-2">Info</span>
         </span>
                 </li>
-                <li className={`flex items-center ${step >= 2 ? 'text-blue-600 dark:text-blue-500' : ''}`}>
-                    {step >= 3 ? (
+                <li className={`flex md:w-full items-center ${step >= 2 ? 'text-blue-600 dark:text-blue-500' : ''} after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
+        <span
+            className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                        {step >= 3 ? (
+                            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                            </svg>
+                        ) : (
+                            <span className="me-2">2</span>
+                        )}
+            Account
+            <span className="hidden sm:inline-flex sm:ms-2">Info</span>
+        </span>
+                </li>
+                <li className={`flex items-center ${step >= 3 ? 'text-blue-600 dark:text-blue-500' : ''}`}>
+                    {step >= 4 ? (
                         <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true"
                              xmlns="http://www.w3.org/2000/svg"
                              fill="currentColor" viewBox="0 0 20 20">
@@ -83,6 +102,7 @@ export default function CreateActivivityModal({setOpenModal}: {
         donation: false,
         type: '',
         roles: [],
+        files: []
     })
     const [standBy, setStandBy] = useState<boolean>(true)
     const [types, setTypes] = useState<IType[]>([])
@@ -103,6 +123,7 @@ export default function CreateActivivityModal({setOpenModal}: {
     useEffect(() => {
         getTypeF()
         getRoleF()
+        getRecipesF()
     }, []);
 
     async function getTypeF() {
@@ -139,6 +160,24 @@ export default function CreateActivivityModal({setOpenModal}: {
         }
     }
 
+    async function getRecipesF() {
+        setStandBy(true)
+        try {
+            const respons = await getRecipes(pushToast);
+            const typesList = respons.types
+            if (typesList.length !== 0) {
+                setTypes(typesList)
+                updateField('type', typesList[0].id)
+            } else {
+                console.log("pas de type")
+            }
+            setStandBy(false)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const updateField = (field: string, value: any) => {
         setActivity((prev) => ({
             ...prev,
@@ -147,18 +186,87 @@ export default function CreateActivivityModal({setOpenModal}: {
     };
 
     const addRole = (r: IRole) => {
+        const roleToAdd: ICreatActivityRole = {
+            id: r.id,
+            name: r.name,
+            limits: {
+                max: 1,
+                min: 1
+            }
+        };
+
         setActivity((prev) => ({
             ...prev,
-            roles: [...prev.roles, r],
+            roles: [...prev.roles, roleToAdd],
         }));
     };
 
     const removeRole = (id: number) => {
-        console.log(activity.roles)
         setActivity((prevActivity) => ({
             ...prevActivity,
             roles: prevActivity.roles.filter(role => role.id !== id),
         }));
+    };
+
+    const updateCount = (type: string, value: number, roleId: number) => {
+        setActivity((prevActivity) => ({
+            ...prevActivity,
+            roles: prevActivity.roles.map(role => {
+                if (role.id === roleId) {
+                    value = value > 999 ? 999 : value
+                    value = value < 0 ? 0 : value
+                    type === "max" ? role.limits.max = value : role.limits.min = value;
+                }
+                return role;
+            }),
+        }));
+    }
+
+    const handleDrop = (event) => {
+        event.preventDefault();
+        const files: File[] = event.dataTransfer.files;
+        const filesArray = Array.from(files);
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+        const verify = filesArray.filter(f => {
+        if (f.size > 20971520) {
+            pushToast({
+                content: "La taille du fichier dépasse 20Mo",
+                type: "failure"
+            });
+            return;
+        } else if (!allowedTypes.includes(f.type)) {
+            pushToast({
+                content: "Type de fichier non pris en charge",
+                type: "failure"
+            });
+            return;
+        }
+            return f;
+        })
+
+        const uniqueFiles = verify.filter(file => activity.files.some(existingFile => existingFile.name === file.name));
+        if (uniqueFiles.length === 0) {
+            setActivity(prevActivity => ({
+                ...prevActivity,
+                files: [...prevActivity.files, ...verify]
+            }));
+        } else {
+            pushToast({
+                content: "Le nom du file est déja pris",
+                type: "failure"
+            });
+        }
+    };
+
+    const removeFile = (name :string) => {
+        setActivity(prevActivity => ({
+            ...prevActivity,
+            files: prevActivity.files.filter(f => f.name !== name)
+        }));
+    };
+
+    const handleDragOver = (event) => {
+        event.preventDefault();
     };
 
     return (
@@ -233,21 +341,22 @@ export default function CreateActivivityModal({setOpenModal}: {
                                 <h3>Roles</h3>
                                 <div style={{maxHeight: '250px', overflowY: 'auto'}}>
                                     <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        {roles.map((r) => (
-                                            <li key={r.id} className="py-3 sm:py-4">
-                                                <div className="flex items-center justify-between">
-                                                    <div className="min-w-0 ms-4">
-                                                        <p className="justify-between font-medium text-gray-900 truncate dark:text-white">
-                                                            {r.name}
-                                                        </p>
+                                        {roles
+                                            .filter(r => !activity.roles.some(role => role.id === r.id))
+                                            .map((r) => (
+                                                <li key={r.id} className="py-3 sm:py-4">
+                                                    <div className="flex items-center justify-between">
+                                                        <div className="min-w-0 ms-4">
+                                                            <p className="justify-between font-medium text-gray-900 truncate dark:text-white">
+                                                                {r.name}
+                                                            </p>
+                                                        </div>
+                                                        <button onClick={() => addRole(r)}>
+                                                            <i className="fi fi-rr-plus"></i>
+                                                        </button>
                                                     </div>
-                                                    <button
-                                                    onClick={() => addRole(r)}>
-                                                        <i className="fi fi-rr-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </li>
-                                        ))}
+                                                </li>
+                                            ))}
                                     </ul>
                                 </div>
                             </div>
@@ -280,6 +389,7 @@ export default function CreateActivivityModal({setOpenModal}: {
                                         <td className="px-6 py-4">
                                             <div className="flex items-center">
                                                 <button
+                                                    onClick={() => (updateCount("min",r.limits.min-1,r.id))}
                                                     className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                                                     type="button">
                                                     <span className="sr-only">Quantity button</span>
@@ -292,10 +402,15 @@ export default function CreateActivivityModal({setOpenModal}: {
                                                 </button>
                                                 <div>
                                                     <input type="number" id="first_product"
+                                                           max={999}
+                                                           min={0}
+                                                           value={r.limits.min}
+                                                           onChange={(e) => (updateCount("min",parseInt(e.target.value),r.id))}
                                                            className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                            placeholder="1" required/>
                                                 </div>
                                                 <button
+                                                    onClick={() => (updateCount("min",r.limits.min+1,r.id))}
                                                     className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                                                     type="button">
                                                     <span className="sr-only">Quantity button</span>
@@ -312,6 +427,7 @@ export default function CreateActivivityModal({setOpenModal}: {
                                         <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                             <div className="flex items-center">
                                                 <button
+                                                    onClick={() => (updateCount("max",r.limits.max-1,r.id))}
                                                     className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                                                     type="button">
                                                     <span className="sr-only">Quantity button</span>
@@ -324,10 +440,15 @@ export default function CreateActivivityModal({setOpenModal}: {
                                                 </button>
                                                 <div>
                                                     <input type="number" id="first_product"
+                                                           max={999}
+                                                           min={0}
+                                                           value={r.limits.max}
+                                                           onChange={(e) => (updateCount("max",parseInt(e.target.value),r.id))}
                                                            className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                            placeholder="1" required/>
                                                 </div>
                                                 <button
+                                                    onClick={() => (updateCount("max",r.limits.max+1,r.id))}
                                                     className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                                                     type="button">
                                                     <span className="sr-only">Quantity button</span>
@@ -352,10 +473,136 @@ export default function CreateActivivityModal({setOpenModal}: {
                                 </table>
                             </div>
                         </>
+                    ) : step === 2 ? (
+                        <>
+                            <h3>Files</h3>
+                            <div className="flex w-full items-center justify-center">
+                                <Label
+                                    onDrop={handleDrop}
+                                    onDragOver={handleDragOver}
+                                    htmlFor="dropzone-file"
+                                    className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                >
+                                    <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                                        <svg
+                                            className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 20 16"
+                                        >
+                                            <path
+                                                stroke="currentColor"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                            />
+                                        </svg>
+                                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                            <span className="font-semibold">Click to upload</span> or drag and drop
+                                        </p>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF
+                                            (MAX. 800x400px)</p>
+                                    </div>
+                                    <FileInput id="dropzone-file" className="hidden"/>
+                                </Label>
+                            </div>
+                            <div
+                                style={{maxHeight: '250px', overflowY: 'auto'}}
+                                className="mt-4">
+                                {activity.files.map((f) => (
+                                    <div key={f.name}
+                                         className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
+                                        <div className="flex items-center justify-between p-4 text-sm leading-6">
+                                            <div className="flex w-0 flex-1 items-center">
+                                                <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400 "
+                                                               aria-hidden="true"/>
+                                                <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
+                                                <span
+                                                    className="truncate font-medium">{f.name}</span>
+                                                    <span
+                                                        className="flex-shrink-0 text-gray-400">{(f.size / (1024 * 1024)).toFixed(2)} MB</span>
+                                                </div>
+                                            </div>
+                                            <div className="ml-4 pl-2 flex-shrink-0">
+                                                <button
+                                                    onClick={() => removeFile(f.name)}
+                                                    className="font-medium text-red-600 dark:text-red-500 hover:underline">Remove
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    ) : step === 3 ? (
+                        <>
+                            <h3>Files</h3>
+                            <div className="flex w-full items-center justify-center">
+                                <Label
+                                    onDrop={handleDrop}
+                                    onDragOver={handleDragOver}
+                                    htmlFor="dropzone-file"
+                                    className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                >
+                                    <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                                        <svg
+                                            className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 20 16"
+                                        >
+                                            <path
+                                                stroke="currentColor"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                            />
+                                        </svg>
+                                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                            <span className="font-semibold">Click to upload</span> or drag and drop
+                                        </p>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF
+                                            (MAX. 800x400px)</p>
+                                    </div>
+                                    <FileInput id="dropzone-file" className="hidden"/>
+                                </Label>
+                            </div>
+                            <div
+                                style={{maxHeight: '250px', overflowY: 'auto'}}
+                                className="mt-4">
+                                {activity.files.map((f) => (
+                                    <div key={f.name}
+                                         className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
+                                        <div className="flex items-center justify-between p-4 text-sm leading-6">
+                                            <div className="flex w-0 flex-1 items-center">
+                                                <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400 "
+                                                               aria-hidden="true"/>
+                                                <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
+                                                <span
+                                                    className="truncate font-medium">{f.name}</span>
+                                                    <span
+                                                        className="flex-shrink-0 text-gray-400">{(f.size / (1024 * 1024)).toFixed(2)} MB</span>
+                                                </div>
+                                            </div>
+                                            <div className="ml-4 pl-2 flex-shrink-0">
+                                                <button
+                                                    onClick={() => removeFile(f.name)}
+                                                    className="font-medium text-red-600 dark:text-red-500 hover:underline">Remove
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
                     ) : null
-                    ) : (
+                ) : (
                     <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
-                    )}
+                )}
             </Modal.Body>
             <Modal.Footer>
                 <div className="flex justify-between w-full">
@@ -371,13 +618,7 @@ export default function CreateActivivityModal({setOpenModal}: {
                     </button>
                 </div>
             </Modal.Footer>
-
         </Modal>
-)
-;
+    )
+        ;
 }
-
-
-
-
-
