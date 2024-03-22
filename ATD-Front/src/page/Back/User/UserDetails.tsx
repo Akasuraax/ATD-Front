@@ -1,7 +1,14 @@
 import {PaperClipIcon} from '@heroicons/react/20/solid';
 import {useParams} from 'react-router-dom';
 import {useEffect, useState} from 'react';
-import {deleteUser, getUser, patchUser, patchUserAdmin} from '../../../apiService/UserService';
+import {
+    deleteUser,
+    downloadFile,
+    getUser,
+    getUserFiles,
+    patchUser,
+    patchUserAdmin
+} from '../../../apiService/UserService';
 import {useToast} from '../../../components/Toast/ToastContex';
 import {IUser, IRole} from '../../../interfaces/user';
 import {Spinner} from 'flowbite-react';
@@ -15,7 +22,6 @@ import isEqual from 'lodash/isEqual';
 import {useTranslation} from "react-i18next";
 import DeleteModal from "../../../components/modal/deleteModal";
 
-
 export default function UserDetails() {
     const {userId} = useParams();
     const [standBy, setStandBy] = useState(true);
@@ -28,7 +34,7 @@ export default function UserDetails() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [ban, setBan] = useState(false);
     const [textModal, setTextModal] = useState();
-
+    const [files, setFiles] = useState([]);
 
     const {t} = useTranslation();
 
@@ -36,6 +42,7 @@ export default function UserDetails() {
     useEffect(() => {
         rolesRequest();
         sendRequest();
+        sendFiles();
     }, []);
 
     useEffect(() => {
@@ -111,6 +118,34 @@ export default function UserDetails() {
         }
         setIsModalOpen(false);
     };
+
+    async function sendFiles(){
+        try{
+            const response = await getUserFiles(userId, pushToast);
+            setFiles(response.data);
+        }catch (error) {
+            console.log(error)
+        }
+    }
+
+    async function downloadUserFile(id, filename) {
+        try {
+            const response = await downloadFile(id);
+            const fileUrl = window.URL.createObjectURL(new Blob([response.data]));
+
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.setAttribute('download', filename);
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            URL.revokeObjectURL(fileUrl);
+        } catch (error) {
+            console.error('Error downloading file:', error);
+        }
+    }
 
 
     return (
@@ -458,25 +493,35 @@ export default function UserDetails() {
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt className="text-sm font-medium leading-6 text-gray-900">{t('user.file')}</dt>
-                                        <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                                            <ul role="list"
-                                                className="divide-y divide-gray-100 rounded-md border border-gray-200">
-                                                <li className="flex items-center justify-between p-4 text-sm leading-6">
-                                                    <div className="flex w-0 flex-1 items-center">
-                                                        <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400 "
-                                                                       aria-hidden="true"/>
-                                                        <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
-                                                <span
-                                                    className="truncate font-medium">resume_back_end_developer.pdf</span>
-                                                            <span className="flex-shrink-0 text-gray-400">2.4mb</span>
+                                        <div className="d-flex flex-column">
+                                            {files.map(function (data) {
+                                                return (
+                                                    <>
+                                                        <div
+                                                            className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
+                                                            <div
+                                                                className="flex items-center justify-between p-4 text-sm leading-6">
+                                                                <div className="flex w-0 flex-1 items-center">
+                                                                    <PaperClipIcon
+                                                                        className="h-5 w-5 flex-shrink-0 text-gray-400 "
+                                                                        aria-hidden="true"/>
+                                                                    <div
+                                                                        className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
+                                                                        <span
+                                                                            className="truncate font-medium">{data["link"].replace(/.*\//, '')}</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="ml-4 pl-2 flex-shrink-0">
+                                                                    <button
+                                                                        onClick={() => downloadUserFile(data["id"], data["link"].replace(/.*\//, ''))}>Télécharger
+                                                                    </button>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="ml-4 pl-2 flex-shrink-0">
-                                                        <button>Télécharger</button>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </dd>
+                                                    </>
+                                                )
+                                            })}
+                                        </div>
                                     </div>
                                 </dl>
                             </div>
