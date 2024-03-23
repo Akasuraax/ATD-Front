@@ -77,10 +77,15 @@ export default function UserDetails() {
 
     async function saveUser() {
         try {
-            const patchRespons = await patchUserAdmin(newUser, pushToast, userId);
+            let patchRespons = await patchUserAdmin(newUser, pushToast, userId);
+            if(patchRespons.user.status == 2) {
+                patchRespons = await handleModalClose(true);
+                setEdit(false);
+                return;
+            }
             setUser(patchRespons.user);
             setNewUser(patchRespons.user);
-            setEdit(false)
+            setEdit(false);
         }catch (error) {
             console.log(error)
         }
