@@ -8,9 +8,10 @@ import ValidPwd from "../../../components/input/ValidPwd.jsx";
 import {ISendBeneficiary} from "../../../interfaces/user";
 import {postUser} from "../../../apiService/UserService";
 import {useToast} from "../../../components/Toast/ToastContex";
+import {useNavigate} from 'react-router-dom';
 
 function BeneficiaryForm() {
-
+    const navigate = useNavigate();
     const {pushToast} = useToast();
 
     const {t} = useTranslation();
@@ -47,7 +48,8 @@ function BeneficiaryForm() {
         }
 
         const res = await postUser(beneficiary,pushToast,'beneficiary')
-        console.log(res)
+        if(res.status === 201)
+            navigate(`/login`)
     }
 
 

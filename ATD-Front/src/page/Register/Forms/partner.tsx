@@ -7,11 +7,13 @@ import {ISendPartner} from "../../../interfaces/user.js";
 import InputField from "../../../components/input/inputField.jsx";
 import {postUser} from "../../../apiService/UserService.js";
 import {useToast} from "../../../components/Toast/ToastContex.js";
+import {useNavigate} from 'react-router-dom';
+
 function PartnerForm() {
+    const navigate = useNavigate();
 
     const {pushToast} = useToast();
     const { t } = useTranslation();
-
 
     const register = t("register.partner.register")
     const name = t("register.partner.name")
@@ -42,6 +44,8 @@ function PartnerForm() {
         }
 
         const res = await postUser(partner,pushToast,'partner')
+        if(res.status === 201)
+            navigate(`/login`)
     }
 
     return (

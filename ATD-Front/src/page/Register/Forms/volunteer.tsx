@@ -8,12 +8,14 @@ import ValidPwd from "../../../components/input/ValidPwd.jsx";
 import {ISendBeneficiary} from "../../../interfaces/user.js";
 import {useToast} from "../../../components/Toast/ToastContex.js";
 import {postUser} from "../../../apiService/UserService.js";
+import {useNavigate} from 'react-router-dom';
+
 function VolunteerForm() {
-
+    const navigate = useNavigate();
     const {pushToast} = useToast();
+
     const { t } = useTranslation();
-
-
+    
     const register = t("register.volunteer.register")
     const name = t("register.volunteer.name")
     const lastName = t("register.volunteer.lastName")
@@ -45,7 +47,8 @@ function VolunteerForm() {
         }
 
         const res = await postUser(volunteer,pushToast,'volunteer')
-        console.log(res)
+        if(res.status === 201)
+            navigate(`/login`)
     }
 
     return (
