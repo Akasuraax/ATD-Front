@@ -5,7 +5,7 @@ function InputPwd(){
     const showPwd = t("login.showPwd");
 
     const seePwd = () => {
-        const inputPwd = document.getElementsByClassName("password");
+        const inputPwd = document.getElementById("password");
         if(inputPwd.type === "password")inputPwd.type = "text";
         else inputPwd.type = "password";
     }
