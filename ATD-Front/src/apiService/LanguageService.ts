@@ -61,4 +61,3 @@ export const getLanguage = async (abbreviation, pushToast) => {
 export const deleteLanguage = async ( pushToast, url?) => {
     return deleteRequest(`language/${url}`,"", pushToast);
 };
-

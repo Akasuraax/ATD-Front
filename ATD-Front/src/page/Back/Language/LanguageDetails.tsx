@@ -9,7 +9,8 @@ import {useTranslation} from "react-i18next";
 import DeleteModal from "../../../components/modal/deleteModal";
 import {IWarehouse} from "../../../interfaces/warehouse";
 import {getLanguage, deleteLanguage} from "../../../apiService/LanguageService";
-
+import {PaperClipIcon} from "@heroicons/react/20/solid";
+import {fetchTranslation} from "../../../../src/apiService/translationService";
 
 export default function LanguageDetails() {
     const {abbreviation} = useParams();
@@ -22,7 +23,7 @@ export default function LanguageDetails() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
     const {t} = useTranslation();
-
+    const link = "/storage/languages/" + abbreviation + "/translation.json"
 
     useEffect(() => {
         sendRequest();
@@ -51,6 +52,30 @@ export default function LanguageDetails() {
         }
     }
 
+    async function getFile(abbreviation){
+        try {
+            const res = await fetchTranslation(abbreviation);
+            const jsonStr = JSON.stringify(res, null, 2);
+
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+
+            const fileUrl = window.URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.setAttribute('download', 'translation.json');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            URL.revokeObjectURL(fileUrl);
+        } catch (error) {
+            console.log(error);
+        }
+
+
+    }
+
     const handleModalClose = async ( valid: boolean) => {
         setIsModalOpen(false)
         if(!valid) return
@@ -77,7 +102,6 @@ export default function LanguageDetails() {
                             </div>
                             <div className="mt-6 border-t border-gray-100">
                                 <dl className="divide-y divide-gray-100">
-
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('languages.abbreviation')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
@@ -87,6 +111,40 @@ export default function LanguageDetails() {
                                         </dd>
                                     </div>
 
+                                    <div className="border-t border-gray-100">
+                                        <dd className="mt-6 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                            <div
+                                                className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
+                                                <div
+                                                    className="flex items-center justify-between p-4 text-sm leading-6">
+                                                    <div className="flex w-0 flex-1 items-center">
+                                                        <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400 "
+                                                                       aria-hidden="true"/>
+                                                        <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
+                                                            <span
+                                                                className="truncate font-medium">{link.replace(/.*\//, '')}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="ml-4 pl-2 flex-shrink-0">
+                                                        <button
+                                                            onClick={() => getFile(abbreviation)}>
+                                                            <svg className="w-6 h-6 text-gray-800 dark:text-white"
+                                                                 aria-hidden="true"
+                                                                 xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                 height="24"
+                                                                 fill="none"
+                                                                 viewBox="0 0 24 24">
+                                                                <path stroke="currentColor" strokeLinecap="round"
+                                                                      strokeLinejoin="round"
+                                                                      strokeWidth="2"
+                                                                      d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4"/>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </dd>
+                                    </div>
                                 </dl>
                             </div>
                         </div>
