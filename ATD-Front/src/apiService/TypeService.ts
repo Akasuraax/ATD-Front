@@ -48,6 +48,24 @@ export const getTypesAll = async (pushToast) => {
     return getRequest('type/all' , null, pushToast);
 };
 
+export const downloadFile = async (params, pushToast) => {
+    try {
+        return await axios.get(`${API_BASE_URL}/type/${params}/file`, {
+            headers: {
+                "Content-Type": ["image/png", "image/jpeg", "image/jpg"]
+            },
+            responseType: 'blob'
+        });
+    } catch (error) {
+        console.error('Error downloading file:', error);
+        pushToast({
+            content: "An error occurred while fetching the file",
+            type: "failure"
+        });
+        return null;
+    }
+};
+
 export const patchType = async (typeData, pushToast, id) => {
 
     try{

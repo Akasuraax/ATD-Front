@@ -8,6 +8,8 @@ import {useTranslation} from "react-i18next";
 import DeleteModal from "../../../components/modal/deleteModal";
 import {ITypes} from "../../../interfaces/type";
 import {deleteType, getType, patchType} from "../../../apiService/TypeService";
+import {downloadFile} from "../../../apiService/TypeService";
+import {PaperClipIcon} from "@heroicons/react/20/solid";
 
 export default function TypeDetails(){
     const {typeId} = useParams();
@@ -19,8 +21,8 @@ export default function TypeDetails(){
     const [newTypes, setNewTypes] = useState<ITypes | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-
     const {t} = useTranslation();
+
 
 
     useEffect(() => {
@@ -52,11 +54,31 @@ export default function TypeDetails(){
         }
     }
 
+    async function downloadUserFile(id, filename) {
+        try {
+            const response = await downloadFile(id);
+            const fileUrl = window.URL.createObjectURL(new Blob([response.data]));
+
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.setAttribute('download', filename);
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            URL.revokeObjectURL(fileUrl);
+        } catch (error) {
+            console.error('Error downloading file:', error);
+        }
+    }
+
     async function sendRequest() {
         setStandBy(true);
         try {
             const response = await getType(typeId, pushToast);
             setType(response)
+            console.log(response)
             setNewTypes(response);
             setStandBy(false);
         } catch (error) {
@@ -238,6 +260,49 @@ export default function TypeDetails(){
                                         <p></p>
                                     )}
 
+                                    {
+                                        type.image != null ? (
+                                            <div className="">
+                                                <dd className="mt-6 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                                    <div
+                                                        className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
+                                                        <div
+                                                            className="flex items-center justify-between p-4 text-sm leading-6">
+                                                            <div className="flex w-0 flex-1 items-center">
+                                                                <PaperClipIcon
+                                                                    className="h-5 w-5 flex-shrink-0 text-gray-400 "
+                                                                    aria-hidden="true"/>
+                                                                <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
+                                                            <span
+                                                                className="truncate font-medium">{type.image.replace(/.*\//, '')}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="ml-4 pl-2 flex-shrink-0">
+                                                                <button
+                                                                    onClick={() => downloadUserFile(type.id, type.image.replace(/.*\//, ''))}>
+                                                                    <svg
+                                                                        className="w-6 h-6 text-gray-800 dark:text-white"
+                                                                        aria-hidden="true"
+                                                                        xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                        height="24"
+                                                                        fill="none"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path stroke="currentColor"
+                                                                              strokeLinecap="round"
+                                                                              strokeLinejoin="round"
+                                                                              strokeWidth="2"
+                                                                              d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4"/>
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </dd>
+                                            </div>
+                                        ) : (
+                                            <p></p>
+                                        )
+                                    }
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt className="text-sm font-medium leading-6 text-gray-900">{t('user.creationDate')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
@@ -274,7 +339,7 @@ export default function TypeDetails(){
                                     setIsModalOpen(true);
                                 }}
                                 className={`block w-full focus:outline-none text-white ${type.archive ? 'bg-yellow-100 cursor-not-allowed' : 'bg-yellow-400 cursor-pointer hover:bg-yellow-500'}  focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:focus:ring-yellow-900`}>
-                                {t('generic.deleteButton')}
+                            {t('generic.deleteButton')}
                             </button>
 
                             <button
