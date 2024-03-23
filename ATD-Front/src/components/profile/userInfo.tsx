@@ -47,7 +47,13 @@ export default function UserInfo({user, onButtonClick }: { user: IUser, onButton
                 <p className="text-m font-normal text-black-500 dark:text-gray-400 mb-4">{user.phone_number}</p>
 
                 <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{t("user.gender")}</p>
-                <p className="text-m font-normal text-black-500 dark:text-gray-400 mb-4">{user.gender}</p>
+                <p className="text-m font-normal text-black-500 dark:text-gray-400 mb-4">{user.gender === 0
+                    ? 'Homme'
+                    : user.gender === 1
+                        ? 'Femme'
+                        : user.gender === 2
+                            ? 'Non précisé'
+                            : ''}</p>
 
                 <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{t("user.birthdayDate")}</p>
                 <p className="text-m font-normal text-black-500 dark:text-gray-400">{moment(user.birth_date).format('DD/MM/YYYY')}</p>

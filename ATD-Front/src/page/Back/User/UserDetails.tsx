@@ -303,7 +303,7 @@ export default function UserDetails() {
                                                 : user.gender === 1
                                                     ? 'Femme'
                                                     : user.gender === 2
-                                                        ? 'Non préciser'
+                                                        ? 'Non précisé'
                                                         : ''}
                                         </span>
                                                 )}
