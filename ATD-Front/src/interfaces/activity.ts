@@ -1,4 +1,5 @@
 import {ICreatActivityRole, IRole} from './role'
+import {IActivityRecipe, IRecipe} from "./recipe";
 
 export interface IActivity2{
     name:string,
@@ -31,6 +32,7 @@ export interface IAddActivity {
     type: string,
     roles:ICreatActivityRole[],
     files:File[]
+    recipes:IActivityRecipe[]
 }
 export class Activity implements IActivity2{
     name:string
