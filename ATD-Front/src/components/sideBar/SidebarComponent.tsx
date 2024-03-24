@@ -2,6 +2,8 @@ import {NavLink} from "react-router-dom";
 import {useAuth} from "../../AuthProvider.jsx";
 import {useTranslation} from 'react-i18next'
 import LanguageSelector from '../LanguageSelector.jsx'
+import Error from "../../page/error/error";
+
 'use client';
 
 export default function SidebarComponent() {
@@ -9,9 +11,12 @@ export default function SidebarComponent() {
     const auth = useAuth();
     const {t} = useTranslation();
 
-    function Acces(roles: number) {
+    function Acces(roles: number[]) {
         if (!auth.token) return false
-        return auth.user.roles.some(role => role.id === roles);
+        if (!auth.user.roles.some(userRole => roles.includes(userRole.id))) {
+            return false;
+        }
+        return true
     }
 
     return (
@@ -33,7 +38,7 @@ export default function SidebarComponent() {
             <div className="py-4 overflow-y-auto">
                 <aside id="separator-sidebar"
                        className="fixed top-20 left-0 z-40 w-64 transition-transform -translate-x-full sm:translate-x-0"
-                       style={{ height: 'calc(100vh - 40px)' }}
+                       style={{height: 'calc(100vh - 40px)'}}
                        aria-label="Sidebar">
                     <div
                         className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 flex flex-col justify-between">
@@ -49,14 +54,14 @@ export default function SidebarComponent() {
                                 </li>
                                 <li>
                                     <NavLink to={'/planning'}
-                                       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                             className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                         <i className="fi fi-br-calendar-clock"></i>
                                         <span className="ms-3">{t("sidebar.planner")}</span>
                                     </NavLink>
                                 </li>
                                 <li>
                                     <NavLink to={'/activity'}
-                                       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                             className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                         <i className="fi fi-br-picture"></i>
                                         <span className="ms-3">{t("sidebar.activities")}</span>
                                     </NavLink>
@@ -79,17 +84,10 @@ export default function SidebarComponent() {
                                     <>
                                         <li>
                                             <NavLink to={`/profile/${auth.user.id}`}
-                                               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                                     className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                                 <i className="fi fi-ss-user"></i>
                                                 <span className="ms-3">{t("sidebar.profile")}</span>
                                             </NavLink>
-                                        </li>
-                                        <li>
-                                            <a href="ticket/suivi"
-                                               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                                <i className="fi fi-ss-ticket-alt"></i>
-                                                <span className="ms-3">Tickets</span>
-                                            </a>
                                         </li>
                                         <li>
                                             <a href="#"
@@ -102,7 +100,7 @@ export default function SidebarComponent() {
                                 ) : null}
                             </ul>
                             {/* Admin */}
-                            {Acces(1) ? (
+                            {Acces([1]) ? (
                                 <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
                                     <h5 id="drawer-navigation-label"
                                         className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">{t("sidebar.admin")}</h5>
@@ -133,14 +131,23 @@ export default function SidebarComponent() {
                         {/* Setting */}
                         <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
                             <LanguageSelector/>
-                            {auth.token ? (
-                                <li>
-                                    <NavLink to={"/ticket"}
-                                             className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                        <i className="fi fi-sr-headset"></i>
-                                        <span className="ms-3">{t("sidebar.ticket")}</span>
-                                    </NavLink>
-                                </li>
+                            {(auth.token && Acces([2, 3, 4])) ? (
+                                <>
+                                    <li>
+                                        <NavLink to={"/ticket"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-sr-headset"></i>
+                                            <span className="ms-3">{t("sidebar.ticket")}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <a href="ticket/suivi"
+                                           className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-ss-ticket-alt"></i>
+                                            <span className="ms-3">Tickets</span>
+                                        </a>
+                                    </li>
+                                </>
                             ) : null}
                             {!auth.token ? (
                                 <>
@@ -165,7 +172,7 @@ export default function SidebarComponent() {
                                     <a
                                         href=""
                                         onClick={auth.logOut}
-                                       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                        className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                         <i className="fi fi-br-sign-in-alt"></i>
                                         <span
                                             className="flex-1 ms-3 whitespace-nowrap">{t("sidebar.logOut")}</span>
