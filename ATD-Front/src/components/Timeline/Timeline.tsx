@@ -10,7 +10,7 @@ const TimelineComponent = ({ activities }) => {
             {activities.map((a) => (
                 <Timeline.Item key={a.id}>
                     <Timeline.Content>
-                        <Timeline.Time>{moment(a.start_date).format('DD/MM/YYYY')}</Timeline.Time>
+                        <Timeline.Time>{moment(a.start_date).format('DD/MM/YYYY HH:mm')}</Timeline.Time>
                         <Timeline.Title>{a.title}</Timeline.Title>
                         <Timeline.Body>{a.description}</Timeline.Body>
                     </Timeline.Content>

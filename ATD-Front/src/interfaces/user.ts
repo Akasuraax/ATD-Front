@@ -55,12 +55,14 @@ export interface ISendPartner {
 export interface IPatchUser {
     forname : string
     name : string
-    birth_date : boolean
-    gender : number
+    birth_date? : Date
+    gender? : number
     email : string
     phone_number : string
     zipcode : number
     address : string
+    siretNumber? : string,
+    companyName? : string
 }
 
 export interface IUsername {

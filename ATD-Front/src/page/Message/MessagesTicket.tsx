@@ -5,7 +5,6 @@ import {useEffect, useState} from "react";
 import {useToast} from "../../components/Toast/ToastContex";
 import {Spinner} from 'flowbite-react';
 import {getTicket} from "../../apiService/TicketService";
-import * as React from "react";
 import {ITicket} from "../../interfaces/ticket"
 import {useAuth} from "../../AuthProvider"
 import {useParams} from "react-router-dom";

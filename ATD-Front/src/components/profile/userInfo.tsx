@@ -3,7 +3,7 @@ import moment from "moment";
 import {IUser} from "../../interfaces/user";
 import {useTranslation} from "react-i18next";
 
-export default function UserInfo({user, onButtonClick }: { user: IUser, onButtonClick: () => void }) {
+export default function UserInfo({user, onButtonClick}: { user: IUser, onButtonClick: () => void }) {
 
     const {t} = useTranslation();
 
@@ -24,8 +24,10 @@ export default function UserInfo({user, onButtonClick }: { user: IUser, onButton
     return (
         <div
             className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 md:p-4 mb-4">
-            <button className="float-right" onClick={onButtonClick}>
-                <i className="fi fi-sr-pencil "></i>
+            < button
+                className="float-right"
+                onClick={onButtonClick}>
+                <i className="fi fi-sr-pencil "> </i>
             </button>
             <div className="p-4 md:p-8 mb-4">
                 <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-4">{user.name + " " + user.forname}</h1>
@@ -46,17 +48,30 @@ export default function UserInfo({user, onButtonClick }: { user: IUser, onButton
                 <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{t("user.phone")}</p>
                 <p className="text-m font-normal text-black-500 dark:text-gray-400 mb-4">{user.phone_number}</p>
 
-                <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{t("user.gender")}</p>
-                <p className="text-m font-normal text-black-500 dark:text-gray-400 mb-4">{user.gender === 0
-                    ? 'Homme'
-                    : user.gender === 1
-                        ? 'Femme'
-                        : user.gender === 2
-                            ? 'Non précisé'
-                            : ''}</p>
+                {user.roles.filter(role => role.id === 4).length > 0 ? (
+                    <div>
+                        <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{t("user.companyName")}</p>
+                        <p className="text-m font-normal text-black-500 dark:text-gray-400 mb-4">{user.compagny}</p>
 
-                <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{t("user.birthdayDate")}</p>
-                <p className="text-m font-normal text-black-500 dark:text-gray-400">{moment(user.birth_date).format('DD/MM/YYYY')}</p>
+                        <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{t("user.siretNumber")}</p>
+                        <p className="text-m font-normal text-black-500 dark:text-gray-400 mb-4">{user.siret_number}</p>
+                    </div>
+                ) : (
+                    <div>
+                        <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{t("user.gender")}</p>
+                        <p className="text-m font-normal text-black-500 dark:text-gray-400 mb-4">{user.gender === 0
+                            ? 'Homme'
+                            : user.gender === 1
+                                ? 'Femme'
+                                : user.gender === 2
+                                    ? 'Non précisé'
+                                    : ''}
+                        </p>
+
+                        <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{t("user.birthdayDate")}</p>
+                        <p className="text-m font-normal text-black-500 dark:text-gray-400">{moment(user.birth_date).format('DD/MM/YYYY')}</p>
+                    </div>
+                )}
             </div>
         </div>
     )

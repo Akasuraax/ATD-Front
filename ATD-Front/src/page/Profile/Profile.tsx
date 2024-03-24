@@ -14,6 +14,7 @@ import Roles from "../../components/profile/Roles";
 import Files from "../../components/profile/Files";
 import EditUser from "../../components/profile/EditUser";
 import isEqual from 'lodash/isEqual';
+import PartnerSchedule from "../../components/profile/PartnerSchedule";
 
 export default function Profile() {
 
@@ -39,9 +40,8 @@ export default function Profile() {
             setUser(userResponse);
             setNewUser(userResponse);
 
-            //const activityResponse = await getActivities({page: 0, pageSize: 3}, pushToast);
-            //setActivities(activityResponse.data)
-
+            const activityResponse = await getActivities({page: 0, pageSize: 3}, pushToast);
+            setActivities(activityResponse.data)
             setStandBy(false);
         } catch (error) {
             setStandBy(true);
@@ -116,6 +116,7 @@ export default function Profile() {
                                 </div>
                             </div>
                         </div>
+                        <PartnerSchedule/>
                     </section>
                 )}
             </main>
