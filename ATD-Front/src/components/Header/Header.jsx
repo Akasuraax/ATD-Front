@@ -48,7 +48,7 @@ function Header() {
                     <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                         {location.pathname !== '/login' && auth.token === null ? (
                             <NavLink to="/login" type="button"
-                                     className="mr-8 text-white bg-[#F85866] hover:bg-[#E84856] font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700">
+                                     className="mr-8 text-white bg-[#F85866] hover:bg-[#E84856] font-medium rounded-lg text-sm px-4 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700">
                                 {login}
                             </NavLink>
                         ) : null}

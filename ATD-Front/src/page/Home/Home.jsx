@@ -21,7 +21,7 @@ function Home() {
                 <div className="image">
                     <text className="homeText">{homeTextImage}</text>
                     <Link to="/register"
-                       className="btn-first homeButton">{registration}</Link>
+                       className="btn-first hover:bg-[#E84856] homeButton">{registration}</Link>
                 </div>
 
                 <div className="homeBody max-w-screen-xl flex flex-nowrap justify-between mx-auto">
@@ -30,7 +30,7 @@ function Home() {
                         <title1 className="homeTitle">{homeTitle}</title1>
                         <p className="pt-16">{homeText}</p>
                         <a href="#"
-                           className="btn-first mt-8">{infos}</a>
+                           className="btn-first hover:bg-[#E84856] mt-8">{infos}</a>
                     </div>
                 </div>
 

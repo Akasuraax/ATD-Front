@@ -2,7 +2,7 @@
     display: block;
     width: 168px;
     height: 48px;
-    border-radius: 32px;
+    border-radius: 0.5rem;
     text-align: center;
     padding:10px;
     color:white;
