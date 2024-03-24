@@ -15,7 +15,7 @@ function VolunteerForm() {
     const {pushToast} = useToast();
 
     const { t } = useTranslation();
-    
+
     const register = t("register.volunteer.register")
     const name = t("register.volunteer.name")
     const lastName = t("register.volunteer.lastName")

@@ -80,7 +80,6 @@ function Vehicle() {
         setStandBy(true);
         try {
             const vehiclesResponse = await getVehicles(dataGrid, pushToast);
-            console.log(vehiclesResponse)
             setVehicles(vehiclesResponse.data);
             setRowCount(vehiclesResponse.total)
             setStandBy(false);
