@@ -52,7 +52,7 @@ export default function Profile() {
         if (!isEqual(user, newUser)) {
             try {
                 const res = await patchUser(newUser, pushToast, userId)
-                if(res.message === "User updated successfully") {
+                if (res.message === "User updated successfully") {
                     setUser(res.user)
                 }
             } catch (error) {
@@ -63,62 +63,68 @@ export default function Profile() {
     }
 
 
-        return (
-            <main className={"bg-gray-50"}>
-                {standBy ? (
-                    <div className="m-auto">
-                        <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
-                    </div>
-                ) : (
-                    <section className="dark:bg-gray-900">
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div
-                                style={{width: "25vw"}}
-                                className="py-8 px-4 mx-auto lg:py-16 ">
-                                {edit ? (
-                                    <EditUser
-                                        user={user}
-                                        onButtonClick={() => {
-                                            setedit(false)
-                                        }}
-                                        onSave={handleSaveUser}
-                                    />
-                                ) : (
-                                    <UserInfo
-                                        user={user}
-                                        onButtonClick={() => {
-                                            setedit(true)
-                                        }}
-                                    />
-                                )}
-                                <Roles user={user}/>
-                                <Files user={user}/>
+    return (
+        <main className={"bg-gray-50"}>
+            {standBy ? (
+                <div className="m-auto">
+                    <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
+                </div>
+            ) : (
+                <section className="dark:bg-gray-900">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div
+                            style={{width: "25vw"}}
+                            className="py-8 px-4 mx-auto lg:py-16 ">
+                            {edit ? (
+                                <EditUser
+                                    user={user}
+                                    onButtonClick={() => {
+                                        setedit(false)
+                                    }}
+                                    onSave={handleSaveUser}
+                                />
+                            ) : (
+                                <UserInfo
+                                    user={user}
+                                    onButtonClick={() => {
+                                        setedit(true)
+                                    }}
+                                />
+                            )}
+                            <Roles user={user}/>
+                            <Files user={user}/>
 
+                        </div>
+                        <div className="py-8 px-4 mx-auto lg:py-16 ">
+                            <div
+                                style={{width: "70vw"}}
+                                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
+                                <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-8">évenement
+                                    a venir</h1>
+                                <TimelineCompnent
+                                    activities={activities}
+                                />
                             </div>
-                            <div className="py-8 px-4 mx-auto lg:py-16 ">
-                                <div
-                                    style={{width: "70vw"}}
-                                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
-                                    <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-8">évenement
-                                        a venir</h1>
-                                    <TimelineCompnent
-                                        activities={activities}
-                                    />
-                                </div>
-                                <div
-                                    style={{width: "70vw"}}
-                                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
-                                    <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-8">évenement
-                                        a venir</h1>
-                                    <TimelineCompnent
-                                        activities={activities}
-                                    />
-                                </div>
+                            <div
+                                style={{width: "70vw"}}
+                                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
+                                <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-8">évenement
+                                    a venir</h1>
+                                <TimelineCompnent
+                                    activities={activities}
+                                />
                             </div>
                         </div>
-                        <PartnerSchedule/>
-                    </section>
-                )}
-            </main>
-        )
-    }
+                    </div>
+                    {user.roles.filter(role => role.id === 4).length > 0 ? (
+                        <div
+                            className="bg-white text-center dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
+                            <h2 className="dark:text-white text-3xl md:text-3xl font-extrabold mb-8">{t("generic.timetable")}</h2>
+                                <PartnerSchedule/>
+                        </div>
+                        ) : null}
+                </section>
+            )}
+        </main>
+    )
+}

@@ -1,90 +1,168 @@
+import { useState} from "react";
+
+import {Select, Label} from "flowbite-react";
+import {IHours} from "../../interfaces/partnerScheduler";
 import {useTranslation} from "react-i18next";
-import {useParams} from "react-router-dom";
-import Calendar from "../../components/Calendar/Calendar";
-import React, {useEffect, useState} from "react";
-import {getUser} from "../../apiService/UserService";
-import {IActivity} from "../../interfaces/activity";
-import {getActivitiesBetween} from "../../apiService/ActivityService";
-import {useToast} from "../../components/Toast/ToastContex";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import {formatDate} from "@fullcalendar/core";
-import {Spinner} from "flowbite-react";
-import ActivivityModal from "../../components/modal/activityModal";
 
 export default function PartnerSchedule() {
 
+    const [schedules, setSchedules] = useState<IHours[]>([]);
     const {t} = useTranslation();
-    const {userId} = useParams();
-    const [activities, setActivities] = useState<IActivity[] | null>([]);
-    const [standBy, setStandBy] = useState(false);
-    const [selectActivity, setSelectActivity] = useState<IActivity | null>(null);
-    const [modal, setModal] = useState(false);
 
-    const {pushToast} = useToast();
+    function SelectStartComponent({day}: { day: number}) {
+        const options = [];
 
-
-    async function handleDatesSet(e) {
-        const date = {
-            startDate: e.startStr,
-            endDate: e.endStr
+        for (let i = 8; i <= 18; i++) {
+            const heureDebut = i.toString().padStart(2, '0') + ":00h";
+            const optionText = `${heureDebut}`;
+            options.push(
+                <option
+                    key={i}
+                    value={i}
+                    >
+                    {optionText}
+                </option>
+            );
         }
-        try {
-            const activityResponse = await getActivitiesBetween(date, pushToast);
-            setActivities(activityResponse)
-        } catch (error) {
-            console.log(error)
+
+        return (
+            <div className="max-w-md">
+                <Select
+                    id="time"
+                    required
+
+                    value={(schedules.filter(s => s.day === day)[0]?.start || "")}
+                    onChange={e => selectDate(e.target.value, day)}
+                >
+                    <option key={0} value={0}>Aucun</option>
+                    {options}
+                </Select>
+            </div>
+        );
+    }
+
+    function SelectEndComponent({day}: { day: number }) {
+        const options = [];
+
+        for (let i = 8; i <= 19; i++) {
+            const heureDebut = i.toString().padStart(2, '0') + ":00h";
+            const optionText = `${heureDebut}`;
+            options.push(
+                <option
+                    key={i}
+                    value={i}
+                    disabled={i <= (schedules.filter(s => s.day === day)[0]?.start || 0)}>
+                    {optionText}
+                </option>
+            );
+        }
+
+        return (
+            <div className="max-w-md">
+                <Select
+                    id="time"
+                    required
+                    value={(schedules.filter(s => s.day === day)[0]?.end)}
+                    onChange={e => selectEndDate(e.target.value, day)}
+                >
+                    {options}
+                </Select>
+            </div>
+        );
+    }
+
+    function selectDate(e, day: number) {
+        if (parseInt(e) === 0) {
+            const updatedSchedules = schedules.filter(s => s.day !== day);
+            setSchedules(updatedSchedules);
+        } else {
+            const existingScheduleIndex = schedules.findIndex(s => s.day === day);
+            if (existingScheduleIndex !== -1) {
+                const updatedSchedules = [...schedules];
+                updatedSchedules[existingScheduleIndex] = {
+                    ...updatedSchedules[existingScheduleIndex],
+                    start: parseInt(e),
+                    end: parseInt(e) + 1
+                };
+                setSchedules(updatedSchedules);
+            } else {
+                const hours: IHours = {
+                    day: day,
+                    start: parseInt(e),
+                    end: parseInt(e) + 1
+                };
+                setSchedules(prev => [...prev, hours]);
+            }
         }
     }
 
-    function handleEventClick(clickInfo) {
-        const activity = activities.find(a => clickInfo.event.id == a.id);
-        setSelectActivity(activity)
-        setModal(true)
+
+    function selectEndDate(e, day: number) {
+        const update = schedules.findIndex(s => s.day == day);
+
+        if(update >= 0) {
+            const updatedSchedules = [...schedules];
+            updatedSchedules[update] = {
+                ...updatedSchedules[update],
+                end: parseInt(e)
+            };
+            setSchedules(updatedSchedules);
+        }
     }
+
 
     return (
-        <main>
-            <div
-                style={{width: '80vw'}}
-                className="flex flex-wrap min-w-full items-center mx-auto">
-                <div className='w-full'>
-                    <FullCalendar
-                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                        headerToolbar={{
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'dayGridMonth,timeGridWeek'
-                        }}
-                        initialView='timeGridWeek'
-                        height={"70vh"}
-                        selectable={false}
-                        datesSet={handleDatesSet}
-                        weekends={true}
-                        locale='fr'
-                        events={activities}
-                        eventContent={renderEventContent} // custom render function
-                        eventClick={handleEventClick}
-                    />
-                </div>
-            </div>
-            {modal ? (
-                <ActivivityModal
-                    setOpenModal={(v) => (setModal(v))}
-                    activity={selectActivity}
-                />
-            ) : null}
-        </main>
-    )
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" className="text-center px-6 py-3">
+                    {t("week.monday")}
+                </th>
+                <th scope="col" className="text-center px-6 py-3">
+                    {t("week.tuesday")}
 
-    function renderEventContent(eventInfo) {
-        return (
-            <>
-                <b>{eventInfo.timeText}</b>
-                <h1 className="md:text-lg ml-1"> {eventInfo.event.title}</h1>
-            </>
-        )
-    }
+                </th>
+                <th scope="col" className="text-center px-6 py-3">
+                    {t("week.wednesday")}
+
+                </th>
+                <th scope="col" className="text-center px-6 py-3">
+                    {t("week.thursday")}
+
+                </th>
+                <th scope="col" className="text-center px-6 py-3">
+                    {t("week.friday")}
+
+                </th>
+                <th scope="col" className="text-center px-6 py-3">
+                    {t("week.saturday")}
+
+                </th>
+                <th scope="col" className="text-center px-6 py-3">
+                    {t("week.sunday")}
+
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                {[0, 1, 2, 3, 4, 5, 6].map((day) => (
+                    <td key={day} className="px-6 py-4">
+                        <SelectStartComponent
+                            day={day}
+                        />
+                        {schedules.filter(s => s.day === day).length > 0 ? (
+                            <>
+                                <span className="m-2"></span>
+                                <SelectEndComponent
+                                    day={day}
+                                />
+                            </>
+                        ) : <div className="h-16"></div> }
+                    </td>
+                ))}
+            </tr>
+            </tbody>
+        </table>
+    )
 }
