@@ -78,7 +78,6 @@ export default function TypeDetails(){
         try {
             const response = await getType(typeId, pushToast);
             setType(response)
-            console.log(response)
             setNewTypes(response);
             setStandBy(false);
         } catch (error) {

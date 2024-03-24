@@ -511,41 +511,43 @@ export default function UserDetails() {
                                         <div className="d-flex flex-column">
                                             {files.map(function (data) {
                                                 return (
-                                                    <>
-                                                        <div className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
-                                                            <div className="flex items-center justify-between p-4 text-sm leading-6">
-                                                                <div className="flex w-0 flex-1 items-center">
-                                                                    <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400 "
-                                                                                   aria-hidden="true"/>
-                                                                    <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
-                                                                        <span className="truncate font-medium">{data["link"].replace(/.*\//, '')}</span>
+                                                    <div key={data.id}>
+                                                        <>
+                                                            <div className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
+                                                                <div className="flex items-center justify-between p-4 text-sm leading-6">
+                                                                    <div className="flex w-0 flex-1 items-center">
+                                                                        <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400 "
+                                                                                       aria-hidden="true"/>
+                                                                        <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
+                                                                            <span className="truncate font-medium">{data["link"].replace(/.*\//, '')}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="ml-4 pl-2 flex-shrink-0">
+                                                                        <button
+                                                                            onClick={() => downloadUserFile(data["id"], data["link"].replace(/.*\//, ''))}>
+                                                                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                                                                 viewBox="0 0 24 24">
+                                                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                                                                                      strokeWidth="2"
+                                                                                      d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4"/>
+                                                                            </svg>
+                                                                        </button>
+                                                                        <button
+                                                                            onClick={() => deleteUserFile(user.id, data["id"])}>
+                                                                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                                                                 viewBox="0 0 24 24">
+                                                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                                                                                      strokeWidth="2"
+                                                                                      d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                                                                            </svg>
+                                                                        </button>
                                                                     </div>
                                                                 </div>
-                                                                <div className="ml-4 pl-2 flex-shrink-0">
-                                                                    <button
-                                                                        onClick={() => downloadUserFile(data["id"], data["link"].replace(/.*\//, ''))}>
-                                                                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                                                             viewBox="0 0 24 24">
-                                                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
-                                                                                  strokeWidth="2"
-                                                                                  d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4"/>
-                                                                        </svg>
-                                                                    </button>
-                                                                    <button
-                                                                        onClick={() => deleteUserFile(user.id, data["id"])}>
-                                                                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                                                             viewBox="0 0 24 24">
-                                                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
-                                                                                  strokeWidth="2"
-                                                                                  d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
-                                                                        </svg>
-                                                                    </button>
-                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </>
+                                                        </>
+                                                    </div>
                                                 )
                                             })}
                                         </div>

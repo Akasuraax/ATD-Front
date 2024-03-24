@@ -47,7 +47,6 @@ import AnnexeList from "./page/Back/Annexe/AnnexeList.tsx";
 function App() {
 
     const auth = useAuth();
-    console.log(auth.token)
     // eslint-disable-next-line react/prop-types
     function PrivateRoute({ children, roles = [] }) {
         if (!auth.token) return <Navigate to="/login" />;
@@ -57,7 +56,6 @@ function App() {
         if (!auth.user.roles.some(userRole => roles.includes(userRole.id))) {
             return <Error numError="403" />;
         }
-        console.log(auth.token)
         return children;
     }
 
