@@ -152,7 +152,6 @@ export default function CreateActivivityModal({setOpenModal}: {
                     </button>
                 </div>
             </Modal.Footer>
-
         </Modal>
     )
         ;

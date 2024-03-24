@@ -70,11 +70,13 @@ export default function Profile() {
                     <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
                 </div>
             ) : (
-                <section className="dark:bg-gray-900">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <section
+                        className="dark:bg-gray-900">
+                        <div
+                     className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-3">
                         <div
                             style={{width: "25vw"}}
-                            className="py-8 px-4 mx-auto lg:py-16 ">
+                            className="px-4 mx-auto">
                             {edit ? (
                                 <EditUser
                                     user={user}
@@ -95,11 +97,11 @@ export default function Profile() {
                             <Files user={user}/>
 
                         </div>
-                        <div className="py-8 px-4 mx-auto lg:py-16 ">
+                        <div className="px-4 mx-auto ">
                             <div
                                 style={{width: "70vw"}}
                                 className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
-                                <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-8">évenement
+                                <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-5">évenement
                                     a venir</h1>
                                 <TimelineCompnent
                                     activities={activities}
@@ -108,7 +110,7 @@ export default function Profile() {
                             <div
                                 style={{width: "70vw"}}
                                 className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
-                                <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-8">évenement
+                                <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-5">évenement
                                     a venir</h1>
                                 <TimelineCompnent
                                     activities={activities}
@@ -118,7 +120,7 @@ export default function Profile() {
                     </div>
                     {user.roles.filter(role => role.id === 4).length > 0 ? (
                         <div
-                            className="bg-white text-center dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
+                            className="m-4 bg-white text-center dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8">
                             <h2 className="dark:text-white text-3xl md:text-3xl font-extrabold mb-8">{t("generic.timetable")}</h2>
                                 <PartnerSchedule/>
                         </div>
