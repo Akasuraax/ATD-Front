@@ -67,8 +67,7 @@ function MessageTicket() {
                             <div className="p-5">
                                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{ticket.title}</h5>
                                 <p className="mb-3 text-xl text-gray-700 dark:text-gray-400">{ticket.title}</p>
-                                <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">Emis
-                                    le {moment(ticket.created_at).format('DD/MM/YYYY')}</p>
+                                <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">{t("ticket.issuedOn")} {moment(ticket.created_at).format('DD/MM/YYYY')}</p>
 
                             </div>
                         </div>
@@ -103,7 +102,7 @@ function MessageTicket() {
                             </div>
                             <label htmlFor="chat" className="sr-only">Your message</label>
                             <div className="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
-                                    <textarea id="chat" rows="1"
+                                    <textarea id="chat" rows={1}
                                               style={{maxHeight: '42px', minHeight: '42px'}}
                                               className="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                               placeholder={"Message..."}
