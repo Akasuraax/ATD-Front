@@ -66,7 +66,7 @@ function MessageTicket() {
                             className="h-full  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                             <div className="p-5">
                                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{ticket.title}</h5>
-                                <p className="mb-3 text-xl text-gray-700 dark:text-gray-400">{ticket.title}</p>
+                                <p className="mb-3 text-xl text-gray-700 dark:text-gray-400">{ticket.description}</p>
                                 <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">{t("ticket.issuedOn")} {moment(ticket.created_at).format('DD/MM/YYYY')}</p>
 
                             </div>
