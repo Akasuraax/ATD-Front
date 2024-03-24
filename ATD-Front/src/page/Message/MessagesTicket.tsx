@@ -55,9 +55,10 @@ function MessageTicket() {
 
     return (
         <main className="with-msg">
+            <div className="flex flex-wrap max-w-full min-w-full items-center justify-between mx-auto">
 
             {!standBy ? (
-                <div className="flex flex-wrap max-w-full min-w-full items-center justify-between mx-auto">
+                <>
                     <section className="h-full"
                              style={{width: "30vw", maxWidth: "416px"}}>
                         <div
@@ -124,10 +125,11 @@ function MessageTicket() {
                             </div>
                         </div>
                     </section>
-                </div>
-            ) : (
+                </>
+                ) : (
                 <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
-            )}
+                )}
+                </div>
         </main>
 
     )
