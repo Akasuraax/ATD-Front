@@ -22,7 +22,7 @@ function Header() {
     },
         {
             name: t("header.event"),
-            link: "back/users"
+            link: ""
         },
         {
             name: t("header.local"),

@@ -112,6 +112,13 @@ export default function SidebarComponent() {
                                         </NavLink>
                                     </li>
                                     <li>
+                                        <NavLink to={"/back/roles"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-sr-star"></i>
+                                            <span className="ms-3">{t("sidebar.roles")}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
                                         <NavLink to={"/back/vehicles"}
                                                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                             <i className="fi fi-bs-cars"></i>
@@ -123,6 +130,27 @@ export default function SidebarComponent() {
                                                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                             <i className="fi fi-sr-warehouse-alt"></i>
                                             <span className="ms-3">{t("sidebar.warehouses")}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to={"/back/annexes"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-ss-garage-car"></i>
+                                            <span className="ms-3">{t("sidebar.annexes")}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to={"/back/languages"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-sr-language"></i>
+                                            <span className="ms-3">{t("sidebar.language")}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to={"/back/types"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-rr-ballot-check"></i>
+                                            <span className="ms-3">{t("sidebar.types")}</span>
                                         </NavLink>
                                     </li>
                                 </ul>

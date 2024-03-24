@@ -34,7 +34,9 @@ function Home() {
                     </div>
                 </div>
 
-                <ActivityComponent></ActivityComponent>
+                <div className="mt-32">
+                    <ActivityComponent></ActivityComponent>
+                </div>
             </div>
         </main>
     )
