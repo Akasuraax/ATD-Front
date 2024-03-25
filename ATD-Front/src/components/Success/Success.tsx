@@ -19,7 +19,8 @@ export default function Success() {
 
     async function sendRequest() {
         try {
-            const response = await postDonation({ 'cs_id': sessionId }, pushToast);
+            const response = await postDonation({ 'checkout_session': sessionId }, pushToast);
+            console.log(response);
         } catch (error) {
             console.log(error);
         }
