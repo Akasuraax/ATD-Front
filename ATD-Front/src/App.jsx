@@ -46,6 +46,7 @@ import RecipeDetails from "./page/Back/recipe/RecipeDetails";
 import ProductsList from "./page/Back/product/ProductsList";
 import AddProduct from "./page/Back/product/AddProduct";
 import ProductDetails from "./page/Back/product/productDetails";
+import Success from "./components/Success/Success.tsx";
 
 
 
@@ -96,6 +97,10 @@ function App() {
                 {
                     path: 'profile/:userId',
                     element: <Token><Profile/></Token>,
+                },
+                {
+                    path:'success',
+                    element: <Success/>
                 },
                 {
                     path: 'register',
