@@ -7,6 +7,10 @@ export const getRecipes = async (params, pushToast) => {
     return getRequest('recipe',params, pushToast);
 };
 
+export const getRecipesFilter = async (pushToast) => {
+    return getRequest('recipe/filter', null,pushToast);
+};
+
 export const getRecipe = async (params, pushToast) => {
     return getRequest('recipe/' + params,'', pushToast);
 };

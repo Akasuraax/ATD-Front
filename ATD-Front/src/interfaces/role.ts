@@ -9,3 +9,14 @@ export interface IRoles{
     created_at:Date;
     update_at:Date,
 }
+
+export interface ICreatActivityRole{
+    id:number,
+    name:string,
+    limits:ILimits
+}
+
+interface ILimits {
+    max:number,
+    min:number
+}
