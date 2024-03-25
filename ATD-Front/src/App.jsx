@@ -42,6 +42,7 @@ import EventsList from "./page/Back/event/eventsList";
 import AddAnnexe from "./page/Back/Annexe/AddAnnexe.tsx";
 import AnnexeDetails from "./page/Back/Annexe/AnnexeDetails.tsx";
 import AnnexeList from "./page/Back/Annexe/AnnexeList.tsx";
+import Success from "./components/Success/Success.tsx";
 
 
 function App() {
@@ -89,6 +90,10 @@ function App() {
                 {
                     path: 'profile/:userId',
                     element: <Token><Profile/></Token>,
+                },
+                {
+                    path:'success',
+                    element: <Success/>
                 },
                 {
                     path: 'register',

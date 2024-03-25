@@ -42,6 +42,11 @@ function Header() {
         <header>
             <nav className="bg-white border-gray-200 dark:bg-gray-900">
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+                    <stripe-buy-button
+                        buy-button-id="buy_btn_1OxvlLCJaEDmVxZfQPSs7c9A"
+                        publishable-key="pk_test_51Oxs6xCJaEDmVxZfc4ob9XV222gTMvAlfylfBtMblNWx67BvD4neB5Qev1zyqsJzJjLvjyjjYUaLoLA7TLnDuk4a00lbkv2VmZ"
+                    >
+                    </stripe-buy-button>
                     <NavLink to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                         <img className={"logo"} src={Logo} alt="logo"></img>
                     </NavLink>
