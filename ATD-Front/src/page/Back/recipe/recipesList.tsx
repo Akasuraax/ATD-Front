@@ -4,7 +4,6 @@ import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
 import {useToast} from "../../../components/Toast/ToastContex";
 import { useNavigate } from 'react-router-dom';
-import {getWarehouses} from '../../../apiService/WarehouseService';
 import {getRecipes} from "../../../apiService/RecipeService";
 
 function RecipesList(){
@@ -27,28 +26,16 @@ function RecipesList(){
         {
             field: 'name',
             headerName: t("recipe.titled"),
-            width: 250,
+            width: 500,
             editable: false,
         },
         {
             field: 'description',
             headerName: t("recipe.description"),
-            width: 350,
+            width: 600,
             editable: false,
-        },
-        {
-            field: 'archive',
-            headerName: t("warehouse.isArchived"),
-            width: 150,
-            editable: false,
-            renderCell: (params) => renderArchiveCell(params.value),
         },
     ];
-    const renderArchiveCell = (archived: boolean) => {
-        if (archived) return <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">archivé</span>
-        else return <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">actif</span>
-
-    };
 
     // page change
     const handlePageChange = async (params) => {

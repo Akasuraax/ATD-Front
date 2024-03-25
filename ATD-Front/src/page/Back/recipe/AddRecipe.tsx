@@ -23,6 +23,8 @@ export default function AddRecipe() {
     });
     const [products, setProducts] = useState<IProduct[]>([]);
     const [filter, setFilter] = useState<string>('');
+    const [standBy, setStandBy] = useState<boolean>(true);
+
 
     const navigate = useNavigate();
     const {t} = useTranslation();
@@ -69,8 +71,10 @@ export default function AddRecipe() {
 
     async function getProducts() {
         try {
+            setStandBy(true)
             const productsRespons = await getProductsFilter({filter: filter}, pushToast);
             setProducts(productsRespons)
+            setStandBy(false)
         } catch (error) {
             console.log(error)
         }
@@ -138,7 +142,7 @@ export default function AddRecipe() {
         <main>
             <div className="flex flex-wrap max-w-full items-center justify-between mx-auto">
                 <div
-                    style={{width: "20vw", maxWidth: "1024px"}}
+                    style={{width: "20vw", maxWidth: "1024px", minHeight:"628px"}}
                     className="border mr-4 max-w-full p-4 rounded-xl shadow-md">
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3">
@@ -169,27 +173,35 @@ export default function AddRecipe() {
                                         <button onClick={getProducts} type="button"><i
                                             className="fi fi-br-search text-xl"></i></button>
                                         </span>
-                            <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
-                                {products.map((p) => (
-                                    <li key={p.id} className="py-3 sm:py-4">
-                                        <div className="flex items-center">
-                                            <div className="flex-1 min-w-0 ms-4">
-                                                <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                    {p.name}
-                                                </p>
+                            {!standBy ? (
+                                <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+                                    {products.map((p) => (
+                                        <li key={p.id} className="py-3 sm:py-4">
+                                            <div className="flex items-center">
+                                                <div className="flex-1 min-w-0 ms-4">
+                                                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                        {p.name}
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                    <button
+                                                        onClick={() => addProduct(p)}
+                                                        type="button">
+                                                        <i className="fi fi-sr-plus"></i>
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div
-                                                className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                <button
-                                                    onClick={() => addProduct(p)}
-                                                    type="button">
-                                                    <i className="fi fi-sr-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <div
+                                    style={{minHeight:"489px",justifyContent:"center"}}
+                                    className="text-center flex  items-center">
+                                    <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
+                                </div>
+                            )}
                         </dd>
                     </div>
                 </div>
@@ -204,7 +216,7 @@ export default function AddRecipe() {
                             <dl className="divide-y divide-gray-100">
 
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('recipe.name')}</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('recipe.titled')}</dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                         <div className="flex items-center justify-end">
                                             <input
@@ -251,7 +263,7 @@ export default function AddRecipe() {
                                     </dd>
                                 </div>
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('recipe.name')}</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('recipe.ingrédients')}</dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3">
                                         <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
                                             {recipe.products.map((p) => (

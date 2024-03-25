@@ -13,7 +13,7 @@ import {getProductsFilter} from "../../apiService/productService";
 import {useToast} from "../Toast/ToastContex";
 import {IType} from "../../interfaces/type";
 import {getAllRoles} from "../../apiService/RoleService";
-import { FileInput, Label } from 'flowbite-react';
+import {FileInput, Label} from 'flowbite-react';
 import {PaperClipIcon} from "@heroicons/react/20/solid";
 import {getRecipesFilter} from "../../apiService/RecipeService";
 import {IActivityRecipe, IRecipe} from "../../interfaces/recipe";
@@ -75,8 +75,49 @@ export default function CreateActivivityModal({setOpenModal}: {
             <span className="hidden sm:inline-flex sm:ms-2">Info</span>
         </span>
                 </li>
-                <li className={`flex items-center ${step >= 3 ? 'text-blue-600 dark:text-blue-500' : ''}`}>
-                    {step >= 4 ? (
+
+                {types.filter(t => t.id === parseInt(activity.type))[0].access_to_journey ? (
+                    <li className={`flex md:w-full items-center ${step >= 3 ? 'text-blue-600 dark:text-blue-500' : ''} after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
+        <span
+            className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                        {step >= 4 ? (
+                            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                            </svg>
+                        ) : (
+                            <span className="me-2">2</span>
+                        )}
+            trajets
+            <span className="hidden sm:inline-flex sm:ms-2">Info</span>
+        </span>
+                    </li>
+                ) : null}
+
+                {types.filter(t => t.id === parseInt(activity.type))[0].access_to_warehouse ? (
+                    <li className={`flex md:w-full items-center ${step >= 4 ? 'text-blue-600 dark:text-blue-500' : ''} after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
+        <span
+            className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                        {step >= 5 ? (
+                            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                            </svg>
+                        ) : (
+                            <span className="me-2">2</span>
+                        )}
+            recettes
+            <span className="hidden sm:inline-flex sm:ms-2">Info</span>
+        </span>
+                    </li>
+                ) : null}
+
+                <li className={`flex items-center ${step >= 5 ? 'text-blue-600 dark:text-blue-500' : ''}`}>
+                    {step >= 6 ? (
                         <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true"
                              xmlns="http://www.w3.org/2000/svg"
                              fill="currentColor" viewBox="0 0 20 20">
@@ -86,7 +127,7 @@ export default function CreateActivivityModal({setOpenModal}: {
                     ) : (
                         <span className="me-2">3</span>
                     )}
-                    {t("createActivity.recipes")}
+                    Validation
                 </li>
             </ol>
 
@@ -135,14 +176,14 @@ export default function CreateActivivityModal({setOpenModal}: {
     function nextStep() {
         switch (step) {
             case 0 :
-                if(activity.title === '' ) {
+                if (activity.title === '') {
                     pushToast({
                         content: t("createActivity.noTitle"),
                         type: "failure"
                     });
                     return
                 }
-                if(activity.description === '') {
+                if (activity.description === '') {
                     pushToast({
                         content: t("createActivity.noDescription"),
                         type: "failure"
@@ -151,7 +192,7 @@ export default function CreateActivivityModal({setOpenModal}: {
                 }
                 break
             case 1 :
-                if(activity.roles.length === 0) {
+                if (activity.roles.length === 0) {
                     pushToast({
                         content: t("createActivity.noRoles"),
                         type: "failure"
@@ -169,7 +210,7 @@ export default function CreateActivivityModal({setOpenModal}: {
                         return r
                     }
 
-                    if(r.limits.min === 0) {
+                    if (r.limits.min === 0) {
                         pushToast({
                             content: t("createActivity.minRoleNoCompliant") + " " + r.name,
                             type: "failure"
@@ -177,13 +218,21 @@ export default function CreateActivivityModal({setOpenModal}: {
                         return r
                     }
                 })
-                if(err.length > 0) return
+                if (err.length > 0) return
                 break
-            case 3 :
+            case 2 :
+                // eslint-disable-next-line no-case-declarations
+                const type: IType = types.filter(t => t.id === parseInt(activity.type))[0]
+
+                console.log(type)
+                if (type.access_to_journey) setStep(4)
+                else if (type.access_to_warehouse) setStep(5)
+                else setStep(6)
+                return
                 break
             default :
         }
-        setStep(step+1)
+        setStep(step + 1)
     }
 
     async function getTypeF() {
@@ -312,19 +361,19 @@ export default function CreateActivivityModal({setOpenModal}: {
         const filesArray = Array.from(files);
         const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
         const verify = filesArray.filter(f => {
-        if (f.size > 20971520) {
-            pushToast({
-                content: "La taille du fichier dépasse 20Mo",
-                type: "failure"
-            });
-            return;
-        } else if (!allowedTypes.includes(f.type)) {
-            pushToast({
-                content: "Type de fichier non pris en charge",
-                type: "failure"
-            });
-            return;
-        }
+            if (f.size > 20971520) {
+                pushToast({
+                    content: "La taille du fichier dépasse 20Mo",
+                    type: "failure"
+                });
+                return;
+            } else if (!allowedTypes.includes(f.type)) {
+                pushToast({
+                    content: "Type de fichier non pris en charge",
+                    type: "failure"
+                });
+                return;
+            }
             return f;
         })
 
@@ -342,7 +391,7 @@ export default function CreateActivivityModal({setOpenModal}: {
         }
     };
 
-    const removeFile = (name :string) => {
+    const removeFile = (name: string) => {
         setActivity(prevActivity => ({
             ...prevActivity,
             files: prevActivity.files.filter(f => f.name !== name)
@@ -361,13 +410,13 @@ export default function CreateActivivityModal({setOpenModal}: {
             console.log(error)
         }
     }
-    
+
     const updateCountRecipes = (value: number, Id: number) => {
         setActivity((prevActivity) => ({
             ...prevActivity,
             recipes: prevActivity.recipes.map(recipe => {
                 if (recipe.id === Id) {
-                    value = value > 0 ? value: 0
+                    value = value > 0 ? value : 0
                     recipe.count = value
                 }
                 return recipe;
@@ -468,7 +517,8 @@ export default function CreateActivivityModal({setOpenModal}: {
                             </div>
 
                             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <table
+                                    className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     <thead
                                         className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
@@ -488,93 +538,94 @@ export default function CreateActivivityModal({setOpenModal}: {
                                     </thead>
                                     <tbody>
                                     {activity.roles.map((r) => (
-                                    <tr key={r.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                            {r.name}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center">
-                                                <button
-                                                    onClick={() => (updateCountRoles("min",r.limits.min-1,r.id))}
-                                                    className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                                    type="button">
-                                                    <span className="sr-only">Quantity button</span>
-                                                    <svg className="w-3 h-3" aria-hidden="true"
-                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 18 2">
-                                                        <path stroke="currentColor" strokeLinecap="round"
-                                                              strokeLinejoin="round" strokeWidth="2" d="M1 1h16"/>
-                                                    </svg>
-                                                </button>
-                                                <div>
-                                                    <input type="number" id="first_product"
-                                                           max={999}
-                                                           min={0}
-                                                           value={r.limits.min}
-                                                           onChange={(e) => (updateCountRoles("min",parseInt(e.target.value),r.id))}
-                                                           className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                           placeholder="1" required/>
+                                        <tr key={r.id}
+                                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                            <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                                {r.name}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center">
+                                                    <button
+                                                        onClick={() => (updateCountRoles("min", r.limits.min - 1, r.id))}
+                                                        className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                                        type="button">
+                                                        <span className="sr-only">Quantity button</span>
+                                                        <svg className="w-3 h-3" aria-hidden="true"
+                                                             xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                             viewBox="0 0 18 2">
+                                                            <path stroke="currentColor" strokeLinecap="round"
+                                                                  strokeLinejoin="round" strokeWidth="2" d="M1 1h16"/>
+                                                        </svg>
+                                                    </button>
+                                                    <div>
+                                                        <input type="number" id="first_product"
+                                                               max={999}
+                                                               min={0}
+                                                               value={r.limits.min}
+                                                               onChange={(e) => (updateCountRoles("min", parseInt(e.target.value), r.id))}
+                                                               className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                               placeholder="1" required/>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => (updateCountRoles("min", r.limits.min + 1, r.id))}
+                                                        className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                                        type="button">
+                                                        <span className="sr-only">Quantity button</span>
+                                                        <svg className="w-3 h-3" aria-hidden="true"
+                                                             xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                             viewBox="0 0 18 18">
+                                                            <path stroke="currentColor" strokeLinecap="round"
+                                                                  strokeLinejoin="round" strokeWidth="2"
+                                                                  d="M9 1v16M1 9h16"/>
+                                                        </svg>
+                                                    </button>
                                                 </div>
-                                                <button
-                                                    onClick={() => (updateCountRoles("min",r.limits.min+1,r.id))}
-                                                    className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                                    type="button">
-                                                    <span className="sr-only">Quantity button</span>
-                                                    <svg className="w-3 h-3" aria-hidden="true"
-                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 18 18">
-                                                        <path stroke="currentColor" strokeLinecap="round"
-                                                              strokeLinejoin="round" strokeWidth="2"
-                                                              d="M9 1v16M1 9h16"/>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                            <div className="flex items-center">
-                                                <button
-                                                    onClick={() => (updateCountRoles("max",r.limits.max-1,r.id))}
-                                                    className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                                    type="button">
-                                                    <span className="sr-only">Quantity button</span>
-                                                    <svg className="w-3 h-3" aria-hidden="true"
-                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 18 2">
-                                                        <path stroke="currentColor" strokeLinecap="round"
-                                                              strokeLinejoin="round" strokeWidth="2" d="M1 1h16"/>
-                                                    </svg>
-                                                </button>
-                                                <div>
-                                                    <input type="number" id="first_product"
-                                                           max={999}
-                                                           min={0}
-                                                           value={r.limits.max}
-                                                           onChange={(e) => (updateCountRoles("max",parseInt(e.target.value),r.id))}
-                                                           className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                           placeholder="1" required/>
+                                            </td>
+                                            <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                                <div className="flex items-center">
+                                                    <button
+                                                        onClick={() => (updateCountRoles("max", r.limits.max - 1, r.id))}
+                                                        className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                                        type="button">
+                                                        <span className="sr-only">Quantity button</span>
+                                                        <svg className="w-3 h-3" aria-hidden="true"
+                                                             xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                             viewBox="0 0 18 2">
+                                                            <path stroke="currentColor" strokeLinecap="round"
+                                                                  strokeLinejoin="round" strokeWidth="2" d="M1 1h16"/>
+                                                        </svg>
+                                                    </button>
+                                                    <div>
+                                                        <input type="number" id="first_product"
+                                                               max={999}
+                                                               min={0}
+                                                               value={r.limits.max}
+                                                               onChange={(e) => (updateCountRoles("max", parseInt(e.target.value), r.id))}
+                                                               className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                               placeholder="1" required/>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => (updateCountRoles("max", r.limits.max + 1, r.id))}
+                                                        className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                                        type="button">
+                                                        <span className="sr-only">Quantity button</span>
+                                                        <svg className="w-3 h-3" aria-hidden="true"
+                                                             xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                             viewBox="0 0 18 18">
+                                                            <path stroke="currentColor" strokeLinecap="round"
+                                                                  strokeLinejoin="round" strokeWidth="2"
+                                                                  d="M9 1v16M1 9h16"/>
+                                                        </svg>
+                                                    </button>
                                                 </div>
+                                            </td>
+                                            <td className="px-6 py-4">
                                                 <button
-                                                    onClick={() => (updateCountRoles("max",r.limits.max+1,r.id))}
-                                                    className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                                    type="button">
-                                                    <span className="sr-only">Quantity button</span>
-                                                    <svg className="w-3 h-3" aria-hidden="true"
-                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 18 18">
-                                                        <path stroke="currentColor" strokeLinecap="round"
-                                                              strokeLinejoin="round" strokeWidth="2"
-                                                              d="M9 1v16M1 9h16"/>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <button
-                                                onClick={() => remove(r.id, 'roles')}
-                                               className="font-medium text-red-600 dark:text-red-500 hover:underline">{t('createActivity.remove')}</button>
-                                        </td>
-                                    </tr>
-                                        ))}
+                                                    onClick={() => remove(r.id, 'roles')}
+                                                    className="font-medium text-red-600 dark:text-red-500 hover:underline">{t('createActivity.remove')}</button>
+                                            </td>
+                                        </tr>
+                                    ))}
                                     </tbody>
                                 </table>
                             </div>
@@ -606,7 +657,8 @@ export default function CreateActivivityModal({setOpenModal}: {
                                             />
                                         </svg>
                                         <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                            <span className="font-semibold">{t('createActivity.upload')}</span> {t('createActivity.drag')}
+                                            <span
+                                                className="font-semibold">{t('createActivity.upload')}</span> {t('createActivity.drag')}
                                         </p>
                                         <p className="text-xs text-gray-500 dark:text-gray-400">PNG, PDF, JPG; JPEG</p>
                                     </div>
@@ -643,8 +695,7 @@ export default function CreateActivivityModal({setOpenModal}: {
                         </>
                     ) : step === 3 ? (
                         <>
-                            <h3>Files</h3>
-
+                            <h3>Recettes</h3>
                             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3">
                                         <span
@@ -678,24 +729,24 @@ export default function CreateActivivityModal({setOpenModal}: {
                                         {recipes
                                             .filter(r => !activity.recipes.some(recipe => recipe.id === r.id))
                                             .map((r) => (
-                                            <li key={r.id} className="py-3 sm:py-4">
-                                                <div className="flex items-center">
-                                                    <div className="flex-1 min-w-0 ms-4">
-                                                        <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                            {r.name}
-                                                        </p>
+                                                <li key={r.id} className="py-3 sm:py-4">
+                                                    <div className="flex items-center">
+                                                        <div className="flex-1 min-w-0 ms-4">
+                                                            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                                {r.name}
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                            <button
+                                                                onClick={() => addRecipe(r)}
+                                                                type="button">
+                                                                <i className="fi fi-sr-plus"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                    <div
-                                                        className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                        <button
-                                                            onClick={() => addRecipe(r)}
-                                                            type="button">
-                                                            <i className="fi fi-sr-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        ))}
+                                                </li>
+                                            ))}
                                     </ul>
                                 </dd>
                             </div>
@@ -721,62 +772,66 @@ export default function CreateActivivityModal({setOpenModal}: {
                                         <tbody>
                                         {activity.recipes
                                             .map((r) => (
-                                            <tr key={r.id}
-                                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                                    {r.name}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <div className="flex items-center">
-                                                        <button
-                                                            onClick={() => (updateCountRecipes( r.count - 1, r.id))}
-                                                            className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                                            type="button">
-                                                            <span className="sr-only">Quantity button</span>
-                                                            <svg className="w-3 h-3" aria-hidden="true"
-                                                                 xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                 viewBox="0 0 18 2">
-                                                                <path stroke="currentColor" strokeLinecap="round"
-                                                                      strokeLinejoin="round" strokeWidth="2"
-                                                                      d="M1 1h16"/>
-                                                            </svg>
-                                                        </button>
-                                                        <div>
-                                                            <input type="number" id="first_product"
-                                                                   max={999}
-                                                                   min={0}
-                                                                   value={r.count}
-                                                                   onChange={(e) => (updateCountRecipes( parseInt(e.target.value), r.id))}
-                                                                   className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                                   placeholder="1" required/>
+                                                <tr key={r.id}
+                                                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                    <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                                        {r.name}
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex items-center">
+                                                            <button
+                                                                onClick={() => (updateCountRecipes(r.count - 1, r.id))}
+                                                                className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                                                type="button">
+                                                                <span className="sr-only">Quantity button</span>
+                                                                <svg className="w-3 h-3" aria-hidden="true"
+                                                                     xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                     viewBox="0 0 18 2">
+                                                                    <path stroke="currentColor" strokeLinecap="round"
+                                                                          strokeLinejoin="round" strokeWidth="2"
+                                                                          d="M1 1h16"/>
+                                                                </svg>
+                                                            </button>
+                                                            <div>
+                                                                <input type="number" id="first_product"
+                                                                       max={999}
+                                                                       min={0}
+                                                                       value={r.count}
+                                                                       onChange={(e) => (updateCountRecipes(parseInt(e.target.value), r.id))}
+                                                                       className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                       placeholder="1" required/>
+                                                            </div>
+                                                            <button
+                                                                onClick={() => (updateCountRecipes(r.count + 1, r.id))}
+                                                                className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                                                type="button">
+                                                                <span className="sr-only">Quantity button</span>
+                                                                <svg className="w-3 h-3" aria-hidden="true"
+                                                                     xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                     viewBox="0 0 18 18">
+                                                                    <path stroke="currentColor" strokeLinecap="round"
+                                                                          strokeLinejoin="round" strokeWidth="2"
+                                                                          d="M9 1v16M1 9h16"/>
+                                                                </svg>
+                                                            </button>
                                                         </div>
+                                                    </td>
+                                                    <td className="px-6 py-4">
                                                         <button
-                                                            onClick={() => (updateCountRecipes( r.count + 1, r.id))}
-                                                            className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                                            type="button">
-                                                            <span className="sr-only">Quantity button</span>
-                                                            <svg className="w-3 h-3" aria-hidden="true"
-                                                                 xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                 viewBox="0 0 18 18">
-                                                                <path stroke="currentColor" strokeLinecap="round"
-                                                                      strokeLinejoin="round" strokeWidth="2"
-                                                                      d="M9 1v16M1 9h16"/>
-                                                            </svg>
+                                                            onClick={() => remove(r.id, 'recipes')}
+                                                            className="font-medium text-red-600 dark:text-red-500 hover:underline">{t('createActivity.remove')}
                                                         </button>
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <button
-                                                        onClick={() => remove(r.id, 'recipes')}
-                                                        className="font-medium text-red-600 dark:text-red-500 hover:underline">{t('createActivity.remove')}
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                    </td>
+                                                </tr>
+                                            ))}
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+                        </>
+                    ) : step === 6 ? (
+                        <>
+
                         </>
                     ) : null
                 ) : (
@@ -788,15 +843,23 @@ export default function CreateActivivityModal({setOpenModal}: {
             <Modal.Footer>
                 <div className="flex justify-between w-full">
                     <button
-                        onClick={() => setStep(step == 0 ? 0 : step-1 )}
+                        onClick={() => setStep(step == 0 ? 0 : step - 1)}
                         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                         {t("generic.previous")}
                     </button>
-                    <button
-                        onClick={() => nextStep()}
-                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">
-                        {t("generic.next")}
-                    </button>
+                    {step === 6 ? (
+                        <button
+                            onClick={() => nextStep()}
+                            className="text-white bg-red-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">
+                            {t("generic.next")}
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => nextStep()}
+                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">
+                            {t("generic.next")}
+                        </button>
+                    )}
                 </div>
             </Modal.Footer>
         </Modal>
