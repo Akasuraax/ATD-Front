@@ -133,6 +133,20 @@ export default function SidebarComponent() {
                                         </NavLink>
                                     </li>
                                     <li>
+                                        <NavLink to={"/back/recipes"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-rr-ballot"></i>
+                                            <span className="ms-3">{t("sidebar.recipes")}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to={"/back/products"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-rr-boxes"></i>
+                                            <span className="ms-3">{t("sidebar.products")}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
                                         <NavLink to={"/back/annexes"}
                                                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                             <i className="fi fi-ss-garage-car"></i>

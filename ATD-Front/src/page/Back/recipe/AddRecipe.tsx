@@ -56,7 +56,7 @@ export default function AddRecipe() {
             const respons = await postRecipe(recipe, pushToast);
             if (respons.status === 409) {
                 pushToast({
-                    content: "Le nom de la recette existe déjà",
+                    content: t("recipe.conflictMessage"),
                     type: "failure"
                 });
             } else {

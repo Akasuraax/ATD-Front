@@ -6,3 +6,10 @@ export interface IProduct {
     create_at:Date,
     update_at:Date,
 }
+
+
+
+export interface IAddProduct {
+    name:string;
+    measure:string,
+}

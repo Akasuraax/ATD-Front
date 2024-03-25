@@ -42,6 +42,13 @@ import EventsList from "./page/Back/event/eventsList";
 import AddAnnexe from "./page/Back/Annexe/AddAnnexe.tsx";
 import AnnexeDetails from "./page/Back/Annexe/AnnexeDetails.tsx";
 import AnnexeList from "./page/Back/Annexe/AnnexeList.tsx";
+import RecipeDetails from "./page/Back/recipe/RecipeDetails";
+import ProductsList from "./page/Back/product/ProductsList";
+import AddProduct from "./page/Back/product/AddProduct";
+import ProductDetails from "./page/Back/product/productDetails";
+
+
+
 
 
 function App() {
@@ -209,6 +216,28 @@ function App() {
                                 {
                                     path: 'add',
                                     element: <AddRecipe/>,
+                                },
+                                {
+                                    path: ':recipeId',
+                                    element: <RecipeDetails/>,
+                                }
+                            ]
+                        },
+                        {
+                            path: "products",
+                            element: <Outlet/>,
+                            children: [
+                                {
+                                    path: '',
+                                    element: <ProductsList/>
+                                },
+                                {
+                                    path: 'add',
+                                    element: <AddProduct/>,
+                                },
+                                {
+                                    path: ':productId',
+                                    element: <ProductDetails/>,
                                 }
                             ]
                         },

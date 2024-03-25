@@ -19,6 +19,6 @@ export const deleteProduct = async ( pushToast, url?) => {
     return deleteRequest(`product/${url}`,"", pushToast);
 };
 
-export const patchProduct = async (params, pushToast,userId) => {
-    return patchRequest(`product/${userId}`,params, pushToast);
+export const patchProduct = async (params, pushToast,id) => {
+    return patchRequest(`product/${id}`,params, pushToast);
 };

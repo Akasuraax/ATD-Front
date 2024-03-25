@@ -49,12 +49,15 @@ export const patchRequest = async (url, data, pushToast) => {
             type: "success"
         });
         return res.data
-    } catch {
+    } catch(res) {
+        if(res.response.status === 409) {
+            return res.response
+        }
         pushToast({
             content: "Une erreur est survenue",
             type: "failure"
         });
-        return null
+        return res.response
     }
 };
 
