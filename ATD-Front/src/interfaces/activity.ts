@@ -30,6 +30,7 @@ export interface IAddActivity {
     end_date: Date,
     donation: number,
     type: string,
+    public:boolean
     roles:ICreatActivityRole[],
     files:File[]
     recipes:IActivityRecipe[]

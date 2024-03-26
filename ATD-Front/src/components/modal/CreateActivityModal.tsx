@@ -19,10 +19,10 @@ import {getRecipesFilter} from "../../apiService/RecipeService";
 import {IActivityRecipe, IRecipe} from "../../interfaces/recipe";
 import {postActivity} from "../../apiService/ActivityService";
 
-export default function CreateActivivityModal({setOpenModal,start_date,end_date}: {
+export default function CreateActivivityModal({setOpenModal, start_date, end_date}: {
     setOpenModal: (value: boolean) => void,
     start_date: Date,
-    end_date:Date
+    end_date: Date
 }) {
 
 
@@ -148,6 +148,7 @@ export default function CreateActivivityModal({setOpenModal,start_date,end_date}
         end_date: null,
         donation: 0,
         type: '',
+        public: false,
         roles: [],
         files: [],
         recipes: []
@@ -158,7 +159,6 @@ export default function CreateActivivityModal({setOpenModal,start_date,end_date}
     const [recipes, setRecipes] = useState<IRecipe[]>([])
     const [step, setStep] = useState<number>(0)
     const [filter, setFilter] = useState<string>('');
-
 
 
     const {pushToast} = useToast();
@@ -233,16 +233,34 @@ export default function CreateActivivityModal({setOpenModal,start_date,end_date}
             case 2 :
                 // eslint-disable-next-line no-case-declarations
                 const type: IType = types.filter(t => t.id === parseInt(activity.type))[0]
-
-                console.log(type)
-                if (type.access_to_journey) setStep(4)
-                else if (type.access_to_warehouse) setStep(5)
-                else setStep(6)
+                if (type.access_to_journey) setStep(3)
+                else if (type.access_to_warehouse) setStep(4)
+                else setStep(5)
                 return
-                break
+
             default :
         }
         setStep(step + 1)
+    }
+
+    function previousStep() {
+        const type: IType = types.filter(t => t.id === parseInt(activity.type))[0]
+        console.log(step)
+        if (step === 5 && type.access_to_warehouse) {
+            setStep(4)
+            return
+        }
+        if ((step === 4 || step === 5) && type.access_to_journey) {
+            setStep(3)
+            return
+        }
+        if (step === 5) {
+            setStep(2)
+            return
+
+        }
+        if (step > 0)
+            setStep(step - 1)
     }
 
     async function getTypeF() {
@@ -304,6 +322,7 @@ export default function CreateActivivityModal({setOpenModal,start_date,end_date}
     }
 
     const updateField = (field: string, value: any) => {
+        console.log(value)
         setActivity((prev) => ({
             ...prev,
             [field]: value,
@@ -436,7 +455,8 @@ export default function CreateActivivityModal({setOpenModal,start_date,end_date}
 
     async function save() {
         try {
-            const respons = await postActivity(activity,pushToast);
+            console.log(activity)
+            const respons = await postActivity(activity, pushToast);
             setRecipes(respons)
             console.log(respons)
         } catch (error) {
@@ -849,7 +869,7 @@ export default function CreateActivivityModal({setOpenModal,start_date,end_date}
                                 </div>
                             </div>
                         </>
-                    ) : step === 6 ? (
+                    ) : step === 5 ? (
                         <>
                             <div className="flex justify-between mt-8 p-4 flex-col">
                                 <div className="flex mb-4">
@@ -903,28 +923,46 @@ export default function CreateActivivityModal({setOpenModal,start_date,end_date}
                                         </tbody>
                                     </table>
                                 </div>
-                                <h5 className="font-semibold text-gray-900 dark:text-white mr-8">Files</h5>
-
-                                <div
-                                    style={{maxHeight: '250px', overflowY: 'auto'}}
-                                    className="mt-4 scroll-container">
-                                    {activity.files.map((f) => (
-                                        <div key={f.name}
-                                             className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
-                                            <div className="flex items-center justify-between p-4 text-sm leading-6">
-                                                <div className="flex w-0 flex-1 items-center">
-                                                    <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400 "
-                                                                   aria-hidden="true"/>
-                                                    <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
+                                {activity.files.length > 0 ? (
+                                    <>
+                                        <h5 className="font-semibold text-gray-900 dark:text-white mr-8">Files</h5>
+                                        <div
+                                            style={{maxHeight: '250px', overflowY: 'auto'}}
+                                            className="mt-4 scroll-container">
+                                            {activity.files.map((f) => (
+                                                <div key={f.name}
+                                                     className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
+                                                    <div
+                                                        className="flex items-center justify-between p-4 text-sm leading-6">
+                                                        <div className="flex w-0 flex-1 items-center">
+                                                            <PaperClipIcon
+                                                                className="h-5 w-5 flex-shrink-0 text-gray-400 "
+                                                                aria-hidden="true"/>
+                                                            <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
                                                 <span
                                                     className="truncate font-medium">{f.name.length > 30 ? `${f.name.slice(0, 30)}...` : f.name}</span>
-                                                        <span
-                                                            className="flex-shrink-0 text-gray-400">{(f.size / (1024 * 1024)).toFixed(2)} MB</span>
+                                                                <span
+                                                                    className="flex-shrink-0 text-gray-400">{(f.size / (1024 * 1024)).toFixed(2)} MB</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            ))}
                                         </div>
-                                    ))}
+                                    </>
+                                ): null }
+
+                                <div>
+                                    <label className="inline-flex items-center cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            value={activity.public}
+                                            onChange={(e) => (updateField('public',e.target.checked))}
+                                            className="sr-only peer"/>
+                                        <div
+                                            className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                        <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Publier l'activité</span>
+                                    </label>
                                 </div>
                             </div>
                         </>
@@ -938,11 +976,11 @@ export default function CreateActivivityModal({setOpenModal,start_date,end_date}
             <Modal.Footer>
                 <div className="flex justify-between w-full">
                     <button
-                        onClick={() => setStep(step == 0 ? 0 : step - 1)}
+                        onClick={() => previousStep()}
                         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                         {t("generic.previous")}
                     </button>
-                    {step === 6 ? (
+                    {step === 5 ? (
                         <button
                             onClick={() => save()}
                             className="text-white bg-green focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">
