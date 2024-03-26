@@ -28,7 +28,7 @@ export interface IAddActivity {
     zipcode: number,
     start_date: Date,
     end_date: Date,
-    donation: boolean,
+    donation: number,
     type: string,
     roles:ICreatActivityRole[],
     files:File[]

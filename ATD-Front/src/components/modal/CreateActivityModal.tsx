@@ -17,18 +17,22 @@ import {FileInput, Label} from 'flowbite-react';
 import {PaperClipIcon} from "@heroicons/react/20/solid";
 import {getRecipesFilter} from "../../apiService/RecipeService";
 import {IActivityRecipe, IRecipe} from "../../interfaces/recipe";
+import {postActivity} from "../../apiService/ActivityService";
 
-export default function CreateActivivityModal({setOpenModal}: {
+export default function CreateActivivityModal({setOpenModal,start_date,end_date}: {
     setOpenModal: (value: boolean) => void,
+    start_date: Date,
+    end_date:Date
 }) {
 
 
     function Stepper() {
         return (
-            <ol className="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base mb-8">
-                <li className={`flex md:w-full items-center ${step >= 0 ? 'text-blue-600 dark:text-blue-500' : ''} sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
-        <span
-            className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+            !standBy ? (
+                <ol className="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base mb-8">
+                    <li className={`flex md:w-full items-center ${step >= 0 ? 'text-blue-600 dark:text-blue-500' : ''} sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
+                        <span
+                            className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
             {step >= 1 ? (
                 <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="currentColor" viewBox="0 0 20 20">
@@ -38,10 +42,10 @@ export default function CreateActivivityModal({setOpenModal}: {
             ) : (
                 <span className="me-2">1</span>
             )}
-            {t("createActivity.general")} <span className="hidden sm:inline-flex sm:ms-2">Info</span>
+                            {t("createActivity.general")} <span className="hidden sm:inline-flex sm:ms-2">Info</span>
         </span>
-                </li>
-                <li className={`flex md:w-full items-center ${step >= 1 ? 'text-blue-600 dark:text-blue-500' : ''} after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
+                    </li>
+                    <li className={`flex md:w-full items-center ${step >= 1 ? 'text-blue-600 dark:text-blue-500' : ''} after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
         <span
             className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
                         {step >= 2 ? (
@@ -57,8 +61,8 @@ export default function CreateActivivityModal({setOpenModal}: {
             {t("createActivity.roles")}
             <span className="hidden sm:inline-flex sm:ms-2">Info</span>
         </span>
-                </li>
-                <li className={`flex md:w-full items-center ${step >= 2 ? 'text-blue-600 dark:text-blue-500' : ''} after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
+                    </li>
+                    <li className={`flex md:w-full items-center ${step >= 2 ? 'text-blue-600 dark:text-blue-500' : ''} after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
         <span
             className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
                         {step >= 3 ? (
@@ -74,10 +78,10 @@ export default function CreateActivivityModal({setOpenModal}: {
             {t("createActivity.files")}
             <span className="hidden sm:inline-flex sm:ms-2">Info</span>
         </span>
-                </li>
+                    </li>
 
-                {types.filter(t => t.id === parseInt(activity.type))[0].access_to_journey ? (
-                    <li className={`flex md:w-full items-center ${step >= 3 ? 'text-blue-600 dark:text-blue-500' : ''} after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
+                    {types.filter(t => t.id === parseInt(activity.type))[0].access_to_journey ? (
+                        <li className={`flex md:w-full items-center ${step >= 3 ? 'text-blue-600 dark:text-blue-500' : ''} after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
         <span
             className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
                         {step >= 4 ? (
@@ -93,11 +97,11 @@ export default function CreateActivivityModal({setOpenModal}: {
             trajets
             <span className="hidden sm:inline-flex sm:ms-2">Info</span>
         </span>
-                    </li>
-                ) : null}
+                        </li>
+                    ) : null}
 
-                {types.filter(t => t.id === parseInt(activity.type))[0].access_to_warehouse ? (
-                    <li className={`flex md:w-full items-center ${step >= 4 ? 'text-blue-600 dark:text-blue-500' : ''} after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
+                    {types.filter(t => t.id === parseInt(activity.type))[0].access_to_warehouse ? (
+                        <li className={`flex md:w-full items-center ${step >= 4 ? 'text-blue-600 dark:text-blue-500' : ''} after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
         <span
             className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
                         {step >= 5 ? (
@@ -113,24 +117,24 @@ export default function CreateActivivityModal({setOpenModal}: {
             recettes
             <span className="hidden sm:inline-flex sm:ms-2">Info</span>
         </span>
+                        </li>
+                    ) : null}
+
+                    <li className={`flex items-center ${step >= 5 ? 'text-blue-600 dark:text-blue-500' : ''}`}>
+                        {step >= 6 ? (
+                            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                            </svg>
+                        ) : (
+                            <span className="me-2">3</span>
+                        )}
+                        Validation
                     </li>
-                ) : null}
-
-                <li className={`flex items-center ${step >= 5 ? 'text-blue-600 dark:text-blue-500' : ''}`}>
-                    {step >= 6 ? (
-                        <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true"
-                             xmlns="http://www.w3.org/2000/svg"
-                             fill="currentColor" viewBox="0 0 20 20">
-                            <path
-                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                        </svg>
-                    ) : (
-                        <span className="me-2">3</span>
-                    )}
-                    Validation
-                </li>
-            </ol>
-
+                </ol>
+            ) : null
         )
     }
 
@@ -142,7 +146,7 @@ export default function CreateActivivityModal({setOpenModal}: {
         zipcode: null,
         start_date: null,
         end_date: null,
-        donation: false,
+        donation: 0,
         type: '',
         roles: [],
         files: [],
@@ -154,6 +158,7 @@ export default function CreateActivivityModal({setOpenModal}: {
     const [recipes, setRecipes] = useState<IRecipe[]>([])
     const [step, setStep] = useState<number>(0)
     const [filter, setFilter] = useState<string>('');
+
 
 
     const {pushToast} = useToast();
@@ -171,6 +176,11 @@ export default function CreateActivivityModal({setOpenModal}: {
         getTypeF()
         getRoleF()
         getRecipesF()
+        setActivity(prevState => ({
+            ...prevState,
+            start_date: start_date,
+            end_date: end_date
+        }));
     }, []);
 
     function nextStep() {
@@ -422,6 +432,16 @@ export default function CreateActivivityModal({setOpenModal}: {
                 return recipe;
             }),
         }));
+    }
+
+    async function save() {
+        try {
+            const respons = await postActivity(activity,pushToast);
+            setRecipes(respons)
+            console.log(respons)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -677,7 +697,7 @@ export default function CreateActivivityModal({setOpenModal}: {
                                                                aria-hidden="true"/>
                                                 <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
                                                 <span
-                                                    className="truncate font-medium">{f.name}</span>
+                                                    className="truncate font-medium">{f.name.length > 30 ? `${f.name.slice(0, 30)}...` : f.name}</span>
                                                     <span
                                                         className="flex-shrink-0 text-gray-400">{(f.size / (1024 * 1024)).toFixed(2)} MB</span>
                                                 </div>
@@ -831,7 +851,82 @@ export default function CreateActivivityModal({setOpenModal}: {
                         </>
                     ) : step === 6 ? (
                         <>
+                            <div className="flex justify-between mt-8 p-4 flex-col">
+                                <div className="flex mb-4">
+                                    <h5 className="font-semibold text-gray-900 dark:text-white mr-8">Titre</h5>
+                                    <p className="mb-2 text-gray-500 dark:text-gray-400">{activity.title}</p>
+                                </div>
+                                <h5 className="font-semibold text-gray-900 dark:text-white mr-8">Description</h5>
+                                <div
+                                    style={{maxHeight: "150px"}}
+                                    className="overflow-y-auto scroll-container mb-4">
+                                    <p className="mb-2 text-gray-500 dark:text-gray-400">{activity.description}
+                                    </p>
+                                </div>
 
+                                <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">Roles</h5>
+                                <div
+                                    style={{maxHeight: "200px"}}
+                                    className="relative scroll-container overflow-x-auto mb-4">
+                                    <table
+                                        className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                        <thead
+                                            className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" className="px-6 py-3">
+                                                Name
+                                            </th>
+                                            <th scope="col" className="px-6 py-3">
+                                                Minimum
+                                            </th>
+                                            <th scope="col" className="px-6 py-3">
+                                                Maximum
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {activity.roles.map(r =>
+                                            <tr key={r.id}
+                                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <th scope="row"
+                                                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                    {r.name}
+                                                </th>
+                                                <td className="px-6 py-4">
+                                                    {r.limits.min}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    {r.limits.max}
+                                                </td>
+                                            </tr>
+                                        )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <h5 className="font-semibold text-gray-900 dark:text-white mr-8">Files</h5>
+
+                                <div
+                                    style={{maxHeight: '250px', overflowY: 'auto'}}
+                                    className="mt-4 scroll-container">
+                                    {activity.files.map((f) => (
+                                        <div key={f.name}
+                                             className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
+                                            <div className="flex items-center justify-between p-4 text-sm leading-6">
+                                                <div className="flex w-0 flex-1 items-center">
+                                                    <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400 "
+                                                                   aria-hidden="true"/>
+                                                    <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
+                                                <span
+                                                    className="truncate font-medium">{f.name.length > 30 ? `${f.name.slice(0, 30)}...` : f.name}</span>
+                                                        <span
+                                                            className="flex-shrink-0 text-gray-400">{(f.size / (1024 * 1024)).toFixed(2)} MB</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         </>
                     ) : null
                 ) : (
@@ -849,9 +944,9 @@ export default function CreateActivivityModal({setOpenModal}: {
                     </button>
                     {step === 6 ? (
                         <button
-                            onClick={() => nextStep()}
-                            className="text-white bg-red-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">
-                            {t("generic.next")}
+                            onClick={() => save()}
+                            className="text-white bg-green focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">
+                            {t("generic.saveButton")}
                         </button>
                     ) : (
                         <button
