@@ -10,9 +10,9 @@ function AdresseInput() {
     const handleInputChange = async (event) => {
         const inputValue = event.target.value;
         try {
-            const response = await postAddress(inputValue);
+            const response = await postAddress({input:inputValue});
             console.log(response)
-            //setSuggestions(response.data.predictions);
+            setSuggestions(response.data.data.predictions);
         } catch (error) {
             console.error('Erreur lors de la récupération des suggestions d\'adresse', error);
         }
@@ -22,7 +22,7 @@ function AdresseInput() {
         <div>
             <input type="text" placeholder="Entrez votre adresse" onChange={handleInputChange} />
             <ul>
-                {suggestions.map((suggestion) => (
+                {suggestions?.map((suggestion) => (
                     <li key={suggestion.id}>{suggestion.description}</li>
                 ))}
             </ul>

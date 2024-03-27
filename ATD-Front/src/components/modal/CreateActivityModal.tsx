@@ -475,7 +475,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
 
     async function autoCompleteAdress(value:string) {
         try {
-            const res = await postAddress(value, pushToast)
+            const res = await postAddress({input:value})
             console.log(res)
         } catch (error) {
             console.log(error)

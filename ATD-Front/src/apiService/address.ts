@@ -1,4 +1,4 @@
-import {postRequest, postRequestNoToast} from './apiService.js';
+import {postRequestNoToast} from './apiService.js';
 
 
 export const postAddress = async (params) => {
