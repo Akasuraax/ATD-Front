@@ -47,6 +47,7 @@ import ProductsList from "./page/Back/product/ProductsList";
 import AddProduct from "./page/Back/product/AddProduct";
 import ProductDetails from "./page/Back/product/productDetails";
 import Success from "./components/Success/Success.tsx";
+import DemandPage from "./page/Demand/Demand.tsx";
 
 
 
@@ -122,6 +123,17 @@ function App() {
                             path: 'benevole',
                             element: <VolunteerForm/>
                         }
+                    ]
+                },
+                {
+                    path: 'demand',
+                    element: <PrivateRoute roles={[1,2,3,4,5]}><Outlet/></PrivateRoute>,
+                    children: [
+                        {
+                            path: '',
+                            element: <DemandPage/>
+                        },
+
                     ]
                 },
                 {
