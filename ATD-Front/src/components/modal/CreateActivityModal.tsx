@@ -1,15 +1,13 @@
 'use client';
 
-import {Button, CustomFlowbiteTheme, Modal, Spinner, Textarea} from 'flowbite-react';
-import {IActivity, IAddActivity} from "../../interfaces/activity";
+import {CustomFlowbiteTheme, Modal, Spinner, Textarea} from 'flowbite-react';
+import {IAddActivity} from "../../interfaces/activity";
 import {useTranslation} from "react-i18next";
-import {useAuth} from "../../AuthProvider.jsx";
 import {useEffect, useState} from "react";
 import {ICreatActivityRole, IRole} from "../../interfaces/role";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import {getType, getTypes, getTypesAll} from "../../apiService/TypeService";
-import {getProductsFilter} from "../../apiService/productService";
+import {getTypesAll} from "../../apiService/TypeService";
 import {useToast} from "../Toast/ToastContex";
 import {IType} from "../../interfaces/type";
 import {getAllRoles} from "../../apiService/RoleService";
@@ -18,6 +16,9 @@ import {PaperClipIcon} from "@heroicons/react/20/solid";
 import {getRecipesFilter} from "../../apiService/RecipeService";
 import {IActivityRecipe, IRecipe} from "../../interfaces/recipe";
 import {postActivity} from "../../apiService/ActivityService";
+import {postAddress} from "../../apiService/address";
+import AdresseInput from "../input/AddressInput";
+
 
 export default function CreateActivivityModal({setOpenModal, start_date, end_date}: {
     setOpenModal: (value: boolean) => void,
@@ -184,8 +185,11 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
     }, []);
 
     function nextStep() {
+        const type: IType = types.filter(t => t.id === parseInt(activity.type))[0]
+
         switch (step) {
             case 0 :
+
                 if (activity.title === '') {
                     pushToast({
                         content: t("createActivity.noTitle"),
@@ -196,6 +200,13 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                 if (activity.description === '') {
                     pushToast({
                         content: t("createActivity.noDescription"),
+                        type: "failure"
+                    });
+                    return
+                }
+                if (activity.address === '' && !type.access_to_journey) {
+                    pushToast({
+                        content: t("createActivity.noAddress"),
                         type: "failure"
                     });
                     return
@@ -231,8 +242,6 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                 if (err.length > 0) return
                 break
             case 2 :
-                // eslint-disable-next-line no-case-declarations
-                const type: IType = types.filter(t => t.id === parseInt(activity.type))[0]
                 if (type.access_to_journey) setStep(3)
                 else if (type.access_to_warehouse) setStep(4)
                 else setStep(5)
@@ -464,6 +473,15 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
         }
     }
 
+    async function autoCompleteAdress(value:string) {
+        try {
+            const res = await postAddress(value, pushToast)
+            console.log(res)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <Modal theme={customTheme} show={true} onClose={() => setOpenModal(false)}>
             <Modal.Header>
@@ -517,7 +535,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createDescription')}</label>
                                 <Textarea
                                     style={{
-                                        minHeight: "250px",
+                                        minHeight: "150px",
                                         maxHeight: "500px"
                                     }}
                                     value={activity.description}
@@ -528,6 +546,13 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder={t("recipe.details") + "..."}>
                                 </Textarea>
+                                {!types.filter(t => t.id === parseInt(activity.type))[0].access_to_journey ? (
+                                    <div>
+                                        <label htmlFor="address"
+                                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createTitle')}</label>
+                                        <AdresseInput/>
+                                    </div>
+                                ): null }
                             </div>
                         </>
                     ) : step === 1 ? (
@@ -873,7 +898,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                         <>
                             <div className="flex justify-between mt-8 p-4 flex-col">
                                 <div className="flex mb-4">
-                                    <h5 className="font-semibold text-gray-900 dark:text-white mr-8">Titre</h5>
+                                    <h5 className="font-semibold text-gray-900 dark:text-white mr-8">Titre :</h5>
                                     <p className="mb-2 text-gray-500 dark:text-gray-400">{activity.title}</p>
                                 </div>
                                 <h5 className="font-semibold text-gray-900 dark:text-white mr-8">Description</h5>
@@ -950,14 +975,14 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                             ))}
                                         </div>
                                     </>
-                                ): null }
+                                ) : null}
 
                                 <div>
                                     <label className="inline-flex items-center cursor-pointer">
                                         <input
                                             type="checkbox"
                                             value={activity.public}
-                                            onChange={(e) => (updateField('public',e.target.checked))}
+                                            onChange={(e) => (updateField('public', e.target.checked))}
                                             className="sr-only peer"/>
                                         <div
                                             className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
