@@ -47,9 +47,7 @@ import ProductsList from "./page/Back/product/ProductsList";
 import AddProduct from "./page/Back/product/AddProduct";
 import ProductDetails from "./page/Back/product/productDetails";
 import Success from "./components/Success/Success.tsx";
-
-
-
+import Donation from "./page/Donation/Donation.tsx";
 
 
 function App() {
@@ -101,6 +99,10 @@ function App() {
                 {
                     path:'success',
                     element: <Success/>
+                },
+                {
+                  path:'donation',
+                  element: <Donation/>
                 },
                 {
                     path: 'register',

@@ -12,6 +12,10 @@ const getHeaders = () => {
     return headers;
 };
 
+export const getDonations = async (params, pushToast) => {
+    return getRequest('payment/' + params,'', pushToast);
+};
+
 export const postUser = async (params, pushToast, url) => {
     return postRequest(`signIn/${url}`,params, pushToast);
 };
@@ -94,5 +98,3 @@ export const postFile = async (params, data, pushToast) => {
         return null;
     }
 }
-
-

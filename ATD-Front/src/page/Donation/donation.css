@@ -1,0 +1,33 @@
+.donation-page{
+    flex:1;
+    display: flex;
+
+    h2{
+        color: black;
+    }
+    h3{
+        color: var(--pink-color);
+        font-size: 128px;
+    }
+
+    p{
+        width: 75%;
+        display: block;
+        margin:auto;
+        padding-bottom: 30px;
+    }
+
+    .donation-data{
+        padding-top: 8%;
+        flex: 2;
+        text-align: center;
+    }
+    .donation-image{
+        flex: 1;
+        background-image: url('../../../files/image/donation.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+}

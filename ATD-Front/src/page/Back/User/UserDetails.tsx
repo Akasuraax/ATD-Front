@@ -8,7 +8,8 @@ import {
     getUser,
     getUserFiles,
     patchUser,
-    patchUserAdmin
+    patchUserAdmin,
+    getDonations
 } from '../../../apiService/UserService';
 import {useToast} from '../../../components/Toast/ToastContex';
 import {IUser, IRole} from '../../../interfaces/user';
@@ -36,15 +37,24 @@ export default function UserDetails() {
     const [ban, setBan] = useState(false);
     const [textModal, setTextModal] = useState();
     const [files, setFiles] = useState([]);
-
+    const [donations, setDonations] = useState([]);
     const {t} = useTranslation();
 
 
     useEffect(() => {
-        rolesRequest();
-        sendRequest();
-        sendFiles();
+        requests()
     }, []);
+
+    async function requests() {
+        setStandBy(true)
+        await rolesRequest()
+        await sendRequest()
+        await getUserDonations()
+        await sendFiles()
+        setStandBy(false)
+
+    }
+
 
     useEffect(() => {
         setIsModified(!isEqual(user, newUser));
@@ -96,7 +106,16 @@ export default function UserDetails() {
             const userResponse = await getUser(userId, pushToast);
             setUser(userResponse);
             setNewUser(userResponse);
-            setStandBy(false);
+        } catch (error) {
+            setStandBy(true);
+        }
+    }
+
+    async function getUserDonations(){
+        setStandBy(true);
+        try{
+            const response = await getDonations(userId,pushToast);
+            setDonations(response)
         } catch (error) {
             setStandBy(true);
         }
@@ -458,23 +477,26 @@ export default function UserDetails() {
                                                         value={newUser.status}
                                                         onChange={(e) => updateUserField('status', e.target.value)}
                                                         input={<OutlinedInput label="Name"/>}>
-                                                            <MenuItem key={0} value={0}>{t("user.onStandby")}</MenuItem>
-                                                            <MenuItem key={1} value={1}>{t("user.validated")}</MenuItem>
-                                                            <MenuItem key={2} value={2}>{t("user.refused")}</MenuItem>
+                                                        <MenuItem key={0} value={0}>{t("user.onStandby")}</MenuItem>
+                                                        <MenuItem key={1} value={1}>{t("user.validated")}</MenuItem>
+                                                        <MenuItem key={2} value={2}>{t("user.refused")}</MenuItem>
                                                     </Select>
-                                                    ): (
-                                                <span>
+                                                ) : (
+                                                    <span>
                                                     {user.status === 0 && (
-                                                        <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{t("user.onStandby")}</span>
+                                                        <span
+                                                            className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{t("user.onStandby")}</span>
                                                     )}
-                                                    {user.status === 1 && (
-                                                        <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{t("user.validated")}</span>
-                                                    )}
-                                                    {user.status === 2 && (
-                                                        <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">{t("user.refused")}</span>
-                                                    )}
+                                                        {user.status === 1 && (
+                                                            <span
+                                                                className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">{t("user.validated")}</span>
+                                                        )}
+                                                        {user.status === 2 && (
+                                                            <span
+                                                                className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">{t("user.refused")}</span>
+                                                        )}
                                                 </span>
-                                                    )}
+                                                )}
                                             </div>
                                         </dd>
                                     </div>
@@ -513,32 +535,47 @@ export default function UserDetails() {
                                                 return (
                                                     <div key={data.id}>
                                                         <>
-                                                            <div className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
-                                                                <div className="flex items-center justify-between p-4 text-sm leading-6">
+                                                            <div
+                                                                className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
+                                                                <div
+                                                                    className="flex items-center justify-between p-4 text-sm leading-6">
                                                                     <div className="flex w-0 flex-1 items-center">
-                                                                        <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400 "
-                                                                                       aria-hidden="true"/>
-                                                                        <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
-                                                                            <span className="truncate font-medium">{data["link"].replace(/.*\//, '')}</span>
+                                                                        <PaperClipIcon
+                                                                            className="h-5 w-5 flex-shrink-0 text-gray-400 "
+                                                                            aria-hidden="true"/>
+                                                                        <div
+                                                                            className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
+                                                                            <span
+                                                                                className="truncate font-medium">{data["link"].replace(/.*\//, '')}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div className="ml-4 pl-2 flex-shrink-0">
                                                                         <button
                                                                             onClick={() => downloadUserFile(data["id"], data["link"].replace(/.*\//, ''))}>
-                                                                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                                                                 viewBox="0 0 24 24">
-                                                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                                                                            <svg
+                                                                                className="w-6 h-6 text-gray-800 dark:text-white"
+                                                                                aria-hidden="true"
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                width="24" height="24" fill="none"
+                                                                                viewBox="0 0 24 24">
+                                                                                <path stroke="currentColor"
+                                                                                      strokeLinecap="round"
+                                                                                      strokeLinejoin="round"
                                                                                       strokeWidth="2"
                                                                                       d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4"/>
                                                                             </svg>
                                                                         </button>
                                                                         <button
                                                                             onClick={() => deleteUserFile(user.id, data["id"])}>
-                                                                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                                                                 viewBox="0 0 24 24">
-                                                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                                                                            <svg
+                                                                                className="w-6 h-6 text-gray-800 dark:text-white"
+                                                                                aria-hidden="true"
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                width="24" height="24" fill="none"
+                                                                                viewBox="0 0 24 24">
+                                                                                <path stroke="currentColor"
+                                                                                      strokeLinecap="round"
+                                                                                      strokeLinejoin="round"
                                                                                       strokeWidth="2"
                                                                                       d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
                                                                             </svg>
@@ -550,6 +587,22 @@ export default function UserDetails() {
                                                     </div>
                                                 )
                                             })}
+                                        </div>
+                                    </div>
+                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900">{t('user.donations')}</dt>
+                                        <div className="d-flex flex-column">
+                                            {
+                                                donations["donations"].map(function (data) {
+                                                    return (
+                                                        <div key={data.id}>
+                                                            <p className="pb-3">{data.amount}€
+                                                                le {moment(data.created_at).format("DD/MM/YY")}</p>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                            <p>Total donné : {donations["total"]}€</p>
                                         </div>
                                     </div>
                                 </dl>
