@@ -126,7 +126,7 @@ export default function TypeDetails(){
                                                             padding: '0',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={newTypes?.name || type.name}
+                                                        value={newTypes?.name}
                                                         onChange={(e) => updateUserField('name', e.target.value)}
                                                     />
                                                 ) : (
@@ -152,7 +152,7 @@ export default function TypeDetails(){
                                                             padding: '0',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={newTypes?.description || type.description}
+                                                        value={newTypes?.description}
                                                         onChange={(e) => updateUserField('description', e.target.value)}
                                                     />
                                                 ) : (

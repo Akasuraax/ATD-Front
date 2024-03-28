@@ -48,8 +48,10 @@ import AddProduct from "./page/Back/product/AddProduct";
 import ProductDetails from "./page/Back/product/productDetails";
 import Success from "./components/Success/Success.tsx";
 import Donation from "./page/Donation/Donation.tsx";
+import PiecesList from "./page/Back/Piece/PiecesList.tsx";
+import PieceDetails from "./page/Back/Piece/PieceDetails.tsx";
+import AddPiece from "./page/Back/Piece/AddPiece.tsx";
 import AddVehicle from "./page/Back/Vehicle/addVehicle.tsx";
-
 
 function App() {
 
@@ -321,6 +323,24 @@ function App() {
                                     element: <TypeDetails/>
                                 }
                             ]
+                        },
+                        {
+                          path: 'pieces',
+                          element: <Outlet/>,
+                          children: [
+                              {
+                                  path:'',
+                                  element: <PiecesList/>
+                              },
+                              {
+                                  path:'add',
+                                  element: <AddPiece/>
+                              },
+                              {
+                                  path: ':pieceId',
+                                  element: <PieceDetails/>
+                              }
+                          ]
                         },
                         {
                             path: 'annexes',

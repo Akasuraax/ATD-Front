@@ -40,7 +40,7 @@ export default function AddProduct() {
                     type: "failure"
                 });
             } else {
-                navigate(`/back/roles/${respons.data.product.id}`)
+                navigate(`/back/products/${respons.data.product.id}`)
             }
         } catch (error) {
             console.log(error)
