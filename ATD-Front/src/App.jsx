@@ -48,6 +48,7 @@ import AddProduct from "./page/Back/product/AddProduct";
 import ProductDetails from "./page/Back/product/productDetails";
 import Success from "./components/Success/Success.tsx";
 import Donation from "./page/Donation/Donation.tsx";
+import AddVehicle from "./page/Back/Vehicle/addVehicle.tsx";
 
 
 function App() {
@@ -191,6 +192,10 @@ function App() {
                                 {
                                     path: ':vehiclesId',
                                     element: <VehicleDetails/>,
+                                },
+                                {
+                                    path: 'add',
+                                    element: <AddVehicle/>,
                                 }
                             ]
                         },

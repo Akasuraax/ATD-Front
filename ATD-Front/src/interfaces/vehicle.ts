@@ -10,3 +10,11 @@ export interface IVehicles {
     archive:boolean;
     created_at:Date;
 }
+
+export interface IAddVehicle{
+    name: string,
+    license_plate: string,
+    average_consumption: number,
+    fuel_type: string,
+    id_annexe: number
+}
