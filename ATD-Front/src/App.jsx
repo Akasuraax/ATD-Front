@@ -53,6 +53,7 @@ import Donation from "./page/Donation/Donation.tsx";
 function App() {
 
     const auth = useAuth();
+    console.log(auth.token)
     // eslint-disable-next-line react/prop-types
     function PrivateRoute({ children, roles = [] }) {
         if (!auth.token) return <Navigate to="/login" />;

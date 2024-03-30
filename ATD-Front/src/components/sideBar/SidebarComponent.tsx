@@ -69,7 +69,7 @@ export default function SidebarComponent() {
                                 <li>
                                     <NavLink to={'/donation'}
                                              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                        <i class="fi fi-rr-piggy-bank"></i>
+                                        <i className="fi fi-rr-piggy-bank"></i>
                                         <span className="ms-3">{t("sidebar.donation")}</span>
                                     </NavLink>
                                 </li>
@@ -106,13 +106,28 @@ export default function SidebarComponent() {
                                     </>
                                 ) : null}
                             </ul>
+
+                            {Acces([2]) ? (
+                                <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+                                    <h5 id="drawer-navigation-label"
+                                        className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">{t("sidebar.volunteer")}</h5>
+                                    <li>
+                                        <NavLink to={"/visit"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-br-users"></i>
+                                            <span className="ms-3">{t("sidebar.personVisit")}</span>
+                                        </NavLink>
+                                    </li>
+                                </ul>
+                            ) : null}
+
                             {/* Admin */}
                             {Acces([1]) ? (
                                 <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
                                     <h5 id="drawer-navigation-label"
                                         className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">{t("sidebar.admin")}</h5>
                                     <li>
-                                    <NavLink to={"/back/users"}
+                                        <NavLink to={"/back/users"}
                                                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                             <i className="fi fi-br-users"></i>
                                             <span className="ms-3">{t("sidebar.users")}</span>
@@ -191,7 +206,7 @@ export default function SidebarComponent() {
                                     </li>
                                     <li>
                                         <NavLink to={"/ticket/suivi"}
-                                           className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                             <i className="fi fi-ss-ticket-alt"></i>
                                             <span className="ms-3">Tickets</span>
                                         </NavLink>
