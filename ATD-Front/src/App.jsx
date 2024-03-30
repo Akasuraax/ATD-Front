@@ -10,7 +10,7 @@ import Error from "./page/error/error.tsx";
 import {createBrowserRouter, Navigate, Outlet, RouterProvider} from "react-router-dom";
 import Login from "./page/Login/Login.tsx";
 import Register from "./page/Register/Register.jsx";
-import Visit from "./page/Visit/Visit.jsx";
+import Visit from "./page/Visit/Visit";
 import BeneficiaryForm from "./page/Register/Forms/beneficiary.tsx";
 import PartnerForm from "./page/Register/Forms/partner.tsx";
 import VolunteerForm from "./page/Register/Forms/volunteer.tsx";
@@ -54,6 +54,7 @@ import AddVehicle from "./page/Back/Vehicle/addVehicle.tsx";
 function App() {
 
     const auth = useAuth();
+    console.log(auth.token)
     // eslint-disable-next-line react/prop-types
     function PrivateRoute({ children, roles = [] }) {
         if (!auth.token) return <Navigate to="/login" />;

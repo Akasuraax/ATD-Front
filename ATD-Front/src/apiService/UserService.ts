@@ -98,3 +98,7 @@ export const postFile = async (params, data, pushToast) => {
         return null;
     }
 }
+
+export const getVisitedPerson = async (params, pushToast) => {
+    return getRequest('user/visit',params, pushToast);
+};
