@@ -1,7 +1,7 @@
 import {getRequest, deleteRequest, patchRequest, postRequest} from './apiService.js';
 
 export const postActivity = async (params, pushToast) => {
-    return postRequest(`warehouse/`,params, pushToast);
+    return postRequest(`activity/`,params, pushToast);
 };
 export const getActivities = async (params, pushToast) => {
     return getRequest('activity',params, pushToast);

@@ -29,8 +29,11 @@ export const postRequest = async (url, data, pushToast) => {
             content: "L'élément a bien été envoyé",
             type: "success"
         });
+
         return res
     } catch(res) {
+        console.log(res)
+
         if(res.response.status !== 409)
         pushToast({
             content: "Une erreur est survenue",
@@ -39,6 +42,16 @@ export const postRequest = async (url, data, pushToast) => {
         return res.response
     }
 };
+
+export const postRequestNoToast = async (url, data) => {
+
+    try {
+        return await axios.post(`${API_BASE_URL}/${url}`, data, {headers: getHeaders()});
+    } catch(res) {
+        return res.response
+    }
+};
+
 
 export const patchRequest = async (url, data, pushToast) => {
 
@@ -73,7 +86,6 @@ export const getRequest = async (url, params, pushToast) => {
         return null
     }
 };
-
 
 export const deleteRequest = async (url, params, pushToast) => {
     try {

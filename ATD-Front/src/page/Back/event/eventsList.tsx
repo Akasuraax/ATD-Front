@@ -18,6 +18,8 @@ export default function EventsList() {
     const {t} = useTranslation();
     const [activities, setActivities] = useState<IActivity[] | null>([]);
     const [createModal, setCreateModal] = useState<boolean>(false);
+    const [date, setDate] = useState<Date[]>([]);
+
 
     const {pushToast} = useToast();
 
@@ -40,7 +42,7 @@ export default function EventsList() {
     }
 
     function createEvent(selectInfo) {
-
+        setDate([selectInfo.startStr,selectInfo.endStr])
         setCreateModal(true)
 
     }
@@ -75,6 +77,8 @@ export default function EventsList() {
             {createModal ? (
                 <CreateActivivityModal
                     setOpenModal={(v) => (setCreateModal(v))}
+                    start_date={date[0]}
+                    end_date={date[1]}
                 />
             ) : null}
         </main>

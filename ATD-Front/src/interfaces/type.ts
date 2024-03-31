@@ -7,7 +7,7 @@ export interface IAddType {
     access_to_journey:boolean;
 }
 
-export interface ITypes{
+export interface IType{
     id:number;
     name:string;
     display:boolean;
