@@ -43,6 +43,7 @@ export default function VehicleDetails() {
     const updateField = (field: string, value: any) => {
         if (field === "annexe") {
             const selectedAnnexe = annexe.find((a) => a.id === value);
+            console.log(selectedAnnexe)
             setNewVehicle((prev) => ({
                 ...prev,
                 [field]: selectedAnnexe || null,

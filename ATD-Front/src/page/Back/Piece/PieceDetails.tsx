@@ -2,6 +2,8 @@ import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useToast} from "../../../components/Toast/ToastContex";
 import {IPiece} from "../../../interfaces/piece";
+import {IProduct} from "../../../interfaces/product";
+import {IWarehouse} from "../../../interfaces/warehouse";
 import {useTranslation} from "react-i18next";
 import {deletePiece, getPiece, patchPiece} from "../../../apiService/PieceService";
 import moment from "moment/moment";
@@ -19,16 +21,12 @@ export default function PieceDetails(){
     const [isModified, setIsModified] = useState(false);
     const [newPiece, setNewPiece] = useState<IPiece | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [products, setProducts] = useState([]);
-    const [warehouses, setWarehouses] = useState([]);
     const [dataGrid, setDataGrid] = useState({});
     const [selectedDate, setSelectedDate] = useState({});
     const [selectedTime, setSelectedTime] = useState({});
-    const [selectedProductId, setSelectedProductId] = useState('');
-    const [selectedWarehouseId, setSelectedWarehouseId] = useState('');
-
     const {t} = useTranslation();
-
+    const [product, setProduct] = useState<IProduct[] | null>(null);
+    const [warehouse, setWarehouse] = useState<IWarehouse[] | null>(null);
 
     useEffect(() => {
         sendRequest();
@@ -39,17 +37,35 @@ export default function PieceDetails(){
     }, [newPiece]);
 
     const updateUserField = (field: string, value: any) => {
-        setNewPiece((prevUser) => ({
-            ...prevUser,
-            [field]: value,
-        }));
+        if (field === "product") {
+            const selectedProduct : IProduct = product.find((a) => a.id == value);
+            console.log("selected", selectedProduct)
+            console.log("1",newPiece)
+            setNewPiece((prev) => ({
+                ...prev,
+                [field]:  selectedProduct ,
+            }));
+            console.log("2",newPiece)
+        }if (field === "warehouse") {
+            const selectedWarehouse : IWarehouse = warehouse.find((a) => a.id == value);
+            setNewPiece((prev) => ({
+                ...prev,
+                [field]: selectedWarehouse || null,
+            }));
+        }else{
+            setNewPiece((prev) => ({
+                ...prev,
+                [field]: value,
+            }));
+        }
     };
 
     async function save() {
         try {
             const patchRespons = await patchPiece(newPiece, pushToast, pieceId);
-            setPiece(patchRespons.piece);
-            setNewPiece(patchRespons.piece);
+            console.log(patchRespons)
+            setPiece(patchRespons);
+            setNewPiece(patchRespons);
             setEdit(false)
         }catch (error) {
             console.log(error)
@@ -59,16 +75,15 @@ export default function PieceDetails(){
         setStandBy(true);
         try {
             const response = await getPiece(pieceId, pushToast);
+            console.log(response)
             const productsResponse = await getProducts(dataGrid, pushToast);
             const warehousesResponse = await getWarehouses(dataGrid, pushToast);
-            setSelectedProductId(response[0].product.id)
-            setSelectedWarehouseId(response[0].warehouse.id)
 
             setSelectedDate(moment(response[0].expired_date).format('DD/MM/yyyy'))
             setSelectedTime(moment(response[0].expired_date).format('HH:ii'))
 
-            setProducts(productsResponse.data);
-            setWarehouses(warehousesResponse.data);
+            setProduct(productsResponse.data);
+            setWarehouse(warehousesResponse.data);
             setPiece(response[0])
             setNewPiece(response[0]);
             setStandBy(false);
@@ -109,7 +124,7 @@ export default function PieceDetails(){
                                             <div className="flex items-center justify-end">
                                                 {edit ? (
                                                     <select
-                                                        name="id_product"
+                                                        name="product"
                                                         required={true}
                                                         style={{
                                                             border: '1px solid black',
@@ -117,13 +132,12 @@ export default function PieceDetails(){
                                                             padding: '0.25rem 3rem',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={selectedProductId}
+                                                        value={newPiece?.product.id}
                                                         onChange={(e) => {
-                                                            setSelectedProductId(e.target.value);
-                                                            updateUserField('id_product', e.target.value);
+                                                            updateUserField('product', e.target.value);
                                                         }}>
                                                         {
-                                                            products.map(function (data) {
+                                                            product.map(function (data) {
                                                                 return (
                                                                     <option key={data.id}
                                                                             value={data.id}>{data.name}</option>
@@ -132,7 +146,7 @@ export default function PieceDetails(){
                                                         }
                                                     </select>
                                                 ) : (
-                                                    <span>{newPiece.product.name}</span>
+                                                    <span>{newPiece?.product.name}</span>
                                                 )}
                                             </div>
                                         </dd>
@@ -168,7 +182,7 @@ export default function PieceDetails(){
                                         <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('pieces.measure')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                             <div className="flex items-center justify-end ">
-                                                <span>{newPiece.product.measure}</span>
+                                                <span>{newPiece?.product?.measure}</span>
                                             </div>
                                         </dd>
                                     </div>
@@ -179,7 +193,7 @@ export default function PieceDetails(){
                                             <div className="flex items-center justify-end ">
                                                 {edit ? (
                                                     <select
-                                                        name="id_warehouse"
+                                                        name="warehouse"
                                                         required={true}
                                                         style={{
                                                             border: '1px solid black',
@@ -187,14 +201,12 @@ export default function PieceDetails(){
                                                             padding: '0.25rem 3rem',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={selectedWarehouseId}
+                                                        value={newPiece?.warehouse.id}
                                                         onChange={(e) => {
-                                                            
-                                                            setSelectedWarehouseId(e.target.value);
-                                                            updateUserField("id_warehouse", e.target.value);
+                                                            updateUserField("warehouse", e.target.value);
                                                         }}>
                                                         {
-                                                            warehouses.map(function (data) {
+                                                            warehouse.map(function (data) {
                                                                 return (
                                                                     <option key={data.id}
                                                                             value={data.id}>{data.name}</option>
@@ -203,7 +215,7 @@ export default function PieceDetails(){
                                                         }
                                                     </select>
                                                 ) : (
-                                                    <span>{newPiece.warehouse.name}</span>
+                                                    <span>{newPiece?.warehouse.name}</span>
                                                 )}
                                             </div>
                                         </dd>
