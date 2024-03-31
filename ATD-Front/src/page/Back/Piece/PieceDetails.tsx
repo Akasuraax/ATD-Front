@@ -12,6 +12,7 @@ import DeleteModal from "../../../components/modal/deleteModal";
 import isEqual from 'lodash/isEqual';
 import {getProducts} from "../../../apiService/productService";
 import {getWarehouses} from "../../../apiService/WarehouseService";
+import {generateQr} from "../../../apiService/PieceService";
 export default function PieceDetails(){
     const {pieceId} = useParams();
     const [standBy, setStandBy] = useState(true);
@@ -27,6 +28,7 @@ export default function PieceDetails(){
     const {t} = useTranslation();
     const [product, setProduct] = useState<IProduct[] | null>(null);
     const [warehouse, setWarehouse] = useState<IWarehouse[] | null>(null);
+    const [qrImageUrl, setQrImageUrl] = useState(null);
 
     useEffect(() => {
         sendRequest();
@@ -39,13 +41,10 @@ export default function PieceDetails(){
     const updateUserField = (field: string, value: any) => {
         if (field === "product") {
             const selectedProduct : IProduct = product.find((a) => a.id == value);
-            console.log("selected", selectedProduct)
-            console.log("1",newPiece)
             setNewPiece((prev) => ({
                 ...prev,
-                [field]:  selectedProduct ,
+                [field]:  selectedProduct || null,
             }));
-            console.log("2",newPiece)
         }if (field === "warehouse") {
             const selectedWarehouse : IWarehouse = warehouse.find((a) => a.id == value);
             setNewPiece((prev) => ({
@@ -63,7 +62,6 @@ export default function PieceDetails(){
     async function save() {
         try {
             const patchRespons = await patchPiece(newPiece, pushToast, pieceId);
-            console.log(patchRespons)
             setPiece(patchRespons);
             setNewPiece(patchRespons);
             setEdit(false)
@@ -75,7 +73,6 @@ export default function PieceDetails(){
         setStandBy(true);
         try {
             const response = await getPiece(pieceId, pushToast);
-            console.log(response)
             const productsResponse = await getProducts(dataGrid, pushToast);
             const warehousesResponse = await getWarehouses(dataGrid, pushToast);
 
@@ -104,6 +101,17 @@ export default function PieceDetails(){
         }
         setIsModalOpen(false);
     };
+
+    const showQr = async() => {
+        setStandBy(true);
+        try {
+            const response = await generateQr(pieceId, pushToast);
+            setQrImageUrl(response);
+            setStandBy(false);
+        } catch (error) {
+            setStandBy(true);
+        }
+    }
 
 
     return (
@@ -322,6 +330,15 @@ export default function PieceDetails(){
                         </div>
                         <div className="m-4 border p-8 rounded-xl shadow-md">
                             <button
+                                className={`block w-full text-white ${piece.archive ? 'bg-purple-300 cursor-not-allowed' : 'bg-purple-700 cursor-pointer hover:bg-purple-800'}  focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800`}
+                                onClick={() => {
+                                   showQr()
+                                }}
+                            >
+                                {t('pieces.qrCode')}
+                            </button>
+
+                            <button
                                 disabled={piece.archive}
                                 onClick={() => {
                                     setEdit(!edit);
@@ -350,6 +367,12 @@ export default function PieceDetails(){
                             </button>
 
                         </div>
+
+                        {qrImageUrl && (
+                            <div className="m-4 border p-8 rounded-xl shadow-md">
+                                    <div dangerouslySetInnerHTML={{__html: qrImageUrl}}/>
+                            </div>
+                        )}
                     </>
                 ) : (
                     <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>

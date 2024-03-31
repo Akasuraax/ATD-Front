@@ -1,8 +1,8 @@
 import {deleteRequest, getRequest, logIn, patchRequest, postRequest} from './apiService.js';
 import axios from "axios";
 import Cookies from "js-cookie";
+import {API_BASE_URL} from "./apiService.js";
 
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
 const getHeaders = () => {
     const headers = {
         'Content-Type': 'multipart/form-data',
