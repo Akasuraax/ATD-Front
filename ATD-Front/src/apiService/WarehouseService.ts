@@ -7,6 +7,10 @@ export const getWarehouses = async (params, pushToast) => {
     return getRequest('warehouse',params, pushToast);
 };
 
+export const getAllWarehouses = async (pushToast) => {
+    return getRequest('warehouse/all',null, pushToast);
+};
+
 export const getWarehouse = async (params, pushToast) => {
     return getRequest('warehouse/' + params,'', pushToast);
 };

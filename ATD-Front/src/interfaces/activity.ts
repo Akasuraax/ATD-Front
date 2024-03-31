@@ -1,5 +1,8 @@
 import {ICreatActivityRole, IRole} from './role'
 import {IActivityRecipe, IRecipe} from "./recipe";
+import {IWarehouse} from "./warehouse";
+import {IVehicles} from "./vehicle";
+import {IAnnexes} from "./annexe";
 
 export interface IActivity2{
     name:string,
@@ -33,7 +36,10 @@ export interface IAddActivity {
     public:boolean
     roles:ICreatActivityRole[],
     files:File[]
-    recipes:IActivityRecipe[]
+    recipes:IActivityRecipe[],
+    annexe:IAnnexes,
+    journeySteps:string[],
+    vehicle:IVehicles,
 }
 export class Activity implements IActivity2{
     name:string

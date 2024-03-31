@@ -15,10 +15,14 @@ import {FileInput, Label} from 'flowbite-react';
 import {PaperClipIcon} from "@heroicons/react/20/solid";
 import {getRecipesFilter} from "../../apiService/RecipeService";
 import {IActivityRecipe, IRecipe} from "../../interfaces/recipe";
-import {postActivity} from "../../apiService/ActivityService";
+import {postActivity, routePlanner} from "../../apiService/ActivityService";
 import {postAddress} from "../../apiService/address";
 import AddressInput from "../input/AddressInput";
-
+import {getAllWarehouses} from "../../apiService/WarehouseService";
+import {IWarehouse} from "../../interfaces/warehouse";
+import {getAllVehicles} from "../../apiService/vehiclesService";
+import {getAnnexesAll} from "../../apiService/annexe";
+import {IAnnexes} from "../../interfaces/annexe";
 
 
 export default function CreateActivivityModal({setOpenModal, start_date, end_date}: {
@@ -41,10 +45,8 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                     <path
                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                 </svg>
-            ) : (
-                <span className="me-2">1</span>
-            )}
-                            {t("createActivity.general")} <span className="hidden sm:inline-flex sm:ms-2">Info</span>
+            ) : null}
+                            {t("createActivity.general")} <span className="hidden sm:inline-flex sm:ms-2"></span>
         </span>
                     </li>
                     <li className={`flex md:w-full items-center ${step >= 1 ? 'text-blue-600 dark:text-blue-500' : ''} after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
@@ -57,9 +59,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                 <path
                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                             </svg>
-                        ) : (
-                            <span className="me-2">2</span>
-                        )}
+                        ) : null}
             {t("createActivity.roles")}
             <span className="hidden sm:inline-flex sm:ms-2">Info</span>
         </span>
@@ -74,9 +74,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                 <path
                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                             </svg>
-                        ) : (
-                            <span className="me-2">2</span>
-                        )}
+                        ) : null}
             {t("createActivity.files")}
             <span className="hidden sm:inline-flex sm:ms-2">Info</span>
         </span>
@@ -93,9 +91,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                 <path
                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                             </svg>
-                        ) : (
-                            <span className="me-2">2</span>
-                        )}
+                        ) : null}
             trajets
             <span className="hidden sm:inline-flex sm:ms-2">Info</span>
         </span>
@@ -113,9 +109,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                 <path
                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                             </svg>
-                        ) : (
-                            <span className="me-2">2</span>
-                        )}
+                        ) : null}
             recettes
             <span className="hidden sm:inline-flex sm:ms-2">Info</span>
         </span>
@@ -130,9 +124,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                 <path
                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                             </svg>
-                        ) : (
-                            <span className="me-2">3</span>
-                        )}
+                        ) : null}
                         Validation
                     </li>
                 </ol>
@@ -153,11 +145,18 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
         public: false,
         roles: [],
         files: [],
-        recipes: []
+        recipes: [],
+        annexe: null,
+        journeySteps: [],
+        vehicle: null,
     })
     const [standBy, setStandBy] = useState<boolean>(true)
     const [types, setTypes] = useState<IType[]>([])
+    const [warehouses, setWarehouses] = useState<IWarehouse[]>([])
     const [roles, setRoles] = useState<IRole[]>([])
+    const [annexes, setAnnexes] = useState<IAnnexes[]>([])
+    const [addressAnnexe, setAddressAnnexe] = useState<string>('')
+    const [addressWarehouse, setAddressWarehouse] = useState<string>('')
     const [recipes, setRecipes] = useState<IRecipe[]>([])
     const [step, setStep] = useState<number>(0)
     const [filter, setFilter] = useState<string>('');
@@ -178,6 +177,8 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
         getTypeF()
         getRoleF()
         getRecipesF()
+        getWarehouseF()
+        getAnnexeF()
         setActivity(prevState => ({
             ...prevState,
             start_date: start_date,
@@ -255,7 +256,6 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
 
     function previousStep() {
         const type: IType = types.filter(t => t.id === parseInt(activity.type))[0]
-        console.log(step)
         if (step === 5 && type.access_to_warehouse) {
             setStep(4)
             return
@@ -284,6 +284,47 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
             } else {
                 pushToast({
                     content: "Pas de types",
+                    type: "failure"
+                });
+            }
+            setStandBy(false)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async function getWarehouseF() {
+        setStandBy(true)
+        try {
+            const respons = await getAllWarehouses(pushToast);
+
+            if (respons.length !== 0) {
+                setWarehouses(respons)
+                setAddressWarehouse(respons[0].address)
+            } else {
+                pushToast({
+                    content: "Pas d'entrepot",
+                    type: "failure"
+                });
+            }
+            setStandBy(false)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async function getAnnexeF() {
+        setStandBy(true)
+        try {
+            const respons = await getAnnexesAll(pushToast);
+            if (respons.length !== 0) {
+                setAnnexes(respons)
+                setAddressAnnexe(respons[0].address)
+            } else {
+                pushToast({
+                    content: "Pas d'annexe",
                     type: "failure"
                 });
             }
@@ -332,7 +373,6 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
     }
 
     const updateField = (field: string, value: any) => {
-        console.log(value)
         setActivity((prev) => ({
             ...prev,
             [field]: value,
@@ -356,7 +396,6 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
     };
 
     const addRecipe = (r: IRecipe) => {
-        console.log(r)
         const recipeToAdd: IActivityRecipe = {
             id: r.id,
             name: r.name,
@@ -368,12 +407,9 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
             ...prev,
             recipes: [...prev.recipes, recipeToAdd],
         }));
-
-        console.log(activity.recipes)
     };
 
     const remove = (id: number, field: string) => {
-        console.log(field)
         setActivity((prevActivity) => ({
             ...prevActivity,
             [field]: prevActivity[field].filter(v => v.id !== id),
@@ -463,25 +499,55 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
         }));
     }
 
+    const updateAnnexe = (value) => {
+        const annexe = annexes.find(w => w.id === value);
+
+        if (annexe) {
+            setActivity((prevActivity) => ({
+                ...prevActivity,
+                annexe: annexe,
+            }));
+        }
+    }
+
     async function save() {
         try {
-            console.log(activity)
             const respons = await postActivity(activity, pushToast);
             setRecipes(respons)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const addAddressToJourney = (a) => {
+        setActivity((prevActivity) => ({
+            ...prevActivity,
+            journeySteps: [...activity.journeySteps, a.label]
+        }));
+    }
+
+    async function itinerary() {
+        let itinerary = []
+        if(types.filter(t => t.id === parseInt(activity.type))[0].access_to_warehouse)
+            itinerary = [addressWarehouse, ...activity.journeySteps];
+        else {
+            itinerary = [addressAnnexe, ...activity.journeySteps];
+        }
+        try {
+            const respons = await routePlanner({steps:itinerary}, pushToast);
             console.log(respons)
         } catch (error) {
             console.log(error)
         }
     }
 
-    async function autoCompleteAdress(value:string) {
-        try {
-            const res = await postAddress({input:value})
-            console.log(res)
-        } catch (error) {
-            console.log(error)
-        }
+    const deleteStep = (s) => {
+        setActivity((prevActivity) => ({
+            ...prevActivity,
+            journeySteps: prevActivity.journeySteps.filter(step => step !== s)
+        }));
     }
+
 
     return (
         <Modal theme={customTheme} show={true} onClose={() => setOpenModal(false)}>
@@ -552,11 +618,11 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                         <label htmlFor="address"
                                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.address')}</label>
                                         <AddressInput
-                                        onAddressSelect={(address) => updateField('address', address.value.description)}
-                                        address={activity?.address}
+                                            onAddressSelect={(address) => updateField('address', address.value.description)}
+                                            address={activity?.address}
                                         />
                                     </div>
-                                ): null }
+                                ) : null}
                             </div>
                         </>
                     ) : step === 1 ? (
@@ -764,36 +830,88 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                         </>
                     ) : step === 3 ? (
                         <>
+                            <h3>Trajet</h3>
+                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                <dd className=" mt-1 text-sm leading-6 text-gray-700 sm:col-span-3">
+                                    <div>
+                                        <h3>Annexe de départ</h3>
+                                        <select
+                                            value={addressAnnexe}
+                                            onChange={(e) => setAddressAnnexe(e.target.value)}>
+                                            {annexes.map(w => (
+                                                <option key={w.id} value={w.address}>{w.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    {types.filter(t => t.id === parseInt(activity.type))[0].access_to_warehouse ? (
+                                        <div>
+                                            <h3>Entrepot</h3>
+                                            <select
+                                                value={addressWarehouse}
+                                                onChange={(e) => setAddressWarehouse(e.target.value)}>
+                                                {warehouses.map(w => (
+                                                    <option key={w.id} value={w.address}>{w.name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    ): null}
+                                </dd>
+                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3">
+                                    <>
+                                        {activity.journeySteps.map(s => (
+                                            <div key={s} className={"flex justify-between"}>
+                                                <p className="mt-4 text-sm font-medium text-gray-900 truncate dark:text-white"
+                                                >{s}</p>
+                                                <button
+                                                    onClick={() => deleteStep(s)}>
+                                                    <i className="fi fi-rr-cross"></i>
+                                                </button>
+                                            </div>
+                                        ))}
+                                        <AddressInput
+                                            onAddressSelect={addAddressToJourney}
+                                        />
+                                    </>
+                                </dd>
+                                <button
+                                    onClick={() => itinerary()}
+                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">
+                                    Calculer itinéraire
+                                </button>
+                            </div>
+                        </>
+                    ) : step === 4 ? (
+                        <>
                             <h3>Recettes</h3>
                             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3">
-                                        <span
-                                            className="flex mb-6"
-                                            style={{
-                                                borderBottom: '1px solid black',
-                                            }}
-                                        >
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            required={true}
-                                            style={{
-                                                borderBottom: '0px solid black',
-                                                borderLeft: 'none',
-                                                borderRight: 'none',
-                                                borderTop: 'none',
-                                                margin: '0',
-                                                padding: '0',
-                                                fontSize: '0.875rem',
-                                                width: '100%'
-                                            }}
-                                            value={filter}
-                                            onKeyDown={(e) => e.key === 'Enter' ? getRecipes() : null}
-                                            onChange={(e) => setFilter(e.target.value)}
-                                        />
-                                        <button onClick={getRecipes} type="button"><i
-                                            className="fi fi-br-search text-xl"></i></button>
-                                        </span>
+                    <span
+                        className="flex mb-6"
+                        style={{
+                            borderBottom: '1px solid black',
+                        }}
+                    >
+                    <input
+                        type="text"
+                        name="name"
+                        required={true}
+                        style={{
+                            borderBottom: '0px solid black',
+                            borderLeft: 'none',
+                            borderRight: 'none',
+                            borderTop: 'none',
+                            margin: '0',
+                            padding: '0',
+                            fontSize: '0.875rem',
+                            width: '100%'
+                        }}
+                        value={filter}
+                        onKeyDown={(e) => e.key === 'Enter' ? getRecipes() : null}
+                        onChange={(e) => setFilter(e.target.value)}
+                    />
+                    <button onClick={getRecipes} type="button"><i
+                        className="fi fi-br-search text-xl"></i></button>
+                    </span>
                                     <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
                                         {recipes
                                             .filter(r => !activity.recipes.some(recipe => recipe.id === r.id))
@@ -952,34 +1070,36 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                         </tbody>
                                     </table>
                                 </div>
-                                {activity.files.length > 0 ? (
-                                    <>
-                                        <h5 className="font-semibold text-gray-900 dark:text-white mr-8">Files</h5>
-                                        <div
-                                            style={{maxHeight: '250px', overflowY: 'auto'}}
-                                            className="mt-4 scroll-container">
-                                            {activity.files.map((f) => (
-                                                <div key={f.name}
-                                                     className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
-                                                    <div
-                                                        className="flex items-center justify-between p-4 text-sm leading-6">
-                                                        <div className="flex w-0 flex-1 items-center">
-                                                            <PaperClipIcon
-                                                                className="h-5 w-5 flex-shrink-0 text-gray-400 "
-                                                                aria-hidden="true"/>
-                                                            <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
+                                {
+                                    activity.files.length > 0 ? (
+                                        <>
+                                            <h5 className="font-semibold text-gray-900 dark:text-white mr-8">Files</h5>
+                                            <div
+                                                style={{maxHeight: '250px', overflowY: 'auto'}}
+                                                className="mt-4 scroll-container">
+                                                {activity.files.map((f) => (
+                                                    <div key={f.name}
+                                                         className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
+                                                        <div
+                                                            className="flex items-center justify-between p-4 text-sm leading-6">
+                                                            <div className="flex w-0 flex-1 items-center">
+                                                                <PaperClipIcon
+                                                                    className="h-5 w-5 flex-shrink-0 text-gray-400 "
+                                                                    aria-hidden="true"/>
+                                                                <div className="ml-4 flex min-w-0 flex-1 gap-2 pl-2">
                                                 <span
                                                     className="truncate font-medium">{f.name.length > 30 ? `${f.name.slice(0, 30)}...` : f.name}</span>
-                                                                <span
-                                                                    className="flex-shrink-0 text-gray-400">{(f.size / (1024 * 1024)).toFixed(2)} MB</span>
+                                                                    <span
+                                                                        className="flex-shrink-0 text-gray-400">{(f.size / (1024 * 1024)).toFixed(2)} MB</span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </>
-                                ) : null}
+                                                ))}
+                                            </div>
+                                        </>
+                                    ) : null
+                                }
 
                                 <div>
                                     <label className="inline-flex items-center cursor-pointer">

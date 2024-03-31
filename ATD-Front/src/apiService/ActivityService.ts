@@ -23,3 +23,7 @@ export const deleteActivity = async ( pushToast, url?) => {
 export const patchActivity = async (params, pushToast,userId) => {
     return patchRequest(`warehouse/${userId}`,params, pushToast);
 };
+
+export const routePlanner = async (params, pushToast) => {
+    return postRequest(`journey/best_path`,params, pushToast);
+};
