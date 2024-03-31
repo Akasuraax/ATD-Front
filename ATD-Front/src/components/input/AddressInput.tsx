@@ -1,33 +1,24 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import {postAddress} from "../../apiService/address";
-import {useToast} from "../Toast/ToastContex";
+import React, {useState} from 'react';
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
-function AdresseInput() {
-    const [suggestions, setSuggestions] = useState([]);
-    const {pushToast} = useToast();
 
-    const handleInputChange = async (event) => {
-        const inputValue = event.target.value;
-        try {
-            const response = await postAddress({input:inputValue});
-            console.log(response)
-            setSuggestions(response.data.data.predictions);
-        } catch (error) {
-            console.error('Erreur lors de la récupération des suggestions d\'adresse', error);
-        }
-    };
+const AddressInput = ({ onAddressSelect, address }) => {
+
+    const [selectedPlace, setSelectedPlace] = useState();
 
     return (
         <div>
-            <input type="text" placeholder="Entrez votre adresse" onChange={handleInputChange} />
-            <ul>
-                {suggestions?.map((suggestion) => (
-                    <li key={suggestion.id}>{suggestion.description}</li>
-                ))}
-            </ul>
+            <GooglePlacesAutocomplete
+                apiKey="AIzaSyCTX6tfJY5SiK7aCEOjROPRZvy4c9-WzDY"
+                apiOptions={{ language: 'fr', region: 'fr' }}
+                selectProps={{
+                    address,
+                    onChange: onAddressSelect,
+                }}
+            />
         </div>
     );
 }
 
-export default AdresseInput;
+
+export default AddressInput;

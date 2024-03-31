@@ -17,7 +17,8 @@ import {getRecipesFilter} from "../../apiService/RecipeService";
 import {IActivityRecipe, IRecipe} from "../../interfaces/recipe";
 import {postActivity} from "../../apiService/ActivityService";
 import {postAddress} from "../../apiService/address";
-import AdresseInput from "../input/AddressInput";
+import AddressInput from "../input/AddressInput";
+
 
 
 export default function CreateActivivityModal({setOpenModal, start_date, end_date}: {
@@ -547,10 +548,13 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                     placeholder={t("recipe.details") + "..."}>
                                 </Textarea>
                                 {!types.filter(t => t.id === parseInt(activity.type))[0].access_to_journey ? (
-                                    <div>
+                                    <div className={"mt-4"}>
                                         <label htmlFor="address"
-                                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createTitle')}</label>
-                                        <AdresseInput/>
+                                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.address')}</label>
+                                        <AddressInput
+                                        onAddressSelect={(address) => updateField('address', address.value.description)}
+                                        address={activity?.address}
+                                        />
                                     </div>
                                 ): null }
                             </div>
