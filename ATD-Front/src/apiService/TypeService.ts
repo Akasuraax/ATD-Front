@@ -65,6 +65,7 @@ export const patchType = async (typeData, pushToast, id) => {
         const formData = new FormData();
         formData.append('name', typeData.name);
         formData.append('description', typeData.description);
+        formData.append('color', typeData.color);
         formData.append('display', typeData.display ? '1' : '0');
         if (typeData.type_image != null)formData.append('type_image', typeData.type_image);
         formData.append('access_to_warehouse', typeData.access_to_warehouse ? '1' : '0');

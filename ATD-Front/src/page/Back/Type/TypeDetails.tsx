@@ -11,6 +11,7 @@ import {deleteType, getType, patchType} from "../../../apiService/TypeService";
 import {downloadFile} from "../../../apiService/TypeService";
 import {PaperClipIcon} from "@heroicons/react/20/solid";
 
+
 export default function TypeDetails(){
     const {typeId} = useParams();
     const [standBy, setStandBy] = useState(true);
@@ -157,6 +158,32 @@ export default function TypeDetails(){
                                                     />
                                                 ) : (
                                                     <span>{newTypes.description}</span>
+                                                )}
+                                            </div>
+                                        </dd>
+                                    </div>
+
+                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('types.color')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                            <div className="flex items-center justify-end">
+                                                {edit ? (
+                                                    <input
+                                                        type="text"
+                                                        style={{
+                                                            borderBottom: '1px solid black',
+                                                            borderLeft: 'none',
+                                                            borderRight: 'none',
+                                                            borderTop: 'none',
+                                                            margin: '0',
+                                                            padding: '0',
+                                                            fontSize: '0.875rem'
+                                                        }}
+                                                        value={newTypes?.color}
+                                                        onChange={(e) => updateUserField('color', e.target.value)}
+                                                    />
+                                                ) : (
+                                                    <span style={{color:newTypes.color}}>{newTypes.color}</span>
                                                 )}
                                             </div>
                                         </dd>
@@ -338,7 +365,7 @@ export default function TypeDetails(){
                                     setIsModalOpen(true);
                                 }}
                                 className={`block w-full focus:outline-none text-white ${type.archive ? 'bg-yellow-100 cursor-not-allowed' : 'bg-yellow-400 cursor-pointer hover:bg-yellow-500'}  focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:focus:ring-yellow-900`}>
-                            {t('generic.deleteButton')}
+                                {t('generic.deleteButton')}
                             </button>
 
                             <button

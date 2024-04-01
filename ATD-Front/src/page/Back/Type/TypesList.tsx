@@ -36,6 +36,13 @@ function TypesList(){
             editable: false,
         },
         {
+            field: 'color',
+            headerName: t("types.color"),
+            width: 250,
+            editable: false,
+            renderCell: (params) => renderColorCell(params.value),
+        },
+        {
             field: 'access_to_warehouse',
             headerName: t("types.access_to_warehouse"),
             width: 175,
@@ -65,6 +72,10 @@ function TypesList(){
         if (archived) return <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">archivé</span>
         else return <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">actif</span>
 
+    };
+
+    const renderColorCell = (color: string) => {
+        return <span style={{color:color}}>{color}</span>
     };
 
     // page change
