@@ -40,18 +40,22 @@ export default function PieceDetails(){
 
     const updateUserField = (field: string, value: any) => {
         if (field === "product") {
-            const selectedProduct : IProduct = product.find((a) => a.id == value);
-            setNewPiece((prev) => ({
-                ...prev,
-                [field]:  selectedProduct || null,
-            }));
-        }if (field === "warehouse") {
-            const selectedWarehouse : IWarehouse = warehouse.find((a) => a.id == value);
-            setNewPiece((prev) => ({
-                ...prev,
-                [field]: selectedWarehouse || null,
-            }));
-        }else{
+            const selectedProduct : IProduct | undefined = product.find((a) => a.id == value);
+            if (selectedProduct) {
+                setNewPiece((prev) => ({
+                    ...prev,
+                    [field]:  selectedProduct,
+                }));
+            }
+        } else if (field === "warehouse") {
+            const selectedWarehouse : IWarehouse | undefined = warehouse.find((a) => a.id == value);
+            if (selectedWarehouse) {
+                setNewPiece((prev) => ({
+                    ...prev,
+                    [field]: selectedWarehouse,
+                }));
+            }
+        } else {
             setNewPiece((prev) => ({
                 ...prev,
                 [field]: value,
@@ -62,8 +66,8 @@ export default function PieceDetails(){
     async function save() {
         try {
             const patchRespons = await patchPiece(newPiece, pushToast, pieceId);
-            setPiece(patchRespons);
-            setNewPiece(patchRespons);
+            setPiece(patchRespons.piece);
+            setNewPiece(patchRespons.piece);
             setEdit(false)
         }catch (error) {
             console.log(error)

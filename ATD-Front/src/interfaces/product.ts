@@ -5,6 +5,7 @@ export interface IProduct {
     count:number,
     create_at:Date,
     update_at:Date,
+    archive:boolean
 }
 
 
