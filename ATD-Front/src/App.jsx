@@ -52,6 +52,9 @@ import PiecesList from "./page/Back/Piece/PiecesList.tsx";
 import PieceDetails from "./page/Back/Piece/PieceDetails.tsx";
 import AddPiece from "./page/Back/Piece/AddPiece.tsx";
 import AddVehicle from "./page/Back/Vehicle/addVehicle.tsx";
+import DemandPage from "./page/Demand/Demand.tsx";
+import DemandsList from "./page/Back/Demand/DemandsList.tsx";
+import DemandDetails from "./page/Back/Demand/DemandDetails.tsx";
 
 function App() {
 
@@ -108,6 +111,7 @@ function App() {
                   path:'donation',
                   element: <Donation/>
                 },
+
                 {
                     path: 'register',
                     element: <Outlet/>,
@@ -128,6 +132,17 @@ function App() {
                             path: 'benevole',
                             element: <VolunteerForm/>
                         }
+                    ]
+                },
+                {
+                    path: 'demand',
+                    element: <PrivateRoute roles={[1,2,3,4,5]}><Outlet/></PrivateRoute>,
+                    children: [
+                        {
+                            path: '',
+                            element: <DemandPage/>
+                        },
+
                     ]
                 },
                 {
@@ -217,6 +232,20 @@ function App() {
                                 {
                                     path: 'add',
                                     element: <AddWarehouse/>,
+                                }
+                            ]
+                        },
+                        {
+                            path: "demands",
+                            element: <Outlet/>,
+                            children: [
+                                {
+                                    path: '',
+                                    element: <DemandsList/>
+                                },
+                                {
+                                    path: ':demandId', // Fix the parameter name here
+                                    element: <DemandDetails/>,
                                 }
                             ]
                         },

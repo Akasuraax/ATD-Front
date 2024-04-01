@@ -1,0 +1,39 @@
+.report-form{
+    h2{
+        color: var(--pink-color);
+    }
+
+    form{
+        background-color: var(--light-gray-color);
+        padding: 70px 120px 70px 120px;
+        border-radius: 24px;
+
+        button{
+            display: block;
+            margin: auto;
+            background-color: var(--pink-color);
+
+            &:hover{
+                background-color: var(--hover-pink-color);
+            }
+        }
+
+    }
+
+
+}
+
+@keyframes fadeInOut {
+    0%, 100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    10%, 90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-out {
+    animation: fadeInOut 3s ease-in-out;
+}
