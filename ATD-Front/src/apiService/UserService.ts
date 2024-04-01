@@ -70,10 +70,7 @@ export const deleteFile = async (id, idFile, pushToast) => {
 
 export const postFile = async (params, data, pushToast) => {
     try {
-        const formData = new FormData();
-        formData.append('name', data.name);
-        formData.append('link', data.link);
-        const res = await axios.post(`${API_BASE_URL}/user/${params}/file`, formData, {headers: getHeaders()});
+        const res = await axios.post(`${API_BASE_URL}/user/${params}/file`, data, {headers: getHeaders()});
 
         if (res.status === 201) {
             pushToast({

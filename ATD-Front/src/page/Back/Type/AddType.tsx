@@ -13,6 +13,7 @@ export default function AddType(){
     const [type, setRole] = useState<IAddType | null>({
             name: '',
             description:'',
+            color: '',
             display:false,
             type_image:null,
             access_to_warehouse:false,
@@ -38,10 +39,11 @@ export default function AddType(){
         const type: IAddType = {
             name: formData.get("name") as string,
             description: formData.get("description") as string,
-            display: formData.get("display") === "1",
+            color: formData.get("color") as string,
+            display: formData.get("display"),
             type_image: formData.get("type_image") as File,
-            access_to_warehouse: formData.get("access_to_warehouse") === "1",
-            access_to_journey: formData.get("access_to_journey") === "1",
+            access_to_warehouse: formData.get("access_to_warehouse"),
+            access_to_journey: formData.get("access_to_journey"),
         };
         try {
             const response = await postType(type, pushToast);
@@ -107,6 +109,30 @@ export default function AddType(){
                                                 }}
                                                 value={type.description}
                                                 onChange={(e) => updateUserField('description', e.target.value)}
+                                            />
+                                        </div>
+                                    </dd>
+                                </div>
+
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('types.color')}</dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <div className="flex items-center justify-end">
+                                            <input
+                                                type="text"
+                                                name="color"
+                                                required={false}
+                                                style={{
+                                                    borderBottom: '1px solid black',
+                                                    borderLeft: 'none',
+                                                    borderRight: 'none',
+                                                    borderTop: 'none',
+                                                    margin: '0',
+                                                    padding: '0',
+                                                    fontSize: '0.875rem'
+                                                }}
+                                                value={type.color}
+                                                onChange={(e) => updateUserField('color', e.target.value)}
                                             />
                                         </div>
                                     </dd>

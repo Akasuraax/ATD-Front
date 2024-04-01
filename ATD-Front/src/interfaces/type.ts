@@ -1,6 +1,7 @@
 export interface IAddType {
     name: string;
     description: string;
+    color: string;
     display:boolean;
     type_image:File;
     access_to_warehouse:boolean;
@@ -10,6 +11,7 @@ export interface IAddType {
 export interface IType{
     id:number;
     name:string;
+    color: string;
     display:boolean;
     type_image:File;
     description: string;
