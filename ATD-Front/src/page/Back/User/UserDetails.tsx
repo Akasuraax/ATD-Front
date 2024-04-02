@@ -88,6 +88,7 @@ export default function UserDetails() {
     async function saveUser() {
         try {
             const patchRespons = await patchUserAdmin(newUser, pushToast, userId);
+            console.log(patchRespons)
             if(patchRespons.user.status == 2) {
                 await handleModalClose(true);
                 setEdit(false);

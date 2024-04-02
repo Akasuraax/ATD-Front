@@ -30,7 +30,7 @@ function Login(){
             navigate("/");
         } else {
             pushToast({
-                content: "identifiant ou mot de passe incorrecte",
+                content: "Identifiant ou mot de passe incorrect",
                 type: "failure"
             });
         }

@@ -8,7 +8,7 @@ import {useToast} from "../../components/Toast/ToastContex";
 import { Spinner } from 'flowbite-react';
 import * as React from "react";
 import {getTypesAll} from "../../apiService/TypeService";
-import {useAuth} from "../../AuthProvider"
+import {useAuth} from "../../AuthProvider.jsx"
 import { IDemandPost } from "../../interfaces/demand"
 import { ITypes } from "../../interfaces/type";
 
@@ -32,8 +32,11 @@ function DemandPage(){
         setStandBy(true);
         try {
             const typesResponse = await getTypesAll(pushToast);
+            if(typesResponse?.response?.status === 401)
+                auth.logOut()
             setTypes(typesResponse.types);
             setStandBy(false);
+
         } catch (error) {
             setStandBy(true);
         }

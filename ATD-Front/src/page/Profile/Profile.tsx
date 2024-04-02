@@ -15,6 +15,7 @@ import Files from "../../components/profile/Files";
 import EditUser from "../../components/profile/EditUser";
 import isEqual from 'lodash/isEqual';
 import PartnerSchedule from "../../components/profile/PartnerSchedule";
+import {useAuth} from "../../AuthProvider.jsx";
 
 export default function Profile() {
 
@@ -26,7 +27,7 @@ export default function Profile() {
     const [user, setUser] = useState<IUser | null>(null);
     const [activities, setActivities] = useState<IActivity[] | null>([]);
     const [newUser, setNewUser] = useState<IUser | null>(null);
-
+    const auth = useAuth();
 
     useEffect(() => {
         request()
@@ -37,9 +38,10 @@ export default function Profile() {
         setStandBy(true);
         try {
             const userResponse = await getUser(userId, pushToast);
+            if(userResponse?.response?.status === 401)
+                auth.logOut();
             setUser(userResponse);
             setNewUser(userResponse);
-
             const activityResponse = await getActivities({page: 0, pageSize: 3}, pushToast);
             setActivities(activityResponse.data)
             setStandBy(false);
