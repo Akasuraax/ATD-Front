@@ -6,9 +6,11 @@ import {IActivity, IAddActivity} from "../../../interfaces/activity";
 import {Spinner} from "flowbite-react";
 import './event.css'
 import ListRolesActivity from "../../../components/Activity/ListRolesActivity";
-import AddRoleModal from "../../../components/modal/addRoleModal";
 import ListRecipesActivity from "../../../components/Activity/ListRecipesActivity";
 import ListProductsActivity from "../../../components/Activity/ListProductsActivity";
+import {t} from "i18next";
+import ListFilesActivity from "../../../components/Activity/ListFilesActivity";
+import AddFilesModal from "../../../components/modal/AddFilesModal"
 
 
 export default function EventDetails() {
@@ -17,6 +19,8 @@ export default function EventDetails() {
     const {pushToast} = useToast();
     const [activity, setActivity] = useState<IAddActivity>(null)
     const [standBy, setStandBy] = useState<boolean>(true)
+    const [addFileModal, setAddFileModal] = useState<boolean>(false)
+
 
 
     useEffect(() => {
@@ -43,7 +47,6 @@ export default function EventDetails() {
     };
 
     const changeProducts = (products) => {
-        console.log(products)
         setActivity((prev) => ({
             ...prev,
             products: products
@@ -51,17 +54,34 @@ export default function EventDetails() {
     }
 
     const changeRecipes = (recipes) => {
-        console.log(recipes)
         setActivity((prev) => ({
             ...prev,
             recipes: recipes
         }))
     }
 
+    const changeFiles = (files) => {
+        setActivity(prev => ({
+            ...prev,
+            files:files
+        }))
+    }
+
+    const saveChange = () => {
+        console.log(activity)
+    }
+
+
+
     return (
         <div>
             {!standBy ? (
                 <>
+                    <AddFilesModal
+                    setOpenModal={setAddFileModal}
+                    openModal={addFileModal}
+                    activityId={activity.id}
+                    />
                     <div className="p-4 md:ml-64 h-auto pt-20 bg-event grid grid-cols-2 gap-4">
                         <div
                             className="bg-white sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
@@ -94,14 +114,31 @@ export default function EventDetails() {
 
                         <div className="grid grid-cols-2 gap-4 mb-4">
                             <div
-                                className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-                            ></div>
+                                className="bg-white rounded-lg p-4 shadow border-gray-300 dark:border-gray-600 h-96"
+                            >
+                            <ListFilesActivity
+                                prevFiles={[]}
+                                onActivityFilesChange={changeFiles}
+                            />
+                            </div>
                             <div
                                 className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-                            ></div>
+                            >
+                                <button
+                                    onClick={saveChange}
+                                    className="text-white bg-green focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">
+                                    {t("generic.saveButton")}
+                                </button>
+                            </div>
                             <div
                                 className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-                            ></div>
+                            >
+                                <button
+                                    onClick={saveChange}
+                                    className="text-white bg-green focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">
+                                    {t("generic.saveButton")}
+                                </button>
+                            </div>
                             <div
                                 className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
                             ></div>

@@ -95,7 +95,7 @@ const ListRolesActivity = ({onActivityRolesChange, prevRoles = []}: {
                     currentRoles={activityRoles}
                     setRole={addRole}
                 />
-                <div className="relative overflow-x-auto shadow-md sm:rounded-lg"
+                <div className="relative scroll-container  overflow-x-auto shadow-md sm:rounded-lg"
                      style={{maxHeight:"250px", overflow:"auto"}}>
                     <table
 

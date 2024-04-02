@@ -69,10 +69,10 @@ export default function ListProductsActivity({onActivityProductsChange}: {
 
     return (
         <>
-            <div className="flex h-full items-start"
+            <div className="flex h-full items-start "
                  >
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3 shadow p-2 rounded h-full">
-                    <div className={"h-full"} style={{overflow: "auto"}}>
+                    <div className={"h-full scroll-container"} style={{overflow: "auto"}}>
                     <span
                         className="flex mb-6"
                         style={{

@@ -26,6 +26,7 @@ export interface IActivity {
 }
 
 export interface IAddActivity {
+    id?:number,
     title: string,
     description: string,
     address: string,
