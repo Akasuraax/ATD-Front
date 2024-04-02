@@ -97,11 +97,11 @@ export default function SidebarComponent() {
                                             </NavLink>
                                         </li>
                                         <li>
-                                            <a href="#"
+                                            <NavLink to="/demand"
                                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                                 <i className="fi fi-br-edit"></i>
                                                 <span className="ms-3">{t("sidebar.activityRequest")}</span>
-                                            </a>
+                                            </NavLink>
                                         </li>
                                     </>
                                 ) : null}
@@ -138,6 +138,13 @@ export default function SidebarComponent() {
                                                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                             <i className="fi fi-br-calendar-pen"></i>
                                             <span className="ms-3">{t("sidebar.activities")}</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to={"/back/demands"}
+                                                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                            <i className="fi fi-sr-form"></i>
+                                            <span className="ms-3">{t("sidebar.demands")}</span>
                                         </NavLink>
                                     </li>
                                     <li>
