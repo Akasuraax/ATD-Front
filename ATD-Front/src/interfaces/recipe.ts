@@ -21,4 +21,5 @@ export interface IActivityRecipe {
     id:number
     count:number
     products:IProduct[]
+    max:number
 }

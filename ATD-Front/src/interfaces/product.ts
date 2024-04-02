@@ -13,3 +13,11 @@ export interface IAddProduct {
     name:string;
     measure:string,
 }
+
+export interface IActivityProduct {
+    id:number,
+    name:string;
+    measure:string,
+    count:number,
+    max:number
+}

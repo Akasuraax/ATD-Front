@@ -49,6 +49,7 @@ import ProductDetails from "./page/Back/product/productDetails";
 import Success from "./components/Success/Success.tsx";
 import Donation from "./page/Donation/Donation.tsx";
 import AddVehicle from "./page/Back/Vehicle/addVehicle.tsx";
+import EventDetails from "./page/Back/event/eventDetails";
 
 
 function App() {
@@ -179,6 +180,10 @@ function App() {
                                 {
                                     path:'',
                                     element: <EventsList/>
+                                },
+                                {
+                                    path:':eventId',
+                                    element: <EventDetails/>
                                 },
                             ]
                         },

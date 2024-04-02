@@ -13,15 +13,15 @@ export const getActivitiesBetween = async (params, pushToast) => {
 
 
 export const getActivity = async (params, pushToast) => {
-    return getRequest('warehouse/' + params,'', pushToast);
+    return getRequest('activity/' + params,'', pushToast);
 };
 
 export const deleteActivity = async ( pushToast, url?) => {
-    return deleteRequest(`warehouse/${url}`,"", pushToast);
+    return deleteRequest(`activity/${url}`,"", pushToast);
 };
 
 export const patchActivity = async (params, pushToast,userId) => {
-    return patchRequest(`warehouse/${userId}`,params, pushToast);
+    return patchRequest(`activity/${userId}`,params, pushToast);
 };
 
 export const routePlanner = async (params, pushToast) => {

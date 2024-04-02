@@ -3,6 +3,7 @@ import {IActivityRecipe, IRecipe} from "./recipe";
 import {IWarehouse} from "./warehouse";
 import {IVehicles} from "./vehicle";
 import {IAnnexes} from "./annexe";
+import {IActivityProduct} from "./product";
 
 export interface IActivity2{
     name:string,
@@ -28,7 +29,6 @@ export interface IAddActivity {
     title: string,
     description: string,
     address: string,
-    zipcode: number,
     start_date: Date,
     end_date: Date,
     donation: number,
@@ -40,6 +40,7 @@ export interface IAddActivity {
     annexe:IAnnexes,
     journeySteps:string[],
     vehicle:IVehicles,
+    products:IActivityProduct[]
 }
 export class Activity implements IActivity2{
     name:string

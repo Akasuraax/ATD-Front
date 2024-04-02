@@ -78,7 +78,8 @@ export const getRequest = async (url, params, pushToast) => {
     try {
         const res = await axios.get(`${API_BASE_URL}/${url}`, { params }, {headers: getHeaders()});
         return res.data
-    } catch {
+    } catch(e) {
+        console.log(e)
         pushToast({
             content: "Une erreur est survenue lors de la récupération des éléments",
             type: "failure"
