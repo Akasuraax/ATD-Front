@@ -147,7 +147,7 @@ function App() {
                 },
                 {
                     path: 'ticket',
-                    element: <PrivateRoute roles={[2,3,4]}><Outlet/></PrivateRoute>,
+                    element: <Token><Outlet/></Token>,
                     children: [
                         {
                             path: '',

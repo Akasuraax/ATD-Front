@@ -216,7 +216,7 @@ export default function SidebarComponent() {
                         {/* Setting */}
                         <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
                             <LanguageSelector/>
-                            {(auth.token && Acces([2, 3, 4])) ? (
+                            {(auth.token) ? (
                                 <>
                                     <li>
                                         <NavLink to={"/ticket"}
