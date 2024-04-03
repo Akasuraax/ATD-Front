@@ -34,6 +34,7 @@ export default function EventDetails() {
             const response = await getActivity(eventId, pushToast)
             setActivity(response.activity)
             setStandBy(false)
+            console.log(response.activity)
         } catch (e) {
             console.log(e)
         }
@@ -114,12 +115,21 @@ export default function EventDetails() {
 
                         <div className="grid grid-cols-2 gap-4 mb-4">
                             <div
-                                className="bg-white rounded-lg p-4 shadow border-gray-300 dark:border-gray-600 h-96"
+                                className="bg-white flex flex-col justify-between rounded-lg p-4 shadow border-gray-300 dark:border-gray-600 h-96"
                             >
-                            <ListFilesActivity
-                                prevFiles={[]}
-                                onActivityFilesChange={changeFiles}
-                            />
+                                <ListFilesActivity
+                                    files={activity.files}
+                                    onRemoveFile={changeFiles}
+                                    metaData={false}
+                                    nbChar={50}
+                                />
+                                <div className={"flex justify-end w-full"}>
+                                    <button
+                                        onClick={() => setAddFileModal(true)}
+                                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        {t("file.addFile")}
+                                    </button>
+                                </div>
                             </div>
                             <div
                                 className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
@@ -131,13 +141,7 @@ export default function EventDetails() {
                                 </button>
                             </div>
                             <div
-                                className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-                            >
-                                <button
-                                    onClick={saveChange}
-                                    className="text-white bg-green focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">
-                                    {t("generic.saveButton")}
-                                </button>
+                                className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">
                             </div>
                             <div
                                 className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"

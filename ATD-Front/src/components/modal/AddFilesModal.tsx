@@ -7,6 +7,8 @@ import MenuItem from "@mui/material/MenuItem";
 import {t} from "i18next";
 import {ICreatActivityRole} from "../../interfaces/role";
 import {PaperClipIcon} from "@heroicons/react/20/solid";
+import ListFilesActivity from "../Activity/ListFilesActivity";
+import {postFiles} from "../../apiService/ActivityService";
 
 export default function AddRoleModal({setOpenModal, activityId, openModal}: {
     setOpenModal: (value: boolean) => void,
@@ -16,6 +18,8 @@ export default function AddRoleModal({setOpenModal, activityId, openModal}: {
 
     const {pushToast} = useToast();
     const emailInputRef = useRef<HTMLInputElement>(null);
+    const [files, setFiles] = useState<File[]>([])
+
     const customTheme: CustomFlowbiteTheme['modal'] = {
         "root": {
             "base": "fixed top-0 right-0 left-0 z-50 h-modal h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full",
@@ -28,6 +32,8 @@ export default function AddRoleModal({setOpenModal, activityId, openModal}: {
 
     const handleDrop = (event) => {
         event.preventDefault();
+        console.log("azd")
+
         const filesDrop: File[] = event.dataTransfer.files;
         const filesArray = Array.from(filesDrop);
         const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
@@ -65,14 +71,45 @@ export default function AddRoleModal({setOpenModal, activityId, openModal}: {
         event.preventDefault();
     };
 
-    const save = (e) => {
+    const save = async (e) => {
         e.preventDefault()
+        console.log(files)
 
-        const formData = new FormData(form);
-        const file = {
-            id:activityId,
+        const formData = new FormData()
 
-        };
+        files.forEach((file, index) => {
+            formData.append(`activity_files[${index}]`, file);
+        });
+
+        try {
+            const response = await postFiles(formData, activityId, pushToast)
+
+            if (response.status === 201) {
+                pushToast({
+                    content: t("file.successAddFiles"),
+                    type: "success"
+                });
+
+                setOpenModal(false)
+            } else {
+                pushToast({
+                    content: "Une erreur est survenue",
+                    type: "failure"
+                });
+            }
+        } catch {
+            pushToast({
+                content: "Une erreur est survenue",
+                type: "failure"
+            });
+        }
+
+    }
+
+    const removeFile = (f) => {
+        setFiles(
+            files.filter(file => file.name !== f.name)
+        )
     }
 
     return (
@@ -80,7 +117,6 @@ export default function AddRoleModal({setOpenModal, activityId, openModal}: {
                initialFocus={emailInputRef}>
             <Modal.Header/>
             <Modal.Body>
-                <form onSubmit={save} encType="multipart/form-data" action="">
                     <div className="flex w-full items-center justify-center">
                         <Label
                             onDrop={handleDrop}
@@ -113,8 +149,28 @@ export default function AddRoleModal({setOpenModal, activityId, openModal}: {
                             <FileInput id="dropzone-file" className="hidden"/>
                         </Label>
                     </div>
-                </form>
+                    <div>
+                        <ListFilesActivity
+                            files={files}
+                            onRemoveFile={removeFile}
+                        />
+                    </div>
             </Modal.Body>
+            <Modal.Footer>
+                <div
+                    className="pt-4 flex w-full justify-between text-sm font-medium text-gray-500 dark:text-gray-300">
+                    <button
+                        onClick={() => setOpenModal(false)}
+                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        {t("generic.cancel")}
+                    </button>
+                    <button
+                        onClick={save}
+                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        {t("generic.register")}
+                    </button>
+                </div>
+            </Modal.Footer>
         </Modal>
     )
 }
