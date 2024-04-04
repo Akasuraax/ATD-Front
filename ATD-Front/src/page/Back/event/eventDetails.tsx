@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useToast} from "../../../components/Toast/ToastContex";
-import {getActivity} from "../../../apiService/ActivityService";
+import {deleteActivityFile, getActivity} from "../../../apiService/ActivityService";
 import {IActivity, IAddActivity} from "../../../interfaces/activity";
 import {Spinner} from "flowbite-react";
 import './event.css'
@@ -11,6 +11,8 @@ import ListProductsActivity from "../../../components/Activity/ListProductsActiv
 import {t} from "i18next";
 import ListFilesActivity from "../../../components/Activity/ListFilesActivity";
 import AddFilesModal from "../../../components/modal/AddFilesModal"
+import DeleteModal from "../../../components/modal/deleteModal";
+import {deleteUser} from "../../../apiService/UserService";
 
 
 export default function EventDetails() {
@@ -20,6 +22,10 @@ export default function EventDetails() {
     const [activity, setActivity] = useState<IAddActivity>(null)
     const [standBy, setStandBy] = useState<boolean>(true)
     const [addFileModal, setAddFileModal] = useState<boolean>(false)
+    const [removeFileModal, setRemoveFileModal] = useState<boolean>(false)
+    const [fileToRemove, setFileToRemove] = useState<File>(null)
+
+
 
 
 
@@ -68,10 +74,27 @@ export default function EventDetails() {
         }))
     }
 
-    const saveChange = () => {
-        console.log(activity)
+    const removeFile = (file) => {
+
+        setFileToRemove(file)
+        setRemoveFileModal(true)
     }
 
+    const handleModalClose = async ( valid: boolean) => {
+        setRemoveFileModal(false)
+        if(!valid) return
+        try {
+           const res = await deleteActivityFile(activity.id,fileToRemove.id,pushToast)
+            console.log(res)
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+    const saveChange = () => {
+
+
+    }
 
 
     return (
@@ -83,6 +106,11 @@ export default function EventDetails() {
                     openModal={addFileModal}
                     activityId={activity.id}
                     />
+                    <DeleteModal
+                        onClose={(valid: boolean) => handleModalClose(valid)}
+                        openModal={removeFileModal}
+                        text={t("generic.deleteMessage")}
+                        />
                     <div className="p-4 md:ml-64 h-auto pt-20 bg-event grid grid-cols-2 gap-4">
                         <div
                             className="bg-white sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
@@ -119,9 +147,9 @@ export default function EventDetails() {
                             >
                                 <ListFilesActivity
                                     files={activity.files}
-                                    onRemoveFile={changeFiles}
+                                    onRemoveFile={removeFile}
                                     metaData={false}
-                                    nbChar={50}
+                                    nbChar={30}
                                 />
                                 <div className={"flex justify-end w-full"}>
                                     <button
@@ -132,8 +160,7 @@ export default function EventDetails() {
                                 </div>
                             </div>
                             <div
-                                className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-                            >
+                                className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">
                                 <button
                                     onClick={saveChange}
                                     className="text-white bg-green focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">

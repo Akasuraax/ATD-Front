@@ -35,6 +35,10 @@ export const deleteActivity = async ( pushToast, url?) => {
     return deleteRequest(`activity/${url}`,"", pushToast);
 };
 
+export const deleteActivityFile = async (activityId,fileId, pushToast,) => {
+    return deleteRequest(`activity/${activityId}/file/${fileId}`,"", pushToast);
+};
+
 export const patchActivity = async (params, pushToast,userId) => {
     return patchRequest(`activity/${userId}`,params, pushToast);
 };

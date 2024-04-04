@@ -16,8 +16,8 @@ export default function ListFilesActivity({files, onRemoveFile, metaData = true,
         setLocalFiles(files);
     }, [files]);
 
-    const removeFile = (value) => {
-
+    const removeFile = (file) => {
+        onRemoveFile(file)
     }
 
     return (
@@ -45,7 +45,7 @@ export default function ListFilesActivity({files, onRemoveFile, metaData = true,
                             </div>
                             <div className="ml-4 pl-2 flex-shrink-0">
                                 <button
-                                    onClick={() => removeFile(f.name)}
+                                    onClick={() => removeFile(f)}
                                     className="font-medium text-red-600 dark:text-red-500 hover:underline">{t('createActivity.remove')}
                                 </button>
                             </div>
