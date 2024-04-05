@@ -1,6 +1,6 @@
 
 import {useTranslation} from "react-i18next";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import React, {useState} from "react";
 import {IActivity} from "../../../interfaces/activity";
 import {getActivitiesBetween} from "../../../apiService/ActivityService";
@@ -19,6 +19,7 @@ export default function EventsList() {
     const [activities, setActivities] = useState<IActivity[] | null>([]);
     const [createModal, setCreateModal] = useState<boolean>(false);
     const [date, setDate] = useState<Date[]>([]);
+    const navigate = useNavigate();
 
 
     const {pushToast} = useToast();
@@ -38,7 +39,8 @@ export default function EventsList() {
     }
 
     function handleEventClick(clickInfo) {
-        console.log('oui ? ')
+        const activity = activities.find(a => clickInfo.event.id == a.id);
+        navigate(`${activity.id}`)
     }
 
     function createEvent(selectInfo) {

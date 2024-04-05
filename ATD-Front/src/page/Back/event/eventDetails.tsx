@@ -26,9 +26,6 @@ export default function EventDetails() {
     const [fileToRemove, setFileToRemove] = useState<File>(null)
 
 
-
-
-
     useEffect(() => {
         getEventF()
     }, []);
@@ -40,7 +37,6 @@ export default function EventDetails() {
             const response = await getActivity(eventId, pushToast)
             setActivity(response.activity)
             setStandBy(false)
-            console.log(response.activity)
         } catch (e) {
             console.log(e)
         }
@@ -67,10 +63,11 @@ export default function EventDetails() {
         }))
     }
 
-    const changeFiles = (files) => {
+    const changeFiles = (files: File[]) => {
+
         setActivity(prev => ({
             ...prev,
-            files:files
+            files: [...prev.files, ...files]
         }))
     }
 
@@ -80,12 +77,15 @@ export default function EventDetails() {
         setRemoveFileModal(true)
     }
 
-    const handleModalClose = async ( valid: boolean) => {
+    const handleModalClose = async (valid: boolean) => {
         setRemoveFileModal(false)
-        if(!valid) return
+        if (!valid) return
         try {
-           const res = await deleteActivityFile(activity.id,fileToRemove.id,pushToast)
-            console.log(res)
+            const res = await deleteActivityFile(activity.id, fileToRemove.id, pushToast)
+            setActivity(prev => ({
+                ...prev,
+                files: prev.files.filter(f => f.name !== fileToRemove.name)
+            }))
         } catch (error) {
             console.log(error)
         }
@@ -98,21 +98,36 @@ export default function EventDetails() {
 
 
     return (
-        <div>
+        <div className={"bg-event"}>
             {!standBy ? (
                 <>
                     <AddFilesModal
-                    setOpenModal={setAddFileModal}
-                    openModal={addFileModal}
-                    activityId={activity.id}
+                        setOpenModal={setAddFileModal}
+                        openModal={addFileModal}
+                        activityId={activity.id}
+                        update={changeFiles}
                     />
                     <DeleteModal
                         onClose={(valid: boolean) => handleModalClose(valid)}
                         openModal={removeFileModal}
                         text={t("generic.deleteMessage")}
-                        />
+                    />
+                    <div
+                        className="bg-white flex justify-end sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 m-4">
+                        <button
+                            onClick={saveChange}
+                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            {t("generic.editButton")}
+                        </button>
+                        <button
+                            onClick={saveChange}
+                            className="text-white bg-red focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">
+                            {t("generic.deleteButton")}
+                        </button>
+                    </div>
                     <div className="p-4 md:ml-64 h-auto pt-20 bg-event grid grid-cols-2 gap-4">
                         <div
+                            style={{height: "448px"}}
                             className="bg-white sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
                             <p>{activity.title}</p>
                             <p>{activity.description}</p>
@@ -122,19 +137,31 @@ export default function EventDetails() {
                             <p>{activity.donation}</p>
                         </div>
                         <div
-                            className="bg-white flex flex-col justify-between sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
-                            <ListRolesActivity
-                                onActivityRolesChange={changeRoles}
-                                prevRoles={activity.roles}
-                            />
+                            style={{height: "448px"}}
+                            className="bg-white flex flex-col justify-between sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 mb-4">
+                            <div className={"flex flex-col justify-between h-full"}>
+                                <ListRolesActivity
+                                    onActivityRolesChange={changeRoles}
+                                    prevRoles={activity.roles}
+                                />
+                            </div>
+                            <div className={"flex justify-end mt-4"}>
+                                <button
+                                    onClick={saveChange}
+                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                    {t("generic.editButton")}
+                                </button>
+                            </div>
                         </div>
                         <div
+                            style={{height: "448px"}}
                             className="bg-white flex flex-col justify-between sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
                             <ListRecipesActivity
                                 onActivityRecipesChange={changeRecipes}
                             />
                         </div>
                         <div
+                            style={{height: "448px"}}
                             className="bg-white flex flex-col justify-between sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
                             <ListProductsActivity
                                 onActivityProductsChange={changeProducts}
@@ -143,6 +170,7 @@ export default function EventDetails() {
 
                         <div className="grid grid-cols-2 gap-4 mb-4">
                             <div
+                                style={{height: "448px"}}
                                 className="bg-white flex flex-col justify-between rounded-lg p-4 shadow border-gray-300 dark:border-gray-600 h-96"
                             >
                                 <ListFilesActivity
@@ -159,35 +187,6 @@ export default function EventDetails() {
                                     </button>
                                 </div>
                             </div>
-                            <div
-                                className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">
-                                <button
-                                    onClick={saveChange}
-                                    className="text-white bg-green focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex">
-                                    {t("generic.saveButton")}
-                                </button>
-                            </div>
-                            <div
-                                className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">
-                            </div>
-                            <div
-                                className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-                            ></div>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                            <div
-                                className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-                            ></div>
-                            <div
-                                className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-                            ></div>
-                            <div
-                                className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-                            ></div>
-                            <div
-                                className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-                            ></div>
                         </div>
                     </div>
                 </>

@@ -88,6 +88,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
         annexe: null,
         journeySteps: [],
         vehicle: null,
+        products: []
     })
     const [standBy, setStandBy] = useState <boolean> (true)
     const [types, setTypes] = useState<IType[]>([])
@@ -231,7 +232,6 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
 
     async function save() {
         console.log(activity)
-        return
         try {
             const respons = await postActivity(activity, pushToast);
             console.log(respons)

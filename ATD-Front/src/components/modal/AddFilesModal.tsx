@@ -10,10 +10,11 @@ import {PaperClipIcon} from "@heroicons/react/20/solid";
 import ListFilesActivity from "../Activity/ListFilesActivity";
 import {postFiles} from "../../apiService/ActivityService";
 
-export default function AddRoleModal({setOpenModal, activityId, openModal}: {
+export default function AddRoleModal({setOpenModal, activityId, openModal, update}: {
     setOpenModal: (value: boolean) => void,
     activityId:number,
-    openModal:boolean
+    openModal:boolean,
+    update:(files:File[]) => void,
 }) {
 
     const {pushToast} = useToast();
@@ -32,7 +33,6 @@ export default function AddRoleModal({setOpenModal, activityId, openModal}: {
 
     const handleDrop = (event) => {
         event.preventDefault();
-        console.log("azd")
 
         const filesDrop: File[] = event.dataTransfer.files;
         const filesArray = Array.from(filesDrop);
@@ -73,7 +73,6 @@ export default function AddRoleModal({setOpenModal, activityId, openModal}: {
 
     const save = async (e) => {
         e.preventDefault()
-        console.log(files)
 
         const formData = new FormData()
 
@@ -89,7 +88,7 @@ export default function AddRoleModal({setOpenModal, activityId, openModal}: {
                     content: t("file.successAddFiles"),
                     type: "success"
                 });
-
+                update(files)
                 setOpenModal(false)
             } else {
                 pushToast({
