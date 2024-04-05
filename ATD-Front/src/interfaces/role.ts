@@ -1,10 +1,12 @@
 export interface IAddRole {
     name: string;
+    role_id:number;
 }
 
 export interface IRoles{
     id:number;
     name:string;
+    role_id: number;
     archive:boolean;
     created_at:Date;
     update_at:Date,

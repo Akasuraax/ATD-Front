@@ -39,7 +39,7 @@ export default function UserDetails() {
     const [files, setFiles] = useState([]);
     const [donations, setDonations] = useState([]);
     const {t} = useTranslation();
-
+    const restrictedRoles = [1,2,3,4,5,6]
 
     useEffect(() => {
         requests()
@@ -67,21 +67,26 @@ export default function UserDetails() {
         }));
     };
 
-
     const handleRoleChange = (event) => {
         const selectedRoleIds = event.target.value;
-        // Check if any role from the restricted set [1, 2, 3, 4, 5] is selected
-        const isRestrictedSelection = selectedRoleIds.some(id => [1, 2, 3, 4, 5].includes(id));
 
-        // If it's a restricted selection, update the user with only the selected roles from the restricted set
+        if (selectedRoleIds.length === 0) {
+            setNewUser({ ...user, roles: [] });
+            return;
+        }
+
+        const isRestrictedSelection = selectedRoleIds.some(id => restrictedRoles.includes(id));
+
+        const updatedRoles = roles.filter((r) =>
+            selectedRoleIds.includes(r.id) ||
+            selectedRoleIds.some(id => roles.find(role => role.id === id)?.role_id === r.id)
+        );
+
         const updatedUser = {
             ...user,
-            roles: isRestrictedSelection
-                ? roles.filter((r) => selectedRoleIds.includes(r.id) && [1, 2, 3, 4, 5].includes(r.id))
-                : roles.filter((r) => selectedRoleIds.includes(r.id))
+            roles: updatedRoles
         };
 
-        // Update the user in your state using the actual function you use to update the user
         setNewUser(updatedUser);
     };
 
@@ -178,6 +183,12 @@ export default function UserDetails() {
         } catch (error) {
             console.error('Error downloading file:', error);
         }
+    }
+
+    function isDisabled(role, selectedId) {
+        if (role.id === selectedId) return false;
+        if (role.role_id === selectedId) return false;
+        return true;
     }
 
 
@@ -390,9 +401,9 @@ export default function UserDetails() {
                                                     >
                                                         {roles.map((r) => (
                                                             <MenuItem
-                                                                key={r.id}
+                                                                key={r.id} // Utilisez l'ID du rôle comme clé unique
                                                                 value={r.id}
-                                                                disabled={newUser.roles.some((selectedRole) => [1, 2, 3, 4, 5].includes(selectedRole.id)) && !newUser.roles.map((r) => r.id).includes(r.id)}
+                                                                disabled={isDisabled(r, newUser.roles.length > 0 ? newUser.roles[0].id : null)}
                                                             >
                                                                 {r.name}
                                                             </MenuItem>
@@ -401,7 +412,7 @@ export default function UserDetails() {
                                                 ) : (
                                                     <span>
                                                     {user.roles.map((r) => (
-                                                        <span key={r.id}>{r.name}</span>
+                                                        <span key={r.id}>{r.name + " "}</span>
                                                     ))}
                                                 </span>
                                                 )}

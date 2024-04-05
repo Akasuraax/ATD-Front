@@ -1,23 +1,29 @@
 import {useParams} from 'react-router-dom';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useToast} from '../../../components/Toast/ToastContex';
 import {Spinner} from 'flowbite-react';
 import {useTranslation} from "react-i18next";
 import {IAddRole} from "../../../interfaces/role";
-import {getRole, postRole} from "../../../apiService/RoleService";
+import {getRole, getRoles, postRole} from "../../../apiService/RoleService";
 import {useNavigate} from 'react-router-dom';
+import {IRole} from "../../../interfaces/user";
 
 export default function AddRole(){
     const {roleId} = useParams();
     const {pushToast} = useToast();
     const [role, setRole] = useState<IAddRole | null>({
             name: '',
+            role_id: null,
         }
     );
     const navigate = useNavigate();
-
-
+    const [roles, setRoles] = useState<IRole[]>([]);
     const {t} = useTranslation();
+
+    useEffect(() => {
+        sendRequest();
+    }, []);
+
 
     const updateUserField = (field: string, value: any) => {
         setRole((prevUser) => ({
@@ -26,11 +32,21 @@ export default function AddRole(){
         }));
     };
 
+    async function sendRequest() {
+        try {
+            const responseAllRoles = await getRoles(null, pushToast);
+            setRoles(responseAllRoles.data.slice(0,6))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     async function save(e) {
         e.preventDefault();
         const form = e.target;
         const role:IAddRole = {
             name: form.elements["name"].value,
+            role_id: form.elements["role_id"].value
         }
         try {
             const respons = await postRole(role, pushToast);
@@ -74,11 +90,40 @@ export default function AddRole(){
                                             />
                                         </div>
                                     </dd>
+
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('roles.reference')}</dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <div className="flex items-center justify-end">
+                                            <select
+                                                name="role_id"
+                                                required={true}
+                                                style={{
+                                                    border: '1px solid black',
+                                                    borderRadius: '4px',
+                                                    padding: '0.25rem 3rem',
+                                                    fontSize: '0.875rem'
+                                                }}
+                                                value={role?.role_id}
+                                                onChange={(e) => {
+                                                    updateUserField("role_id", e.target.value);
+                                                }}>
+                                                <option value=''>{t('roles.none')}</option>
+                                                {
+                                                    roles.map(function (data) {
+                                                        return (
+                                                            <option key={data.id}
+                                                                    value={data.id}>{data.name}</option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
+                                        </div>
+                                    </dd>
                                 </div>
                             </dl>
                         </div>
                         <button
-                            style={{ backgroundColor: "#6AAF5C" }}
+                            style={{backgroundColor: "#6AAF5C"}}
                             className={`block m-4 text-white cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 text-center`}
                             type="submit"
                         >
