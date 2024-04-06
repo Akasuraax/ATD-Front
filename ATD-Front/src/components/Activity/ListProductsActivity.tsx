@@ -72,7 +72,7 @@ export default function ListProductsActivity({onActivityProductsChange,prevProdu
     return (
         <>
             <div className="flex h-full items-start"
-                 style={{height:'350px'}}
+                 style={{height:'320px'}}
 
             >
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3 shadow p-2 rounded h-full">

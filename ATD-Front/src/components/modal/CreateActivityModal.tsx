@@ -17,10 +17,11 @@ import {useNavigate} from "react-router-dom";
 import ActivityRoles from "../Activity/rolesList";
 
 
-export default function CreateActivivityModal({setOpenModal, start_date, end_date}: {
+export default function CreateActivivityModal({setOpenModal, start_date, end_date, newActivity}: {
     setOpenModal: (value: boolean) => void,
     start_date: Date,
-    end_date: Date
+    end_date: Date,
+    newActivity: (activity:IAddActivity) => void
 }) {
 
 
@@ -231,10 +232,9 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
     };
 
     async function save() {
-        console.log(activity)
         try {
-            const respons = await postActivity(activity, pushToast);
-            console.log(respons)
+            newActivity(activity)
+            setOpenModal(false)
         } catch (error) {
             console.log(error)
         }
@@ -277,7 +277,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                     <label htmlFor="title"
                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createType')}</label>
                                     <Select
-                                        id="gender"
+                                        id="type"
                                         required
                                         value={activity?.type}
                                         onChange={(e) => updateField('type', e.target.value)}
@@ -305,7 +305,6 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder={t("recipe.details") + "..."}>
                                 </Textarea>
-                                {!types.filter(t => t.id === parseInt(activity.type))[0].access_to_journey ? (
                                     <div className={"mt-4"}>
                                         <label htmlFor="address"
                                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.address')}</label>
@@ -313,7 +312,6 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                             onAddressSelect={(address) => updateField('address', address.value.description)}
                                         />
                                     </div>
-                                ) : null}
                             </div>
                         </>
                     ) : step === 1 ? (

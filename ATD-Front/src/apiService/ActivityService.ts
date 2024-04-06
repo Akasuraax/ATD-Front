@@ -20,8 +20,16 @@ const getHeaders = () => {
 export const postActivity = async (params, pushToast) => {
     return postRequest(`activity/`,params, pushToast);
 };
+
+export const postActivitySubscribe = async (params, pushToast,activityId) => {
+    return postRequest(`activity/participate/${activityId}`,params, pushToast);
+};
 export const getActivities = async (params, pushToast) => {
     return getRequest('activity',params, pushToast);
+};
+
+export const isUserRegisteredToActivity = async (params,activityId, pushToast) => {
+    return getRequest(`activity/participate/${activityId}`,params, pushToast);
 };
 
 export const getActivitiesBetween = async (params, pushToast) => {
@@ -37,6 +45,10 @@ export const deleteActivity = async ( pushToast, url?) => {
 
 export const deleteActivityFile = async (activityId,fileId, pushToast,) => {
     return deleteRequest(`activity/${activityId}/file/${fileId}`,"", pushToast);
+};
+
+export const deleteActivityParticipate = async (url, user, pushToast) => {
+    return deleteRequest(`activity/participate/${url}`,user, pushToast);
 };
 
 export const patchActivity = async (params, pushToast,userId) => {

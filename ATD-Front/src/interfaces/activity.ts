@@ -4,6 +4,7 @@ import {IWarehouse} from "./warehouse";
 import {IVehicles} from "./vehicle";
 import {IAnnexes} from "./annexe";
 import {IActivityProduct} from "./product";
+import {IType} from "./type";
 
 export interface IActivity2{
     name:string,
@@ -33,7 +34,7 @@ export interface IAddActivity {
     start_date: Date,
     end_date: Date,
     donation: number,
-    type: string,
+    type: IType,
     public:boolean
     roles:ICreatActivityRole[],
     files:File[]

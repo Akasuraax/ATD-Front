@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 
-const AddressInput = ({ onAddressSelect }) => {
+const AddressInput = ({ onAddressSelect, prevAddres ='' }) => {
 
     const [selectedPlace, setSelectedPlace] = useState();
 
@@ -13,7 +13,8 @@ const AddressInput = ({ onAddressSelect }) => {
                 apiOptions={{ language: 'fr', region: 'fr' }}
                 selectProps={{
                     onChange: onAddressSelect,
-                }}
+                    defaultInputValue: prevAddres
+            }}
             />
         </div>
     );
