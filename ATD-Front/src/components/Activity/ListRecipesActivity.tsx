@@ -4,20 +4,22 @@ import {IActivityRecipe, IRecipe} from "../../interfaces/recipe";
 import {useToast} from "../Toast/ToastContex";
 import {t} from "i18next";
 
-export default function ListRecipesActivity({onActivityRecipesChange}: {
-    onActivityRecipesChange: (recipes:IActivityRecipe[]) => void
+export default function ListRecipesActivity({onActivityRecipesChange, prevRecipe}: {
+    onActivityRecipesChange: (recipes:IActivityRecipe[]) => void,
+    prevRecipe: IActivityRecipe[]
 }) {
 
     const [filter, setFilter] = useState<string>('');
     const [recipes, setRecipes] = useState<IRecipe[]>([])
-    const [activityRecipes, setactivityRecipes] = useState<IActivityRecipe[]>([])
+    const [activityRecipes, setactivityRecipes] = useState<IActivityRecipe[]>(prevRecipe)
 
     const {pushToast} = useToast();
 
     async function getRecipes() {
         try {
-            const productsRespons = await getRecipesFilter({filter: filter});
-            setRecipes(productsRespons)
+            const respons = await getRecipesFilter({filter: filter});
+            setRecipes(respons)
+            console.log(respons)
         } catch (error) {
             console.log(error)
         }
@@ -38,7 +40,7 @@ export default function ListRecipesActivity({onActivityRecipesChange}: {
                 products: r.products,
                 max: max
             };
-
+            console.log(activityRecipes)
             setactivityRecipes((prev) => (
                 [...prev, recipeToAdd]
             ));
@@ -56,19 +58,21 @@ export default function ListRecipesActivity({onActivityRecipesChange}: {
 
     const updateCountRecipes = (value: number, id: number) => {
         if(value < 1 ) return
-
         setactivityRecipes(prev => (
             prev.map(recipe => {
                 if (recipe.id === id) {
                     return {...recipe, count: value};
                 }
+                return recipe
             })
         ));
     }
 
     return (
         <>
-            <div className="flex h-full items-start"
+            <div
+                style={{height:'350px'}}
+                className="flex items-start"
                  >
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3 shadow p-2 rounded h-full">
                     <div className={"h-full scroll-container"} style={{overflow: "auto"}}>
@@ -127,7 +131,7 @@ export default function ListRecipesActivity({onActivityRecipesChange}: {
 
                 <dd className="flex h-full w-full items-center justify-center"
                     style={{overflow: "auto"}}>
-                    <div className="relative h-full overflow-x-auto shadow-md sm:rounded-lg">
+                    <div className="relative h-full w-full p-8 overflow-x-auto shadow-md">
                         <table
                             className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead

@@ -43,6 +43,18 @@ export const patchActivity = async (params, pushToast,userId) => {
     return patchRequest(`activity/${userId}`,params, pushToast);
 };
 
+export const patchActivityRoles = async (params, pushToast,id) => {
+    return patchRequest(`activity/${id}/role`,params, pushToast);
+};
+
+export const patchActivityRecipes = async (params, pushToast,id) => {
+    return patchRequest(`activity/${id}/recipe`,params, pushToast);
+};
+
+export const patchActivityProducts = async (params, pushToast,id) => {
+    return patchRequest(`activity/${id}/product`,params, pushToast);
+};
+
 export const routePlanner = async (params, pushToast) => {
     return postRequest(`journey/best_path`,params, pushToast);
 };

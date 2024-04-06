@@ -12,7 +12,7 @@ const ListRolesActivity = ({onActivityRolesChange, prevRoles = []}: {
         const {t} = useTranslation();
         const [activityRoles, setActivityRoles] = useState(prevRoles);
         const [roles, setRoles] = useState([]);
-    const [addRoleModal, setAddRoleModal] = useState<boolean>(false)
+        const [addRoleModal, setAddRoleModal] = useState<boolean>(false)
 
 
         const {pushToast} = useToast();

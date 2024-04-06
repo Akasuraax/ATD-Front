@@ -6,13 +6,14 @@ import {t} from "i18next";
 import {IActivityProduct, IProduct} from "../../interfaces/product";
 import {getMaxProduct, getProductsFilter} from "../../apiService/productService";
 
-export default function ListProductsActivity({onActivityProductsChange}: {
+export default function ListProductsActivity({onActivityProductsChange,prevProducts}: {
         onActivityProductsChange: (products: IActivityProduct[]) => void,
+        prevProducts:IActivityProduct[]
     }) {
 
     const [filter, setFilter] = useState<string>('');
     const [products, setProducts] = useState<IProduct[]>([])
-    const [activityProducts, setactivityProducts] = useState<IActivityProduct[]>([])
+    const [activityProducts, setactivityProducts] = useState<IActivityProduct[]>(prevProducts)
 
     const {pushToast} = useToast();
 
@@ -63,14 +64,17 @@ export default function ListProductsActivity({onActivityProductsChange}: {
                 if (p.id === id) {
                     return {...p, count: value};
                 }
+                return p
             })
         ));
     }
 
     return (
         <>
-            <div className="flex h-full items-start "
-                 >
+            <div className="flex h-full items-start"
+                 style={{height:'350px'}}
+
+            >
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3 shadow p-2 rounded h-full">
                     <div className={"h-full scroll-container"} style={{overflow: "auto"}}>
                     <span
@@ -129,8 +133,7 @@ export default function ListProductsActivity({onActivityProductsChange}: {
 
                 <dd className="flex h-full w-full items-center justify-center"
                      style={{overflow: "auto"}}>
-                    <div className="relative h-full overflow-x-auto shadow-md sm:rounded-lg"
-                    >
+                    <div className="relative h-full w-full p-8 overflow-x-auto shadow-md">
                         <table
                             className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead

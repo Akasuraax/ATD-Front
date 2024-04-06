@@ -28,7 +28,6 @@ export default function AddRoleModal({openModal, setOpenModal,currentRoles = [],
 
     useEffect(() => {
         getRolesF()
-        console.log(currentRoles)
     }, []);
 
     const getRolesF = async () => {
