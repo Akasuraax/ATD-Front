@@ -75,9 +75,6 @@ export const routePlanner = async (params, pushToast) => {
     return postRequest(`journey/best_path`,params, pushToast);
 };
 
-
-
-
 export const postFiles = async (params, idActivity, pushToast) => {
     try {
         return await axios.post(`${API_BASE_URL}/activity/${idActivity}/file/`,params,{headers: getHeaders()})

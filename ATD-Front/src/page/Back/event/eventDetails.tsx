@@ -6,7 +6,7 @@ import {
     deleteActivityFile,
     getActivity, patchActivity, patchActivityProducts,
     patchActivityRecipes,
-    patchActivityRoles
+    patchActivityRoles, routePlanner
 } from "../../../apiService/ActivityService";
 import {IActivity, IAddActivity} from "../../../interfaces/activity";
 import {Spinner, Textarea} from "flowbite-react";
@@ -24,6 +24,8 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import {getTypesAll} from "../../../apiService/TypeService";
 import {IType} from "../../../interfaces/type";
+import JourneyActivity from "../../../components/Activity/JourneyActivity";
+import AddJourneyActivity from "../../../components/modal/AddJourneyActivity";
 
 
 export default function EventDetails() {
@@ -33,7 +35,10 @@ export default function EventDetails() {
     const [activity, setActivity] = useState<IAddActivity>(null)
     const [standBy, setStandBy] = useState<boolean>(true)
     const [addFileModal, setAddFileModal] = useState<boolean>(false)
+    const [addJourneyModal, setAddJourneyModal] = useState<boolean>(false)
     const [removeFileModal, setRemoveFileModal] = useState<boolean>(false)
+    const [bestJourney, setBestJourney] = useState<string[]>([])
+
     const [fileToRemove, setFileToRemove] = useState<File>(null)
     const navigate = useNavigate();
 
@@ -144,10 +149,22 @@ export default function EventDetails() {
     const removeActivity = async () => {
         try {
             const res = await deleteActivity(pushToast, activity.id)
-            if(res.status === 204) {
+            if (res.status === 204) {
                 navigate("/back/events")
             }
 
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const saveJourney = async (journey:string[]) => {
+        try {
+            const res = await routePlanner({steps:journey},pushToast)
+            const formattedJourneyString = res.data.steps.replace(/'/g, '"');
+
+            const journeyArray = JSON.parse(formattedJourneyString);
+            setBestJourney(journeyArray)
         } catch (error) {
             console.log(error)
         }
@@ -169,6 +186,7 @@ export default function EventDetails() {
                         openModal={removeFileModal}
                         text={t("generic.deleteMessage")}
                     />
+                    <AddJourneyActivity openModal={addJourneyModal} setOpenModal={setAddJourneyModal} saveJourney={saveJourney}/>
                     <div
                         className="bg-white flex justify-end sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 m-4">
                         <button
@@ -178,82 +196,102 @@ export default function EventDetails() {
                         </button>
                     </div>
                     <div className="p-4 md:ml-64 h-auto pt-20 bg-event grid grid-cols-2 gap-4">
-                        <div
-                            style={{height: "448px"}}
-                            className="bg-white sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
-                            <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.details")}</h5>
-                            <>
-                                <div className={'overflow-auto scroll-container'}
-                                     style={{maxHeight: "320px", overflow: 'auto'}}>
-                                    <label htmlFor="title"
-                                           className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createTitle')}</label>
-                                    <input
-                                        type="text"
-                                        name="title"
-                                        required={true}
-                                        style={{
-                                            borderBottom: '1px solid black',
-                                            borderLeft: 'none',
-                                            borderRight: 'none',
-                                            borderTop: 'none',
-                                            margin: '0',
-                                            padding: '0',
-                                            fontSize: '0.875rem',
-                                            width: '20%',
-                                            marginBottom: '12px',
-                                        }}
-                                        value={activity.title}
-                                        onChange={(e) => updateField('title', e.target.value)}
-                                    />
-                                    <label htmlFor="description"
-                                           className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createDescription')}</label>
-                                    <Textarea
-                                        style={{
-                                            minHeight: "50px",
-                                            maxHeight: "200px"
-                                        }}
-                                        value={activity.description}
-                                        onChange={(e) => updateField('description', e.target.value)}
-                                        name="description"
-                                        required={true}
-                                        id="description"
-                                        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder={t("recipe.details") + "..."}>
-                                    </Textarea>
-                                    <label htmlFor="title"
-                                           className="block mt-4 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createType')}</label>
-                                    <p>{activity.type.name}</p>
+                        <div className="grid grid-cols-3 gap-4">
+                            <div
+                                style={{height: "448px"}}
+                                className="bg-white col-span-2 sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
+                                <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.details")}</h5>
+                                <>
+                                    <div className={'overflow-auto scroll-container'}
+                                         style={{maxHeight: "320px", overflow: 'auto'}}>
+                                        <label htmlFor="title"
+                                               className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createTitle')}</label>
+                                        <input
+                                            type="text"
+                                            name="title"
+                                            required={true}
+                                            style={{
+                                                borderBottom: '1px solid black',
+                                                borderLeft: 'none',
+                                                borderRight: 'none',
+                                                borderTop: 'none',
+                                                margin: '0',
+                                                padding: '0',
+                                                fontSize: '0.875rem',
+                                                width: '20%',
+                                                marginBottom: '12px',
+                                            }}
+                                            value={activity.title}
+                                            onChange={(e) => updateField('title', e.target.value)}
+                                        />
+                                        <label htmlFor="description"
+                                               className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createDescription')}</label>
+                                        <Textarea
+                                            style={{
+                                                minHeight: "50px",
+                                                maxHeight: "200px"
+                                            }}
+                                            value={activity.description}
+                                            onChange={(e) => updateField('description', e.target.value)}
+                                            name="description"
+                                            required={true}
+                                            id="description"
+                                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder={t("recipe.details") + "..."}>
+                                        </Textarea>
+                                        <label htmlFor="title"
+                                               className="block mt-4 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createType')}</label>
+                                        <p>{activity.type.name}</p>
 
-                                    <label htmlFor="address"
-                                           className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createAddress')}</label>
-                                    <AddressInput
-                                        onAddressSelect={(address) => updateField('address', address.value.description)}
-                                        prevAddres={activity.address}
-                                    />
-                                    <label htmlFor="startDate"
-                                           className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createStartDate')}</label>
-                                    <p>{activity.start_date.toString()}</p>
-                                    <label htmlFor="endDate"
-                                           className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createEndDate')}</label>
-                                    <p>{activity.end_date.toString()}</p>
+                                        <label htmlFor="address"
+                                               className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createAddress')}</label>
+                                        <AddressInput
+                                            onAddressSelect={(address) => updateField('address', address.value.description)}
+                                            prevAddres={activity.address}
+                                        />
+                                        <label htmlFor="startDate"
+                                               className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createStartDate')}</label>
+                                        <p>{activity.start_date.toString()}</p>
+                                        <label htmlFor="endDate"
+                                               className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createEndDate')}</label>
+                                        <p>{activity.end_date.toString()}</p>
 
-                                    <label htmlFor="title"
-                                           className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createDonation')}</label>
-                                    <input type="number" id="first_product"
-                                           min={0}
-                                           value={activity.donation}
-                                           onChange={(e) => (updateField("donation", parseInt(e.target.value)))}
-                                           className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                           required/>
+                                        <label htmlFor="title"
+                                               className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createDonation')}</label>
+                                        <input type="number" id="first_product"
+                                               min={0}
+                                               value={activity.donation}
+                                               onChange={(e) => (updateField("donation", parseInt(e.target.value)))}
+                                               className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                               required/>
+                                    </div>
+                                </>
+
+                                <div className={"flex justify-end mt-4"}>
+                                    <button
+                                        onClick={saveChange}
+                                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        {t("generic.editButton")}
+                                    </button>
                                 </div>
-                            </>
-
-                            <div className={"flex justify-end mt-4"}>
-                                <button
-                                    onClick={saveChange}
-                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                    {t("generic.editButton")}
-                                </button>
+                            </div>
+                            <div
+                                style={{height: "448px"}}
+                                className="bg-white flex flex-col justify-between rounded-lg p-4 shadow border-gray-300 dark:border-gray-600 h-96">
+                                <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.files")}</h5>
+                                <ListFilesActivity
+                                    files={activity.files}
+                                    onRemoveFile={removeFile}
+                                    metaData={false}
+                                    nbChar={30}
+                                />
+                                <div className={"flex justify-end w-full"}>
+                                    <button
+                                        onClick={() => setAddFileModal(true)}
+                                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        {t("file.addFile")}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div
@@ -312,24 +350,20 @@ export default function EventDetails() {
                                 </div>
                             </>
                         ) : null}
-                        <div className="grid grid-cols-2 gap-4 mb-4">
-                            <div
-                                style={{height: "448px"}}
-                                className="bg-white flex flex-col justify-between rounded-lg p-4 shadow border-gray-300 dark:border-gray-600 h-96"
-                            >
-                                <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.files")}</h5>
-                                <ListFilesActivity
-                                    files={activity.files}
-                                    onRemoveFile={removeFile}
-                                    metaData={false}
-                                    nbChar={30}
-                                />
-                                <div className={"flex justify-end w-full"}>
-                                    <button
-                                        onClick={() => setAddFileModal(true)}
-                                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        {t("file.addFile")}
-                                    </button>
+                        <div className="grid grid-cols-4 gap-4 mb-4">
+                            <div className="col-span-3">
+                                <div
+                                    style={{height: "448px"}}
+                                    className="bg-white flex flex-col justify-between rounded-lg p-4 shadow border-gray-300 dark:border-gray-600 h-96">
+                                    <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.journey")}</h5>
+                                    <JourneyActivity journey={bestJourney}/>
+                                    <div className={"flex justify-end mt-4"}>
+                                        <button
+                                            onClick={() => setAddJourneyModal(true)}
+                                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                            {t("file.addFile")}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
