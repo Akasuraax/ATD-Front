@@ -1,4 +1,4 @@
-import { postRequest, getRequest, deleteRequest } from './apiService.js';
+import { postRequest, getRequest, deleteRequest, patchRequest } from './apiService.js';
 
 export const postRole = async (userData,pushToast) => {
     return postRequest('role', userData,pushToast);

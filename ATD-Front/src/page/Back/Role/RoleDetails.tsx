@@ -7,7 +7,8 @@ import isEqual from 'lodash/isEqual';
 import {useTranslation} from "react-i18next";
 import DeleteModal from "../../../components/modal/deleteModal";
 import {IRoles} from "../../../interfaces/role";
-import {deleteRole, getRole, patchRole} from "../../../apiService/RoleService";
+import {deleteRole, getRole, patchRole, getRoles} from "../../../apiService/RoleService";
+import {IRole} from "../../../interfaces/user";
 
 export default function RoleDetails(){
     const {roleId} = useParams();
@@ -18,7 +19,9 @@ export default function RoleDetails(){
     const [isModified, setIsModified] = useState(false);
     const [newRoles, setNewRoles] = useState<IRoles | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [referencedRole, setReferencedRole] = useState<IRoles | null>(null);
+    const [newReferencedRole, setnewReferencedRole] = useState<IRoles | null>(null);
+    const [roles, setRoles] = useState<IRole[]>([]);
 
     const {t} = useTranslation();
 
@@ -41,19 +44,38 @@ export default function RoleDetails(){
     async function save() {
         try {
             const patchRespons = await patchRole(newRoles, pushToast, roleId);
+            console.log(patchRespons.role)
             setRole(patchRespons.role);
             setNewRoles(patchRespons.role);
+
+            if(patchRespons?.role?.role_id != null) {
+                const responseReference = await getRole(patchRespons.role.role_id, pushToast);
+                setReferencedRole(responseReference)
+                setnewReferencedRole(responseReference);
+            }
+
             setEdit(false)
         }catch (error) {
             console.log(error)
         }
     }
+
     async function sendRequest() {
         setStandBy(true);
         try {
             const response = await getRole(roleId, pushToast);
             setRole(response)
             setNewRoles(response);
+
+            if(response.role_id !== null) {
+                const responseReference = await getRole(response.role_id, pushToast);
+                setReferencedRole(responseReference)
+                setnewReferencedRole(responseReference);
+            }
+
+            const responseAllRoles = await getRoles(null, pushToast);
+            setRoles(responseAllRoles.data.slice(0,6))
+
             setStandBy(false);
         } catch (error) {
             setStandBy(true);
@@ -102,11 +124,46 @@ export default function RoleDetails(){
                                                             padding: '0',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={newRoles?.name || role.name}
+                                                        value={newRoles?.name}
                                                         onChange={(e) => updateUserField('name', e.target.value)}
                                                     />
                                                 ) : (
                                                     <span>{newRoles.name}</span>
+                                                )}
+                                            </div>
+                                        </dd>
+                                    </div>
+
+                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('roles.reference')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                            <div className="flex items-center justify-end">
+                                                {edit ? (
+                                                    <select
+                                                        name="reference"
+                                                        required={true}
+                                                        style={{
+                                                            border: '1px solid black',
+                                                            borderRadius: '4px',
+                                                            padding: '0.25rem 3rem',
+                                                            fontSize: '0.875rem'
+                                                        }}
+                                                        value={newRoles?.role_id}
+                                                        onChange={(e) => {
+                                                            updateUserField("role_id", e.target.value);
+                                                        }}>
+                                                        <option value=''>{t('roles.none')}</option>
+                                                        {
+                                                            roles.map(function (data) {
+                                                                return (
+                                                                    <option key={data.id}
+                                                                            value={data.id}>{data.name}</option>
+                                                                )
+                                                            })
+                                                        }
+                                                    </select>
+                                                ) : (
+                                                    <span>{newRoles.role_id === null ? t("generic.no") : newReferencedRole.name  }</span>
                                                 )}
                                             </div>
                                         </dd>
