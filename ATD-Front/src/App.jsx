@@ -55,6 +55,7 @@ import AddVehicle from "./page/Back/Vehicle/addVehicle.tsx";
 import DemandPage from "./page/Demand/Demand.tsx";
 import DemandsList from "./page/Back/Demand/DemandsList.tsx";
 import DemandDetails from "./page/Back/Demand/DemandDetails.tsx";
+import EventDetails from "./page/Back/event/eventDetails";
 
 function App() {
 
@@ -97,7 +98,7 @@ function App() {
                 },
                 {
                     path: 'planning',
-                    element: <Planning/>
+                    element: <Token><Planning/></Token>
                 },
                 {
                     path: 'profile/:userId',
@@ -196,6 +197,10 @@ function App() {
                                 {
                                     path:'',
                                     element: <EventsList/>
+                                },
+                                {
+                                    path:':eventId',
+                                    element: <EventDetails/>
                                 },
                             ]
                         },

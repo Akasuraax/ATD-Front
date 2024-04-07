@@ -3,12 +3,17 @@ import {getRequest, deleteRequest, patchRequest, postRequest} from './apiService
 export const postRecipe = async (params, pushToast) => {
     return postRequest(`recipe/`,params, pushToast);
 };
+
 export const getRecipes = async (params, pushToast) => {
     return getRequest('recipe',params, pushToast);
 };
 
-export const getRecipesFilter = async (pushToast) => {
-    return getRequest('recipe/filter', null,pushToast);
+export const getMaxRecipe = async (params, pushToast) => {
+    return getRequest(`recipe/max/${params}`,null, pushToast);
+};
+
+export const getRecipesFilter = async (params) => {
+    return getRequest('recipe/filter', params);
 };
 
 export const getRecipe = async (params, pushToast) => {

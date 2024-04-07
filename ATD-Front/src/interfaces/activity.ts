@@ -1,5 +1,10 @@
 import {ICreatActivityRole, IRole} from './role'
 import {IActivityRecipe, IRecipe} from "./recipe";
+import {IWarehouse} from "./warehouse";
+import {IVehicles} from "./vehicle";
+import {IAnnexes} from "./annexe";
+import {IActivityProduct} from "./product";
+import {IType} from "./type";
 
 export interface IActivity2{
     name:string,
@@ -22,18 +27,22 @@ export interface IActivity {
 }
 
 export interface IAddActivity {
+    id?:number,
     title: string,
     description: string,
     address: string,
-    zipcode: number,
     start_date: Date,
     end_date: Date,
     donation: number,
-    type: string,
+    type: IType,
     public:boolean
     roles:ICreatActivityRole[],
     files:File[]
-    recipes:IActivityRecipe[]
+    recipes:IActivityRecipe[],
+    annexe:IAnnexes,
+    journeySteps:string[],
+    vehicle:IVehicles,
+    products:IActivityProduct[]
 }
 export class Activity implements IActivity2{
     name:string

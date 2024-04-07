@@ -8,6 +8,10 @@ export const getVehicles = async (params, pushToast) => {
     return getRequest('vehicle',params, pushToast);
 };
 
+export const getAllVehicles = async ( pushToast) => {
+    return getRequest('vehicle/all',null, pushToast);
+};
+
 export const getVehicle = async (params, pushToast) => {
     return getRequest('vehicle/' + params,'', pushToast);
 };

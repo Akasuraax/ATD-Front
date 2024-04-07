@@ -7,6 +7,9 @@ export const getProducts = async (params, pushToast) => {
     return getRequest('product',params, pushToast);
 };
 
+export const getMaxProduct = async (params, pushToast) => {
+    return getRequest(`product/max/${params}`,null, pushToast);
+};
 export const getProductsFilter = async (params, pushToast) => {
     return getRequest('product/filter',params, pushToast);
 };
@@ -22,3 +25,4 @@ export const deleteProduct = async ( pushToast, url?) => {
 export const patchProduct = async (params, pushToast,id) => {
     return patchRequest(`product/${id}`,params, pushToast);
 };
+
