@@ -44,7 +44,6 @@ export default function EventDetails() {
 
     const getEventF = async () => {
         setStandBy(true)
-
         try {
             const response = await getActivity(eventId, pushToast)
             setActivity(response.activity)

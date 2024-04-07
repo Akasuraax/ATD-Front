@@ -93,7 +93,7 @@ function App() {
                 },
                 {
                     path: 'planning',
-                    element: <Planning/>
+                    element: <Token><Planning/></Token>
                 },
                 {
                     path: 'profile/:userId',

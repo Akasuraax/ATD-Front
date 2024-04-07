@@ -39,6 +39,10 @@ export const getActivity = async (params, pushToast) => {
     return getRequest('activity/' + params,'', pushToast);
 };
 
+export const getActivityForUser = async (id, pushToast, params) => {
+    return getRequest(`activity/publicActivity/${id}`, params, pushToast);
+};
+
 export const deleteActivity = async ( pushToast, url?) => {
     return deleteRequest(`activity/${url}`,"", pushToast);
 };

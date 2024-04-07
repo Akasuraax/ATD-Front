@@ -73,7 +73,7 @@ export default function Planning() {
             {modal ? (
                 <ActivivityModal
                     setOpenModal={(v) => (setModal(v))}
-                    activity={selectActivity}
+                    activityId={selectActivity.id}
                 />
             ) : null}
         </main>
