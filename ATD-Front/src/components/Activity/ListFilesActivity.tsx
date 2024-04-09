@@ -47,7 +47,7 @@ export default function ListFilesActivity({files, onRemoveFile, metaData = true,
             <div
                 style={{maxHeight: '280px', overflowY: 'auto'}}
                 className="mt-4 scroll-container">
-                {localFiles.map((f) => (
+                {localFiles?.map((f) => (
                     <div key={f.name}
                          className="divide-y divide-gray-100 rounded-md border mb-4 border-gray-200">
                         <div className="flex items-center justify-between p-4 text-sm leading-6">
