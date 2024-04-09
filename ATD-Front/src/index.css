@@ -93,3 +93,11 @@ button:focus {
     background-color: #f1f1f1;
     border-radius: 2px;
 }
+
+.report-form{
+    margin: auto;
+}
+
+.display-list{
+    margin: auto;
+}

@@ -175,6 +175,7 @@ export default function EventDetails() {
         <div className={"bg-event"}>
             {!standBy ? (
                 <>
+                <div>
                     <AddFilesModal
                         setOpenModal={setAddFileModal}
                         openModal={addFileModal}

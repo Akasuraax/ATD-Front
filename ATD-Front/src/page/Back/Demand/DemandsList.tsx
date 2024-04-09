@@ -105,7 +105,7 @@ export default function DemandsList(){
     }
 
     return(
-        <main>
+        <main className="display-list">
             <div className="m-auto content max-w-screen-xl">
                 <h2 className="text-center mb-8">{t('demands.title')}</h2>
                 <Box sx={{height: "500px", width: 'auto'}}>

@@ -42,7 +42,7 @@ function LanguagesList(){
     }
 
     return(
-        <main>
+        <main className="display-list">
             <div className="m-auto content max-w-screen-xl">
                 <h2 className="text-center mb-8">{t('languages.title')}</h2>
                 <button

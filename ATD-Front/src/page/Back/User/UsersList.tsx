@@ -144,7 +144,7 @@ function UsersList() {
     }
 
     return (
-        <main>
+        <main className="display-list">
             <div className="m-auto">
                 <h2 className="text-center mb-8">{t('user.title')}</h2>
                     <Box sx={{height: '60vh', width: 'auto'}}>

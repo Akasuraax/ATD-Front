@@ -122,7 +122,7 @@ function Vehicle() {
     }
 
     return (
-        <main>
+        <main className="display-list">
             <div className="m-auto">
                 <h2 className="text-center mb-8">{title}</h2>
                 <button

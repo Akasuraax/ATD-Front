@@ -73,7 +73,7 @@ export default function EventsList() {
     }
 
     return (
-        <main>
+        <main className="display-list">
             <div
                 style={{width: '80vw'}}
                 className="flex flex-wrap min-w-full items-center mx-auto">

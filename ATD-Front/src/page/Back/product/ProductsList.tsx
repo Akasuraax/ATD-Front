@@ -91,7 +91,7 @@ function ProductsList(){
     }
 
     return(
-        <main>
+        <main className="display-list">
             <div className="m-auto content max-w-screen-xl">
                 <h2 className="text-center mb-8">{t('product.title')}</h2>
                 <button
