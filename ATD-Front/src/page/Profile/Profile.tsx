@@ -43,7 +43,7 @@ export default function Profile() {
             setUser(userResponse);
             setNewUser(userResponse);
             const activityResponse = await getActivities({page: 0, pageSize: 3}, pushToast);
-            setActivities(activityResponse.data)
+            setActivities(activityResponse)
             setStandBy(false);
         } catch (error) {
             setStandBy(true);
@@ -80,7 +80,7 @@ export default function Profile() {
                             style={{width: "25vw"}}
                             className="px-4 mx-auto">
                             {edit ? (
-                                <EditUxser
+                                <EditUser
                                     user={user}
                                     onButtonClick={() => {
                                         setedit(false)
@@ -100,15 +100,6 @@ export default function Profile() {
 
                         </div>
                         <div className="px-4 mx-auto ">
-                            <div
-                                style={{width: "70vw"}}
-                                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
-                                <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-5">évenement
-                                    a venir</h1>
-                                <TimelineCompnent
-                                    activities={activities}
-                                />
-                            </div>
                             <div
                                 style={{width: "70vw"}}
                                 className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
