@@ -160,36 +160,36 @@ export default function EventDetails() {
         }
     }
 
-    const editJourney = async (journey:string[]) => {
+    const editJourney = async (journey: string[]) => {
         try {
-            const res = await routePlanner({steps:journey},pushToast)
+            const res = await routePlanner({steps: journey}, pushToast)
+            console.log(res)
             const formattedJourneyString = res.data.steps.replace(/'/g, '"');
             const journeyArray = JSON.parse(formattedJourneyString);
             setBestJourney(journeyArray)
+            setSaveJourneyModal(true);
+
         } catch (error) {
             console.log(error)
         }
     }
 
-    useEffect(() => {
-        setSaveJourneyModal(true)
-    }, [bestJourney]);
-
     const saveJourney = async (j) => {
         const journeyToSend = {
-            journey:{
-                name:j.name
+            journey: {
+                name: j.name
             },
             steps: j.steps.map(step => step.address),
-            activity:activity,
+            activity: activity,
             vehicle: {
-                id:j.vehicleId
+                id: j.vehicleId
             }
         }
         try {
-            const res = await postJourney(journeyToSend,pushToast)
+            const res = await postJourney(journeyToSend, pushToast)
             const journey = [res.data.journey]
-            updateField('journeys',journey)
+            updateField('journeys', journey)
+            setSaveJourneyModal(false)
         } catch (error) {
             console.log(error)
         }
@@ -222,7 +222,7 @@ export default function EventDetails() {
                         openModal={saveJourneyModal}
                         update={saveJourney}
                         journeySteps={bestJourney}
-                        />
+                    />
                     <div
                         className="bg-white flex justify-end sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 m-4">
                         <button
@@ -386,30 +386,30 @@ export default function EventDetails() {
                                 </div>
                             </>
                         ) : null}
-                        <div className="grid grid-cols-4 gap-4 mb-4">
-                            <div className="col-span-3">
-                                <div
-                                    style={{height: "448px"}}
-                                    className="bg-white flex flex-col justify-between rounded-lg p-4 shadow border-gray-300 dark:border-gray-600 h-96">
-                                    <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.journey")}</h5>
-                                    { activity.journeys[0] !== undefined ? (
-                                    <JourneyActivity journey={activity.journeys[0].steps}/>
-                                        ) : null }
-                                    <div className={"flex justify-end mt-4"}>
-                                        <button
-                                            onClick={() => setAddJourneyModal(true)}
-                                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                            {t("activity.addJourney")}
-                                        </button>
-                                        <button
-                                            onClick={() => setSaveJourneyModal(true)}
-                                            className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                            {t("activity.saveJourney")}
-                                        </button>
+                        {activity.type.access_to_journey ? (
+                            <div className="grid grid-cols-4 gap-4 mb-4">
+                                <div className="col-span-3">
+                                    <div
+                                        style={{height: "480px"}}
+                                        className="bg-white flex flex-col justify-between rounded-lg p-4 shadow border-gray-300 dark:border-gray-600">
+                                        <div className={"flex justify-between"}>
+                                            <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.journey")}</h5>
+                                            <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{activity.journeys[0]?.name}</h5>
+                                        </div>
+                                        {activity.journeys[0] !== undefined ? (
+                                            <JourneyActivity journey={activity.journeys[0].steps}/>
+                                        ) : null}
+                                        <div className={"flex justify-end mt-4"}>
+                                            <button
+                                                onClick={() => setAddJourneyModal(true)}
+                                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                                {t("activity.addJourney")}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        ) : null}
                     </div>
                 </>
             ) : (

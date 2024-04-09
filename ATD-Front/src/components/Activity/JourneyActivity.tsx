@@ -1,4 +1,3 @@
-import {t} from "i18next";
 import {useEffect, useState} from "react";
 import {ISteps} from "../../interfaces/activity";
 
