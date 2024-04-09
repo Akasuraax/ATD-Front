@@ -21,6 +21,10 @@ export const postActivity = async (params, pushToast) => {
     return postRequest(`activity/`,params, pushToast);
 };
 
+export const postJourney = async (params, pushToast) => {
+    return postRequest(`journey/`,params, pushToast);
+};
+
 export const postActivitySubscribe = async (params, pushToast,activityId) => {
     return postRequest(`activity/participate/${activityId}`,params, pushToast);
 };

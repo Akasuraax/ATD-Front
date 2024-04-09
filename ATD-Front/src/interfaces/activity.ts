@@ -42,7 +42,21 @@ export interface IAddActivity {
     annexe:IAnnexes,
     journeySteps:string[],
     vehicle:IVehicles,
-    products:IActivityProduct[]
+    products:IActivityProduct[],
+    journeys:IJourney[]
+}
+
+interface IJourney {
+    id:number,
+    name:string
+    duration:number,
+    distance:number,
+    steps:ISteps[]
+}
+
+export interface ISteps {
+    id?:number,
+    address:string
 }
 export class Activity implements IActivity2{
     name:string
