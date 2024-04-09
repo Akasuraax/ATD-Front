@@ -47,7 +47,7 @@ export default function TypeDetails(){
             setType(patchResponse.type);
             setNewTypes(prevTypes => ({
                 ...prevTypes,
-                display: prevTypes.display && patchResponse.type.display // Update only if both are true
+                display: prevTypes.display && patchResponse.type.display
             }));
             setEdit(false);
         } catch (error) {

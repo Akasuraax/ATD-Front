@@ -102,6 +102,7 @@ export default function PiecesList(){
         setStandBy(true);
         try {
             const response = await getPieces(dataGrid, pushToast);
+            console.log(response)
             setPieces(response.data);
             setRowCount(response.total)
             setStandBy(false);

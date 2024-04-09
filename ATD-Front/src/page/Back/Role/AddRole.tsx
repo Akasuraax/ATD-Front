@@ -49,8 +49,9 @@ export default function AddRole(){
             role_id: form.elements["role_id"].value
         }
         try {
-            const respons = await postRole(role, pushToast);
-            navigate(`/back/roles/${respons.role.id}`)
+            const response = await postRole(role, pushToast);
+            if(response.status === 201)
+                navigate(`/back/roles`)
         } catch (error) {
             console.log(error)
         }

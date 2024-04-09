@@ -220,11 +220,11 @@ export default function UserDetails() {
                                                             padding: '0',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={newUser?.name || user.name}
+                                                        value={newUser?.name}
                                                         onChange={(e) => updateUserField('name', e.target.value)}
                                                     />
                                                 ) : (
-                                                    <span>{user.name}</span>
+                                                    <span>{newUser.name}</span>
                                                 )}
                                             </div>
                                         </dd>
@@ -246,11 +246,11 @@ export default function UserDetails() {
                                                             padding: '0',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={newUser?.forname || user.forname}
+                                                        value={newUser?.forname}
                                                         onChange={(e) => updateUserField('forname', e.target.value)}
                                                     />
                                                 ) : (
-                                                    <span>{user.forname}</span>
+                                                    <span>{newUser.forname}</span>
                                                 )}
                                             </div>
                                         </dd>
@@ -272,11 +272,11 @@ export default function UserDetails() {
                                                             padding: '0',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={newUser?.email || user.email}
+                                                        value={newUser?.email}
                                                         onChange={(e) => updateUserField('email', e.target.value)}
                                                     />
                                                 ) : (
-                                                    <span>{user.email}</span>
+                                                    <span>{newUser.email}</span>
                                                 )}
                                             </div>
                                         </dd>
@@ -301,11 +301,11 @@ export default function UserDetails() {
                                                         }}
                                                         pattern="^[\d\s]*$"
                                                         onInput={(e) => e.target.value = e.target.value.replace(/[^\d]/g, '').slice(0, 10)}
-                                                        value={newUser?.phone_number || user.phone_number}
+                                                        value={newUser?.phone_number}
                                                         onChange={(e) => updateUserField('phone_number', e.target.value)}
                                                     />
                                                 ) : (
-                                                    <span>{user.phone_number}</span>
+                                                    <span>{newUser.phone_number}</span>
                                                 )}
                                             </div>
                                         </dd>
@@ -375,11 +375,11 @@ export default function UserDetails() {
                                                             padding: '0',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={newUser?.address || user.address}
+                                                        value={newUser?.address}
                                                         onChange={(e) => updateUserField('address', e.target.value)}
                                                     />
                                                 ) : (
-                                                    <span>{user.address}</span>
+                                                    <span>{newUser.address}</span>
                                                 )}
                                             </div>
                                         </dd>
@@ -438,11 +438,11 @@ export default function UserDetails() {
                                                                     padding: '0',
                                                                     fontSize: '0.875rem'
                                                                 }}
-                                                                value={newUser?.compagny || user.compagny}
+                                                                value={newUser?.compagny}
                                                                 onChange={(e) => updateUserField('compagny', e.target.value)}
                                                             />
                                                         ) : (
-                                                            <span>{user.compagny}</span>
+                                                            <span>{newUser.compagny}</span>
                                                         )}
                                                     </div>
                                                 </dd>
@@ -464,12 +464,12 @@ export default function UserDetails() {
                                                                     padding: '0',
                                                                     fontSize: '0.875rem'
                                                                 }}
-                                                                value={newUser?.siret_number || user.siret_number}
+                                                                value={newUser?.siret_number}
                                                                 onInput={(e) => e.target.value = e.target.value.replace(/[^\d]/g, '').slice(0, 14)}
                                                                 onChange={(e) => updateUserField('siret_number', e.target.value)}
                                                             />
                                                         ) : (
-                                                            <span>{user.siret_number}</span>
+                                                            <span>{newUser.siret_number}</span>
                                                         )}
                                                     </div>
                                                 </dd>

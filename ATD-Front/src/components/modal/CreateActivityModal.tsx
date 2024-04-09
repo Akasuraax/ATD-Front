@@ -243,7 +243,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
     return (
         <Modal theme={customTheme} show={true} onClose={() => setOpenModal(false)}>
             <Modal.Header>
-                <h3>crée activité</h3>
+                <h3>{t("createActivity.create")}</h3>
             </Modal.Header>
 
             <Modal.Body>

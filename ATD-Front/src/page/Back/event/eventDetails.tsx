@@ -196,65 +196,64 @@ export default function EventDetails() {
                         </button>
                     </div>
                     <div className="p-4 md:ml-64 h-auto pt-20 bg-event grid grid-cols-2 gap-4">
-                        <div className="grid grid-cols-3 gap-4">
-                            <div
-                                style={{height: "448px"}}
-                                className="bg-white col-span-2 sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
-                                <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.details")}</h5>
-                                <>
-                                    <div className={'overflow-auto scroll-container'}
-                                         style={{maxHeight: "320px", overflow: 'auto'}}>
-                                        <label htmlFor="title"
-                                               className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createTitle')}</label>
-                                        <input
-                                            type="text"
-                                            name="title"
-                                            required={true}
-                                            style={{
-                                                borderBottom: '1px solid black',
-                                                borderLeft: 'none',
-                                                borderRight: 'none',
-                                                borderTop: 'none',
-                                                margin: '0',
-                                                padding: '0',
-                                                fontSize: '0.875rem',
-                                                width: '20%',
-                                                marginBottom: '12px',
-                                            }}
-                                            value={activity.title}
-                                            onChange={(e) => updateField('title', e.target.value)}
-                                        />
-                                        <label htmlFor="description"
-                                               className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createDescription')}</label>
-                                        <Textarea
-                                            style={{
-                                                minHeight: "50px",
-                                                maxHeight: "200px"
-                                            }}
-                                            value={activity.description}
-                                            onChange={(e) => updateField('description', e.target.value)}
-                                            name="description"
-                                            required={true}
-                                            id="description"
-                                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder={t("recipe.details") + "..."}>
-                                        </Textarea>
-                                        <label htmlFor="title"
-                                               className="block mt-4 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createType')}</label>
-                                        <p>{activity.type.name}</p>
+                        <div
+                            style={{height: "448px"}}
+                            className="bg-white sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
+                            <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.back.details")}</h5>
+                            <>
+                                <div className={'overflow-auto scroll-container'}
+                                     style={{maxHeight: "320px", overflow: 'auto'}}>
+                                    <label htmlFor="title"
+                                           className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createTitle')}</label>
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        required={true}
+                                        style={{
+                                            borderBottom: '1px solid black',
+                                            borderLeft: 'none',
+                                            borderRight: 'none',
+                                            borderTop: 'none',
+                                            margin: '0',
+                                            padding: '0',
+                                            fontSize: '0.875rem',
+                                            width: '20%',
+                                            marginBottom: '12px',
+                                        }}
+                                        value={activity.title}
+                                        onChange={(e) => updateField('title', e.target.value)}
+                                    />
+                                    <label htmlFor="description"
+                                           className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createDescription')}</label>
+                                    <Textarea
+                                        style={{
+                                            minHeight: "50px",
+                                            maxHeight: "200px"
+                                        }}
+                                        value={activity.description}
+                                        onChange={(e) => updateField('description', e.target.value)}
+                                        name="description"
+                                        required={true}
+                                        id="description"
+                                        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder={t("recipe.details") + "..."}>
+                                    </Textarea>
+                                    <label htmlFor="title"
+                                           className="block mt-4 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createType')}</label>
+                                    <p>{activity.type.name}</p>
 
-                                        <label htmlFor="address"
-                                               className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createAddress')}</label>
-                                        <AddressInput
-                                            onAddressSelect={(address) => updateField('address', address.value.description)}
-                                            prevAddres={activity.address}
-                                        />
-                                        <label htmlFor="startDate"
-                                               className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createStartDate')}</label>
-                                        <p>{activity.start_date.toString()}</p>
-                                        <label htmlFor="endDate"
-                                               className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createEndDate')}</label>
-                                        <p>{activity.end_date.toString()}</p>
+                                    <label htmlFor="address"
+                                           className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.address')}</label>
+                                    <AddressInput
+                                        onAddressSelect={(address) => updateField('address', address.value.description)}
+                                        prevAddres={activity.address}
+                                    />
+                                    <label htmlFor="startDate"
+                                           className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createStartDate')}</label>
+                                    <p>{activity.start_date.toString()}</p>
+                                    <label htmlFor="endDate"
+                                           className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createEndDate')}</label>
+                                    <p>{activity.end_date.toString()}</p>
 
                                         <label htmlFor="title"
                                                className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createDonation')}</label>
@@ -297,7 +296,7 @@ export default function EventDetails() {
                         <div
                             style={{height: "448px"}}
                             className="bg-white flex flex-col justify-between sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 mb-4">
-                            <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.roles")}</h5>
+                            <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("createActivity.roles")}</h5>
                             <div className={"flex flex-col justify-between h-full"}>
                                 <ListRolesActivity
                                     onActivityRolesChange={changeRoles}
@@ -317,7 +316,7 @@ export default function EventDetails() {
                                 <div
                                     style={{height: "448px"}}
                                     className="bg-white flex flex-col justify-between sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
-                                    <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.recipes")}</h5>
+                                    <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.back.recipes")}</h5>
                                     <div>
                                         <ListRecipesActivity
                                             onActivityRecipesChange={changeRecipes}
@@ -335,7 +334,7 @@ export default function EventDetails() {
                                 <div
                                     style={{height: "448px"}}
                                     className="bg-white flex flex-col justify-between sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
-                                    <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.products")}</h5>
+                                    <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.back.products")}</h5>
                                     <ListProductsActivity
                                         onActivityProductsChange={changeProducts}
                                         prevProducts={activity.products}

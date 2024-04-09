@@ -40,7 +40,7 @@ export default function AddProduct() {
                     type: "failure"
                 });
             } else {
-                navigate(`/back/products/${respons.data.product.id}`)
+                navigate(`/back/products`)
             }
         } catch (error) {
             console.log(error)

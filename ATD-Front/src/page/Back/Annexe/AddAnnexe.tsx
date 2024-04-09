@@ -38,7 +38,8 @@ export default function AddAnnexe(){
         }
         try {
             const respons = await postAnnexe(annexe, pushToast);
-            navigate(`/back/annexes`)
+            if(respons.status === 201)
+                navigate(`/back/annexes`)
 
         } catch (error) {
             console.log(error)
