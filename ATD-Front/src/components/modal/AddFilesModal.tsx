@@ -61,7 +61,7 @@ export default function AddRoleModal({setOpenModal, activityId, openModal, updat
             );
         } else {
             pushToast({
-                content: "Le nom du file est déja pris",
+                content: "Le nom du fichier est déja pris",
                 type: "failure"
             });
         }

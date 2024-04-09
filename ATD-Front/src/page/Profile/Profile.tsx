@@ -80,7 +80,7 @@ export default function Profile() {
                             style={{width: "25vw"}}
                             className="px-4 mx-auto">
                             {edit ? (
-                                <EditUser
+                                <EditUxser
                                     user={user}
                                     onButtonClick={() => {
                                         setedit(false)
