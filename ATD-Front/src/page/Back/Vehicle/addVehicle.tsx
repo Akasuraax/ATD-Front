@@ -21,6 +21,7 @@ export default function AddVehicle() {
             name: '',
             license_plate: '',
             average_consumption: 0,
+            partner: false,
             fuel_type: '',
             id_annexe: 1
         }
@@ -43,6 +44,7 @@ export default function AddVehicle() {
             license_plate: form.elements["license_plate"].value,
             average_consumption: Number(form.elements["average_consumption"].value),
             fuel_type: form.elements["fuel_type"].value,
+            partner: form.elements["partner"].value,
             id_annexe: Number(form.elements["id_annexe"].value),
         }
         try {
@@ -153,6 +155,29 @@ export default function AddVehicle() {
                                                 pattern="[0-9]{5}"
                                                 onChange={(e) => updateVehicleField('average_consumption', e.target.value.slice(0, 5).replace(/\D/g, ''))}
                                             />
+                                        </div>
+                                    </dd>
+                                </div>
+
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.partner')}</dt>
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <div className="flex items-center justify-end ">
+                                            <select
+                                                name="partner"
+                                                required={true}
+                                                style={{
+                                                    border: '1px solid black',
+                                                    borderRadius: '4px',
+                                                    padding: '0.25rem 3rem',
+                                                    fontSize: '0.875rem'
+                                                }}
+                                                value={vehicle.partner ? "1" : "0"}
+                                                onChange={(e) => updateVehicleField('partner', e.target.value === "1")}
+                                            >
+                                                <option value="1">Oui</option>
+                                                <option value="0">Non</option>
+                                            </select>
                                         </div>
                                     </dd>
                                 </div>

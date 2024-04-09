@@ -47,18 +47,21 @@ function TypesList(){
             headerName: t("types.access_to_warehouse"),
             width: 175,
             editable: false,
+            renderCell: (params) => yesOrNo(params.value)
         },
         {
             field: 'access_to_journey',
             headerName: t("types.access_to_journey"),
             width: 175,
             editable: false,
+            renderCell: (params) => yesOrNo(params.value)
         },
         {
             field: 'display',
             headerName: t("types.display"),
             width: 175,
             editable: false,
+            renderCell: (params) => yesOrNo(params.value)
         },
         {
             field: 'archive',
@@ -73,6 +76,13 @@ function TypesList(){
         else return <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">actif</span>
 
     };
+
+    const yesOrNo = (bool: boolean) => {
+        if (bool)
+            return <span>{t("generic.yes")}</span>
+        else
+            return <span>{t("generic.no")}</span>
+    }
 
     const renderColorCell = (color: string) => {
         return <span style={{color:color}}>{color}</span>

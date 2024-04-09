@@ -12,6 +12,7 @@ import DeleteModal from "../../../components/modal/deleteModal";
 import {deleteVehicle, getVehicle, patchVehicle} from "../../../apiService/vehiclesService";
 import {getAnnexesAll} from "../../../apiService/annexe";
 import {IAnnexe} from "../../../interfaces/annexe";
+import * as React from "react";
 
 
 
@@ -59,6 +60,11 @@ export default function VehicleDetails() {
     async function save() {
         try {
             const patchRespons = await patchVehicle(newVehicle, pushToast, vehiclesId);
+            if(patchRespons.vehicle.status == 2) {
+                await handleModalClose(true);
+                setEdit(false);
+                return;
+            }
             setVehicle(patchRespons.vehicle);
             setNewVehicle(patchRespons.vehicle);
             setEdit(false)
@@ -162,6 +168,33 @@ export default function VehicleDetails() {
                                                     />
                                                 ) : (
                                                     <span>{newVehicle.license_plate}</span>
+                                                )}
+                                            </div>
+                                        </dd>
+                                    </div>
+
+                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('vehicle.partner')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                            <div className="flex items-center justify-end">
+                                                {edit ? (
+                                                    <select
+                                                        name="partner"
+                                                        required={true}
+                                                        style={{
+                                                            border: '1px solid black',
+                                                            borderRadius: '4px',
+                                                            padding: '0.25rem 3rem',
+                                                            fontSize: '0.875rem'
+                                                        }}
+                                                        value={newVehicle.partner ? "1" : "0"}
+                                                        onChange={(e) => updateField('partner', e.target.value === "1")}
+                                                    >
+                                                        <option value="1">Oui</option>
+                                                        <option value="0">Non</option>
+                                                    </select>
+                                                ) : (
+                                                    <span>{newVehicle.partner === false ? t("generic.no") : t("generic.yes") }</span>
                                                 )}
                                             </div>
                                         </dd>

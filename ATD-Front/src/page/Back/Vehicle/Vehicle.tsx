@@ -54,6 +54,13 @@ function Vehicle() {
             editable: false,
         },
         {
+            field: 'partner',
+            headerName: t('vehicle.partner'),
+            width:150,
+            editable: false,
+            renderCell: (params) => yesOrNo(params.value)
+        },
+        {
             field: 'average_consumption',
             headerName: t("vehicle.avgConsumption"),
             width: 300,
@@ -72,6 +79,14 @@ function Vehicle() {
             editable: false,
         },
     ];
+
+
+    const yesOrNo = (bool: boolean) => {
+        if (bool)
+            return <span>{t("generic.yes")}</span>
+        else
+            return <span>{t("generic.no")}</span>
+    }
 
     useEffect(() => {
         sendRequest();
