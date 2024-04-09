@@ -144,7 +144,7 @@ export default function ListRecipesActivity({onActivityRecipesChange, prevRecipe
                                     {t('createActivity.number')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    {t('createActivity.max')}
+                                    {t('createActivity.maximum')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
                                     {t('createActivity.action')}

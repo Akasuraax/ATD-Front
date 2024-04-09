@@ -42,6 +42,11 @@ export default function WarehouseDetails() {
     async function save() {
         try {
             const patchRespons = await patchWarehouse(newWarehouse, pushToast, warehouseId);
+            if(patchRespons.warehouse.status == 2) {
+                await handleModalClose(true);
+                setEdit(false);
+                return;
+            }
             setWarehouse(patchRespons.warehouse);
             setNewWarehouse(patchRespons.warehouse);
             setEdit(false)
@@ -103,7 +108,7 @@ export default function WarehouseDetails() {
                                                             padding: '0',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={newWarehouse?.name || warehouse.name}
+                                                        value={newWarehouse?.name}
                                                         onChange={(e) => updateUserField('name', e.target.value)}
                                                     />
                                                 ) : (
@@ -129,7 +134,7 @@ export default function WarehouseDetails() {
                                                             padding: '0',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={newWarehouse?.address || warehouse.address}
+                                                        value={newWarehouse?.address}
                                                         onChange={(e) => updateUserField('address', e.target.value)}
                                                     />
                                                 ) : (
@@ -155,7 +160,7 @@ export default function WarehouseDetails() {
                                                             padding: '0',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={newWarehouse?.zipcode || warehouse.zipcode}
+                                                        value={newWarehouse?.zipcode}
                                                         onChange={(e) => updateUserField('zipcode', e.target.value)}
                                                     />
                                                 ) : (
@@ -181,7 +186,7 @@ export default function WarehouseDetails() {
                                                             padding: '0',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={newWarehouse?.capacity || warehouse.capacity}
+                                                        value={newWarehouse?.capacity}
                                                         onChange={(e) => updateUserField('capacity', e.target.value)}
                                                     />
                                                 ) : (

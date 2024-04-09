@@ -44,7 +44,6 @@ export default function RoleDetails(){
     async function save() {
         try {
             const patchRespons = await patchRole(newRoles, pushToast, roleId);
-            console.log(patchRespons.role)
             setRole(patchRespons.role);
             setNewRoles(patchRespons.role);
 

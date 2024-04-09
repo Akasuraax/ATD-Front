@@ -66,6 +66,11 @@ export default function PieceDetails(){
     async function save() {
         try {
             const patchRespons = await patchPiece(newPiece, pushToast, pieceId);
+            if(patchRespons.piece.status == 2) {
+                await handleModalClose(true);
+                setEdit(false);
+                return;
+            }
             setPiece(patchRespons.piece);
             setNewPiece(patchRespons.piece);
             setEdit(false)

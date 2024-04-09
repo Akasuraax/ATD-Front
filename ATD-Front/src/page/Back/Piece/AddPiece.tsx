@@ -58,8 +58,13 @@ export default function AddPiece(){
 
         try {
             const response = await postPiece(piece, pushToast);
-            console.log(response);
-            navigate(`/back/pieces/${response.piece.id}`);
+            if(response.status === 422) {
+                pushToast({
+                    content: t("generic.fillMessage"),
+                    type: "failure"
+                });
+            }if(response.status === 201)
+                navigate(`/back/pieces`);
         } catch (error) {
             console.log(error);
         }

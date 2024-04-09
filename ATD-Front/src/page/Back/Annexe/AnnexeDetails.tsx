@@ -41,6 +41,11 @@ export default function AnnexeDetails(){
     async function save() {
         try {
             const patchRespons = await patchAnnexe(newAnnexe, pushToast, annexeId);
+            if(patchRespons.annexe.status == 2) {
+                await handleModalClose(true);
+                setEdit(false);
+                return;
+            }
             setAnnexe(patchRespons.annexe);
             setNewAnnexe(patchRespons.annexe);
             setEdit(false)

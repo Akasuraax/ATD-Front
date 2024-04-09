@@ -18,7 +18,6 @@ import TicketTracking from "./page/Ticket/Tracking/TicketTracking.tsx";
 import UsersList from "./page/Back/User/UsersList.tsx";
 import Vehicle from "./page/Back/Vehicle/Vehicle.tsx";
 import Warehouse from "./page/Back/Warehouse/WarehousesList";
-import ActivityList from "./page/Back/Activity/Activity.jsx";
 import Language from "./page/Back/Language/LanguagesList.tsx";
 import UserDetails from "./page/Back/User/UserDetails"
 import 'flowbite/dist/flowbite.min.css';
@@ -287,20 +286,6 @@ function App() {
                                 {
                                     path: ':productId',
                                     element: <ProductDetails/>,
-                                }
-                            ]
-                        },
-                        {
-                            path: 'activities',
-                            element: <Outlet/>,
-                            children: [
-                                {
-                                    path: '',
-                                    element: <ActivityList/>
-                                },
-                                {
-                                    path: 'add',
-                                    element: <AddType/>
                                 }
                             ]
                         },

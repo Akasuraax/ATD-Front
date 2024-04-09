@@ -49,7 +49,6 @@ export default function AddProduct() {
         e.preventDefault();
         try {
             const respons = await patchProduct(product, pushToast,productId);
-            console.log(respons)
             if (respons.status === 409) {
                 pushToast({
                     content: t("recipe.conflictMessage"),

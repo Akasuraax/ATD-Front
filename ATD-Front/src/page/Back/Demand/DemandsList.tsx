@@ -96,7 +96,6 @@ export default function DemandsList(){
         setStandBy(true);
         try {
             const response = await getDemands(dataGrid, pushToast);
-            console.log(response.data)
             setPieces(response.data);
             setRowCount(response.total)
             setStandBy(false);

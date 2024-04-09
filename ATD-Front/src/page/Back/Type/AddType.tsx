@@ -47,7 +47,8 @@ export default function AddType(){
         };
         try {
             const response = await postType(type, pushToast);
-            navigate(`/back/types`)
+            if(response.status === 201)
+                navigate(`/back/types`)
         } catch (error) {
             console.log(error);
         }

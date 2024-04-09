@@ -32,8 +32,6 @@ export const postRequest = async (url, data, pushToast) => {
 
         return res
     } catch(res) {
-        console.log(res)
-
         if(res.response.status !== 409)
         pushToast({
             content: "Une erreur est survenue",

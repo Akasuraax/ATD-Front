@@ -181,7 +181,7 @@ export default function EventDetails() {
                         <div
                             style={{height: "448px"}}
                             className="bg-white sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
-                            <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.details")}</h5>
+                            <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.back.details")}</h5>
                             <>
                                 <div className={'overflow-auto scroll-container'}
                                      style={{maxHeight: "320px", overflow: 'auto'}}>
@@ -225,7 +225,7 @@ export default function EventDetails() {
                                     <p>{activity.type.name}</p>
 
                                     <label htmlFor="address"
-                                           className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.createAddress')}</label>
+                                           className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.address')}</label>
                                     <AddressInput
                                         onAddressSelect={(address) => updateField('address', address.value.description)}
                                         prevAddres={activity.address}
@@ -259,7 +259,7 @@ export default function EventDetails() {
                         <div
                             style={{height: "448px"}}
                             className="bg-white flex flex-col justify-between sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 mb-4">
-                            <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.roles")}</h5>
+                            <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("createActivity.roles")}</h5>
                             <div className={"flex flex-col justify-between h-full"}>
                                 <ListRolesActivity
                                     onActivityRolesChange={changeRoles}
@@ -279,7 +279,7 @@ export default function EventDetails() {
                                 <div
                                     style={{height: "448px"}}
                                     className="bg-white flex flex-col justify-between sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
-                                    <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.recipes")}</h5>
+                                    <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.back.recipes")}</h5>
                                     <div>
                                         <ListRecipesActivity
                                             onActivityRecipesChange={changeRecipes}
@@ -297,7 +297,7 @@ export default function EventDetails() {
                                 <div
                                     style={{height: "448px"}}
                                     className="bg-white flex flex-col justify-between sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
-                                    <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.products")}</h5>
+                                    <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.back.products")}</h5>
                                     <ListProductsActivity
                                         onActivityProductsChange={changeProducts}
                                         prevProducts={activity.products}
@@ -317,7 +317,7 @@ export default function EventDetails() {
                                 style={{height: "448px"}}
                                 className="bg-white flex flex-col justify-between rounded-lg p-4 shadow border-gray-300 dark:border-gray-600 h-96"
                             >
-                                <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.files")}</h5>
+                                <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.back.files")}</h5>
                                 <ListFilesActivity
                                     files={activity.files}
                                     onRemoveFile={removeFile}
@@ -328,7 +328,7 @@ export default function EventDetails() {
                                     <button
                                         onClick={() => setAddFileModal(true)}
                                         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        {t("file.addFile")}
+                                        {t("activity.back.addFile")}
                                     </button>
                                 </div>
                             </div>
