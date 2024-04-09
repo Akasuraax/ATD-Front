@@ -6,7 +6,7 @@ import {
     deleteActivityFile,
     getActivity, patchActivity, patchActivityProducts,
     patchActivityRecipes,
-    patchActivityRoles, routePlanner
+    patchActivityRoles, postJourney, routePlanner
 } from "../../../apiService/ActivityService";
 import {IActivity, IAddActivity} from "../../../interfaces/activity";
 import {Spinner, Textarea} from "flowbite-react";
@@ -26,6 +26,7 @@ import {getTypesAll} from "../../../apiService/TypeService";
 import {IType} from "../../../interfaces/type";
 import JourneyActivity from "../../../components/Activity/JourneyActivity";
 import AddJourneyActivity from "../../../components/modal/AddJourneyActivity";
+import SaveJourneyModal from "../../../components/modal/SaveJourneyModal";
 
 
 export default function EventDetails() {
@@ -37,6 +38,7 @@ export default function EventDetails() {
     const [addFileModal, setAddFileModal] = useState<boolean>(false)
     const [addJourneyModal, setAddJourneyModal] = useState<boolean>(false)
     const [removeFileModal, setRemoveFileModal] = useState<boolean>(false)
+    const [saveJourneyModal, setSaveJourneyModal] = useState<boolean>(false)
     const [bestJourney, setBestJourney] = useState<string[]>([])
 
     const [fileToRemove, setFileToRemove] = useState<File>(null)
@@ -158,13 +160,36 @@ export default function EventDetails() {
         }
     }
 
-    const saveJourney = async (journey:string[]) => {
+    const editJourney = async (journey:string[]) => {
         try {
             const res = await routePlanner({steps:journey},pushToast)
             const formattedJourneyString = res.data.steps.replace(/'/g, '"');
-
             const journeyArray = JSON.parse(formattedJourneyString);
             setBestJourney(journeyArray)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        setSaveJourneyModal(true)
+    }, [bestJourney]);
+
+    const saveJourney = async (j) => {
+        const journeyToSend = {
+            journey:{
+                name:j.name
+            },
+            steps: j.steps.map(step => step.address),
+            activity:activity,
+            vehicle: {
+                id:j.vehicleId
+            }
+        }
+        try {
+            const res = await postJourney(journeyToSend,pushToast)
+            const journey = [res.data.journey]
+            updateField('journeys',journey)
         } catch (error) {
             console.log(error)
         }
@@ -186,7 +211,18 @@ export default function EventDetails() {
                         openModal={removeFileModal}
                         text={t("generic.deleteMessage")}
                     />
-                    <AddJourneyActivity openModal={addJourneyModal} setOpenModal={setAddJourneyModal} saveJourney={saveJourney}/>
+                    <AddJourneyActivity
+                        openModal={addJourneyModal}
+                        setOpenModal={setAddJourneyModal}
+                        saveJourney={editJourney}
+                    />
+                    <SaveJourneyModal
+                        setOpenModal={setSaveJourneyModal}
+                        activityId={activity.id}
+                        openModal={saveJourneyModal}
+                        update={saveJourney}
+                        journeySteps={bestJourney}
+                        />
                     <div
                         className="bg-white flex justify-end sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 m-4">
                         <button
@@ -356,12 +392,19 @@ export default function EventDetails() {
                                     style={{height: "448px"}}
                                     className="bg-white flex flex-col justify-between rounded-lg p-4 shadow border-gray-300 dark:border-gray-600 h-96">
                                     <h5 className="font-semibold text-gray-900 dark:text-white mr-8 mb-2">{t("activity.journey")}</h5>
-                                    <JourneyActivity journey={bestJourney}/>
+                                    { activity.journeys[0] !== undefined ? (
+                                    <JourneyActivity journey={activity.journeys[0].steps}/>
+                                        ) : null }
                                     <div className={"flex justify-end mt-4"}>
                                         <button
                                             onClick={() => setAddJourneyModal(true)}
                                             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                            {t("file.addFile")}
+                                            {t("activity.addJourney")}
+                                        </button>
+                                        <button
+                                            onClick={() => setSaveJourneyModal(true)}
+                                            className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                            {t("activity.saveJourney")}
                                         </button>
                                     </div>
                                 </div>
