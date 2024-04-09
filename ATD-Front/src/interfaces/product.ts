@@ -2,9 +2,8 @@ export interface IProduct {
     id:number,
     name:string;
     measure:string,
-    count:number,
-    create_at:Date,
-    update_at:Date,
+    created_at:Date,
+    updated_at:Date,
     archive:boolean
 }
 
@@ -19,6 +18,5 @@ export interface IActivityProduct {
     id:number,
     name:string;
     measure:string,
-    count:number,
     max:number
 }
