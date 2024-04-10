@@ -126,7 +126,7 @@ export default function ActivivityModal({setOpenModal, activityId}: {
                             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                                 {activity.description}
                             </p>
-                            <ListFilesActivity files={activity.files} metaData={false}/>
+                            <ListFilesActivity files={activity.files} metaData={false} nbChar={50}/>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>

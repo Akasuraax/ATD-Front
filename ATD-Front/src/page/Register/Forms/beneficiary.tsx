@@ -9,6 +9,7 @@ import {ISendBeneficiary} from "../../../interfaces/user";
 import {postUser} from "../../../apiService/UserService";
 import {useToast} from "../../../components/Toast/ToastContex";
 import {useNavigate} from 'react-router-dom';
+import React from "react";
 
 function BeneficiaryForm() {
     const navigate = useNavigate();
@@ -31,24 +32,28 @@ function BeneficiaryForm() {
     const registerBtn = t("register.beneficiary.registerBtn")
 
 
+    const today = new Date();
+    const eighteenYearsAgo = new Date().setFullYear(today.getFullYear() - 18);
+    const maxDate = new Date(eighteenYearsAgo).toISOString().split('T')[0];
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
 
-        const beneficiary:ISendBeneficiary = {
-            forname : form.elements["lastName"].value,
-            name : form.elements["name"].value,
-            birth_date : form.elements["birthDate"].value,
-            gender : form.elements["gender"].value,
-            email : form.elements["email"].value,
-            phone_number : form.elements["phone"].value,
-            zipcode : form.elements["zipcode"].value,
-            address : form.elements["address"].value,
-            password : form.elements["pwd"].value
+        const beneficiary: ISendBeneficiary = {
+            forname: form.elements["lastName"].value,
+            name: form.elements["name"].value,
+            birth_date: form.elements["birthDate"].value,
+            gender: form.elements["gender"].value,
+            email: form.elements["email"].value,
+            phone_number: form.elements["phone"].value,
+            zipcode: form.elements["zipcode"].value,
+            address: form.elements["address"].value,
+            password: form.elements["pwd"].value
         }
 
-        const res = await postUser(beneficiary,pushToast,'beneficiary')
-        if(res.status === 201)
+        const res = await postUser(beneficiary, pushToast, 'beneficiary')
+        if (res.status === 201)
             navigate(`/login`)
     }
 
@@ -87,12 +92,16 @@ function BeneficiaryForm() {
                             <div className="mb-5 pt-3">
                                 <div className="-mx-5 flex flex-wrap">
                                     <div className="w-full px-3 sm:w-1/2">
-                                        <InputField
-                                            label={birthDate}
-                                            type="date"
-                                            name="birthDate"
-                                            id="birthDate"
-                                        />
+                                        <div className="mb-5">
+                                            <label htmlFor={birthDate}>{birthDate}</label>
+                                            <input
+                                                className={`w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium outline-none focus:shadow-md`}
+                                                type="date"
+                                                name="birthDate"
+                                                id="birthDate"
+                                                max={maxDate}
+                                            />
+                                        </div>
                                     </div>
                                     <div className="w-full px-3 sm:w-1/2">
                                         <SelectField

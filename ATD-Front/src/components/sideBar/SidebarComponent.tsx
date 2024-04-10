@@ -13,10 +13,7 @@ export default function SidebarComponent() {
 
     function Acces(roles: number[]) {
         if (!auth.token) return false
-        if (!auth.user.roles.some(userRole => roles.includes(userRole.id))) {
-            return false;
-        }
-        return true
+        return !(!auth.user.roles.some(userRole => roles.includes(userRole.id)) || !(auth.user.status === 1));
     }
 
     return (
