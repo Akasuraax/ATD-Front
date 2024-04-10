@@ -42,6 +42,7 @@ export default function ListFilesActivity({files, onRemoveFile, metaData = true,
         }
     }
 
+    console.log(localFiles)
     return (
         <div className={"flex flex-col justify-between"}>
             <div
