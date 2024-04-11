@@ -67,6 +67,39 @@ export default function AddRoleModal({setOpenModal, activityId, openModal, updat
         }
     };
 
+    const handleFileInputChange = (event) => {
+        const filesArray = Array.from(event.target.files);
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+        const verify = filesArray.filter(f => {
+            if (f.size > 20971520) {
+                pushToast({
+                    content: "La taille du fichier dépasse 20Mo",
+                    type: "failure"
+                });
+                return;
+            } else if (!allowedTypes.includes(f.type)) {
+                pushToast({
+                    content: "Type de fichier non pris en charge",
+                    type: "failure"
+                });
+                return;
+            }
+            return f;
+        })
+
+        const uniqueFiles = verify.filter(file => files.some(existingFile => existingFile.name === file.name));
+        if (uniqueFiles.length === 0) {
+            setFiles(
+                [...files, ...verify]
+            );
+        } else {
+            pushToast({
+                content: "Le nom du fichier est déja pris",
+                type: "failure"
+            });
+        }
+    };
+
     const handleDragOver = (event) => {
         event.preventDefault();
     };
@@ -145,7 +178,7 @@ export default function AddRoleModal({setOpenModal, activityId, openModal, updat
                                 </p>
                                 <p className="text-xs text-gray-500 dark:text-gray-400">PNG, PDF, JPG; JPEG</p>
                             </div>
-                            <FileInput id="dropzone-file" className="hidden"/>
+                            <FileInput onChange={handleFileInputChange} id="dropzone-file" className="hidden"/>
                         </Label>
                     </div>
                     <div>

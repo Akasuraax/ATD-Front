@@ -1,15 +1,14 @@
 import {useEffect, useState} from "react";
-import {getMaxRecipe, getRecipesFilter} from "../../apiService/RecipeService";
-import {IActivityRecipe, IRecipe} from "../../interfaces/recipe";
 import {useToast} from "../Toast/ToastContex";
 import {t} from "i18next";
 import {IActivityProduct, IProduct} from "../../interfaces/product";
 import {getMaxProduct, getProductsFilter} from "../../apiService/productService";
+import { Popover } from "flowbite-react";
 
-export default function ListProductsActivity({onActivityProductsChange,prevProducts}: {
-        onActivityProductsChange: (products: IActivityProduct[]) => void,
-        prevProducts:IActivityProduct[]
-    }) {
+export default function ListProductsActivity({onActivityProductsChange, prevProducts}: {
+    onActivityProductsChange: (products: IActivityProduct[]) => void,
+    prevProducts: IActivityProduct[]
+}) {
 
     const [filter, setFilter] = useState<string>('');
     const [products, setProducts] = useState<IProduct[]>([])
@@ -34,12 +33,12 @@ export default function ListProductsActivity({onActivityProductsChange,prevProdu
         try {
             const max = await getMaxProduct(p.id, pushToast);
             console.log(max)
-            const product:IActivityProduct = {
-                id:p.id,
-                name:p.name,
-                measure:p.measure,
-                count:1,
-                max:max
+            const product: IActivityProduct = {
+                id: p.id,
+                name: p.name,
+                measure: p.measure,
+                count: 1,
+                max: max
             }
 
             setactivityProducts((prev) => (
@@ -58,7 +57,7 @@ export default function ListProductsActivity({onActivityProductsChange,prevProdu
     }
 
     const updateCountProducts = (value: number, id: number) => {
-        if(value < 1 ) return
+        if (value < 1) return
         setactivityProducts(prev => (
             prev.map(p => {
                 if (p.id === id) {
@@ -69,10 +68,19 @@ export default function ListProductsActivity({onActivityProductsChange,prevProdu
         ));
     }
 
+
+    const contentPopover = (
+        <div className="w-64 text-sm text-gray-500 dark:text-gray-400">
+            <div className="px-3 py-2">
+                <p>{t("recipe.maxDescription")}</p>
+            </div>
+        </div>
+    );
+
     return (
         <>
             <div className="flex h-full items-start"
-                 style={{height:'320px'}}>
+                 style={{height: '320px'}}>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3 shadow p-2 rounded h-full">
                     <div className={"h-full scroll-container"} style={{overflow: "auto"}}>
                     <span
@@ -103,7 +111,7 @@ export default function ListProductsActivity({onActivityProductsChange,prevProdu
                         className="fi fi-br-search text-xl"></i></button>
                     </span>
                         <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700  h-full"
-                            >
+                        >
                             {products
                                 .filter(r => !activityProducts.some(p => p.id === r.id))
                                 .map((p) => (
@@ -130,7 +138,7 @@ export default function ListProductsActivity({onActivityProductsChange,prevProdu
                 </dd>
 
                 <dd className="flex h-full w-full items-center justify-center"
-                     style={{overflow: "auto"}}>
+                    style={{overflow: "auto"}}>
                     <div className="relative h-full w-full p-8 overflow-x-auto shadow-md">
                         <table
                             className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -143,9 +151,12 @@ export default function ListProductsActivity({onActivityProductsChange,prevProdu
                                 <th scope="col" className="px-6 py-3">
                                     {t('createActivity.number')}
                                 </th>
-                                <th scope="col" className="px-6 py-3">
-                                    {t('createActivity.maximum')}
-                                </th>
+                                <Popover content={contentPopover}
+                                         trigger="hover">
+                                    <th scope="col" className="px-6 py-3">
+                                        {t('createActivity.maximum')}
+                                    </th>
+                                </Popover>
                                 <th scope="col" className="px-6 py-3">
                                     {t('createActivity.action')}
                                 </th>

@@ -3,6 +3,7 @@ import {getMaxRecipe, getRecipesFilter} from "../../apiService/RecipeService";
 import {IActivityRecipe, IRecipe} from "../../interfaces/recipe";
 import {useToast} from "../Toast/ToastContex";
 import {t} from "i18next";
+import {Popover} from "flowbite-react";
 
 export default function ListRecipesActivity({onActivityRecipesChange, prevRecipe}: {
     onActivityRecipesChange: (recipes:IActivityRecipe[]) => void,
@@ -67,6 +68,14 @@ export default function ListRecipesActivity({onActivityRecipesChange, prevRecipe
             })
         ));
     }
+
+    const contentPopover = (
+        <div className="w-64 text-sm text-gray-500 dark:text-gray-400">
+            <div className="px-3 py-2">
+                <p>{t("recipe.maxDescription")}</p>
+            </div>
+        </div>
+    );
 
     return (
         <>
@@ -143,9 +152,12 @@ export default function ListRecipesActivity({onActivityRecipesChange, prevRecipe
                                 <th scope="col" className="px-6 py-3">
                                     {t('createActivity.number')}
                                 </th>
-                                <th scope="col" className="px-6 py-3">
-                                    {t('createActivity.maximum')}
-                                </th>
+                                <Popover content={contentPopover}
+                                         trigger="hover">
+                                    <th scope="col" className="px-6 py-3">
+                                        {t('createActivity.maximum')}
+                                    </th>
+                                </Popover>
                                 <th scope="col" className="px-6 py-3">
                                     {t('createActivity.action')}
                                 </th>
