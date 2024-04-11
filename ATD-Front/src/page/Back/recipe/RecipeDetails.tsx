@@ -86,7 +86,7 @@ export default function AddRecipe() {
     async function deleteR() {
         try {
             const respons = await deleteRecipe(pushToast, recipeId);
-                navigate('/back/recipes')
+            navigate('/back/recipes')
         } catch (error) {
             console.log(error);
         }
@@ -163,11 +163,12 @@ export default function AddRecipe() {
             <div className="flex flex-wrap max-w-full items-center justify-between mx-auto">
                 {!standBy ? (
                     <div className="flex flex-wrap max-w-full items-center justify-between mx-auto">
-                        <div
-                            style={{width: "20vw", maxWidth: "1024px"}}
-                            className="border mr-4 max-w-full p-4 rounded-xl shadow-md">
-                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3">
+                        {!recipe.archive ? (
+                            <div
+                                style={{width: "20vw", maxWidth: "1024px"}}
+                                className="border mr-4 max-w-full p-4 rounded-xl shadow-md">
+                                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3">
                                         <span
                                             className="flex mb-6"
                                             style={{
@@ -196,30 +197,31 @@ export default function AddRecipe() {
                                         <button onClick={getProducts} type="button"><i
                                             className="fi fi-br-search text-xl"></i></button>
                                         </span>
-                                    <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        {products.map((p) => (
-                                            <li key={p.id} className="py-3 sm:py-4">
-                                                <div className="flex items-center">
-                                                    <div className="flex-1 min-w-0 ms-4">
-                                                        <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                            {p.name}
-                                                        </p>
+                                        <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+                                            {products.map((p) => (
+                                                <li key={p.id} className="py-3 sm:py-4">
+                                                    <div className="flex items-center">
+                                                        <div className="flex-1 min-w-0 ms-4">
+                                                            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                                {p.name}
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                            <button
+                                                                onClick={() => addProduct(p)}
+                                                                type="button">
+                                                                <i className="fi fi-sr-plus"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                    <div
-                                                        className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                        <button
-                                                            onClick={() => addProduct(p)}
-                                                            type="button">
-                                                            <i className="fi fi-sr-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </dd>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </dd>
+                                </div>
                             </div>
-                        </div>
+                        ) : null}
                         <div
                             style={{width: "50vw", maxWidth: "1024px"}}
                             className="border max-w-full p-4 rounded-xl shadow-md">
@@ -235,6 +237,7 @@ export default function AddRecipe() {
                                             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                                 <div className="flex items-center justify-end">
                                                     <input
+                                                        disabled={recipe.archive}
                                                         type="text"
                                                         name="name"
                                                         required={true}
@@ -260,6 +263,7 @@ export default function AddRecipe() {
                                                 <label htmlFor="description"
                                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('recipe.description')}</label>
                                                 <Textarea
+                                                    disabled={recipe.archive}
                                                     style={{
                                                         minHeight: "250px",
                                                         maxHeight: "500px"
@@ -294,6 +298,7 @@ export default function AddRecipe() {
                                                                     className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                                                     <p className="text-sm mr-4 font-medium text-gray-900 truncate dark:text-white">
                                                                         <input
+                                                                            disabled={recipe.archive}
                                                                             type="number"
                                                                             style={{
                                                                                 width: "60px",
@@ -314,6 +319,7 @@ export default function AddRecipe() {
                                                                         {p.measure !== 'u' ? (
                                                                             (p.measure == 'kg' || p.measure == 'g') ? (
                                                                                 <select
+                                                                                    disabled={recipe.archive}
                                                                                     style={{
                                                                                         border: "0px",
                                                                                         appearance: "none",
@@ -330,6 +336,7 @@ export default function AddRecipe() {
                                                                                 </select>
                                                                             ) : (
                                                                                 <select
+                                                                                    disabled={recipe.archive}
                                                                                     style={{
                                                                                         border: "0px",
                                                                                         appearance: "none",
@@ -351,11 +358,13 @@ export default function AddRecipe() {
                                                                     <div
                                                                         className="flex flex-col items-center text-base font-semibold text-gray-900 dark:text-white">
                                                                         <button
+                                                                            disabled={recipe.archive}
                                                                             onClick={() => addProduct(p)}
                                                                             type="button">
                                                                             <i className="fi fi-br-angle-small-up"></i>
                                                                         </button>
                                                                         <button
+                                                                            disabled={recipe.archive}
                                                                             onClick={() => decreaseProduct(p)}
                                                                             type="button">
                                                                             <i className="fi fi-br-angle-small-down"></i>
@@ -370,24 +379,26 @@ export default function AddRecipe() {
                                         </div>
                                     </dl>
                                 </div>
-                                <div
-                                className={"flex justify-between"}>
-                                    <button
-                                        disabled={!isModified}
-                                        className={`block m-4 text-white ${isModified ? 'bg-green' : 'bg-green-disabled'} font-medium cursor-pointer rounded-lg text-sm px-5 py-2.5 text-center`}
-                                        type="submit"
-                                    >
-                                        {t('generic.saveButton')}
-                                    </button>
-                                    <button
-                                        disabled={recipe.archive}
-                                        className={`block m-4 text-white ${recipe.archive ? 'bg-red-disabled' : 'bg-red'} font-medium cursor-pointer rounded-lg text-sm px-5 py-2.5 text-center`}
-                                        type="button"
-                                        onClick={deleteR}
-                                    >
-                                        {t('generic.deleteButton')}
-                                    </button>
-                                </div>
+                                {!recipe.archive ? (
+                                    <div
+                                        className={"flex justify-between"}>
+                                        <button
+                                            disabled={!isModified}
+                                            className={`block m-4 text-white ${isModified ? 'bg-green' : 'bg-green-disabled'} font-medium cursor-pointer rounded-lg text-sm px-5 py-2.5 text-center`}
+                                            type="submit"
+                                        >
+                                            {t('generic.saveButton')}
+                                        </button>
+                                        <button
+                                            disabled={recipe.archive}
+                                            className={`block m-4 text-white ${recipe.archive ? 'bg-red-disabled' : 'bg-red'} font-medium cursor-pointer rounded-lg text-sm px-5 py-2.5 text-center`}
+                                            type="button"
+                                            onClick={deleteR}
+                                        >
+                                            {t('generic.deleteButton')}
+                                        </button>
+                                    </div>
+                                ) : null}
                             </form>
                         </div>
                     </div>
