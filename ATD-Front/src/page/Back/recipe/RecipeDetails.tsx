@@ -338,7 +338,7 @@ export default function AddRecipe() {
                                                                                         background: "transparent",
                                                                                         paddingRight: "0px",
                                                                                     }}
-                                                                                    defaultValue="cl"
+                                                                                    value={p.measure}
                                                                                     onChange={(e) => setMeasure(e.target.value, p)}
                                                                                 >
                                                                                     <option value="l">l</option>
