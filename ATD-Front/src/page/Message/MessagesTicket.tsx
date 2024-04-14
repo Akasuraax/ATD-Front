@@ -6,7 +6,7 @@ import {useToast} from "../../components/Toast/ToastContex";
 import {Spinner} from 'flowbite-react';
 import {getTicket} from "../../apiService/TicketService";
 import {ITicket} from "../../interfaces/ticket"
-import {useAuth} from "../../AuthProvider"
+import {useAuth} from "../../AuthProvider.jsx"
 import {useParams} from "react-router-dom";
 import {sendMessage} from "../../apiService/MessageService"
 import "./message.css"
@@ -34,6 +34,8 @@ function MessageTicket() {
         setStandBy(true);
         try {
             const TicketResponse = await getTicket(ticketId, pushToast);
+            if(TicketResponse?.ticket?.response === 401)
+                auth.logOut();
             setTicket(TicketResponse.ticket);
             setStandBy(false);
         } catch (error) {
