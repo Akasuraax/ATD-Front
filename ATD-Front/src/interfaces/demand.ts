@@ -1,9 +1,12 @@
+import {IUser} from "./user";
+import {IType} from "./type";
+
 export interface IDemand{
     id : number
     description: string
     status: number
-    id_user: number
-    id_type: number
+    user: IUser
+    type: IType
     archive: boolean
     created_at:Date
 }

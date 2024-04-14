@@ -46,8 +46,8 @@ export default function DemandDetails(){
         if(!valid) return
         try {
             const res = await deleteDemand(pushToast,demandId)
-            setNewDemand(res[0]);
-            setDemand(res[0]);
+            setNewDemand(res.demand);
+            setDemand(res.demand);
         } catch (error) {
             console.log(error)
         }
@@ -70,7 +70,7 @@ export default function DemandDetails(){
                                         <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('demands.type_name')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                             <div className="flex items-center justify-end">
-                                                <span>{newDemand?.type.name}</span>
+                                                <span>{newDemand.type.name}</span>
                                             </div>
                                         </dd>
                                     </div>
@@ -88,7 +88,7 @@ export default function DemandDetails(){
                                         <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('demands.user_email')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                             <div className="flex items-center justify-end ">
-                                                <span>{newDemand?.user.email}</span>
+                                                <span>{newDemand.user.email}</span>
                                             </div>
                                         </dd>
                                     </div>
@@ -97,7 +97,7 @@ export default function DemandDetails(){
                                         <dt className="text-sm font-medium leading-6 text-gray-900">{t('demands.creationDate')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                             <div className="flex items-center justify-end ">
-                                                <span>{moment(demand.created_at).format('DD/MM/yyyy HH:mm')}</span>
+                                                <span>{moment(newDemand.created_at).format('DD/MM/yyyy HH:mm')}</span>
                                             </div>
                                         </dd>
                                     </div>
@@ -106,7 +106,7 @@ export default function DemandDetails(){
                                         <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('demands.isArchived')}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                             <div className="flex items-center justify-end ">
-                                                <span>{demand.archive ? t("generic.yes") : t("generic.no")}</span>
+                                                <span>{newDemand.archive ? t("generic.yes") : t("generic.no")}</span>
                                             </div>
                                         </dd>
                                     </div>
@@ -115,11 +115,11 @@ export default function DemandDetails(){
                         </div>
                         <div className="m-4 border p-8 rounded-xl shadow-md">
                             <button
-                                disabled={demand.archive}
+                                disabled={newDemand.archive}
                                 onClick={() => {
                                     setIsModalOpen(true);
                                 }}
-                                className={`block w-full focus:outline-none text-white ${demand.archive ? 'bg-yellow-100 cursor-not-allowed' : 'bg-yellow-400 cursor-pointer hover:bg-yellow-500'}  focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:focus:ring-yellow-900`}>
+                                className={`block w-full focus:outline-none text-white ${newDemand.archive ? 'bg-yellow-100 cursor-not-allowed' : 'bg-yellow-400 cursor-pointer hover:bg-yellow-500'}  focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:focus:ring-yellow-900`}>
                                 {t('generic.deleteButton')}
                             </button>
                         </div>
