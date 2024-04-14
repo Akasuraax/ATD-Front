@@ -4,7 +4,7 @@ import {useToast} from "../../components/Toast/ToastContex";
 import {IUser} from "../../interfaces/user";
 import "./profile.css"
 import TimelineCompnent from "../../components/Timeline/Timeline";
-import {getUser, patchUser} from "../../apiService/UserService";
+import {getUser, PatchShedule, patchUser} from "../../apiService/UserService";
 import {Spinner} from "flowbite-react";
 import {useParams} from "react-router-dom";
 import {getActivities} from "../../apiService/ActivityService";
@@ -38,6 +38,7 @@ export default function Profile() {
         setStandBy(true);
         try {
             const userResponse = await getUser(userId, pushToast);
+            console.log(userResponse)
             if(userResponse?.response?.status === 401)
                 auth.logOut();
             setUser(userResponse);
@@ -62,6 +63,19 @@ export default function Profile() {
             }
         }
         setedit(false)
+    }
+
+    const saveSchedule = async (schedule) => {
+        console.log(schedule)
+        try {
+            const res = await PatchShedule({schedule:schedule}, pushToast, userId)
+            console.log(res)
+            if (res.message === "User updated successfully") {
+                setUser(res.user)
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 
@@ -115,7 +129,9 @@ export default function Profile() {
                         <div
                             className="m-4 bg-white text-center dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8">
                             <h2 className="dark:text-white text-3xl md:text-3xl font-extrabold mb-8">{t("generic.timetable")}</h2>
-                                <PartnerSchedule/>
+                                <PartnerSchedule
+                                    onSave={saveSchedule}
+                                    prevSchedule={user.schedules}/>
                         </div>
                         ) : null}
                 </section>

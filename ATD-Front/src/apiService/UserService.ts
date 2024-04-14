@@ -20,6 +20,10 @@ export const postUser = async (params, pushToast, url) => {
     return postRequest(`signIn/${url}`,params, pushToast);
 };
 
+export const PatchShedule = async (params, pushToast, url) => {
+    return patchRequest(`user/${url}/schedule`,params, pushToast);
+};
+
 export const logInUser = async (params) => {
     return logIn(params);
 };
