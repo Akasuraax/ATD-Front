@@ -389,7 +389,7 @@ export default function PieceDetails(){
             </div>
             <DeleteModal
                 openModal={isModalOpen}
-                text="yo"
+                text={t("generic.deleteMessage")}
                 onClose={(valid: boolean) => handleModalClose(valid)}
             />
         </main>
