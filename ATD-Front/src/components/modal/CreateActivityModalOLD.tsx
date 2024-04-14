@@ -637,8 +637,8 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                     ) : step === 1 ? (
                         <>
                             <div className="m-4">
-                                <h3>Roles</h3>
-                                <div style={{maxHeight: '250px', overflowY: 'auto'}}>
+                                <h3>{t("roles.roles")}</h3>
+                                <div style={{maxHeight: '250px', overflowY: 'auto', paddingRight:'20px'}}>
                                     <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
                                         {roles
                                             .filter(r => !activity.roles.some(role => role.id === r.id))
