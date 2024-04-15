@@ -63,7 +63,13 @@ export default function AddPiece(){
                     content: t("generic.fillMessage"),
                     type: "failure"
                 });
-            }if(response.status === 201)
+            }if(response.status === 401) {
+                pushToast({
+                    content: t("pieces.notSpace"),
+                    type: "failure"
+                });
+            }
+            if(response.status === 201)
                 navigate(`/back/pieces`);
         } catch (error) {
             console.log(error);

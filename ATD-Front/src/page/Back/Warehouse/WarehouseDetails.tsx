@@ -8,7 +8,7 @@ import {useTranslation} from "react-i18next";
 import DeleteModal from "../../../components/modal/deleteModal";
 import {IWarehouse} from "../../../interfaces/warehouse";
 import {deleteWarehouse, getWarehouse, patchWarehouse} from "../../../apiService/WarehouseService";
-
+import {getPieceStock} from "../../../apiService/PieceService";
 
 export default function WarehouseDetails() {
     const {warehouseId} = useParams();
@@ -19,7 +19,7 @@ export default function WarehouseDetails() {
     const [isModified, setIsModified] = useState(false);
     const [newWarehouse, setNewWarehouse] = useState<IWarehouse | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [warehouseStock, setWarehouseStock] = useState(0)
 
     const {t} = useTranslation();
 
@@ -58,6 +58,8 @@ export default function WarehouseDetails() {
         setStandBy(true);
         try {
             const response = await getWarehouse(warehouseId, pushToast);
+            const warehouseStock = await getPieceStock(warehouseId, pushToast)
+            setWarehouseStock(warehouseStock)
             setWarehouse(response)
             setNewWarehouse(response);
             setStandBy(false);
@@ -192,6 +194,15 @@ export default function WarehouseDetails() {
                                                 ) : (
                                                     <span>{newWarehouse.capacity}</span>
                                                 )}
+                                            </div>
+                                        </dd>
+                                    </div>
+
+                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('warehouse.usedCapacity')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                            <div className="flex items-center justify-end ">
+                                                <span>{newWarehouse.capacity - warehouseStock}</span>
                                             </div>
                                         </dd>
                                     </div>

@@ -9,6 +9,10 @@ export const getPieces = async (params, pushToast) => {
     return getRequest('piece',params, pushToast);
 };
 
+export const getPieceStock  = async (params, pushToast) => {
+    return getRequest('piece/stock/' + params,'', pushToast);
+};
+
 export const getPiece = async (params, pushToast) => {
     return getRequest('piece/' + params,'', pushToast);
 };
