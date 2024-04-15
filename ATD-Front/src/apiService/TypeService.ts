@@ -41,6 +41,10 @@ export const getTypesAll = async (pushToast) => {
     return getRequest('type/all' , null, pushToast);
 };
 
+export const getDisplayableTypes = async (pushToast) => {
+    return getRequest('type/display' , null, pushToast);
+};
+
 export const downloadFile = async (params, pushToast) => {
     try {
         return await axios.get(`${API_BASE_URL}/type/${params}/file`, {

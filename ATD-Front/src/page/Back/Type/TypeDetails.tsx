@@ -1,4 +1,4 @@
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {useToast} from '../../../components/Toast/ToastContex';
 import {Spinner} from 'flowbite-react';
@@ -21,7 +21,7 @@ export default function TypeDetails(){
     const [isModified, setIsModified] = useState(false);
     const [newTypes, setNewTypes] = useState<ITypes | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const navigate = useNavigate();
     const {t} = useTranslation();
 
 
@@ -92,6 +92,7 @@ export default function TypeDetails(){
         if(!valid) return
         try {
             const res = await deleteType(typeId, pushToast)
+            navigate('/back/types')
             setNewTypes(res.type);
             setType(res.type);
         } catch (error) {

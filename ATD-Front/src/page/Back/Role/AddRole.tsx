@@ -97,7 +97,7 @@ export default function AddRole(){
                                         <div className="flex items-center justify-end">
                                             <select
                                                 name="role_id"
-                                                required={true}
+                                                required={false}
                                                 style={{
                                                     border: '1px solid black',
                                                     borderRadius: '4px',
