@@ -1,10 +1,19 @@
+# Étape de construction
 FROM node:18-alpine AS build
 WORKDIR /app
 
-ENV PATH /app/node_modules/.bin:$PATH
+# Copier les fichiers sources de l'application
+COPY . .
 
-COPY package.json ./
-COPY package-lock.json ./
+# Installer les dépendances et construire l'application React
 RUN npm install
-COPY . ./
-ENTRYPOINT ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+RUN npm run dev
+
+# Étape finale pour l'environnement de production
+FROM node:18-alpine as production
+WORKDIR /app
+
+# Copier les fichiers construits de l'application React
+COPY --from=build /app/build /app/build
+
+
