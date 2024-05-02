@@ -71,7 +71,7 @@ export default function ActivivityModal({setOpenModal, activityId}: {
         const roleFind = activity.roles.find(role => role.id === r.id)
         if(roleFind.limits.max - roleFind.count < count) {
             pushToast({
-                content: "count trop élever",
+                content: "Vous ne pouvez pas ajouter autant de participants",
                 type: "failure"
             });
             return

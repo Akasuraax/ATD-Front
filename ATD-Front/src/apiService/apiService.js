@@ -2,7 +2,8 @@
 import axios from 'axios';
 import Cookies from "js-cookie";
 
-export const API_BASE_URL = 'http://127.0.0.1:8000/api';
+export const BASE_URL = 'http://127.0.0.1:8000'
+export const API_BASE_URL = BASE_URL + '/api';
 
 const getHeaders = () => {
     const headers = {

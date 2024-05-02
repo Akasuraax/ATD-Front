@@ -1,19 +1,17 @@
 import './warehouse.css'
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
 import {useToast} from "../../../components/Toast/ToastContex";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {getWarehouses} from '../../../apiService/WarehouseService';
-
 function WarehousesList(){
     const [standBy, setStandBy] = useState(false);
     const { pushToast } = useToast();
     const [warehouse, setWarehouse] = useState([]);
     const [rowCount, setRowCount] = useState(0);
     const navigate = useNavigate();
-
     const [dataGrid, setDataGrid] = useState({});
 
     useEffect(() => {
