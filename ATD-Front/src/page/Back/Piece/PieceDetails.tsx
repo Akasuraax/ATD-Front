@@ -148,7 +148,7 @@ export default function PieceDetails(){
                 link.setAttribute("download", "qr-code.png");
                 document.body.appendChild(link);
                 link.click();
-                
+
                 document.body.removeChild(link);
             };
 
@@ -418,8 +418,14 @@ export default function PieceDetails(){
                                 <div className="m-4 border p-8 rounded-xl shadow-md">
                                     <div id="svg" dangerouslySetInnerHTML={{__html: qrImageUrl}}/>
                                 </div>
-                                <div className="m-4 border p-8 rounded-xl shadow-md">
-                                    <button onClick={downloadSVG}>Télécharger le QRCode </button>
+                                <div className="m-4 text-center border p-4 rounded-xl shadow-md">
+                                    <button
+                                        disabled={piece.archive}
+                                        className={`block w-full text-white ${piece.archive ? 'bg-indigo-300 cursor-not-allowed' : 'bg-indigo-700 cursor-pointer hover:bg-indigo-800'}  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800`}
+                                        onClick={downloadSVG}
+                                    >
+                                        Télécharger le QRCode
+                                    </button>
                                 </div>
                             </div>
 
