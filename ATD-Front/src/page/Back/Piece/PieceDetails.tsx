@@ -122,6 +122,41 @@ export default function PieceDetails(){
         }
     }
 
+    const downloadSVG = () => {
+        try {
+            //je créer un canvas pour pouvoir mettre mon svg puis le télécharger en png
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = 500;
+            canvas.height = 500;
+
+            //je met un fond blanc
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const img = new Image();
+            img.onload = () => {
+                //ici c'est pour le centrer
+                ctx.drawImage(img, 150, 150);
+
+                const pngURL = canvas.toDataURL("image/png");
+
+                //ici cest pour donner le nom de l'image et télécharger
+                const link = document.createElement("a");
+                link.href = pngURL;
+                link.setAttribute("download", "qr-code.png");
+                document.body.appendChild(link);
+                link.click();
+                
+                document.body.removeChild(link);
+            };
+
+            img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(qrImageUrl)}`;
+        } catch (error) {
+            console.error("Erreur lors du téléchargement du code QR:", error);
+        }
+    };
 
     return (
         <main>
@@ -381,10 +416,10 @@ export default function PieceDetails(){
                         {qrImageUrl && (
                             <div>
                                 <div className="m-4 border p-8 rounded-xl shadow-md">
-                                    <div dangerouslySetInnerHTML={{__html: qrImageUrl}}/>
+                                    <div id="svg" dangerouslySetInnerHTML={{__html: qrImageUrl}}/>
                                 </div>
                                 <div className="m-4 border p-8 rounded-xl shadow-md">
-                                    <p>Télécharger</p>
+                                    <button onClick={downloadSVG}>Télécharger le QRCode </button>
                                 </div>
                             </div>
 
