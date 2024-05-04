@@ -30,6 +30,12 @@ export default function PiecesList(){
             editable: false,
         },
         {
+            field: 'expired_date',
+            headerName: t('pieces.expired'),
+            width: 250,
+            editable: false
+        },
+        {
             field: 'location',
             headerName: t("pieces.location"),
             width: 250,
