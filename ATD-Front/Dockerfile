@@ -4,8 +4,11 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN npm install
 COPY . .
-ENTRYPOINT ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+RUN npm run build
 
-#On peut prendre une image légère donc on prend node:18-alpine.
-#Fichier de build dans lequel on récupère uniquement les packages nécessaires à faire un npm install
-#On démarre notre conteneur sur l'host 0.0.0.0 pour qu'il écoute sur toutes les interfaces réseaux disponibles de notre hôte.
+FROM nginx:alpine-slim
+ADD ./default.conf /etc/nginx/conf.d
+ADD ./fastcgi-php.conf /etc/nginx
+COPY ./eautantdone.com_private_key.key /etc/nginx/ssl/eautantdone.com_private_key.key
+COPY ./eautantdone.com_ssl_certificate.cer /etc/nginx/ssl/eautantdone.com_ssl_certificate.cer
+COPY --from=build /app/dist /var/www/html
