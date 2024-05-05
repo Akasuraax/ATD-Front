@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 export const BASE_URL = 'https://api.eautantdone.com'
 export const API_BASE_URL = 'https://api.eautantdone.com/api';
 
+
 const getHeaders = () => {
     const headers = {
         'Content-Type': 'application/json',
