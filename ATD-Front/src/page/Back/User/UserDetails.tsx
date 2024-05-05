@@ -322,18 +322,18 @@ export default function UserDetails() {
                                                         value={newUser?.gender}
                                                         onChange={(e) => updateUserField('gender', e.target.value)}
                                                     >
-                                                        <MenuItem value={0}>Homme</MenuItem>
-                                                        <MenuItem value={1}>Femme</MenuItem>
-                                                        <MenuItem value={2}>Non préciser</MenuItem>
+                                                        <MenuItem value={0}>{t('user.male')}</MenuItem>
+                                                        <MenuItem value={1}>{t('user.female')}</MenuItem>
+                                                        <MenuItem value={2}>{t('user.ratherNot')}</MenuItem>
                                                     </Select>
                                                 ) : (
                                                     <span>
                                             {user.gender === 0
-                                                ? 'Homme'
+                                                ? t('user.male')
                                                 : user.gender === 1
-                                                    ? 'Femme'
+                                                    ? t('user.female')
                                                     : user.gender === 2
-                                                        ? 'Non précisé'
+                                                        ? t('user.ratherNot')
                                                         : ''}
                                         </span>
                                                 )}
