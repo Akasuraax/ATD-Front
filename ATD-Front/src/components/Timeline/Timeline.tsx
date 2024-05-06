@@ -4,11 +4,11 @@ import { Timeline } from 'flowbite-react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-const TimelineComponent = ({ activities }) => {
+const TimelineComponent = ({ activities, onItemClick }) => {
     return (
         <Timeline>
             {activities.map((a) => (
-                <Timeline.Item key={a.id}>
+                <Timeline.Item key={a.id} onClick={() => onItemClick(a.id)}>
                     <Timeline.Content>
                         <Timeline.Time>{moment(a.start_date).format('DD/MM/YYYY HH:mm')}</Timeline.Time>
                         <Timeline.Title>{a.title}</Timeline.Title>
@@ -29,6 +29,7 @@ TimelineComponent.propTypes = {
             description: PropTypes.string.isRequired,
         })
     ).isRequired,
+    onItemClick: PropTypes.func.isRequired, // Ajout de la validation pour la prop onItemClick
 };
 
 export default TimelineComponent;

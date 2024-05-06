@@ -1,5 +1,5 @@
 import {useTranslation} from "react-i18next";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useToast} from "../../components/Toast/ToastContex";
 import {IUser} from "../../interfaces/user";
 import "./profile.css"
@@ -7,7 +7,7 @@ import TimelineCompnent from "../../components/Timeline/Timeline";
 import {getUser, patchUser} from "../../apiService/UserService";
 import {Spinner} from "flowbite-react";
 import {useParams} from "react-router-dom";
-import {getActivities} from "../../apiService/ActivityService";
+import {getActivities, getActivitiesUser} from "../../apiService/ActivityService";
 import {IActivity} from "../../interfaces/activity";
 import UserInfo from "../../components/profile/userInfo";
 import Roles from "../../components/profile/Roles";
@@ -16,6 +16,7 @@ import EditUser from "../../components/profile/EditUser";
 import isEqual from 'lodash/isEqual';
 import PartnerSchedule from "../../components/profile/PartnerSchedule";
 import {useAuth} from "../../AuthProvider.jsx";
+import ActivivityModal from "../../components/modal/activityModal";
 
 export default function Profile() {
 
@@ -26,7 +27,12 @@ export default function Profile() {
     const {pushToast} = useToast();
     const [user, setUser] = useState<IUser | null>(null);
     const [activities, setActivities] = useState<IActivity[] | null>([]);
+    const [activitiesUser, setActivitiesUser] = useState<IActivity[] | null>([]);
     const [newUser, setNewUser] = useState<IUser | null>(null);
+    const [modal, setModal] = useState<boolean>(false);
+    const [activityId, setActivityId] = useState<number>();
+
+
     const auth = useAuth();
 
     useEffect(() => {
@@ -44,6 +50,8 @@ export default function Profile() {
             setNewUser(userResponse);
             const activityResponse = await getActivities({page: 0, pageSize: 3}, pushToast);
             setActivities(activityResponse)
+            const activityResponseFuture = await getActivitiesUser(userId, pushToast);
+            setActivitiesUser(activityResponseFuture)
             setStandBy(false);
         } catch (error) {
             setStandBy(true);
@@ -64,16 +72,26 @@ export default function Profile() {
         setedit(false)
     }
 
+    const selectActivity = (id) => {
+        setActivityId(id)
+        setModal(true)
+    }
 
     return (
         <main className={"bg-gray-50"}>
             {standBy ? (
-                <div className="m-auto">
+                <div className="m-auto flex flex-wrap max-w-full items-center justify-between">
                     <Spinner color="pink" aria-label="Extra large spinner example" size="xl"/>
                 </div>
             ) : (
                 <section
                         className="dark:bg-gray-900">
+                    {modal ? (
+                        <ActivivityModal
+                            setOpenModal={(v) => (setModal(v))}
+                            activityId={activityId}
+                        />
+                    ) : null}
                         <div
                      className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-3">
                         <div
@@ -99,25 +117,35 @@ export default function Profile() {
                             <Files user={user}/>
 
                         </div>
-                        <div className="px-4 mx-auto ">
-                            <div
-                                style={{width: "70vw"}}
-                                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
-                                <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-5">évenement
-                                    a venir</h1>
-                                <TimelineCompnent
-                                    activities={activities}
-                                />
+                            <div className="px-4 mx-auto ">
+                                <div
+                                    style={{width: "70vw"}}
+                                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
+                                    <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-5">évenement
+                                        a venir</h1>
+                                    <TimelineCompnent
+                                        activities={activities}
+                                        onItemClick={(id) => selectActivity(id)}
+                                    />
+                                </div>
+                                <div
+                                    style={{width: "70vw"}}
+                                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
+                                    <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-5">Vos future événement</h1>
+                                    <TimelineCompnent
+                                        activities={activitiesUser}
+                                        onItemClick={(id) => selectActivity(id)}
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
                     {user.roles.filter(role => role.id === 4).length > 0 ? (
                         <div
                             className="m-4 bg-white text-center dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8">
                             <h2 className="dark:text-white text-3xl md:text-3xl font-extrabold mb-8">{t("generic.timetable")}</h2>
-                                <PartnerSchedule/>
+                            <PartnerSchedule/>
                         </div>
-                        ) : null}
+                    ) : null}
                 </section>
             )}
         </main>
