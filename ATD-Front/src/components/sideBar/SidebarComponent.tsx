@@ -70,20 +70,6 @@ export default function SidebarComponent() {
                                         <span className="ms-3">{t("sidebar.donation")}</span>
                                     </NavLink>
                                 </li>
-                                <li>
-                                    <a href="#"
-                                       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                        <i className="fi fi-bs-home-location-alt"></i>
-                                        <span className="ms-3">{t("sidebar.local")}</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                        <i className="fi fi-br-square-info"></i>
-                                        <span className="ms-3">{t("sidebar.about")}</span>
-                                    </a>
-                                </li>
                                 {auth.token ? (
                                     <>
                                         <li>

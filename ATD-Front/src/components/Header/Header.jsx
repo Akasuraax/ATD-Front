@@ -19,18 +19,14 @@ function Header() {
     const menu = [{
         name: t("header.activity"),
         link: "activity"
-    },
+        },
+        {
+            name: t("sidebar.donation"),
+            link: "donation"
+        },
         {
             name: t("header.event"),
-            link: ""
-        },
-        {
-            name: t("header.local"),
-            link: ""
-        },
-        {
-            name: t("header.about"),
-            link: ""
+            link: "planning"
         }]
 
     useEffect(() => {
@@ -42,11 +38,6 @@ function Header() {
         <header>
             <nav className="bg-white border-gray-200 dark:bg-gray-900">
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                    <stripe-buy-button
-                        buy-button-id="buy_btn_1OxvlLCJaEDmVxZfQPSs7c9A"
-                        publishable-key="pk_test_51Oxs6xCJaEDmVxZfc4ob9XV222gTMvAlfylfBtMblNWx67BvD4neB5Qev1zyqsJzJjLvjyjjYUaLoLA7TLnDuk4a00lbkv2VmZ"
-                    >
-                    </stripe-buy-button>
                     <NavLink to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                         <img className={"logo"} src={Logo} alt="logo"></img>
                     </NavLink>
@@ -84,7 +75,7 @@ function Header() {
                             {menu.map((menu) => (
                                 <li key={menu.name}>
                                     <NavLink to={menu.link}
-                                             className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#E84856] md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">{menu.name}</NavLink>
+                                             className="block ml-8 py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#E84856] md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">{menu.name}</NavLink>
                                 </li>
                             ))}
                         </ul>

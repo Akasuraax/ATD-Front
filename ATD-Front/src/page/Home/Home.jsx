@@ -20,8 +20,13 @@ function Home() {
             <div className="home-page">
                 <div className="image">
                     <p className="homeText">{homeTextImage}</p>
-                    <Link to="/register"
-                       className="btn-first hover:bg-[#E84856] homeButton">{registration}</Link>
+                    <div className="homeButton">
+                        <stripe-buy-button
+                            buy-button-id="buy_btn_1OxvlLCJaEDmVxZfQPSs7c9A"
+                            publishable-key="pk_test_51Oxs6xCJaEDmVxZfc4ob9XV222gTMvAlfylfBtMblNWx67BvD4neB5Qev1zyqsJzJjLvjyjjYUaLoLA7TLnDuk4a00lbkv2VmZ"
+                        >
+                        </stripe-buy-button>
+                    </div>
                 </div>
 
                 <div className="homeBody max-w-screen-xl flex flex-nowrap justify-between mx-auto">
