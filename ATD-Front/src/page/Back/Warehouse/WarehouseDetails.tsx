@@ -1,4 +1,4 @@
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {useToast} from '../../../components/Toast/ToastContex';
 import {Spinner} from 'flowbite-react';
@@ -22,7 +22,7 @@ export default function WarehouseDetails() {
     const [warehouseStock, setWarehouseStock] = useState(0)
 
     const {t} = useTranslation();
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         sendRequest();
@@ -75,6 +75,7 @@ export default function WarehouseDetails() {
             const res = await deleteWarehouse(pushToast,warehouseId)
             setNewWarehouse(res.warehouse);
             setWarehouse(res.warehouse);
+            navigate(`/back/warehouses`)
         } catch (error) {
             console.log(error)
         }
