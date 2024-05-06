@@ -122,6 +122,41 @@ export default function PieceDetails(){
         }
     }
 
+    const downloadSVG = () => {
+        try {
+            //je créer un canvas pour pouvoir mettre mon svg puis le télécharger en png
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = 500;
+            canvas.height = 500;
+
+            //je met un fond blanc
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const img = new Image();
+            img.onload = () => {
+                //ici c'est pour le centrer
+                ctx.drawImage(img, 150, 150);
+
+                const pngURL = canvas.toDataURL("image/png");
+
+                //ici cest pour donner le nom de l'image et télécharger
+                const link = document.createElement("a");
+                link.href = pngURL;
+                link.setAttribute("download", "qr-code.png");
+                document.body.appendChild(link);
+                link.click();
+
+                document.body.removeChild(link);
+            };
+
+            img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(qrImageUrl)}`;
+        } catch (error) {
+            console.error("Erreur lors du téléchargement du code QR:", error);
+        }
+    };
 
     return (
         <main>
@@ -339,6 +374,7 @@ export default function PieceDetails(){
                         </div>
                         <div className="m-4 border p-8 rounded-xl shadow-md">
                             <button
+                                disabled={piece.archive}
                                 className={`block w-full text-white ${piece.archive ? 'bg-purple-300 cursor-not-allowed' : 'bg-purple-700 cursor-pointer hover:bg-purple-800'}  focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 me-2 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800`}
                                 onClick={() => {
                                    showQr()
@@ -378,9 +414,21 @@ export default function PieceDetails(){
                         </div>
 
                         {qrImageUrl && (
-                            <div className="m-4 border p-8 rounded-xl shadow-md">
-                                    <div dangerouslySetInnerHTML={{__html: qrImageUrl}}/>
+                            <div>
+                                <div className="m-4 border p-8 rounded-xl shadow-md">
+                                    <div id="svg" dangerouslySetInnerHTML={{__html: qrImageUrl}}/>
+                                </div>
+                                <div className="m-4 text-center border p-4 rounded-xl shadow-md">
+                                    <button
+                                        disabled={piece.archive}
+                                        className={`block w-full text-white ${piece.archive ? 'bg-indigo-300 cursor-not-allowed' : 'bg-indigo-700 cursor-pointer hover:bg-indigo-800'}  focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800`}
+                                        onClick={downloadSVG}
+                                    >
+                                        Télécharger le QRCode
+                                    </button>
+                                </div>
                             </div>
+
                         )}
                     </>
                 ) : (

@@ -34,7 +34,6 @@ function ActivityComponent(){
         setStandBy(true);
         try {
             const response = await getDisplayableTypes(pushToast);
-            console.log(response)
             setActivities(response)
             setStandBy(false);
         } catch (error) {
