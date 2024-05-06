@@ -38,9 +38,11 @@ export default function AddWarehouse() {
                 zipcode: form.elements["zipcode"].value,
                 capacity: form.elements["capacity"].value,
             }
+
+            console.log(warehouse);
         try {
             const respons = await postWarehouse(warehouse, pushToast);
-            navigate(`/back/warehouses/${respons.warehouse.id}`)
+            navigate(`/back/warehouses/${respons.data.warehouse.id}`)
 
         } catch (error) {
             console.log(error)
