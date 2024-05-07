@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Select } from "flowbite-react";
 import { schedule } from "../../interfaces/partnerScheduler";
 import { useTranslation } from "react-i18next";
 
@@ -17,15 +16,15 @@ export default function PartnerSchedule({ onSave, prevSchedule }: { onSave: (arg
         setSchedules(prevSchedules => {
             const updatedSchedules = [...prevSchedules];
             const scheduleIndex = updatedSchedules.findIndex(schedule => schedule.day === day);
+            const date = new Date(`1970-01-01T${value}`);
+            const hours = date.getHours();
+
+            if (hours < 8 || hours > 18) {
+                return prevSchedules;
+            }
+
             if (scheduleIndex !== -1) {
                 const schedule = updatedSchedules[scheduleIndex];
-                const date = new Date(`1970-01-01T${value}`);
-                const hours = date.getHours();
-
-                if (hours < 8 || hours > 18) {
-                    return prevSchedules;
-                }
-
                 if (timeType === 'start') {
                     schedule.start_hour = value;
                     if (schedule.end_hour && new Date(`1970-01-01T${schedule.end_hour}`) < date) {
@@ -37,7 +36,16 @@ export default function PartnerSchedule({ onSave, prevSchedule }: { onSave: (arg
                         schedule.start_hour = '';
                     }
                 }
+            } else {
+                // Création d'un nouvel emploi du temps si aucun n'existe pour le jour spécifié
+                const newSchedule = {
+                    day: day,
+                    start_hour: timeType === 'start' ? value : '',
+                    end_hour: timeType === 'end' ? value : ''
+                };
+                updatedSchedules.push(newSchedule);
             }
+
             return updatedSchedules;
         });
     };
