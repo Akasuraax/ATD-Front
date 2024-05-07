@@ -74,7 +74,7 @@ function App() {
 
     useEffect(() => {
         const initOneSignal = async () => {
-            await OneSignal.init({ appId: '44a1d35c-30b5-4420-aad7-7be277d39a68', allowLocalhostAsSecureOrigin: true});
+            await OneSignal.init({ appId: '64e09db5-38b1-49e5-aad9-002604e62646'});
             OneSignal.Slidedown.promptPush();
             // Autres actions après l'initialisation
         };
