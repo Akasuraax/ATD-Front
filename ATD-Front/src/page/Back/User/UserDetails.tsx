@@ -311,53 +311,57 @@ export default function UserDetails() {
                                         </dd>
                                     </div>
 
-                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.gender')}</dt>
-                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
-                                            <div className="flex items-center justify-between ">
-                                                {edit ? (
-                                                    <Select
-                                                        id="gender"
-                                                        required
-                                                        value={newUser?.gender}
-                                                        onChange={(e) => updateUserField('gender', e.target.value)}
-                                                    >
-                                                        <MenuItem value={0}>Homme</MenuItem>
-                                                        <MenuItem value={1}>Femme</MenuItem>
-                                                        <MenuItem value={2}>Non préciser</MenuItem>
-                                                    </Select>
-                                                ) : (
-                                                    <span>
-                                            {user.gender === 0
-                                                ? 'Homme'
-                                                : user.gender === 1
-                                                    ? 'Femme'
-                                                    : user.gender === 2
-                                                        ? 'Non précisé'
-                                                        : ''}
-                                        </span>
-                                                )}
-                                            </div>
-                                        </dd>
-                                    </div>
+                                    {user.compagny === null ? (
+                                        <>
+                                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.gender')}</dt>
+                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                                <div className="flex items-center justify-between ">
+                                                    {edit ? (
+                                                        <Select
+                                                            id="gender"
+                                                            required
+                                                            value={newUser?.gender}
+                                                            onChange={(e) => updateUserField('gender', e.target.value)}
+                                                        >
+                                                            <MenuItem value={0}>Homme</MenuItem>
+                                                            <MenuItem value={1}>Femme</MenuItem>
+                                                            <MenuItem value={2}>Non préciser</MenuItem>
+                                                        </Select>
+                                                    ) : (
+                                                        <span>
+                                                {user.gender === 0
+                                                    ? 'Homme'
+                                                    : user.gender === 1
+                                                        ? 'Femme'
+                                                        : user.gender === 2
+                                                            ? 'Non précisé'
+                                                            : ''}
+                                            </span>
+                                                    )}
+                                                </div>
+                                            </dd>
+                                        </div>
 
-                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.birthdayDate')}
-                                        </dt>
-                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
-                                            <div className="flex items-center justify-between ">
-                                                {edit ? (
-                                                    <Datepicker
-                                                        style={{paddingLeft: '2.5rem'}}
-                                                        value={moment(newUser?.birth_date).format('YYYY-MM-DD')}
-                                                        onSelectedDateChanged={(date) => updateUserField('birth_date', date)}
-                                                    />
-                                                ) : (
-                                                    <span>{moment(user.birth_date).format('DD/MM/YYYY')}</span>
-                                                )}
-                                            </div>
-                                        </dd>
-                                    </div>
+                                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.birthdayDate')}
+                                            </dt>
+                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                                <div className="flex items-center justify-between ">
+                                                    {edit ? (
+                                                        <Datepicker
+                                                            style={{paddingLeft: '2.5rem'}}
+                                                            value={moment(newUser?.birth_date).format('YYYY-MM-DD')}
+                                                            onSelectedDateChanged={(date) => updateUserField('birth_date', date)}
+                                                        />
+                                                    ) : (
+                                                        <span>{moment(user.birth_date).format('DD/MM/YYYY')}</span>
+                                                    )}
+                                                </div>
+                                            </dd>
+                                        </div>
+                                        </>
+                                        ) : null }
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.address')}</dt>
