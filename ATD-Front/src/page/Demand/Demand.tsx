@@ -53,6 +53,11 @@ function DemandPage(){
 
         const req = {demand, userId:auth.user.id}
         const res = await postDemand(req,pushToast);
+        if(res?.status === 401)
+            pushToast({
+                content:"Votre compte est toujours en attente",
+                type:"failure"
+            })
         setStandBy(false);
     }
 

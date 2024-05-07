@@ -46,6 +46,7 @@ export default function ActivivityModal({setOpenModal, activityId}: {
         return auth.user.roles.find(r => r.id === roleId)
     }
 
+
     useEffect(() => {
         request()
     }, []);
@@ -132,34 +133,49 @@ export default function ActivivityModal({setOpenModal, activityId}: {
                     <Modal.Footer>
                         {auth.token ? (
                             <div className="flex flex-col">
+                                {auth.user.status === 0 ?
+                                    (
+                                        <p className="ps-5">{t("activity.waitValid")}</p>
+                                    ) :
+
+                                    (
+                                        <p></p>
+                                    )
+
+                                }
                                 {activity.roles.map((r) => (
                                     <span key={r.id} className="flex w-full justify-between align-middle">
                                         <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400 p-2 mr-4">
                                             {r.name} : {r.count}/{r.limits.max}
                                         </p>
-                                        {haveRoles(r.id) ? (
+
+                                        {haveRoles(r.id) && auth.user.status !== 0 ? (
                                             activity.roleSubscribe === r.id && activity.isSubscribe ? (
                                                 <button
                                                     onClick={() => unsubscribe()}
-                                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                                    className="btn text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                                     {t("generic.unregister")}
                                                 </button>
                                             ) : ( (r.count < r.limits.max || r.limits.max == 999) ? (
                                                 <>
-                                                    <input type="number" id="first_product"
-                                                           min={0}
-                                                           value={count}
-                                                           onChange={(e) => (updateCountRoles(parseInt(e.target.value)))}
-                                                           className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                           placeholder="1" required/>
-                                                    <button
-                                                        onClick={() => subscribe(r)}
-                                                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                                        {t("generic.register")}
-                                                    </button>
+                                                    <div> {/* Ajout d'un conteneur avec Flexbox */}
+                                                        <label>Nombre de participants : </label>
+                                                        <input type="number" id="first_product"
+                                                               min={0}
+                                                               value={count}
+                                                               onChange={(e) => (updateCountRoles(parseInt(e.target.value)))}
+                                                               className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                               placeholder="1" required/>
+                                                        <button
+                                                            onClick={() => subscribe(r)}
+                                                            className="btn text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                                            {t("generic.register")}
+                                                        </button>
+                                                    </div>
                                                 </>
-                                            ): null )
+                                            ) : null)
                                         ) : null}
+
                                     </span>
                                 ))}
                             </div>

@@ -131,8 +131,7 @@ export default function Profile() {
                                 <div
                                     style={{width: "70vw"}}
                                     className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
-                                    <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-5">évenement
-                                        a venir</h1>
+                                    <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-5">{t("user.comingActivities")}</h1>
                                     <TimelineCompnent
                                         activities={activities}
                                         onItemClick={(id) => selectActivity(id)}
@@ -141,7 +140,7 @@ export default function Profile() {
                                 <div
                                     style={{width: "70vw"}}
                                     className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
-                                    <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-5">Vos future événement</h1>
+                                    <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-5">{t("user.yourActivities")}</h1>
                                     <TimelineCompnent
                                         activities={activitiesUser}
                                         onItemClick={(id) => selectActivity(id)}
