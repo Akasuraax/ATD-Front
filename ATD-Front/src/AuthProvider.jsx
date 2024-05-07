@@ -1,6 +1,5 @@
-import {useContext, createContext, useState, useEffect} from "react";
+import {useContext, createContext, useState} from "react";
 import {logInUser} from "./apiService/UserService";
-import {useToast} from "./components/Toast/ToastContex.tsx";
 import Cookies from "js-cookie";
 
 const AuthContext = createContext();

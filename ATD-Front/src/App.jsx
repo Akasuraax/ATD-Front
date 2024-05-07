@@ -55,6 +55,7 @@ import DemandPage from "./page/Demand/Demand.tsx";
 import DemandsList from "./page/Back/Demand/DemandsList.tsx";
 import DemandDetails from "./page/Back/Demand/DemandDetails.tsx";
 import EventDetails from "./page/Back/event/eventDetails";
+import OneSignal from 'react-onesignal';
 
 function App() {
 
@@ -70,6 +71,16 @@ function App() {
         }
         return children;
     }
+
+    useEffect(() => {
+        const initOneSignal = async () => {
+            await OneSignal.init({ appId: '44a1d35c-30b5-4420-aad7-7be277d39a68', allowLocalhostAsSecureOrigin: true});
+            OneSignal.Slidedown.promptPush();
+            // Autres actions après l'initialisation
+        };
+
+        initOneSignal();
+    }, []);
 
     function Token({children}) {
         if(!auth.token) return <Navigate to="/login"/>
