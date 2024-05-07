@@ -28,6 +28,7 @@ export default function ListFilesActivity({files, onRemoveFile, metaData = true,
             const response = await downloadFile(id, pushToast);
             const fileUrl = window.URL.createObjectURL(new Blob([response.data]));
 
+            console.log(response)
             const link = document.createElement('a');
             link.href = fileUrl;
             link.setAttribute('download', filename);

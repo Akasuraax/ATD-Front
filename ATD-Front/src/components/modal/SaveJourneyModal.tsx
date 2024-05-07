@@ -96,7 +96,7 @@ export default function SaveJourneyModal({setOpenModal, activityId, openModal, u
                 {standBy ? null : (
                     <>
                         <label htmlFor="title"
-                               className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('createJourney.title')}</label>
+                               className="block mt-4 mb-1 text-sm font-medium text-gray-900 dark:text-white">{t('activity.journeyTitle')}</label>
                         <input
                             type="text"
                             name="title"
