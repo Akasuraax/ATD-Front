@@ -18,6 +18,7 @@ export interface IUser {
     roles: IRole[];
     ban:boolean;
     archive:boolean;
+    visit?:boolean
 }
 
 export interface IRole {
