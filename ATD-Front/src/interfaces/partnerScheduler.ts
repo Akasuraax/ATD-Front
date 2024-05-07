@@ -1,5 +1,5 @@
-export interface IHours {
+export interface schedule {
     day:number,
-    start: number
-    end:number
+    start_hour: string
+    end_hour:string
 }

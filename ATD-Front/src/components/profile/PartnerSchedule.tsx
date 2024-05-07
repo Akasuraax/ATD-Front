@@ -1,168 +1,147 @@
-import { useState} from "react";
+import React, { useEffect, useState } from "react";
+import { schedule } from "../../interfaces/partnerScheduler";
+import { useTranslation } from "react-i18next";
 
-import {Select, Label} from "flowbite-react";
-import {IHours} from "../../interfaces/partnerScheduler";
-import {useTranslation} from "react-i18next";
+export default function PartnerSchedule({ onSave, prevSchedule }: { onSave: (arg0: schedule[]) => void, prevSchedule: schedule[] }) {
+    const [schedules, setSchedules] = useState<schedule[]>([]);
+    const { t } = useTranslation();
 
-export default function PartnerSchedule() {
-
-    const [schedules, setSchedules] = useState<IHours[]>([]);
-    const {t} = useTranslation();
-
-    function SelectStartComponent({day}: { day: number}) {
-        const options = [];
-
-        for (let i = 8; i <= 18; i++) {
-            const heureDebut = i.toString().padStart(2, '0') + ":00h";
-            const optionText = `${heureDebut}`;
-            options.push(
-                <option
-                    key={i}
-                    value={i}
-                    >
-                    {optionText}
-                </option>
-            );
+    useEffect(() => {
+        if (prevSchedule && prevSchedule.length > 0) {
+            setSchedules(prevSchedule);
         }
+    }, [prevSchedule]);
 
-        return (
-            <div className="max-w-md">
-                <Select
-                    id="time"
-                    required
+    const handleTimeChange = (day: number, timeType: 'start' | 'end', value: string) => {
+        setSchedules(prevSchedules => {
+            const updatedSchedules = [...prevSchedules];
+            const scheduleIndex = updatedSchedules.findIndex(schedule => schedule.day === day);
+            const date = new Date(`1970-01-01T${value}`);
+            const hours = date.getHours();
 
-                    value={(schedules.filter(s => s.day === day)[0]?.start || "")}
-                    onChange={e => selectDate(e.target.value, day)}
-                >
-                    <option key={0} value={0}>Aucun</option>
-                    {options}
-                </Select>
-            </div>
-        );
-    }
-
-    function SelectEndComponent({day}: { day: number }) {
-        const options = [];
-
-        for (let i = 8; i <= 19; i++) {
-            const heureDebut = i.toString().padStart(2, '0') + ":00h";
-            const optionText = `${heureDebut}`;
-            options.push(
-                <option
-                    key={i}
-                    value={i}
-                    disabled={i <= (schedules.filter(s => s.day === day)[0]?.start || 0)}>
-                    {optionText}
-                </option>
-            );
-        }
-
-        return (
-            <div className="max-w-md">
-                <Select
-                    id="time"
-                    required
-                    value={(schedules.filter(s => s.day === day)[0]?.end)}
-                    onChange={e => selectEndDate(e.target.value, day)}
-                >
-                    {options}
-                </Select>
-            </div>
-        );
-    }
-
-    function selectDate(e, day: number) {
-        if (parseInt(e) === 0) {
-            const updatedSchedules = schedules.filter(s => s.day !== day);
-            setSchedules(updatedSchedules);
-        } else {
-            const existingScheduleIndex = schedules.findIndex(s => s.day === day);
-            if (existingScheduleIndex !== -1) {
-                const updatedSchedules = [...schedules];
-                updatedSchedules[existingScheduleIndex] = {
-                    ...updatedSchedules[existingScheduleIndex],
-                    start: parseInt(e),
-                    end: parseInt(e) + 1
-                };
-                setSchedules(updatedSchedules);
-            } else {
-                const hours: IHours = {
-                    day: day,
-                    start: parseInt(e),
-                    end: parseInt(e) + 1
-                };
-                setSchedules(prev => [...prev, hours]);
+            if (hours < 8 || hours > 18) {
+                return prevSchedules;
             }
-        }
+
+            if (scheduleIndex !== -1) {
+                const schedule = updatedSchedules[scheduleIndex];
+                if (timeType === 'start') {
+                    schedule.start_hour = value;
+                    if (schedule.end_hour && new Date(`1970-01-01T${schedule.end_hour}`) < date) {
+                        schedule.end_hour = '';
+                    }
+                } else if (timeType === 'end') {
+                    schedule.end_hour = value;
+                    if (schedule.start_hour && new Date(`1970-01-01T${schedule.start_hour}`) > date) {
+                        schedule.start_hour = '';
+                    }
+                }
+            } else {
+                // Création d'un nouvel emploi du temps si aucun n'existe pour le jour spécifié
+                const newSchedule = {
+                    day: day,
+                    start_hour: timeType === 'start' ? value : '',
+                    end_hour: timeType === 'end' ? value : ''
+                };
+                updatedSchedules.push(newSchedule);
+            }
+
+            return updatedSchedules;
+        });
+    };
+
+    const save = () => {
+        onSave(schedules);
     }
-
-
-    function selectEndDate(e, day: number) {
-        const update = schedules.findIndex(s => s.day == day);
-
-        if(update >= 0) {
-            const updatedSchedules = [...schedules];
-            updatedSchedules[update] = {
-                ...updatedSchedules[update],
-                end: parseInt(e)
-            };
-            setSchedules(updatedSchedules);
-        }
-    }
-
 
     return (
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" className="text-center px-6 py-3">
-                    {t("week.monday")}
-                </th>
-                <th scope="col" className="text-center px-6 py-3">
-                    {t("week.tuesday")}
+        <div>
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" className="text-center px-6 py-3">
+                        {t("week.monday")}
+                    </th>
+                    <th scope="col" className="text-center px-6 py-3">
+                        {t("week.tuesday")}
 
-                </th>
-                <th scope="col" className="text-center px-6 py-3">
-                    {t("week.wednesday")}
+                    </th>
+                    <th scope="col" className="text-center px-6 py-3">
+                        {t("week.wednesday")}
 
-                </th>
-                <th scope="col" className="text-center px-6 py-3">
-                    {t("week.thursday")}
+                    </th>
+                    <th scope="col" className="text-center px-6 py-3">
+                        {t("week.thursday")}
 
-                </th>
-                <th scope="col" className="text-center px-6 py-3">
-                    {t("week.friday")}
+                    </th>
+                    <th scope="col" className="text-center px-6 py-3">
+                        {t("week.friday")}
 
-                </th>
-                <th scope="col" className="text-center px-6 py-3">
-                    {t("week.saturday")}
+                    </th>
+                    <th scope="col" className="text-center px-6 py-3">
+                        {t("week.saturday")}
 
-                </th>
-                <th scope="col" className="text-center px-6 py-3">
-                    {t("week.sunday")}
+                    </th>
+                    <th scope="col" className="text-center px-6 py-3">
+                        {t("week.sunday")}
 
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                {[0, 1, 2, 3, 4, 5, 6].map((day) => (
-                    <td key={day} className="px-6 py-4">
-                        <SelectStartComponent
-                            day={day}
-                        />
-                        {schedules.filter(s => s.day === day).length > 0 ? (
-                            <>
-                                <span className="m-2"></span>
-                                <SelectEndComponent
-                                    day={day}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    {[1, 2, 3, 4, 5, 6, 7].map((day) => {
+                        const scheduleForDay = schedules.find(schedule => schedule.day === day);
+                        const startHour = scheduleForDay ? scheduleForDay.start_hour : '';
+                        const endHour = scheduleForDay ? scheduleForDay.end_hour : '';
+
+                        return (
+                            <td key={day} className="px-6 py-4">
+                                <input
+                                    type="time"
+                                    required={false}
+                                    name="start_date"
+                                    value={startHour}
+                                    onChange={(e) => handleTimeChange(day, 'start', e.target.value)}
+                                    style={{
+                                        borderBottom: '1px solid black',
+                                        borderLeft: 'none',
+                                        borderRight: 'none',
+                                        borderTop: 'none',
+                                        margin: '0',
+                                        padding: '0',
+                                        fontSize: '0.875rem',
+                                        marginRight: '10px'
+                                    }}
                                 />
-                            </>
-                        ) : <div className="h-16"></div> }
-                    </td>
-                ))}
-            </tr>
-            </tbody>
-        </table>
+                                <input
+                                    type="time"
+                                    required={false}
+                                    name="end_date"
+                                    value={endHour}
+                                    onChange={(e) => handleTimeChange(day, 'end', e.target.value)}
+                                    style={{
+                                        borderBottom: '1px solid black',
+                                        borderLeft: 'none',
+                                        borderRight: 'none',
+                                        borderTop: 'none',
+                                        margin: '0',
+                                        padding: '0',
+                                        fontSize: '0.875rem',
+                                        marginRight: '10px'
+                                    }}
+                                />
+                            </td>
+                        );
+                    })}
+                </tr>
+                </tbody>
+            </table>
+            <button
+                onClick={save}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                {t("activity.addJourney")}
+            </button>
+        </div>
     )
 }

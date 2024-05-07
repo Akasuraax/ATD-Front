@@ -1,3 +1,5 @@
+import {schedule} from "./partnerScheduler";
+
 export interface IUser {
     id: number;
     name: string;
@@ -18,7 +20,7 @@ export interface IUser {
     roles: IRole[];
     ban:boolean;
     archive:boolean;
-    visit?:boolean
+    schedules?:schedule[]
 }
 
 export interface IRole {
