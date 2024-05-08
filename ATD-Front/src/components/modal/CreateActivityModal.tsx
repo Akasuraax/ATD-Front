@@ -377,8 +377,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                         </>
                     ) : null
                 ) : (
-                    <div
-                        className="flex flex-wrap max-w-full items-center justify-between mx-auto">
+                    <div className="flex justify-center mt-8 p-4">
                         <Spinner color="pink" aria-label="Extra large spinner example"
                                  size="xl"/>
                     </div>
