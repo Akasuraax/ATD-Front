@@ -34,6 +34,10 @@ export const getActivitiesUser = async (params, pushToast) => {
     return getRequest(`activity/withParticipate?userId=${params}`,null, pushToast);
 };
 
+export const getBeforeActivitiesUser = async (params, pushToast) => {
+    return getRequest(`activity/user/${params}`,null, pushToast);
+};
+
 export const isUserRegisteredToActivity = async (params,activityId, pushToast) => {
     return getRequest(`activity/participate/${activityId}`,params, pushToast);
 };
