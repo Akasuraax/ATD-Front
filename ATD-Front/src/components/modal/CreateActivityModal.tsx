@@ -149,9 +149,6 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                     });
                     return
                 }
-                // eslint-disable-next-line no-case-declarations
-                const type = types.find(t => t.id === activity.type)
-                console.log(type)
                 if(!type.access_to_journey) isFree()
                 break
             case 1 :

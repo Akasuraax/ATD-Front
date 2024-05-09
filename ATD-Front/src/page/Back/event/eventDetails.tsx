@@ -197,9 +197,11 @@ export default function EventDetails() {
 
 
     return (
-        <main>
+        <main
+        style={{width:"100vw"}}>
             {!standBy ? (
-                <div className={"bg-event"}>
+                <div className={"bg-event"}
+                style={{width:"100%"}}>
                     <>
                         <div>
                             <AddFilesModal
