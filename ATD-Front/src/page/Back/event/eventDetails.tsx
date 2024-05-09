@@ -162,8 +162,8 @@ export default function EventDetails() {
 
     const editJourney = async (journey: string[]) => {
         try {
+            journey.unshift(activity.address);
             const res = await routePlanner({steps: journey}, pushToast)
-            console.log(res)
             const formattedJourneyString = res.data.steps.replace(/'/g, '"');
             const journeyArray = JSON.parse(formattedJourneyString);
             setBestJourney(journeyArray)
@@ -379,6 +379,7 @@ export default function EventDetails() {
                                             <ListProductsActivity
                                                 onActivityProductsChange={changeProducts}
                                                 prevProducts={activity.products}
+                                                warehouseAddress={activity.address}
                                             />
                                             <div className={"flex justify-end mt-4"}>
                                                 <button

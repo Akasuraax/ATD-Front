@@ -5,9 +5,10 @@ import {IActivityProduct, IProduct} from "../../interfaces/product";
 import {getMaxProduct, getProductsFilter} from "../../apiService/productService";
 import { Popover } from "flowbite-react";
 
-export default function ListProductsActivity({onActivityProductsChange, prevProducts}: {
+export default function ListProductsActivity({onActivityProductsChange, prevProducts, warehouseAddress}: {
     onActivityProductsChange: (products: IActivityProduct[]) => void,
     prevProducts: IActivityProduct[]
+    warehouseAddress: string
 }) {
 
     const [filter, setFilter] = useState<string>('');
@@ -31,7 +32,7 @@ export default function ListProductsActivity({onActivityProductsChange, prevProd
 
     const addProduct = async (p: IProduct) => {
         try {
-            const max = await getMaxProduct(p.id, pushToast);
+            const max = await getMaxProduct(p.id,{warehouseAddress:warehouseAddress}, pushToast);
             console.log(max)
             const product: IActivityProduct = {
                 id: p.id,
