@@ -11,17 +11,19 @@ import {getTypesAll} from "../../apiService/TypeService";
 import {useToast} from "../Toast/ToastContex";
 import {IType} from "../../interfaces/type";
 import {getAllRoles} from "../../apiService/RoleService";
-import {postActivity} from "../../apiService/ActivityService";
+import {isFreeLocal, postActivity} from "../../apiService/ActivityService";
 import AddressInput from "../input/AddressInput";
 import {useNavigate} from "react-router-dom";
 import ActivityRoles from "../Activity/rolesList";
+import {getAnnexesAll} from "../../apiService/annexe";
+import {getAllWarehouses} from "../../apiService/WarehouseService";
 
 
 export default function CreateActivivityModal({setOpenModal, start_date, end_date, newActivity}: {
     setOpenModal: (value: boolean) => void,
     start_date: Date,
     end_date: Date,
-    newActivity: (activity:IAddActivity) => void
+    newActivity: (activity: IAddActivity) => void
 }) {
 
 
@@ -74,7 +76,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
     }
 
     const {t} = useTranslation();
-    const [activity, setActivity] = useState<IAddActivity> ({
+    const [activity, setActivity] = useState<IAddActivity>({
         title: '',
         description: '',
         address: '',
@@ -91,9 +93,13 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
         vehicle: null,
         products: []
     })
-    const [standBy, setStandBy] = useState <boolean> (true)
+    const [standBy, setStandBy] = useState<boolean>(true)
     const [types, setTypes] = useState<IType[]>([])
-    const [step, setStep] = useState<number> (0)
+    const [step, setStep] = useState<number>(0)
+    const [adressType, setAdressType] = useState<boolean>(false)
+    const [localFree, setLocalFree] = useState<number>(0)
+    const [places, setPlaces] = useState<[]>([])
+
     const navigate = useNavigate();
 
 
@@ -109,7 +115,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
     };
 
     useEffect(() => {
-        getTypeF()
+        request()
         setActivity(prevState => ({
             ...prevState,
             start_date: start_date,
@@ -143,6 +149,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                     });
                     return
                 }
+                if(!type.access_to_journey) isFree()
                 break
             case 1 :
                 if (activity.roles.length === 0) {
@@ -197,8 +204,19 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
             setStep(step - 1)
     }
 
-    async function getTypeF() {
+    async function isFree() {
+        const res = await isFreeLocal({start_date:activity.start_date, end_date:activity.end_date, address:activity.address},pushToast)
+        setLocalFree(res.count)
+    }
+
+    async function request() {
         setStandBy(true)
+        await getTypeF()
+        await getPlaces()
+        setStandBy(false)
+
+    }
+    async function getTypeF() {
         try {
             const respons = await getTypesAll(pushToast);
             const typesList = respons.types
@@ -211,12 +229,24 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                     type: "failure"
                 });
             }
-            setStandBy(false)
-
         } catch (error) {
             console.log(error)
         }
     }
+
+    async function getPlaces() {
+        try {
+            const annexes = await getAnnexesAll(pushToast);
+            const warehouse = await getAllWarehouses(pushToast);
+            const combinedPlaces = annexes.concat(warehouse);
+            if(combinedPlaces.length > 0)
+                updateField('address', combinedPlaces[0].address)
+            setPlaces(combinedPlaces)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const updateField = (field: string, value: any) => {
         setActivity((prev) => ({
             ...prev,
@@ -305,18 +335,46 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder={t("recipe.details") + "..."}>
                                 </Textarea>
-                                    <div className={"mt-4"}>
-                                        <label htmlFor="address"
-                                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.address')}</label>
-                                        <AddressInput
-                                            onAddressSelect={(address) => updateField('address', address.value.description)}
-                                        />
-                                    </div>
+                                <div className={"mt-4"}>
+
+                                    <label className="inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" value="" className="sr-only peer"
+                                               onChange={() => setAdressType(!adressType)} checked={adressType}/>
+                                        <div
+                                            className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                        <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{t('createActivity.outsideActivity')}</span>
+                                    </label>
+                                    {adressType ? (
+                                        <>
+                                            <label htmlFor="address"
+                                                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.address')}</label>
+                                            <AddressInput
+                                                onAddressSelect={(address) => updateField('address', address.value.description)}
+                                            />
+                                        </>
+                                    ) : (
+                                        <div>
+                                            <label htmlFor="title"
+                                                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('createActivity.local')}</label>
+                                            <Select
+                                                id="type"
+                                                required
+                                                value={activity?.address}
+                                                onChange={(e) => updateField('address', e.target.value)}
+                                            >
+                                                {places.map((p) => (
+                                                    <MenuItem key={p.id}
+                                                              value={p.address}>{p.name}</MenuItem>
+                                                ))}
+                                            </Select>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </>
                     ) : step === 1 ? (
                         <ActivityRoles
-                        onActivityRolesChange={changeRoles}
+                            onActivityRolesChange={changeRoles}
                         />
                     ) : step === 2 ? (
                         <>
@@ -331,6 +389,17 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                     style={{maxHeight: "150px"}}
                                     className="overflow-y-auto scroll-container mb-4">
                                     <p className="mb-2 text-gray-500 dark:text-gray-400">{activity.description}
+                                    </p>
+                                </div>
+
+                                <h5 className="font-semibold text-gray-900 dark:text-white mr-8">Adresse</h5>
+                                <div
+                                    style={{maxHeight: "150px"}}
+                                    className="overflow-y-auto scroll-container mb-4">
+                                    <p className="mb-2 text-gray-500 dark:text-gray-400">{activity.address}
+                                        {localFree > 0 ? (
+                                            <span className={"text-red-700 m-4"}>{t('createActivity.placeOccupied')}</span>
+                                            ) : null }
                                     </p>
                                 </div>
 
@@ -377,8 +446,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                         </>
                     ) : null
                 ) : (
-                    <div
-                        className="flex flex-wrap max-w-full items-center justify-between mx-auto">
+                    <div className="flex justify-center mt-8 p-4">
                         <Spinner color="pink" aria-label="Extra large spinner example"
                                  size="xl"/>
                     </div>

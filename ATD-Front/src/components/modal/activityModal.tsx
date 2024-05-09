@@ -131,7 +131,7 @@ export default function ActivivityModal({setOpenModal, activityId}: {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        {auth.token ? (
+                        {auth.token && !activity.archive ? (
                             <div className="flex flex-col">
                                 {auth.user.status === 0 ?
                                     (

@@ -7,8 +7,8 @@ export const getProducts = async (params, pushToast) => {
     return getRequest('product',params, pushToast);
 };
 
-export const getMaxProduct = async (params, pushToast) => {
-    return getRequest(`product/max/${params}`,null, pushToast);
+export const getMaxProduct = async (params,json, pushToast) => {
+    return getRequest(`product/max/${params}`,json, pushToast);
 };
 export const getProductsFilter = async (params, pushToast) => {
     return getRequest('product/filter',params, pushToast);
