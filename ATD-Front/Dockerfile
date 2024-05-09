@@ -13,3 +13,4 @@ ADD ./fastcgi-php.conf /etc/nginx
 COPY ./_.eautantdone.com_private_key.key /etc/nginx/ssl/_.eautantdone.com_private_key.key
 COPY ./eautantdone.com_ssl_certificate.cer /etc/nginx/ssl/eautantdone.com_ssl_certificate.cer
 COPY --from=build /app/dist /var/www/atd-front/
+COPY OneSignalSDKWorker.js /var/www/atd-front/
