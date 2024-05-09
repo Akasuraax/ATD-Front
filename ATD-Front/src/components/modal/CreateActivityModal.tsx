@@ -11,7 +11,7 @@ import {getTypesAll} from "../../apiService/TypeService";
 import {useToast} from "../Toast/ToastContex";
 import {IType} from "../../interfaces/type";
 import {getAllRoles} from "../../apiService/RoleService";
-import {postActivity} from "../../apiService/ActivityService";
+import {isFreeLocal, postActivity} from "../../apiService/ActivityService";
 import AddressInput from "../input/AddressInput";
 import {useNavigate} from "react-router-dom";
 import ActivityRoles from "../Activity/rolesList";
@@ -97,6 +97,7 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
     const [types, setTypes] = useState<IType[]>([])
     const [step, setStep] = useState<number>(0)
     const [adressType, setAdressType] = useState<boolean>(false)
+    const [localFree, setLocalFree] = useState<number>(0)
     const [places, setPlaces] = useState<[]>([])
 
     const navigate = useNavigate();
@@ -120,7 +121,6 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
             start_date: start_date,
             end_date: end_date
         }));
-    console.log(places)
     }, []);
 
     function nextStep() {
@@ -149,6 +149,10 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                     });
                     return
                 }
+                // eslint-disable-next-line no-case-declarations
+                const type = types.find(t => t.id === activity.type)
+                console.log(type)
+                if(!type.access_to_journey) isFree()
                 break
             case 1 :
                 if (activity.roles.length === 0) {
@@ -201,6 +205,11 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
         }
         if (step > 0)
             setStep(step - 1)
+    }
+
+    async function isFree() {
+        const res = await isFreeLocal({start_date:activity.start_date, end_date:activity.end_date, address:activity.address},pushToast)
+        setLocalFree(res.count)
     }
 
     async function request() {
@@ -383,6 +392,17 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                     style={{maxHeight: "150px"}}
                                     className="overflow-y-auto scroll-container mb-4">
                                     <p className="mb-2 text-gray-500 dark:text-gray-400">{activity.description}
+                                    </p>
+                                </div>
+
+                                <h5 className="font-semibold text-gray-900 dark:text-white mr-8">Adresse</h5>
+                                <div
+                                    style={{maxHeight: "150px"}}
+                                    className="overflow-y-auto scroll-container mb-4">
+                                    <p className="mb-2 text-gray-500 dark:text-gray-400">{activity.address}
+                                        {localFree > 0 ? (
+                                            <span className={"text-red-700 m-4"}>{t('createActivity.placeOccupied')}</span>
+                                            ) : null }
                                     </p>
                                 </div>
 
