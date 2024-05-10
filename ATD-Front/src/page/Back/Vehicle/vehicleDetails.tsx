@@ -34,7 +34,6 @@ export default function VehicleDetails() {
 
     useEffect(() => {
         sendRequest();
-        getAnnexesF();
     }, []);
 
     useEffect(() => {
@@ -44,7 +43,6 @@ export default function VehicleDetails() {
     const updateField = (field: string, value: any) => {
         if (field === "annexe") {
             const selectedAnnexe = annexe.find((a) => a.id === value);
-            console.log(selectedAnnexe)
             setNewVehicle((prev) => ({
                 ...prev,
                 [field]: selectedAnnexe || null,
@@ -78,15 +76,7 @@ export default function VehicleDetails() {
             const vehicleRespons = await getVehicle(vehiclesId, pushToast);
             setVehicle(vehicleRespons);
             setNewVehicle(vehicleRespons);
-            setStandBy(false);
-        } catch (error) {
-            setStandBy(true);
-        }
-    }
 
-    async function getAnnexesF() {
-        setStandBy(true);
-        try {
             const annexeRespons = await getAnnexesAll( pushToast);
             setAnnexe(annexeRespons);
             setStandBy(false);

@@ -60,7 +60,7 @@ export default function ActivivityModal({setOpenModal, activityId}: {
 
     const getActivityF = async () => {
         try {
-            const response = await getActivityForUser(activityId, pushToast,{user: auth.user.id})
+            const response = await getActivityForUser(activityId, pushToast, {user: auth.user.id})
             setActivity(response.activity)
             console.log(response.activity)
         } catch (e) {
@@ -70,7 +70,7 @@ export default function ActivivityModal({setOpenModal, activityId}: {
 
     const subscribe = async (r: IRole) => {
         const roleFind = activity.roles.find(role => role.id === r.id)
-        if(roleFind.limits.max - roleFind.count < count) {
+        if (roleFind.limits.max - roleFind.count < count) {
             pushToast({
                 content: "Vous ne pouvez pas ajouter autant de participants",
                 type: "failure"
@@ -121,13 +121,100 @@ export default function ActivivityModal({setOpenModal, activityId}: {
                 </div>
             ) : (
                 <>
-                    <Modal.Header>{activity.title}</Modal.Header>
+                    <Modal.Header>
+                        <h2>{activity.title}</h2>
+                        <p className={"m-4"}>{activity.type.name}</p>
+                    </Modal.Header>
                     <Modal.Body>
-                        <div className="space-y-6">
-                            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                        <div className="space-y-6" style={{height: "200px", overflow: "auto"}}>
+                            <p className=" max-w-full text-gray-500 dark:text-gray-400"
+                               style={{whiteSpace: 'pre-wrap', wordWrap: 'break-word'}}>
                                 {activity.description}
                             </p>
                             <ListFilesActivity files={activity.files} metaData={false} nbChar={50}/>
+                        </div>
+
+                        <h3>{t('activity.products')}</h3>
+                        <div className="space-y-6" style={{height:"200px", overflow:"auto"}}>
+                            <div className="relative overflow-x-auto">
+                                <table
+                                    className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead
+                                        className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-3 rounded-s-lg">
+                                            Product name
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Qty
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody >
+                                    {activity.products.map(p =>
+                                        <tr key={p.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th scope="row"
+                                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {p.name}
+                                            </th>
+                                            <td className="px-6 py-4">
+                                                {p.count}{p.measure}
+                                            </td>
+                                        </tr>
+                                    )}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        <h3 className={"mt-8"}>{t('activity.recipes')}</h3>
+                        <div className="space-y-6" style={{height:"200px", overflow:"auto"}}>
+                            <div className="relative overflow-x-auto">
+                                <table
+                                    className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead
+                                        className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-3 rounded-s-lg">
+                                            Product name
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Qty
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 rounded-e-lg">
+                                            Produits
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {activity.recipes.map(r =>
+                                        <tr key={r.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th scope="row"
+                                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {r.name}
+                                            </th>
+                                            <td className="px-6 py-4">
+                                                {r.count}
+                                            </td>
+                                            {r.products.map(p =>
+                                                <tr key={p.id} className="bg-white dark:bg-gray-800">
+                                                    <th scope="row"
+                                                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                        {p.name}
+                                                    </th>
+                                                    <td className="px-6 py-4">
+                                                        {p.count}{p.measure}
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        {p.count * r.count}{p.measure}
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </tr>
+                                    )}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
@@ -156,7 +243,7 @@ export default function ActivivityModal({setOpenModal, activityId}: {
                                                     className="btn text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                                     {t("generic.unregister")}
                                                 </button>
-                                            ) : ( (r.count < r.limits.max || r.limits.max == 999) ? (
+                                            ) : ((r.count < r.limits.max || r.limits.max == 999) ? (
                                                 <>
                                                     <div> {/* Ajout d'un conteneur avec Flexbox */}
                                                         <label>Nombre de participants : </label>
