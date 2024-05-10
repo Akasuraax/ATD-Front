@@ -53,6 +53,7 @@ export default function EventDetails() {
         setStandBy(true)
         try {
             const response = await getActivity(eventId, pushToast)
+            console.log(response.activity)
             setActivity(response.activity)
             setStandBy(false)
         } catch (e) {
