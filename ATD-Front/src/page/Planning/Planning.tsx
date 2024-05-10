@@ -13,6 +13,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import {formatDate} from "@fullcalendar/core";
 import {Spinner} from "flowbite-react";
 import ActivivityModal from "../../components/modal/activityModal";
+import Cookies from "js-cookie";
 
 export default function Planning() {
 
@@ -63,7 +64,7 @@ export default function Planning() {
                         selectable={false}
                         datesSet={handleDatesSet}
                         weekends={true}
-                        locale='fr'
+                        locale={Cookies.get('language')}
                         events={activities}
                         eventContent={renderEventContent} // custom render function
                         eventClick={handleEventClick}
