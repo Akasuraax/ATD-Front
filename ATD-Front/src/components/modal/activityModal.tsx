@@ -124,15 +124,16 @@ export default function ActivivityModal({setOpenModal, activityId}: {
                     <Modal.Header>
                         <h2>{activity.title}</h2>
                         <p className={"m-4"}>{activity.type.name}</p>
+                        <p className={"m-4 text-sm"}>{activity.address}</p>
                     </Modal.Header>
                     <Modal.Body>
-                        <div className="space-y-6" style={{height: "200px", overflow: "auto"}}>
+                        <div className="space-y-6" style={{height: "80px", overflow: "auto"}}>
                             <p className=" max-w-full text-gray-500 dark:text-gray-400"
                                style={{whiteSpace: 'pre-wrap', wordWrap: 'break-word'}}>
                                 {activity.description}
                             </p>
-                            <ListFilesActivity files={activity.files} metaData={false} nbChar={50}/>
                         </div>
+
                         {activity.products.length > 0 ? (
                             <>
                                 <h3>{t('activity.products')}</h3>
@@ -225,6 +226,9 @@ export default function ActivivityModal({setOpenModal, activityId}: {
                                 </div>
                             </>
                         ) : null}
+                        <ListFilesActivity files={activity.files} metaData={false} nbChar={50}/>
+
+
                     </Modal.Body>
                     <Modal.Footer>
                         {auth.token && !activity.archive ? (
