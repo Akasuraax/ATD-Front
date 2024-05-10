@@ -43,8 +43,8 @@ export default function TypeDetails(){
 
     async function save() {
         try {
+            console.log("lo")
             const patchResponse = await patchType(newTypes, pushToast, typeId);
-            console.log(patchResponse)
             setType(patchResponse.type);
             setNewTypes(prevTypes => ({
                 ...prevTypes,
@@ -52,7 +52,19 @@ export default function TypeDetails(){
             }));
             setEdit(false);
         } catch (error) {
-            console.log(error);
+            if(error.response.status === 409){
+                pushToast({
+                    content:"Ce titre ou cette couleur est déjà utilisé",
+                    type:"failure"
+                })
+            }
+
+            if(error.response.status === 400){
+                pushToast({
+                    content:"Vous devez mettre une image si vous voulez l'afficher et inversement",
+                    type:"failure"
+                })
+            }
         }
     }
 

@@ -49,7 +49,19 @@ export default function AddType(){
             const response = await postType(type, pushToast);
             navigate(`/back/types`)
         } catch (error) {
-            console.log(error);
+            if(error.response.status === 409){
+                pushToast({
+                    content:"Ce titre ou cette couleur est déjà utilisé",
+                    type:"failure"
+                })
+            }
+
+            if(error.response.status === 400){
+                pushToast({
+                    content:"Vous devez mettre une image si vous voulez l'afficher et inversement",
+                    type:"failure"
+                })
+            }
         }
     }
 
