@@ -85,17 +85,25 @@ export const postFile = async (params, data, pushToast) => {
         } else {
             console.error('Unexpected response:', res);
             pushToast({
-                content: "An unexpected error occurred while uploading the file",
+                content: "Une erreur est arrivée lors du téléchargement du fichier",
                 type: "failure"
             });
             return null;
         }
     } catch (error) {
         console.error('Error uploading file:', error);
-        pushToast({
-            content: "An error occurred while uploading the file",
-            type: "failure"
-        });
+        if(error.response.status === 409){
+            pushToast({
+                content: "Ce fichier existe déjà",
+                type: "failure"
+            });
+        }
+        else {
+            pushToast({
+                content: "Une erreur est arrivée lors du téléversement du fichier",
+                type: "failure"
+            });
+        }
         return null;
     }
 }
