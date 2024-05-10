@@ -11,6 +11,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import ActivivityModal from "../../../components/modal/activityModal";
 import CreateActivivityModal from "../../../components/modal/CreateActivityModal";
+import Cookies from "js-cookie";
 
 
 export default function EventsList() {
@@ -91,7 +92,7 @@ export default function EventsList() {
                         selectable={true}
                         datesSet={handleDatesSet}
                         weekends={true}
-                        locale='fr'
+                        locale={Cookies.get('language')}
                         select={createEvent}
                         eventChange={eventResize}
                         events={activities}

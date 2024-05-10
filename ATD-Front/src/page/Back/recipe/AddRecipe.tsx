@@ -263,7 +263,7 @@ export default function AddRecipe() {
                                     </dd>
                                 </div>
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('recipe.ingrédients')}</dt>
+                                    <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('recipe.ingredients')}</dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-3">
                                         <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
                                             {recipe.products.map((p) => (
