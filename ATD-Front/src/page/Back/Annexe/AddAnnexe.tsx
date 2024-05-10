@@ -13,7 +13,7 @@ export default function AddAnnexe(){
     const [annexe, setRole] = useState<IAddAnnexe | null>({
             name: '',
             address:'',
-            zipcode:'',
+            zipcode:0,
         }
     );
     const navigate = useNavigate();
@@ -38,9 +38,14 @@ export default function AddAnnexe(){
         }
         try {
             const respons = await postAnnexe(annexe, pushToast);
+            if(respons.status === 409){
+                pushToast({
+                    content:"Cette adresse est déjà utilisée",
+                    type:"failure"
+                })
+            }
             if(respons.status === 201)
                 navigate(`/back/annexes`)
-
         } catch (error) {
             console.log(error)
         }
@@ -90,7 +95,7 @@ export default function AddAnnexe(){
                                             <input
                                                 type="text"
                                                 name="address"
-                                                required={false}
+                                                required={true}
                                                 style={{
                                                     borderBottom: '1px solid black',
                                                     borderLeft: 'none',
@@ -114,7 +119,8 @@ export default function AddAnnexe(){
                                             <input
                                                 type="text"
                                                 name="zipcode"
-                                                required={false}
+                                                required={true}
+                                                pattern="[0-9]{5}"
                                                 style={{
                                                     borderBottom: '1px solid black',
                                                     borderLeft: 'none',

@@ -32,18 +32,22 @@ export default function AddWarehouse() {
     async function save(e) {
         e.preventDefault();
         const form = e.target;
-            const warehouse:IAddWarehouse = {
-                name: form.elements["name"].value,
-                address: form.elements["address"].value,
-                zipcode: form.elements["zipcode"].value,
-                capacity: form.elements["capacity"].value,
-            }
+        const warehouse:IAddWarehouse = {
+            name: form.elements["name"].value,
+            address: form.elements["address"].value,
+            zipcode: form.elements["zipcode"].value,
+            capacity: form.elements["capacity"].value,
+        }
 
-            console.log(warehouse);
         try {
             const respons = await postWarehouse(warehouse, pushToast);
+            if(respons.status === 409){
+                pushToast({
+                    content:"Cette adresse est déjà utilisée",
+                    type:"failure"
+                })
+            }
             navigate(`/back/warehouses/${respons.data.warehouse.id}`)
-
         } catch (error) {
             console.log(error)
         }

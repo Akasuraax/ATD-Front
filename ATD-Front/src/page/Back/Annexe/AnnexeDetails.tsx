@@ -41,9 +41,14 @@ export default function AnnexeDetails(){
     async function save() {
         try {
             const patchRespons = await patchAnnexe(newAnnexe, pushToast, annexeId);
-            if(patchRespons.annexe.status == 2) {
-                await handleModalClose(true);
-                setEdit(false);
+            if(patchRespons.status == 422) {
+                return
+            }
+            if(patchRespons.status == 409) {
+                pushToast({
+                    content: "Cette adresse est déjà utilisée",
+                    type: "failure"
+                })
                 return;
             }
             setAnnexe(patchRespons.annexe);
@@ -98,6 +103,7 @@ export default function AnnexeDetails(){
                                                 {edit ? (
                                                     <input
                                                         type="text"
+                                                        required={true}
                                                         style={{
                                                             borderBottom: '1px solid black',
                                                             borderLeft: 'none',
@@ -124,6 +130,7 @@ export default function AnnexeDetails(){
                                                 {edit ? (
                                                     <input
                                                         type="text"
+                                                        required={true}
                                                         style={{
                                                             borderBottom: '1px solid black',
                                                             borderLeft: 'none',
@@ -150,6 +157,8 @@ export default function AnnexeDetails(){
                                                 {edit ? (
                                                     <input
                                                         type="text"
+                                                        required={true}
+                                                        pattern="[0-9]{5}"
                                                         style={{
                                                             borderBottom: '1px solid black',
                                                             borderLeft: 'none',

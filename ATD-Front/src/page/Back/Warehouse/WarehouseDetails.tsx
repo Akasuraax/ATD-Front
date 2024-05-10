@@ -42,9 +42,18 @@ export default function WarehouseDetails() {
     async function save() {
         try {
             const patchRespons = await patchWarehouse(newWarehouse, pushToast, warehouseId);
-            if(patchRespons.warehouse.status == 2) {
-                await handleModalClose(true);
-                setEdit(false);
+            if(patchRespons.status == 422) {
+                pushToast({
+                    content: "Vous devez remplir tous les champs nécéssaires",
+                    type: "failure"
+                })
+                return;
+            }
+            if(patchRespons.status == 409) {
+                pushToast({
+                    content: "Cette adresse est déjà utilisée",
+                    type: "failure"
+                })
                 return;
             }
             setWarehouse(patchRespons.warehouse);
@@ -102,6 +111,7 @@ export default function WarehouseDetails() {
                                                 {edit ? (
                                                     <input
                                                         type="text"
+                                                        required={true}
                                                         style={{
                                                             borderBottom: '1px solid black',
                                                             borderLeft: 'none',
@@ -128,6 +138,7 @@ export default function WarehouseDetails() {
                                                 {edit ? (
                                                     <input
                                                         type="text"
+                                                        required={true}
                                                         style={{
                                                             borderBottom: '1px solid black',
                                                             borderLeft: 'none',
@@ -154,6 +165,7 @@ export default function WarehouseDetails() {
                                                 {edit ? (
                                                     <input
                                                         type="text"
+                                                        required={true}
                                                         style={{
                                                             borderBottom: '1px solid black',
                                                             borderLeft: 'none',
@@ -180,6 +192,7 @@ export default function WarehouseDetails() {
                                                 {edit ? (
                                                     <input
                                                         type="number"
+                                                        required={true}
                                                         style={{
                                                             borderBottom: '1px solid black',
                                                             borderLeft: 'none',

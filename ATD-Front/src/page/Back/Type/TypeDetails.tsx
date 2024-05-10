@@ -183,7 +183,10 @@ export default function TypeDetails(){
                                             <div className="flex items-center justify-end">
                                                 {edit ? (
                                                     <input
-                                                        type="color"
+                                                        type="text"
+                                                        pattern="#[a-zA-Z0-9]{6}"
+                                                        minLength={7}
+                                                        maxLength={7}
                                                         style={{
                                                             borderBottom: '1px solid black',
                                                             borderLeft: 'none',
