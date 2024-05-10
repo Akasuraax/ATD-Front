@@ -116,7 +116,9 @@ export default function AddVehicle() {
                                             <input
                                                 type="text"
                                                 required={true}
+                                                minLength={9}
                                                 maxLength={9}
+                                                pattern="[A-Za-z0-9]{2}-[A-Za-z0-9]{3}-[A-Za-z0-9]{2}"
                                                 name="license_plate"
                                                 style={{
                                                     borderBottom: '1px solid black',
@@ -152,7 +154,7 @@ export default function AddVehicle() {
                                                     fontSize: '0.875rem'
                                                 }}
                                                 value={vehicle.average_consumption}
-                                                pattern="[0-9]{5}"
+                                                pattern="[1-9]{5}"
                                                 onChange={(e) => updateVehicleField('average_consumption', e.target.value.slice(0, 5).replace(/\D/g, ''))}
                                             />
                                         </div>

@@ -171,7 +171,7 @@ export default function TypeDetails(){
                                             <div className="flex items-center justify-end">
                                                 {edit ? (
                                                     <input
-                                                        type="text"
+                                                        type="color"
                                                         style={{
                                                             borderBottom: '1px solid black',
                                                             borderLeft: 'none',

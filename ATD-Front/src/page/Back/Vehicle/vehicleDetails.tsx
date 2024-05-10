@@ -154,6 +154,9 @@ export default function VehicleDetails() {
                                                 {edit ? (
                                                     <input
                                                         type="text"
+                                                        minLength={9}
+                                                        maxLength={9}
+                                                        pattern="[A-Za-z0-9]{2}-[A-Za-z0-9]{3}-[A-Za-z0-9]{2}"
                                                         style={{
                                                             borderBottom: '1px solid black',
                                                             borderLeft: 'none',
@@ -207,6 +210,7 @@ export default function VehicleDetails() {
                                                 {edit ? (
                                                     <input
                                                         type="number"
+                                                        min={1}
                                                         style={{
                                                             borderBottom: '1px solid black',
                                                             borderLeft: 'none',
