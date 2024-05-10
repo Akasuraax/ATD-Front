@@ -1,7 +1,7 @@
 // apiService.js
 import axios from 'axios';
 import Cookies from "js-cookie";
-export const BASE_URL = 'https://api.eautantdone.com'
+export const BASE_URL = 'http://localhost:8000'
 export const API_BASE_URL = BASE_URL + '/api';
 
 

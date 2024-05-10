@@ -45,7 +45,7 @@ function UsersList() {
         },
         {
             field: 'roles',
-            headerName: "roles",
+            headerName: t("user.roles"),
             width: 150,
             editable: false,
             sortable: false,

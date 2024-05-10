@@ -617,7 +617,7 @@ export default function UserDetails() {
                                                     )
                                                 })
                                             }
-                                            <p>Total donné : {donations["total"]}€</p>
+                                            <p>{t('user.totaldonations')} : {donations["total"]}€</p>
                                         </div>
                                     </div>
                                 </dl>
