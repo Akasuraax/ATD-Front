@@ -27,6 +27,7 @@ import {IType} from "../../../interfaces/type";
 import JourneyActivity from "../../../components/Activity/JourneyActivity";
 import AddJourneyActivity from "../../../components/modal/AddJourneyActivity";
 import SaveJourneyModal from "../../../components/modal/SaveJourneyModal";
+import ListUsersActivity from "../../../components/Activity/ListUsersActivity";
 
 
 export default function EventDetails() {
@@ -53,6 +54,7 @@ export default function EventDetails() {
         setStandBy(true)
         try {
             const response = await getActivity(eventId, pushToast)
+            console.log(response.activity)
             setActivity(response.activity)
             setStandBy(false)
         } catch (e) {
@@ -198,11 +200,11 @@ export default function EventDetails() {
 
     return (
         <main
-        style={{width:"100vw"}}>
+            style={{width: "100vw"}}>
             {!standBy ? (
                 <div className={"bg-event"}
-                style={{width:"100%"}}>
-                    <>
+                     style={{width: "100%"}}>
+                    <div className={"m-4"}>
                         <div>
                             <AddFilesModal
                                 setOpenModal={setAddFileModal}
@@ -392,7 +394,7 @@ export default function EventDetails() {
                                     </>
                                 ) : null}
                                 {activity.type.access_to_journey ? (
-                                    <div className="grid grid-cols-4 gap-4 mb-4">
+                                    <div className="grid grid-cols-3 gap-4 mb-4">
                                         <div className="col-span-3">
                                             <div
                                                 style={{height: "480px"}}
@@ -415,9 +417,23 @@ export default function EventDetails() {
                                         </div>
                                     </div>
                                 ) : null}
+                                {activity.users.length > 0 ? (
+                                    <div className="grid grid-cols-3 gap-4 mb-4">
+                                        <div className="col-span-3">
+                                            <div
+                                                style={{height: "480px"}}
+                                                className="bg-white flex flex-col justify-between rounded-lg shadow border-gray-300">
+                                                <ListUsersActivity
+                                                    users={activity.users}
+                                                    activityId={activity.id}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : null}
                             </div>
                         </div>
-                    </>
+                    </div>
                 </div>
             ) : (
                 <div className={"flex flex-wrap max-w-full items-center justify-between mx-auto"}>

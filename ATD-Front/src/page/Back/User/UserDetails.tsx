@@ -202,11 +202,11 @@ export default function UserDetails() {
                                 <h3 className="text-base font-semibold leading-7 text-gray-900">{t('user.userDetails') + ' ' + userId}</h3>
                             </div>
                             <div className="mt-6 border-t border-gray-100">
-                                <dl className="divide-y divide-gray-100">
+                                <dl className="divide-y divide-gray-100" >
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.name')}</dt>
-                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.name')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                             <div className="flex items-center justify-between ">
                                                 {edit ? (
                                                     <input
@@ -231,8 +231,8 @@ export default function UserDetails() {
                                     </div>
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.lastName')}</dt>
-                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.lastName')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                             <div className="flex items-center justify-between ">
                                                 {edit ? (
                                                     <input
@@ -257,8 +257,8 @@ export default function UserDetails() {
                                     </div>
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.email')}</dt>
-                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.email')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                             <div className="flex items-center justify-between ">
                                                 {edit ? (
                                                     <input
@@ -283,9 +283,9 @@ export default function UserDetails() {
                                     </div>
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.phone')}
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.phone')}
                                         </dt>
-                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                             <div className="flex items-center justify-between ">
                                                 {edit ? (
                                                     <input
@@ -314,8 +314,8 @@ export default function UserDetails() {
                                     {user.compagny === null ? (
                                         <>
                                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.gender')}</dt>
-                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.gender')}</dt>
+                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                                 <div className="flex items-center justify-between ">
                                                     {edit ? (
                                                         <Select
@@ -344,9 +344,9 @@ export default function UserDetails() {
                                         </div>
 
                                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.birthdayDate')}
+                                            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.birthdayDate')}
                                             </dt>
-                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                                 <div className="flex items-center justify-between ">
                                                     {edit ? (
                                                         <Datepicker
@@ -364,8 +364,8 @@ export default function UserDetails() {
                                         ) : null }
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.address')}</dt>
-                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.address')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                             <div className="flex items-center justify-between ">
                                                 {edit ? (
                                                     <input
@@ -391,8 +391,8 @@ export default function UserDetails() {
 
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.roles')}</dt>
-                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.roles')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                             <div className="flex items-center justify-between ">
                                                 {edit ? (
                                                     <Select
@@ -427,8 +427,8 @@ export default function UserDetails() {
                                     {user.compagny !== null ? (
                                         <>
                                             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.companyName')}</dt>
-                                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.companyName')}</dt>
+                                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                                     <div className="flex items-center justify-between ">
                                                         {edit ? (
                                                             <input
@@ -453,8 +453,8 @@ export default function UserDetails() {
                                             </div>
 
                                             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.siretNumber')}</dt>
-                                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.siretNumber')}</dt>
+                                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                                     <div className="flex items-center justify-between ">
                                                         {edit ? (
                                                             <input
@@ -482,8 +482,8 @@ export default function UserDetails() {
                                     ) : ''}
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.waitingValidation')}</dt>
-                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.waitingValidation')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                             <div className="flex items-center justify-between ">
                                                 {edit ? (
                                                     <Select
@@ -517,8 +517,8 @@ export default function UserDetails() {
                                     </div>
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900">{t('user.creationDate')}</dt>
-                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.creationDate')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                             <div className="flex items-center justify-between ">
                                                 <span>{moment(user.created_at).format('DD/MM/yyyy HH:mm')}</span>
                                             </div>
@@ -526,8 +526,8 @@ export default function UserDetails() {
                                     </div>
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.isArchived')}</dt>
-                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.isArchived')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                             <div className="flex items-center justify-between ">
                                                 <span>{user.archive ? t("generic.yes") : t("generic.no")}</span>
                                             </div>
@@ -535,8 +535,8 @@ export default function UserDetails() {
                                     </div>
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-1">{t('user.isBan')}</dt>
-                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.isBan')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
                                             <div className="flex items-center justify-between ">
                                                 <span>{user.ban ? t("generic.yes") : t("generic.no")}</span>
                                             </div>
