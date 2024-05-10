@@ -38,6 +38,9 @@ export default function ActivivityModal({setOpenModal, activityId}: {
                 "on": "flex bg-opacity-50 dark:bg-opacity-80",
                 "off": "hidden"
             },
+            "sizes": {
+                "4xl": "max-w-4xl",
+            },
         }
     };
 
@@ -112,7 +115,7 @@ export default function ActivivityModal({setOpenModal, activityId}: {
 
 
     return (
-        <Modal theme={customTheme} show={true} onClose={() => setOpenModal(false)}>
+        <Modal size="7xl" theme={customTheme} show={true} onClose={() => setOpenModal(false)}>
             {standBy ? (
                 <div
                     className="flex flex-wrap max-w-full items-center justify-between mx-auto">
@@ -133,79 +136,30 @@ export default function ActivivityModal({setOpenModal, activityId}: {
                                 {activity.description}
                             </p>
                         </div>
-
-                        {activity.products.length > 0 ? (
-                            <>
-                                <h3>{t('activity.products')}</h3>
-                                <div className="space-y-6" style={{height: "200px", overflow: "auto"}}>
-                                    <div className="relative overflow-x-auto">
-                                        <table
-                                            className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                            <thead
-                                                className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
-                                            <tr>
-                                                <th scope="col" className="px-6 py-3 rounded-s-lg">
-                                                    Product name
-                                                </th>
-                                                <th scope="col" className="px-6 py-3">
-                                                    Qty
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {activity.products.map(p =>
-                                                <tr key={p.id}
-                                                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                    <th scope="row"
-                                                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        {p.name}
-                                                    </th>
-                                                    <td className="px-6 py-4">
-                                                        {p.count}{p.measure}
-                                                    </td>
-                                                </tr>
-                                            )}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </>
-                        ) : null}
-
-                        {activity.recipes.length > 0 ? (
-                            <>
-                                <h3 className={"mt-8"}>{t('activity.recipes')}</h3>
-                                <div className="space-y-6" style={{height: "200px", overflow: "auto"}}>
-                                    <div className="relative overflow-x-auto">
-                                        <table
-                                            className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                            <thead
-                                                className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
-                                            <tr>
-                                                <th scope="col" className="px-6 py-3 rounded-s-lg">
-                                                    Product name
-                                                </th>
-                                                <th scope="col" className="px-6 py-3">
-                                                    Qty
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 rounded-e-lg">
-                                                    Produits
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {activity.recipes.map(r =>
-                                                <tr key={r.id}
-                                                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                    <th scope="row"
-                                                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        {r.name}
-                                                    </th>
-                                                    <td className="px-6 py-4">
-                                                        {r.count}
-                                                    </td>
-                                                    {r.products.map(p =>
-                                                        <tr key={p.id} className="bg-white dark:bg-gray-800">
+                        <div className={"flex justify-center"}>
+                            {activity.products.length > 0 ? (
+                                <>
+                                    <div className={"w-full p-4"}>
+                                        <h3>{t('activity.products')}</h3>
+                                        <div className="space-y-6" style={{height: "200px", overflow: "auto"}}>
+                                            <div className="relative overflow-x-auto">
+                                                <table
+                                                    className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                    <thead
+                                                        className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                                                    <tr>
+                                                        <th scope="col" className="px-6 py-3 rounded-s-lg">
+                                                            Product name
+                                                        </th>
+                                                        <th scope="col" className="px-6 py-3">
+                                                            Qty
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {activity.products.map(p =>
+                                                        <tr key={p.id}
+                                                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                             <th scope="row"
                                                                 className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                                 {p.name}
@@ -213,19 +167,73 @@ export default function ActivivityModal({setOpenModal, activityId}: {
                                                             <td className="px-6 py-4">
                                                                 {p.count}{p.measure}
                                                             </td>
-                                                            <td className="px-6 py-4">
-                                                                {p.count * r.count}{p.measure}
-                                                            </td>
                                                         </tr>
                                                     )}
-                                                </tr>
-                                            )}
-                                            </tbody>
-                                        </table>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </>
-                        ) : null}
+                                </>
+                            ) : null}
+
+                            {activity.recipes.length > 0 ? (
+                                <>
+                                    <div className={"w-full p-4"}>
+                                        <h3>{t('activity.recipes')}</h3>
+                                        <div className="space-y-6" style={{height: "200px", overflow: "auto"}}>
+                                            <div className="relative overflow-x-auto">
+                                                <table
+                                                    className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                    <thead
+                                                        className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                                                    <tr>
+                                                        <th scope="col" className="px-6 py-3 rounded-s-lg">
+                                                            Product name
+                                                        </th>
+                                                        <th scope="col" className="px-6 py-3">
+                                                            Qty
+                                                        </th>
+                                                        <th scope="col" className="px-6 py-3 rounded-e-lg">
+                                                            Produits
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {activity.recipes.map(r =>
+                                                        <tr key={r.id}
+                                                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                            <th scope="row"
+                                                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                                {r.name}
+                                                            </th>
+                                                            <td className="px-6 py-4">
+                                                                {r.count}
+                                                            </td>
+                                                            {r.products.map(p =>
+                                                                <tr key={p.id} className="bg-white dark:bg-gray-800">
+                                                                    <th scope="row"
+                                                                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                                        {p.name}
+                                                                    </th>
+                                                                    <td className="px-6 py-4">
+                                                                        {p.count}{p.measure}
+                                                                    </td>
+                                                                    <td className="px-6 py-4">
+                                                                        {p.count * r.count}{p.measure}
+                                                                    </td>
+                                                                </tr>
+                                                            )}
+                                                        </tr>
+                                                    )}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            ) : null}
+                        </div>
                         <ListFilesActivity files={activity.files} metaData={false} nbChar={50}/>
 
 
@@ -238,7 +246,6 @@ export default function ActivivityModal({setOpenModal, activityId}: {
                                             <p className="ps-5">{t("activity.waitValid")}</p>
                                         )
                                         :
-
                                         (
                                             <p></p>
                                         )
@@ -259,7 +266,7 @@ export default function ActivivityModal({setOpenModal, activityId}: {
                                                             {t("generic.unregister")}
                                                         </button>
                                                     ) : ((r.count < r.limits.max || r.limits.max == 999) ? (
-                                                        <>
+                                                        <div className="flex">
                                                             <div> {/* Ajout d'un conteneur avec Flexbox */}
                                                                 <label>Nombre de participants : </label>
                                                                 <input type="number" id="first_product"
@@ -274,7 +281,7 @@ export default function ActivivityModal({setOpenModal, activityId}: {
                                                                     {t("generic.register")}
                                                                 </button>
                                                             </div>
-                                                        </>
+                                                        </div>
                                                     ) : null)
                                                 ) : null}
 
