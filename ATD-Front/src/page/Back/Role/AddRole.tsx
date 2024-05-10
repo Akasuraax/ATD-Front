@@ -50,6 +50,12 @@ export default function AddRole(){
         }
         try {
             const response = await postRole(role, pushToast);
+            if(response.status === 409){
+                pushToast({
+                    content:"Ce rôle existe déjà",
+                    type:"failure"
+                })
+            }
             if(response.status === 201)
                 navigate(`/back/roles`)
         } catch (error) {

@@ -44,6 +44,13 @@ export default function RoleDetails(){
     async function save() {
         try {
             const patchRespons = await patchRole(newRoles, pushToast, roleId);
+            if(patchRespons.status === 409){
+                pushToast({
+                    content:"Ce rôle existe déjà",
+                    type:"failure"
+                })
+                return;
+            }
             setRole(patchRespons.role);
             setNewRoles(patchRespons.role);
 
