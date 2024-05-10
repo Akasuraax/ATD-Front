@@ -110,3 +110,8 @@ button:focus {
     }
 }
 
+textarea{
+    &:focus{
+        border-color: var(--pink-color) !important;
+    }
+}
