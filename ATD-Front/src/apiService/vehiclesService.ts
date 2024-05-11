@@ -12,6 +12,10 @@ export const getAllVehicles = async ( pushToast) => {
     return getRequest('vehicle/all',null, pushToast);
 };
 
+export const getAllVehiclesFree = async (params, pushToast) => {
+    return getRequest('vehicle/allFree',params, pushToast);
+};
+
 export const getVehicle = async (params, pushToast) => {
     return getRequest('vehicle/' + params,'', pushToast);
 };

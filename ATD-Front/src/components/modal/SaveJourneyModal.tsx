@@ -4,11 +4,11 @@ import ListFilesActivity from "../Activity/ListFilesActivity";
 import {useToast} from "../Toast/ToastContex";
 import {useEffect, useRef, useState} from "react";
 import {IVehicles} from "../../interfaces/vehicle";
-import {getAllVehicles} from "../../apiService/vehiclesService";
+import {getAllVehicles, getAllVehiclesFree} from "../../apiService/vehiclesService";
 import JourneyActivity from "../Activity/JourneyActivity";
 import {ISteps} from "../../interfaces/activity";
 
-export default function SaveJourneyModal({setOpenModal, activityId, openModal, update, journeySteps, address}: {
+export default function SaveJourneyModal({setOpenModal, activityId, openModal, update, journeySteps, address,start_date,end_date}: {
     setOpenModal: (value: boolean) => void,
     activityId: number,
     openModal: boolean,
@@ -20,6 +20,8 @@ export default function SaveJourneyModal({setOpenModal, activityId, openModal, u
     }) => void,
     journeySteps: string[],
     address: string,
+    start_date:Date,
+    end_date:Date,
 }) {
 
     const [journey, setJourney] = useState({
@@ -71,9 +73,11 @@ export default function SaveJourneyModal({setOpenModal, activityId, openModal, u
     const getVehiclesF = async () => {
         try {
             setStandby(true)
-            const res = await getAllVehicles(pushToast)
-            updateField('vehicleId', res[0].id)
-            setVehicles(res)
+            const res = await getAllVehiclesFree({start_date:start_date ,end_date:end_date, activityId: activityId },pushToast)
+            if(res.vehicles.length > 0) {
+                updateField('vehicleId', res.vehicles[0].id)
+            }
+            setVehicles(res.vehicles)
             setStandby(false)
         } catch (err) {
             console.log(err)

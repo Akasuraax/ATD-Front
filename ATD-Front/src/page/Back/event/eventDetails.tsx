@@ -230,6 +230,9 @@ export default function EventDetails() {
                                 update={saveJourney}
                                 journeySteps={bestJourney}
                                 address={activity.address}
+                                start_date={activity.start_date}
+                                end_date={activity.end_date}
+
                             />
                             <div
                                 className="bg-white flex justify-end sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 m-4">
