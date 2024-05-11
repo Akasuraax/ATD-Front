@@ -49,8 +49,14 @@ export default function AddVehicle() {
         }
         try {
             const respons = await postVehicle(vehicle, pushToast);
-            navigate(`/back/vehicles`)
-
+            if(respons.status === 409){
+                pushToast({
+                    content:"Cette plaque d'immatriculation existe déjà",
+                    type:"failure"
+                })
+            }
+            if(respons.status === 201)
+                navigate(`/back/vehicles`)
         } catch (error) {
             return
         }

@@ -58,9 +58,14 @@ export default function VehicleDetails() {
     async function save() {
         try {
             const patchRespons = await patchVehicle(newVehicle, pushToast, vehiclesId);
-            if(patchRespons.vehicle.status == 2) {
-                await handleModalClose(true);
-                setEdit(false);
+            if(respons.status === 409){
+                pushToast({
+                    content:"Cette plaque d'immatriculation existe déjà",
+                    type:"failure"
+                })
+                return;
+            }
+            if(patchRespons.vehicle.status == 422) {
                 return;
             }
             setVehicle(patchRespons.vehicle);
