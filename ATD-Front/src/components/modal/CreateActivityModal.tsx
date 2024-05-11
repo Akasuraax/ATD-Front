@@ -17,6 +17,8 @@ import {useNavigate} from "react-router-dom";
 import ActivityRoles from "../Activity/rolesList";
 import {getAnnexesAll} from "../../apiService/annexe";
 import {getAllWarehouses} from "../../apiService/WarehouseService";
+import {IWarehouse} from "../../interfaces/warehouse";
+import {IAnnexes} from "../../interfaces/annexe";
 
 
 export default function CreateActivivityModal({setOpenModal, start_date, end_date, newActivity}: {
@@ -98,7 +100,9 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
     const [step, setStep] = useState<number>(0)
     const [adressType, setAdressType] = useState<boolean>(false)
     const [localFree, setLocalFree] = useState<number>(0)
-    const [places, setPlaces] = useState<[]>([])
+    const [warehouse, setWarehouse] = useState<IWarehouse[]>([])
+    const [annexe, setAnnexe] = useState<IAnnexes[]>([])
+
 
     const navigate = useNavigate();
 
@@ -238,10 +242,12 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
         try {
             const annexes = await getAnnexesAll(pushToast);
             const warehouse = await getAllWarehouses(pushToast);
-            const combinedPlaces = annexes.concat(warehouse);
-            if(combinedPlaces.length > 0)
-                updateField('address', combinedPlaces[0].address)
-            setPlaces(combinedPlaces)
+            if(warehouse.length > 0)
+                updateField('address', warehouse[0].address)
+            if(annexes.length > 0)
+                updateField('address', annexes[0].address)
+            setWarehouse(warehouse)
+            setAnnexe(annexes)
         } catch (error) {
             console.log(error)
         }
@@ -362,9 +368,13 @@ export default function CreateActivivityModal({setOpenModal, start_date, end_dat
                                                 value={activity?.address}
                                                 onChange={(e) => updateField('address', e.target.value)}
                                             >
-                                                {places.map((p) => (
+                                                {annexe.map((p) => (
                                                     <MenuItem key={p.id}
-                                                              value={p.address}>{p.name}</MenuItem>
+                                                              value={p.address}>Annexe : {p.name}</MenuItem>
+                                                ))}
+                                                {warehouse.map((p) => (
+                                                    <MenuItem key={p.id}
+                                                              value={p.address}>Entrepot : {p.name}</MenuItem>
                                                 ))}
                                             </Select>
                                         </div>
