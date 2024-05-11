@@ -9,6 +9,7 @@ export interface IUser {
     address: string;
     zipcode: string;
     password: string;
+    visited: boolean;
     email: string;
     birth_date: Date;
     status: number,

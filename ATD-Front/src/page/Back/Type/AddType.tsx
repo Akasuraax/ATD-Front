@@ -169,8 +169,8 @@ export default function AddType(){
                                                 value={type.access_to_warehouse ? "1" : "0"}
                                                 onChange={(e) => updateUserField('access_to_warehouse', e.target.value === "1")}
                                             >
-                                                <option value="1">Oui</option>
-                                                <option value="0">Non</option>
+                                                <option value="1">{t("generic.yes")}</option>
+                                                <option value="0">{t("generic.no")}</option>
                                             </select>
                                         </div>
                                     </dd>

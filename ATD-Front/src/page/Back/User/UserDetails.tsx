@@ -202,7 +202,7 @@ export default function UserDetails() {
                                 <h3 className="text-base font-semibold leading-7 text-gray-900">{t('user.userDetails') + ' ' + userId}</h3>
                             </div>
                             <div className="mt-6 border-t border-gray-100">
-                                <dl className="divide-y divide-gray-100" >
+                                <dl className="divide-y divide-gray-100">
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.name')}</dt>
@@ -311,25 +311,52 @@ export default function UserDetails() {
                                         </dd>
                                     </div>
 
+                                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                        <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.visited')}</dt>
+                                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
+                                            <div className="flex items-center justify-between ">
+                                                {edit ? (
+                                                    <select
+                                                        name="visited"
+                                                        required={true}
+                                                        style={{
+                                                            border: '1px solid black',
+                                                            borderRadius: '4px',
+                                                            padding: '0.25rem 3rem',
+                                                            fontSize: '0.875rem'
+                                                        }}
+                                                        value={newUser?.visited ? "1" : "0"}
+                                                        onChange={(e) => updateUserField('visited', e.target.value === "1")}
+                                                    >
+                                                        <option value="1">{t("generic.yes")}</option>
+                                                        <option value="0">{t("generic.no")}</option>
+                                                    </select>
+                                                ) : (
+                                                    <span>{newUser.visited ? t("generic.yes") : t("generic.no")}</span>
+                                                )}
+                                            </div>
+                                        </dd>
+                                    </div>
+
                                     {user.compagny === null ? (
                                         <>
-                                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.gender')}</dt>
-                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
-                                                <div className="flex items-center justify-between ">
-                                                    {edit ? (
-                                                        <Select
-                                                            id="gender"
-                                                            required
-                                                            value={newUser?.gender}
-                                                            onChange={(e) => updateUserField('gender', e.target.value)}
-                                                        >
-                                                            <MenuItem value={0}>{t('user.male')}</MenuItem>
-                                                            <MenuItem value={1}>{t('user.female')}</MenuItem>
-                                                            <MenuItem value={2}>{t('user.ratherNot')}</MenuItem>
-                                                        </Select>
-                                                    ) : (
-                                                        <span>
+                                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.gender')}</dt>
+                                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
+                                                    <div className="flex items-center justify-between ">
+                                                        {edit ? (
+                                                            <Select
+                                                                id="gender"
+                                                                required
+                                                                value={newUser?.gender}
+                                                                onChange={(e) => updateUserField('gender', e.target.value)}
+                                                            >
+                                                                <MenuItem value={0}>{t('user.male')}</MenuItem>
+                                                                <MenuItem value={1}>{t('user.female')}</MenuItem>
+                                                                <MenuItem value={2}>{t('user.ratherNot')}</MenuItem>
+                                                            </Select>
+                                                        ) : (
+                                                            <span>
                                                 {user.gender === 0
                                                     ? t('user.male')
                                                     : user.gender === 1
@@ -338,30 +365,30 @@ export default function UserDetails() {
                                                             ? t('user.ratherNot')
                                                             : ''}
                                             </span>
-                                                    )}
-                                                </div>
-                                            </dd>
-                                        </div>
+                                                        )}
+                                                    </div>
+                                                </dd>
+                                            </div>
 
-                                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                            <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.birthdayDate')}
-                                            </dt>
-                                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
-                                                <div className="flex items-center justify-between ">
-                                                    {edit ? (
-                                                        <Datepicker
-                                                            style={{paddingLeft: '2.5rem'}}
-                                                            value={moment(newUser?.birth_date).format('YYYY-MM-DD')}
-                                                            onSelectedDateChanged={(date) => updateUserField('birth_date', date)}
-                                                        />
-                                                    ) : (
-                                                        <span>{moment(user.birth_date).format('DD/MM/YYYY')}</span>
-                                                    )}
-                                                </div>
-                                            </dd>
-                                        </div>
+                                            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.birthdayDate')}
+                                                </dt>
+                                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1">
+                                                    <div className="flex items-center justify-between ">
+                                                        {edit ? (
+                                                            <Datepicker
+                                                                style={{paddingLeft: '2.5rem'}}
+                                                                value={moment(newUser?.birth_date).format('YYYY-MM-DD')}
+                                                                onSelectedDateChanged={(date) => updateUserField('birth_date', date)}
+                                                            />
+                                                        ) : (
+                                                            <span>{moment(user.birth_date).format('DD/MM/YYYY')}</span>
+                                                        )}
+                                                    </div>
+                                                </dd>
+                                            </div>
                                         </>
-                                        ) : null }
+                                    ) : null}
 
                                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt className="text-sm font-medium leading-6 text-gray-900 sm:col-span-2">{t('user.address')}</dt>
