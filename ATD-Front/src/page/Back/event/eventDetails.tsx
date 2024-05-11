@@ -221,6 +221,7 @@ export default function EventDetails() {
                                 openModal={addJourneyModal}
                                 setOpenModal={setAddJourneyModal}
                                 saveJourney={editJourney}
+
                             />
                             <SaveJourneyModal
                                 setOpenModal={setSaveJourneyModal}
@@ -228,6 +229,7 @@ export default function EventDetails() {
                                 openModal={saveJourneyModal}
                                 update={saveJourney}
                                 journeySteps={bestJourney}
+                                address={activity.address}
                             />
                             <div
                                 className="bg-white flex justify-end sm:p-5 p-4 shadow rounded-lg border-dashed border-gray-300 dark:border-gray-600 m-4">

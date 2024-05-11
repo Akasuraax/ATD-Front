@@ -13,7 +13,6 @@ export default function JourneyActivity({journey}: {
         } else {
             console.error('journey doit être un tableau');
         }
-        console.log(journey);
     }, [journey]);
 
     return (
