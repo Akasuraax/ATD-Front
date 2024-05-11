@@ -8,10 +8,10 @@ import {t} from "i18next";
 import {ICreatActivityRole} from "../../interfaces/role";
 import AddressInput from "../input/AddressInput";
 
-export default function AddJourneyActivity({openModal, setOpenModal,saveJourney}: {
+export default function AddJourneyActivity({openModal, setOpenModal, saveJourney}: {
     openModal: boolean,
     setOpenModal: (arg0: boolean) => void,
-    saveJourney: (arg0:string[]) => void,
+    saveJourney: (arg0: string[]) => void,
 }) {
     const {pushToast} = useToast();
     const [addresses, setAddresses] = useState<string[]>(['']);
@@ -33,10 +33,9 @@ export default function AddJourneyActivity({openModal, setOpenModal,saveJourney}
                     <div>
                         <div key={index} className={"flex w-full justify-between"}>
                             <div className={"w-80"}>
-                            <AddressInput onAddressSelect={(value) => updateAddress(index, value)}/>
+                                <AddressInput onAddressSelect={(value) => updateAddress(index, value)}/>
                             </div>
                             <button onClick={() => removeAddress(index)}><i className="fi fi-sr-cross"></i></button>
-
                         </div>
                     </div>
                 </List.Item>
@@ -49,7 +48,7 @@ export default function AddJourneyActivity({openModal, setOpenModal,saveJourney}
         setAddresses(updatedAddresses);
     };
     const updateAddress = (index, value) => {
-        addAddress(index,value.label);
+        addAddress(index, value.label);
     };
 
     const addAddress = (index: number | null, address: string) => {
@@ -60,7 +59,7 @@ export default function AddJourneyActivity({openModal, setOpenModal,saveJourney}
         } else if (addresses.length < 10) {
             setAddresses([...addresses, address]);
         } else {
-            pushToast({ content: "Vous avez atteint la limite de 10 adresses.", type: "warning" });
+            pushToast({content: "Vous avez atteint la limite de 10 adresses.", type: "warning"});
         }
         console.log(addresses);
     };
@@ -72,7 +71,8 @@ export default function AddJourneyActivity({openModal, setOpenModal,saveJourney}
 
     return (
         <Modal theme={customTheme} show={openModal} size="md" popup onClose={() => setOpenModal(false)}>
-            <Modal.Header/>
+            <Modal.Header>
+            </Modal.Header>
             <Modal.Body>
                 <List unstyled className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
                     {inputList()}
