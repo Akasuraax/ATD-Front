@@ -40,13 +40,13 @@ export default function AddRoleModal({setOpenModal, activityId, openModal, updat
         const verify = filesArray.filter(f => {
             if (f.size > 20971520) {
                 pushToast({
-                    content: "La taille du fichier dépasse 20Mo",
+                    content: t("createActivity.filesTooHeavy"),
                     type: "failure"
                 });
                 return;
             } else if (!allowedTypes.includes(f.type)) {
                 pushToast({
-                    content: "Type de fichier non pris en charge",
+                    content: t("createActivity.filesType"),
                     type: "failure"
                 });
                 return;
@@ -61,7 +61,7 @@ export default function AddRoleModal({setOpenModal, activityId, openModal, updat
             );
         } else {
             pushToast({
-                content: "Le nom du fichier est déja pris",
+                content: t("createActivity.filesNameUsed"),
                 type: "failure"
             });
         }
@@ -73,13 +73,13 @@ export default function AddRoleModal({setOpenModal, activityId, openModal, updat
         const verify = filesArray.filter(f => {
             if (f.size > 20971520) {
                 pushToast({
-                    content: "La taille du fichier dépasse 20Mo",
+                    content: t("createActivity.filesTooHeavy"),
                     type: "failure"
                 });
                 return;
             } else if (!allowedTypes.includes(f.type)) {
                 pushToast({
-                    content: "Type de fichier non pris en charge",
+                    content: t("createActivity.filesType"),
                     type: "failure"
                 });
                 return;
@@ -94,7 +94,7 @@ export default function AddRoleModal({setOpenModal, activityId, openModal, updat
             );
         } else {
             pushToast({
-                content: "Le nom du fichier est déja pris",
+                content: t("createActivity.filesNameUsed"),
                 type: "failure"
             });
         }
@@ -125,13 +125,13 @@ export default function AddRoleModal({setOpenModal, activityId, openModal, updat
                 setOpenModal(false)
             } else {
                 pushToast({
-                    content: "Une erreur est survenue",
+                    content: t("error.mistake"),
                     type: "failure"
                 });
             }
         } catch {
             pushToast({
-                content: "Une erreur est survenue",
+                content: t("error.mistake"),
                 type: "failure"
             });
         }

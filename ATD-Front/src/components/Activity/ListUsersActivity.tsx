@@ -24,7 +24,7 @@ export default function ListUsersActivity({users, activityId}: {
                     ));
 
                     pushToast({
-                        content: "L'utilisateur a été retiré",
+                        content: t("user.removeUser"),
                         type: "success"
                     });
                 }
@@ -48,13 +48,13 @@ export default function ListUsersActivity({users, activityId}: {
                             className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" className="px-6 py-3">
-                                {t('user.id')}
+                                id
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 {t('user.name')}
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                {t('user.forname')}
+                                {t('user.lastName')}
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 {t('user.email')}

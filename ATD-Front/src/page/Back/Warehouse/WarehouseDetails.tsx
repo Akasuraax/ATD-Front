@@ -44,14 +44,14 @@ export default function WarehouseDetails() {
             const patchRespons = await patchWarehouse(newWarehouse, pushToast, warehouseId);
             if(patchRespons.status == 422) {
                 pushToast({
-                    content: "Vous devez remplir tous les champs nécéssaires",
+                    content: t("annexes.emptyfield"),
                     type: "failure"
                 })
                 return;
             }
             if(patchRespons.status == 409) {
                 pushToast({
-                    content: "Cette adresse est déjà utilisée",
+                    content: t("annexes.addressAlreadyUsed"),
                     type: "failure"
                 })
                 return;
