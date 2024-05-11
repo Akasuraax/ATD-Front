@@ -37,7 +37,7 @@ export default function DeleteModal({openModal, onClose, text }) {
                                 {text}
                             </h3>
                             <div className="flex justify-center gap-4">
-                                <Button className="btn" onClick={() => onClose(true)}>
+                                <Button className="" onClick={() => onClose(true)}>
                                     {t("generic.acceptDelete")}
                                 </Button>
                                 <Button color="gray" onClick={() => onClose(false)}>
