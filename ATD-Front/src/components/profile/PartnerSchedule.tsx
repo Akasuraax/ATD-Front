@@ -1,57 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { schedule } from "../../interfaces/partnerScheduler";
-import { useTranslation } from "react-i18next";
+import React, {useEffect, useState} from "react";
+import {schedule} from "../../interfaces/partnerScheduler";
+import {useTranslation} from "react-i18next";
+import { Checkbox, Label } from "flowbite-react";
 
-export default function PartnerSchedule({ onSave, prevSchedule }: { onSave: (arg0: schedule[]) => void, prevSchedule: schedule[] }) {
+export default function PartnerSchedule({onSave, prevSchedule}: {
+    onSave: (arg0: schedule[]) => void,
+    prevSchedule: schedule[]
+}) {
     const [schedules, setSchedules] = useState<schedule[]>([]);
-    const { t } = useTranslation();
+    const [dataLoaded, setDataLoaded] = useState(false); // Nouvel état pour suivre si les données sont chargées
+
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (prevSchedule && prevSchedule.length > 0) {
             setSchedules(prevSchedule);
         }
+        setDataLoaded(true);
     }, [prevSchedule]);
 
-    const handleTimeChange = (day: number, timeType: 'start' | 'end', value: string) => {
-        setSchedules(prevSchedules => {
-            const updatedSchedules = [...prevSchedules];
-            const scheduleIndex = updatedSchedules.findIndex(schedule => schedule.day === day);
-            const date = new Date(`1970-01-01T${value}`);
-            const hours = date.getHours();
+    const onChange = (day: number) => {
+        const existingDay = schedules.find(s => s.day === day);
 
-            if (hours < 8 || hours > 18) {
-                return prevSchedules;
-            }
-
-            if (scheduleIndex !== -1) {
-                const schedule = updatedSchedules[scheduleIndex];
-                if (timeType === 'start') {
-                    schedule.start_hour = value;
-                    if (schedule.end_hour && new Date(`1970-01-01T${schedule.end_hour}`) < date) {
-                        schedule.end_hour = '';
-                    }
-                } else if (timeType === 'end') {
-                    schedule.end_hour = value;
-                    if (schedule.start_hour && new Date(`1970-01-01T${schedule.start_hour}`) > date) {
-                        schedule.start_hour = '';
-                    }
-                }
-            } else {
-                // Création d'un nouvel emploi du temps si aucun n'existe pour le jour spécifié
-                const newSchedule = {
-                    day: day,
-                    start_hour: timeType === 'start' ? value : '',
-                    end_hour: timeType === 'end' ? value : ''
-                };
-                updatedSchedules.push(newSchedule);
-            }
-
-            return updatedSchedules;
-        });
+        if (existingDay) {
+            setSchedules(currentSchedules => currentSchedules.filter(s => s.day!== day));
+        } else {
+            setSchedules(currentSchedules =>
+                [...currentSchedules, { day:day, start_hour:"08:00", end_hour:"20:00" }]
+            );
+        }
     };
 
     const save = () => {
         onSave(schedules);
+    }
+
+    if (!dataLoaded) {
+        return null;
     }
 
     return (
@@ -64,84 +49,44 @@ export default function PartnerSchedule({ onSave, prevSchedule }: { onSave: (arg
                     </th>
                     <th scope="col" className="text-center px-6 py-3">
                         {t("week.tuesday")}
-
                     </th>
                     <th scope="col" className="text-center px-6 py-3">
                         {t("week.wednesday")}
-
                     </th>
                     <th scope="col" className="text-center px-6 py-3">
                         {t("week.thursday")}
-
                     </th>
                     <th scope="col" className="text-center px-6 py-3">
                         {t("week.friday")}
-
                     </th>
                     <th scope="col" className="text-center px-6 py-3">
                         {t("week.saturday")}
-
                     </th>
                     <th scope="col" className="text-center px-6 py-3">
                         {t("week.sunday")}
-
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    {[1, 2, 3, 4, 5, 6, 7].map((day) => {
-                        const scheduleForDay = schedules.find(schedule => schedule.day === day);
-                        const startHour = scheduleForDay ? scheduleForDay.start_hour : '';
-                        const endHour = scheduleForDay ? scheduleForDay.end_hour : '';
-
-                        return (
-                            <td key={day} className="px-6 py-4">
-                                <input
-                                    type="time"
-                                    required={false}
-                                    name="start_date"
-                                    value={startHour}
-                                    onChange={(e) => handleTimeChange(day, 'start', e.target.value)}
-                                    style={{
-                                        borderBottom: '1px solid black',
-                                        borderLeft: 'none',
-                                        borderRight: 'none',
-                                        borderTop: 'none',
-                                        margin: '0',
-                                        padding: '0',
-                                        fontSize: '0.875rem',
-                                        marginRight: '10px'
-                                    }}
+                    {[1, 2, 3, 4, 5, 6, 7].map(day => (
+                        <td key={day} className="px-6 py-4 ">
+                            <div className="flex justify-center items-center gap-2">
+                                <Checkbox
+                                    defaultChecked={!!schedules.find(s => s.day === day)}
+                                    onChange={() => onChange(day)}
                                 />
-                                <input
-                                    type="time"
-                                    required={false}
-                                    name="end_date"
-                                    value={endHour}
-                                    onChange={(e) => handleTimeChange(day, 'end', e.target.value)}
-                                    style={{
-                                        borderBottom: '1px solid black',
-                                        borderLeft: 'none',
-                                        borderRight: 'none',
-                                        borderTop: 'none',
-                                        margin: '0',
-                                        padding: '0',
-                                        fontSize: '0.875rem',
-                                        marginRight: '10px'
-                                    }}
-                                />
-                            </td>
-                        );
-                    })}
+                            </div>
+                        </td>
+                    ))}
                 </tr>
                 </tbody>
             </table>
             <button
                 onClick={save}
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                className="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                 {t("activity.addJourney")}
             </button>
         </div>
-    )
+    );
 }

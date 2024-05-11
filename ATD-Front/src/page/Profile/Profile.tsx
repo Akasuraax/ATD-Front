@@ -158,6 +158,7 @@ export default function Profile() {
                                     style={{width: "70vw"}}
                                     className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8 ">
                                     <h1 className="text-gray-900 dark:text-white text-3xl md:text-3xl font-extrabold mb-5">{t("user.beforeActivity")}</h1>
+
                                     <TimelineCompnent
                                         activities={beforeActivitiesUser}
                                         onItemClick={(id) => selectActivity(id)}
@@ -168,7 +169,8 @@ export default function Profile() {
                     {user.roles.filter(role => role.id === 4).length > 0 ? (
                         <div
                             className="m-4 bg-white text-center dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8">
-                            <h2 className="dark:text-white text-3xl md:text-3xl font-extrabold mb-8">{t("generic.timetable")}</h2>
+                            <h2 className="dark:text-white text-3xl md:text-3xl font-extrabold mb-1">{t("generic.timetable")}</h2>
+                            <p className="text-justify text-gray-500 dark:text-gray-400 mb-4">{t("user.scheduleInfos")}</p>
                             <PartnerSchedule
                                 onSave={saveSchedule}
                                 prevSchedule={user.schedules}/>
