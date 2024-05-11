@@ -12,7 +12,10 @@ const TimelineComponent = ({ activities, onItemClick }) => {
                     <Timeline.Content>
                         <Timeline.Time>{moment(a.start_date).format('DD/MM/YYYY HH:mm')}</Timeline.Time>
                         <Timeline.Title>{a.title}</Timeline.Title>
-                        <Timeline.Body>{a.description}</Timeline.Body>
+                        <Timeline.Body>
+                            <div style={{whiteSpace: 'pre-wrap', wordWrap: 'break-word'}}>
+                                {a.description}
+                            </div></Timeline.Body>
                     </Timeline.Content>
                 </Timeline.Item>
             ))}
