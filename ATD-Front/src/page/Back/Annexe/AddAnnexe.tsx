@@ -40,7 +40,7 @@ export default function AddAnnexe(){
             const respons = await postAnnexe(annexe, pushToast);
             if(respons.status === 409){
                 pushToast({
-                    content:"Cette adresse est déjà utilisée",
+                    content: t("annexes.addressAlreadyUsed"),
                     type:"failure"
                 })
             }

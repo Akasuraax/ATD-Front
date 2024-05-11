@@ -43,7 +43,7 @@ export default function AddWarehouse() {
             const respons = await postWarehouse(warehouse, pushToast);
             if(respons.status === 409){
                 pushToast({
-                    content:"Cette adresse est déjà utilisée",
+                    content:t("annexes.addressAlreadyUsed"),
                     type:"failure"
                 })
             }

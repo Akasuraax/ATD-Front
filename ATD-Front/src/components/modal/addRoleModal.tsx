@@ -80,10 +80,10 @@ export default function AddRoleModal({openModal, setOpenModal,currentRoles = [],
             <Modal.Body>
                 <form onSubmit={save}>
                     <div className="space-y-6">
-                        <h3 className="text-xl font-medium text-gray-900 dark:text-white">ajout role</h3>
+                        <h3 className="text-xl font-medium text-gray-900 dark:text-white">{t("roles.addroleactivity")}</h3>
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="email" value="Role"/>
+                                <Label htmlFor="email" value={t("roles.role")}/>
                             </div>
                             <select
                                 id="role"
@@ -97,7 +97,7 @@ export default function AddRoleModal({openModal, setOpenModal,currentRoles = [],
                         </div>
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="password" value="limits"/>
+                                <Label htmlFor="password" value={t("roles.limit")}/>
                             </div>
                             <div
                                 className={"m-4 w-1/2 flex justify-between"}>

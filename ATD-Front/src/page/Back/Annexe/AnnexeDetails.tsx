@@ -42,11 +42,15 @@ export default function AnnexeDetails(){
         try {
             const patchRespons = await patchAnnexe(newAnnexe, pushToast, annexeId);
             if(patchRespons.status == 422) {
-                return
+                pushToast({
+                    content: t("annexes.emptyfield"),
+                    type: "failure"
+                })
+                return;
             }
             if(patchRespons.status == 409) {
                 pushToast({
-                    content: "Cette adresse est déjà utilisée",
+                    content: t("annexes.addressAlreadyUsed"),
                     type: "failure"
                 })
                 return;

@@ -42,7 +42,7 @@ const ListRolesActivity = ({onActivityRolesChange, prevRoles = []}: {
                     );
                 } else {
                     pushToast({
-                        content: "Pas de roles",
+                        content: t("roles.empty"),
                         type: "failure"
                     });
                 }
@@ -54,7 +54,7 @@ const ListRolesActivity = ({onActivityRolesChange, prevRoles = []}: {
         const removeRole = (roleId) => {
             if(activityRoles.length === 1) {
                 pushToast({
-                    content: "Vous devez avoir au moins 1 role",
+                    content: t("roles.remove"),
                     type: "failure"
                 });
                 return
