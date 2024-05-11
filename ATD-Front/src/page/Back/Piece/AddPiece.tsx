@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {postPiece} from "../../../apiService/PieceService";
 import {getProducts} from "../../../apiService/productService";
-import {getWarehouses} from "../../../apiService/WarehouseService";
+import {getAllWarehouses} from "../../../apiService/WarehouseService";
 
 export default function AddPiece(){
     const [standBy, setStandBy] = useState(false);
@@ -81,9 +81,9 @@ export default function AddPiece(){
         setStandBy(true);
         try {
             const productsResponse = await getProducts(dataGrid, pushToast);
-            const warehousesResponse = await getWarehouses(dataGrid, pushToast);
+            const warehousesResponse = await getAllWarehouses(dataGrid);
             setProducts(productsResponse.data);
-            setWarehouses(warehousesResponse.data);
+            setWarehouses(warehousesResponse);
             setStandBy(false);
         } catch (error) {
             setStandBy(false);

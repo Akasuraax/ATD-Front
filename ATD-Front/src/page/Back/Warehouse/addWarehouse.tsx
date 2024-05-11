@@ -47,7 +47,7 @@ export default function AddWarehouse() {
                     type:"failure"
                 })
             }
-            navigate(`/back/warehouses/${respons.data.warehouse.id}`)
+            navigate(`/back/warehouses`)
         } catch (error) {
             console.log(error)
         }
