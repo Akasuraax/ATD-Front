@@ -192,8 +192,8 @@ export default function AddType(){
                                                 value={type.access_to_journey ? "1" : "0"}
                                                 onChange={(e) => updateUserField('access_to_journey', e.target.value === "1")}
                                             >
-                                                <option value="1">Oui</option>
-                                                <option value="0">Non</option>
+                                                <option value="1">{t("generic.yes")}</option>
+                                                <option value="0">{t("generic.no")}</option>
                                             </select>
                                         </div>
                                     </dd>
@@ -215,8 +215,8 @@ export default function AddType(){
                                                 value={type.display ? "1" : "0"}
                                                 onChange={(e) => updateUserField('display', e.target.value === "1")}
                                             >
-                                                <option value="1">Oui</option>
-                                                <option value="0">Non</option>
+                                                <option value="1">{t("generic.yes")}</option>
+                                                <option value="0">{t("generic.no")}</option>
                                             </select>
                                         </div>
                                     </dd>

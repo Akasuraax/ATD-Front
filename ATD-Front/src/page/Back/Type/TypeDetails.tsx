@@ -222,11 +222,11 @@ export default function TypeDetails(){
                                                         value={newTypes.access_to_warehouse ? "1" : "0"}
                                                         onChange={(e) => updateUserField('access_to_warehouse', e.target.value === "1")}
                                                     >
-                                                        <option value="1">Oui</option>
-                                                        <option value="0">Non</option>
+                                                        <option value="1">{t("generic.yes")}</option>
+                                                        <option value="0">{t("generic.no")}</option>
                                                     </select>
                                                 ) : (
-                                                    <span>{newTypes.access_to_warehouse ? "Oui" : "Non"}</span>
+                                                    <span>{newTypes.access_to_warehouse ? t("generic.yes") : t("generic.no")}</span>
                                                 )}
                                             </div>
                                         </dd>
@@ -245,14 +245,14 @@ export default function TypeDetails(){
                                                             padding: '0.25rem 3rem',
                                                             fontSize: '0.875rem'
                                                         }}
-                                                        value={newTypes.access_to_journey ? "1" : "0"}
+                                                        value={newTypes.access_to_journey ? "1" : "0" }
                                                         onChange={(e) => updateUserField('access_to_journey', e.target.value === "1")}
                                                     >
-                                                        <option value="1">Oui</option>
-                                                        <option value="0">Non</option>
+                                                        <option value="1">{t("generic.yes")}</option>
+                                                        <option value="0">{t("generic.no")}</option>
                                                     </select>
                                                 ) : (
-                                                    <span>{newTypes.access_to_journey ? "Oui" : "Non"}</span>
+                                                    <span>{newTypes.access_to_journey ? t("generic.yes") : t("generic.no")}</span>
                                                 )}
                                             </div>
                                         </dd>
@@ -274,11 +274,11 @@ export default function TypeDetails(){
                                                         value={newTypes.display ? "1" : "0"}
                                                         onChange={(e) => updateUserField('display', e.target.value === "1")}
                                                     >
-                                                        <option value="1">Oui</option>
-                                                        <option value="0">Non</option>
+                                                        <option value="1">{t("generic.yes")}</option>
+                                                        <option value="0">{t("generic.no")}</option>
                                                     </select>
                                                 ) : (
-                                                    <span>{newTypes.display ? "Oui" : "Non"}</span>
+                                                    <span>{newTypes.display ? t("generic.yes") : t("generic.no")}</span>
                                                 )}
 
                                             </div>
