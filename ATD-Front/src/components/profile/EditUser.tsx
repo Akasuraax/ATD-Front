@@ -51,15 +51,16 @@ export default function EditUser({user, onButtonClick, onSave}: {
 
                 <form onSubmit={saveUser}>
                     <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{t("user.name")}</p>
-                    <Input name="lastName" defaultValue={user.name}/>
+                    <Input name="lastName" defaultValue={user.name} required />
                     <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mt-4 mb-0.5">{t("user.lastName")}</p>
 
-                    <Input name="name" defaultValue={user.forname}/>
+                    <Input name="name" defaultValue={user.forname} required />
 
                     <p className="text-m font-normal text-gray-500 dark:text-gray-400 mt-4">{t("user.zipcode")}</p>
                     <Input
                         name="zipcode"
                         type="number"
+                        required={true}
                         defaultValue={user.zipcode}
                         slotProps={{
                             input: {
@@ -70,13 +71,13 @@ export default function EditUser({user, onButtonClick, onSave}: {
 
                     <p className="text-m font-normal text-gray-500 dark:text-gray-400 mt-4 mb-0.5">{t("user.address")}</p>
                     <p className="text-m font-normal text-black-500 dark:text-gray-400 mb-4">
-                        <Input name="address" defaultValue={user.address}/>
+                        <Input name="address" defaultValue={user.address} required/>
                     </p>
 
                     <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{t("user.email")}</p>
                     <p className="text-m font-normal text-black-500 dark:text-gray-400 mb-4"><Input
                         name="email"
-                        defaultValue={user.email}/>
+                        defaultValue={user.email} required/>
                     </p>
 
                     <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{t("user.phone")}</p>

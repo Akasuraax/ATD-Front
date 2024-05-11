@@ -1,7 +1,7 @@
 // apiService.js
 import axios from 'axios';
 import Cookies from "js-cookie";
-export const BASE_URL = 'https://api.eautantdone.com'
+export const BASE_URL = 'http://127.0.0.1:8000'
 export const API_BASE_URL = BASE_URL + '/api';
 
 
@@ -90,11 +90,18 @@ export const deleteRequest = async (url, params, pushToast) => {
     try {
         const res = await axios.delete(`${API_BASE_URL}/${url}`, { params }, {headers: getHeaders()});
         return res.data
-    } catch {
-        pushToast({
-            content: "Une erreur est survenue lors de la suppression de élément",
-            type: "failure"
-        });
+    } catch(res) {
+        if(res.response.status === 401){
+            pushToast({
+                content: "Vous ne pouvez pas supprimer cet élément",
+                type: "failure"
+            });
+        } else {
+            pushToast({
+                content: "Une erreur est survenue lors de la suppression de élément",
+                type: "failure"
+            });
+        }
         return null
     }
 };
