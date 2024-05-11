@@ -59,11 +59,11 @@ export default function UserInfo({user, onButtonClick}: { user: IUser, onButtonC
                 ) : (
                     <div>
                         <p className="text-lg font-normal text-gray-500 dark:text-gray-400 mb-0.5">{t("user.gender")}</p>
-                        <p className="text-m font-normal text-black-500 dark:text-gray-400 mb-4">{user.gender === 0
+                        <p className="text-m font-normal text-black-500 dark:text-gray-400 mb-4">{user.gender == 0
                             ? 'Homme'
-                            : user.gender === 1
+                            : user.gender == 1
                                 ? 'Femme'
-                                : user.gender === 2
+                                : user.gender == 2
                                     ? 'Non précisé'
                                     : ''}
                         </p>

@@ -72,6 +72,7 @@ export default function Profile() {
         if (!isEqual(user, newUser)) {
             try {
                 const res = await patchUser(newUser, pushToast, userId)
+                console.log(res)
                 if (res.message === "User updated successfully") {
                     setUser(res.user)
                 }
