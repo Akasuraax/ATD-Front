@@ -1,6 +1,6 @@
 export interface IAddType {
     name: string;
-    description: string;
+    description: string | null;
     color: string;
     display:boolean;
     type_image:File;
@@ -14,7 +14,7 @@ export interface IType{
     color: string;
     display:boolean;
     type_image:File;
-    description: string;
+    description: string | null;
     access_to_warehouse:boolean;
     access_to_journey:boolean;
     archive:boolean;

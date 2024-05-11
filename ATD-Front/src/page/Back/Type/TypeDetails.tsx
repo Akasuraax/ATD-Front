@@ -158,6 +158,7 @@ export default function TypeDetails(){
                                                 {edit ? (
                                                     <input
                                                         type="text"
+                                                        required={false}
                                                         style={{
                                                             borderBottom: '1px solid black',
                                                             borderLeft: 'none',
@@ -183,10 +184,8 @@ export default function TypeDetails(){
                                             <div className="flex items-center justify-end">
                                                 {edit ? (
                                                     <input
-                                                        type="text"
-                                                        pattern="#[a-zA-Z0-9]{6}"
-                                                        minLength={7}
-                                                        maxLength={7}
+                                                        type="color"
+                                                        name="color"
                                                         style={{
                                                             borderBottom: '1px solid black',
                                                             borderLeft: 'none',

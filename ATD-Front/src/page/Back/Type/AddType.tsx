@@ -131,10 +131,7 @@ export default function AddType(){
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2">
                                         <div className="flex items-center justify-end">
                                             <input
-                                                type="text"
-                                                pattern="#[a-zA-Z0-9]{6}"
-                                                minLength={7}
-                                                maxLength={7}
+                                                type="color"
                                                 name="color"
                                                 required={false}
                                                 style={{
