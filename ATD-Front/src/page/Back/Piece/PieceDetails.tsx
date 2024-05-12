@@ -10,7 +10,7 @@ import moment from "moment/moment";
 import {Spinner} from "flowbite-react";
 import DeleteModal from "../../../components/modal/deleteModal";
 import isEqual from 'lodash/isEqual';
-import {getProducts} from "../../../apiService/productService";
+import {getAllProduct} from "../../../apiService/productService";
 import {getAllWarehouses} from "../../../apiService/WarehouseService";
 import {generateQr} from "../../../apiService/PieceService";
 export default function PieceDetails(){
@@ -82,13 +82,13 @@ export default function PieceDetails(){
         setStandBy(true);
         try {
             const response = await getPiece(pieceId, pushToast);
-            const productsResponse = await getProducts(dataGrid, pushToast);
+            const productsResponse = await getAllProduct(dataGrid, pushToast);
             const warehousesResponse = await getAllWarehouses(dataGrid);
 
             setSelectedDate(moment(response[0].expired_date).format('DD/MM/yyyy'))
             setSelectedTime(moment(response[0].expired_date).format('HH:ii'))
 
-            setProduct(productsResponse.data);
+            setProduct(productsResponse);
             setWarehouse(warehousesResponse);
             setPiece(response[0])
             setNewPiece(response[0]);

@@ -22,6 +22,10 @@ export const deleteProduct = async ( url,pushToast) => {
     return deleteRequest(`product/${url}`,"", pushToast);
 };
 
+export const getAllProduct  = async (params, pushToast) => {
+    return getRequest('product/all',params, pushToast);
+};
+
 export const patchProduct = async (params, pushToast,id) => {
     return patchRequest(`product/${id}`,params, pushToast);
 };

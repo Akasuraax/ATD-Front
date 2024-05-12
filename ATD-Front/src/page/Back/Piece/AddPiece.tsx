@@ -4,7 +4,7 @@ import {IAddPiece} from "../../../interfaces/piece";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {postPiece} from "../../../apiService/PieceService";
-import {getProducts} from "../../../apiService/productService";
+import {getAllProduct} from "../../../apiService/productService";
 import {getAllWarehouses} from "../../../apiService/WarehouseService";
 
 export default function AddPiece(){
@@ -80,9 +80,9 @@ export default function AddPiece(){
     async function sendRequest() {
         setStandBy(true);
         try {
-            const productsResponse = await getProducts(dataGrid, pushToast);
+            const productsResponse = await getAllProduct(dataGrid, pushToast);
             const warehousesResponse = await getAllWarehouses(dataGrid);
-            setProducts(productsResponse.data);
+            setProducts(productsResponse);
             setWarehouses(warehousesResponse);
             setStandBy(false);
         } catch (error) {
